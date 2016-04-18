@@ -1,0 +1,10 @@
+<service>
+	<productCode>{{ service.productCode }}</productCode>
+	<depositDate>{{ service.depositDate }}</depositDate>
+	<mailBoxPicking>{{ service.mailBoxPicking }}</mailBoxPicking>
+	<transportationAmount>{{ service.transportationAmount }}</transportationAmount>
+	<totalAmount>{{ service.totalAmount }}</totalAmount>
+	<orderNumber>{{ service.orderNumber }}</orderNumber>
+	<commercialName>{{ service.commercialName }}</commercialName>
+	<returnTypeChoice>{{ service.returnTypeChoice }}</returnTypeChoice>
+</service>

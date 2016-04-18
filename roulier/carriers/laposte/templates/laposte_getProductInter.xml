@@ -1,0 +1,12 @@
+<sls:getProductInter xmlns:sls="http://sls.ws.coliposte.fr">
+	<getProductInterRequest>
+	    <contractNumber>{{ auth.contractNumber }}</contractNumber>
+	    <password>{{ auth.password }}</password>
+		<productCode>{{ service.productCode }}</productCode>
+		<insurance>{{ (parcel.insuranceValue > 0) | lower}}</insurance>
+		<nonMachinable>{{ parcel.nonMachinable | lower }}</nonMachinable>
+		<returnReceipt>{{ parcel.returnReceipt }}</returnReceipt>
+		<countryCode>{{ receiver_address.countryCode }}</countryCode>
+		<zipCode>{{ receiver_address.zipCode }}</zipCode>
+	</getProductInterRequest>
+</sls:getProductInter>

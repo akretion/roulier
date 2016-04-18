@@ -1,0 +1,12 @@
+<parcel>
+	<insuranceValue>{{ parcel.insuranceValue | default(0) }}</insuranceValue>
+	<recommendationLevel>{{ parcel.recommendationLevel }}</recommendationLevel>
+	<weight>{{ parcel.weight }}</weight>
+	<nonMachinable>{{ parcel.nonMachinable  | lower }}</nonMachinable>
+	<COD>{{ parcel.cod | default(0) }}</COD>
+	<CODAmount>{{ parcel.codAmount | default(0) }}</CODAmount>
+	<returnReceipt>{{ parcel.returnReceipt | default(0) }}</returnReceipt>
+	<instructions>{{ parcel.instructions }}</instructions>
+	<pickupLocationId>{{ parcel.pickupLocationId }}</pickupLocationId>
+	<ftd>{{ parcel.ftd | default(0) }}</ftd>
+</parcel>

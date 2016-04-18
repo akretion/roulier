@@ -1,0 +1,19 @@
+<address>
+	<companyName>{{ address.companyName }}</companyName>
+	<lastName>{{ address.lastName }}</lastName>
+	<firstName>{{ address.firstName }}</firstName>
+	<line0>{{ address.line0 }}</line0>
+	<line1>{{ address.line1 }}</line1>
+	<line2>{{ address.line2 }}</line2>
+	<line3>{{ address.line3 }}</line3>
+	<countryCode>{{ address.countryCode }}</countryCode>
+	<city>{{ address.city }}</city>
+	<zipCode>{{ address.zipCode }}</zipCode>
+	<phoneNumber>{{ address.phoneNumber }}</phoneNumber>
+	<mobileNumber>{{ address.mobileNumber }}</mobileNumber>
+	<doorCode1>{{ address.doorCode1 }}</doorCode1>
+	<doorCode2>{{ address.doorCode2 }}</doorCode2>
+	<email>{{ address.email | default('') }}</email>
+	<intercom>{{ address.intercom }}</intercom>
+	<language>{{ address.language }}</language>
+</address>

@@ -1,0 +1,16 @@
+<customsDeclarations>
+	<includeCustomsDeclarations>1</includeCustomsDeclarations>
+	<contents>
+		<article>
+			<description>desc</description>
+			<quantity>1</quantity>
+			<weight>1</weight>
+			<value>12</value>
+			<hsCode>0102</hsCode>
+			<originCountry>FR</originCountry>
+		</article>
+		<category>
+			<value>2</value>
+		</category>
+	</contents>
+</customsDeclarations>

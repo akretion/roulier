@@ -1,0 +1,6 @@
+<outputFormat>
+	<x>{{ outputFormat.x | default(0) }}</x>
+	<y>{{ outputFormat.y | default(0) }}</y>
+	<outputPrintingType>{{ outputFormat.outputPrintingType }}</outputPrintingType>
+	<returnType>{{ outputFormat.returnType | default("SendPDFByMail") }}</returnType>
+</outputFormat>

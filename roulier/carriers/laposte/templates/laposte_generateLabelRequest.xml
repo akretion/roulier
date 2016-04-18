@@ -1,0 +1,27 @@
+<sls:generateLabel xmlns:sls="http://sls.ws.coliposte.fr">
+  <generateLabelRequest>
+    <contractNumber>{{ auth.contractNumber }}</contractNumber>
+    <password>{{ auth.password }}</password>
+    {% include "laposte_outputFormat.xml" %}
+    <letter>
+      {% include "laposte_service.xml" %}
+      {% include "laposte_parcel.xml" %}
+      {% include "laposte_customsDeclarations.xml" %}
+      <sender>
+        <senderParcelRef>refsenderXXX</senderParcelRef>
+        {% with address = sender_address %}
+          {% include "laposte_address.xml" %}
+        {% endwith %}
+      </sender>
+      <addressee>
+        <addresseeParcelRef>12345</addresseeParcelRef>
+        <codeBarForReference>false</codeBarForReference>
+        <serviceInfo>service info</serviceInfo>
+        <promotionCode></promotionCode>
+        {% with address = receiver_address %}
+          {% include "laposte_address.xml" %}
+        {% endwith %}
+      </addressee>
+    </letter>
+  </generateLabelRequest>
+</sls:generateLabel>
