@@ -28,13 +28,20 @@ class LaposteEncoder(Encoder):
         dj['from_address'].update(api_input.get('from_address', {}) or {})
         dj['to_address'].update(api_input.get('to_address', {}) or {})
         dj['infos'].update(api_input.get('infos', {}) or {})
+        dj['customs'] = []
+        # because customs is an array, it needs a special treatment
+        for input_custom in api_input.get('customs', []) or []:
+            custom = self.api()['customs'][0]
+            if custom != input_custom:  # don't add empty element
+                custom.update(input_custom)
+                dj['customs'].append(custom)
 
         service = {
             "productCode": dj['service']['productCode'],
             "depositDate": dj['service']['shippingDate'],
             "mailBoxPicking": "",
-            "transportationAmount": "",
-            "totalAmount": "",
+            "transportationAmount": dj['service']['transportationAmount'],
+            "totalAmount": dj['service']['totalAmount'],
             "orderNumber": "",
             "commercialName": "",
             "returnTypeChoice": "",
@@ -105,6 +112,8 @@ class LaposteEncoder(Encoder):
             "password": dj['infos']['password'],
         }
 
+        customs = dj['customs']
+
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/laposte/templates'),
             extensions=['jinja2.ext.with_'])
@@ -116,7 +125,8 @@ class LaposteEncoder(Encoder):
             outputFormat=output_format,
             parcel=parcel,
             sender_address=sender_address,
-            receiver_address=receiver_address)
+            receiver_address=receiver_address,
+            customs=customs)
 
     def api(self):
         """Return API we are expecting."""
@@ -155,7 +165,16 @@ class LaposteEncoder(Encoder):
             "infos": {
                 'contractNumber': '',
                 'password': ''
-            }
+            },
+            "customs": [{
+                "quantity": "",
+                "weight": "",
+                "description": "",
+                "hs": "",
+                "value": "",
+                "originCountry": "",
+                "category": "",
+            }]
         }
 
     def lookup_label_format(self, label_format="ZPL"):

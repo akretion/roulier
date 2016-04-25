@@ -1,16 +1,20 @@
 <customsDeclarations>
-	<includeCustomsDeclarations>1</includeCustomsDeclarations>
+	<includeCustomsDeclarations>{{ (customs|length > 0) | lower }}</includeCustomsDeclarations>
+	{% if (customs|length > 0) %}
 	<contents>
+		{% for article in customs %}
 		<article>
-			<description>desc</description>
-			<quantity>1</quantity>
-			<weight>1</weight>
-			<value>12</value>
-			<hsCode>0102</hsCode>
-			<originCountry>FR</originCountry>
+			<description>{{article.description}}</description>
+			<quantity>{{article.quantity}}</quantity>
+			<weight>{{article.weight}}</weight>
+			<value>{{article.value}}</value>
+			<hsCode>{{article.hs}}</hsCode>
+			<originCountry>{{article.originCountry}}</originCountry>
 		</article>
 		<category>
-			<value>2</value>
+			<value>{{ article.category }}</value>
 		</category>
+		{% endfor %}
 	</contents>
+	{% endif %}
 </customsDeclarations>
