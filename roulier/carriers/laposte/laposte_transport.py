@@ -5,6 +5,9 @@ from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader
 from roulier.transport import Transport
 from roulier.ws_tools import remove_empty_tags
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class LaposteTransport(Transport):
@@ -29,8 +32,9 @@ class LaposteTransport(Transport):
             }
         """
         soap_message = self.soap_wrap(body)
-        print soap_message
+        log.debug(soap_message)
         response = self.send_request(soap_message)
+        log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
 
     def soap_wrap(self, body):
@@ -55,6 +59,7 @@ class LaposteTransport(Transport):
         """Handle reponse in case of ERROR 500 type."""
         # TODO : put a try catch (like wrong server)
         # no need to extract_body shit here
+        log.warning('Laposte error 500')
         obj = objectify.fromstring(response.text)
         return {
             "id": obj.xpath('//faultcode')[0],
@@ -107,8 +112,11 @@ class LaposteTransport(Transport):
         if message['type'] == "INFOS":
             status = self.STATUS_SUCCES
             payload = extract_payload(response_xml)
+        else:
+            log.warning('Laposte error 200')
+        log.info('status: %s' % status)
+        log.debug('message: %s' % message)
 
-            # on parse  la reponse avec un visitor ?
         return {
             "status": status,
             "message": message,
