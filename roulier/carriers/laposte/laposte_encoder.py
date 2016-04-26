@@ -28,13 +28,17 @@ class LaposteEncoder(Encoder):
         dj['from_address'].update(api_input.get('from_address', {}) or {})
         dj['to_address'].update(api_input.get('to_address', {}) or {})
         dj['infos'].update(api_input.get('infos', {}) or {})
-        dj['customs'] = []
-        # because customs is an array, it needs a special treatment
-        for input_custom in api_input.get('customs', []) or []:
-            custom = self.api()['customs'][0]
-            if custom != input_custom:  # don't add empty element
-                custom.update(input_custom)
-                dj['customs'].append(custom)
+        # because customs.articles is an array, it needs a special treatment
+
+        # todo refactor this
+        input_customs = api_input.get('customs')
+        if input_customs:
+            dj['customs']['category'] = input_customs['category']
+            dj['customs']['articles'] = []  # clean reset
+            for article in input_customs['articles']:
+                empty_article = self.api()['customs']['articles'][0]
+                empty_article.update(article)
+                dj['customs']['articles'].append(empty_article)
 
         service = {
             "productCode": dj['service']['productCode'],
@@ -169,15 +173,17 @@ class LaposteEncoder(Encoder):
                 'contractNumber': '',
                 'password': ''
             },
-            "customs": [{
-                "quantity": "",
-                "weight": "",
-                "description": "",
-                "hs": "",
-                "value": "",
-                "originCountry": "",
+            "customs": {
+                "articles": [{
+                    "quantity": "",
+                    "weight": "",
+                    "description": "",
+                    "hs": "",
+                    "value": "",
+                    "originCountry": "",
+                }],
                 "category": "",
-            }]
+            }
         }
 
     def lookup_label_format(self, label_format="ZPL"):
