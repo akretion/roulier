@@ -59,7 +59,7 @@ class LaposteTransport(Transport):
         return {
             "id": obj.xpath('//faultcode')[0],
             "status": self.STATUS_ERROR,
-            "messageContent": obj.xpath('//faultstring')[0],
+            "message": obj.xpath('//faultstring')[0],
             "response": response,
             "payload": None
         }
@@ -77,7 +77,7 @@ class LaposteTransport(Transport):
             return {
                 "id": message.id,
                 "type": message.type,
-                "messageContent": message.messageContent
+                "message": message.messageContent
             }
 
         def extract_payload(response_xml):
