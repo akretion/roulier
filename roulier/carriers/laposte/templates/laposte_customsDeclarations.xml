@@ -1,6 +1,6 @@
 <customsDeclarations>
-	<includeCustomsDeclarations>{{ (customs.articles|length > 0) | lower }}</includeCustomsDeclarations>
-	{% if (customs.articles|length > 0) %}
+	<includeCustomsDeclarations>{{ customs.category != '' | lower }}</includeCustomsDeclarations>
+	{% if customs.category != '' %}
 	<contents>
 		{% for article in customs.articles %}
 		<article>
