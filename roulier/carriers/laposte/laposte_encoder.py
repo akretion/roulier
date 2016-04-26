@@ -44,7 +44,7 @@ class LaposteEncoder(Encoder):
             "totalAmount": dj['service']['totalAmount'],
             "orderNumber": "",
             "commercialName": "",
-            "returnTypeChoice": "",
+            "returnTypeChoice": dj['service']['returnTypeChoice'],
         }
 
         output_format = {
@@ -148,6 +148,9 @@ class LaposteEncoder(Encoder):
                 'productCode': '',
                 'shippingDate': '',
                 'labelFormat': '',
+                'transportationAmount': '',
+                'totalAmount': '',
+                'returnTypeChoice': '',
             },
             "parcel": {
                 "weight": "",
