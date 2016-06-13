@@ -2,7 +2,7 @@
 """Transform input to trs zpl."""
 from roulier.codec import Encoder
 
-TRS_ACTIONS = ('generateLabel', 'generateDeliverySlip')
+TRS_ACTIONS = ('generateLabel', 'generateDepositSlip')
 
 
 class TrsEncoder(Encoder):

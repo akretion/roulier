@@ -21,8 +21,8 @@ class Trs(Carrier):
         """Run an action."""
         if action == "generateLabel":
             return self.get_label(data)
-        if action == "deliverySlip":
-            return self.get_delivery_slip(data)
+        if action == "depositSlip":
+            return self.get_deposit_slip(data)
         raise Exception(
             'action %s not in %s' % (
                 action, ', '.join(self.encoder.TRS_ACTIONS)))
@@ -36,6 +36,6 @@ class Trs(Carrier):
             return response
         return self.decoder.decode(response['payload'])
 
-    def get_delivery_slip(self, data):
-        """Generate a delivery slip (csv file)."""
-        return self.ws.generate_delivery_slip(data)
+    def get_deposit_slip(self, data):
+        """Generate a deposit slip (csv file)."""
+        return self.ws.generate_deposit_slip(data)

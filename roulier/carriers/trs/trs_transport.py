@@ -99,7 +99,7 @@ class TrsTransport(Transport):
         ])
         return data
 
-    def generate_delivery_slip(self, rows):
+    def generate_deposit_slip(self, rows):
         import csv
         try:
             from cStringIO import StringIO
