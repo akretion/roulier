@@ -38,6 +38,4 @@
 ^FO100,120^FD{{ receiver_address.dept }}}^FS
 ^FO80,90^GB180,150,3^FS
 
-
 ^XZ
---
