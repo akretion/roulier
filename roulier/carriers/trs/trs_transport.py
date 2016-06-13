@@ -3,6 +3,8 @@
 from roulier.transport import Transport
 from jinja2 import Environment, PackageLoader
 from collections import OrderedDict
+import unicodecsv as csv
+from io import BytesIO
 
 
 class TrsTransport(Transport):
@@ -100,21 +102,13 @@ class TrsTransport(Transport):
         return data
 
     def generate_deposit_slip(self, rows):
-        import csv
-        try:
-            from cStringIO import StringIO
-        except ImportError:
-            import StringIO
-
-        output = StringIO()
+        output = BytesIO()
 
         # l'ordre est important
         headers = rows[0].keys()
 
         # l'ordre est fixé par headers
-        writer = csv.DictWriter(output, headers)
+        writer = csv.DictWriter(output, headers, encoding='utf-8')
         writer.writeheader()
         writer.writerows(rows)
         return output
-
-

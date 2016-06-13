@@ -9,7 +9,7 @@ setup(
     name="roulier",
     version=version,
     packages=find_packages(),
-    install_requires=['lxml', 'Jinja2', 'requests'],
+    install_requires=['lxml', 'Jinja2', 'requests', 'unicodecsv'],
     author="Hparfr <https://github.com/hparfr>",
     description="Label parcels without pain",
     include_package_data=True,
