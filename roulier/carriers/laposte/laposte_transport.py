@@ -108,7 +108,6 @@ class LaposteTransport(Transport):
         status = self.STATUS_ERROR
         payload = None
 
-        print "voila le pyalod", extract_payload(response_xml)
         if message['type'] == "INFOS":
             status = self.STATUS_SUCCES
             payload = extract_payload(response_xml)

@@ -21,10 +21,9 @@ class Laposte(Carrier):
         """Run an action with data against Laposte WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-
         if not response['payload']:
             return response
-        return self.decoder.decode(response['payload'])
+        return self.decoder.decode(response)
 
     # shortcuts
     def get_label(self, data):
