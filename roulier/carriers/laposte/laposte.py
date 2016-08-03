@@ -23,7 +23,8 @@ class Laposte(Carrier):
         response = self.ws.send(request)
         if not response['payload']:
             return response
-        return self.decoder.decode(response)
+        parts = self.ws.get_parts(response['response'])
+        return self.decoder.decode(response, parts)
 
     # shortcuts
     def get_label(self, data):
