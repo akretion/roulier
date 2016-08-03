@@ -43,7 +43,6 @@ class LaposteDecoder(Decoder):
                 "parcelNumber": msg.labelResponse.parcelNumber,
                 "parcelNumberPartner": msg.labelResponse.find(
                     'parcelNumberPartner'),
-                "url": msg.labelResponse.pdfUrl,
                 "cn23": msg.labelResponse.find('cn23'),
                 "label": msg.labelResponse.find('label'),
             }
