@@ -73,7 +73,7 @@ class LaposteEncoder(Encoder):
         sender_address = {
             "companyName": dj['from_address']['company'],
             "lastName": dj['from_address']['name'],
-            "firstName": "",
+            "firstName": dj['from_address']['firstname'],
             "line0": "",
             "line1": dj['from_address']['street1'],
             "line2": dj['from_address']['street2'],
@@ -93,7 +93,7 @@ class LaposteEncoder(Encoder):
         receiver_address = {
             "companyName": dj['to_address']['company'],
             "lastName": dj['to_address']['name'],
-            "firstName": "",
+            "firstName": dj['to_address']['firstname'],
             "line0": "",
             "line1": dj['to_address']['street1'],
             "line2": dj['to_address']['street2'],
