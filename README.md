@@ -47,3 +47,9 @@ obj['service']['productCode'] = 'COL'
 # ...
 
 ```
+
+###Contributors
+
+
+* [@hparfr](https://github.com/hparfr) ([Akretion.com](https://akretion.com))
+* [@damdam-s](https://github.com/damdam-s) ([Camp2Camp.com](http://camptocamp.com))
