@@ -1,6 +1,8 @@
 Roulier
 ===
 
+Roulier is a shipping library written in Python.
+
 
 Usage : 
 

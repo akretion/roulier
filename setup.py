@@ -11,8 +11,11 @@ setup(
     packages=find_packages(),
     install_requires=['lxml', 'Jinja2', 'requests'],
     author="Hparfr <https://github.com/hparfr>",
+    author_email="roulier@hpar.fr",
     description="Label parcels without pain",
     include_package_data=True,
     package_data={'roulier': ['*.xml', '*.xsl', '*.zpl']},
-
+    url="https://github.com/akretion/roulier",
+    download_url="https://github.com/akretion/roulier/tarball/0.1.0",
+    keywords=['carrier', 'logistics', 'delivery'],
 )
