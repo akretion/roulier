@@ -14,7 +14,7 @@ class Laposte(Carrier):
     ws = LaposteTransport()
 
     def api(self):
-        """Expose how to communicate with a Laposte."""
+        """Expose how to communicate with Laposte."""
         return self.encoder.api()
 
     def get(self, data, action):
