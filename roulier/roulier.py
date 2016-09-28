@@ -2,6 +2,7 @@
 """Factory of main classes."""
 from carriers.laposte.laposte import Laposte
 from carriers.dummy.dummy import Dummy
+from carriers.geodis.geodis import Geodis
 
 
 def get(carrier):
@@ -16,6 +17,7 @@ def get(carrier):
     carriers = {
         "laposte": Laposte,
         "dummy": Dummy,
+        "geodis": Geodis,
     }
     carrier_obj = carriers.get(carrier.lower())
 
