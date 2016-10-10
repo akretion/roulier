@@ -18,11 +18,12 @@ class LaposteTransport(Transport):
     STATUS_SUCCES = "success"
     STATUS_ERROR = "error"
 
-    def send(self, body):
+    def send(self, payload):
         """Call this function.
 
         Args:
-            body: XML in a string
+            payload.body: XML in a string
+            payload.headers: auth
         Return:
             {
                 status: STATUS_SUCCES or STATUS_ERROR, (string)
@@ -32,13 +33,15 @@ class LaposteTransport(Transport):
 
             }
         """
-        soap_message = self.soap_wrap(body)
+        body = payload['body']
+        headers = payload['headers']
+        soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
         response = self.send_request(soap_message)
         log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
 
-    def soap_wrap(self, body):
+    def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/laposte/templates'),

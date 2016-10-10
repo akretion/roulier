@@ -3,7 +3,7 @@
 	<recommendationLevel>{{ parcel.recommendationLevel }}</recommendationLevel>
 	<weight>{{ parcel.weight }}</weight>
 	<nonMachinable>{{ parcel.nonMachinable  | lower }}</nonMachinable>
-	<COD>{{ parcel.cod | default(0) }}</COD>
+	<COD>{{ parcel.cod | lower  }}</COD>
 	<CODAmount>{{ parcel.codAmount | default(0) }}</CODAmount>
 	<returnReceipt>{{ parcel.returnReceipt | default(0) }}</returnReceipt>
 	<instructions>{{ parcel.instructions }}</instructions>
