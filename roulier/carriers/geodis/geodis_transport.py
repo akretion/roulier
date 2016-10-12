@@ -71,10 +71,13 @@ class GeodisTransport(Transport):
         log.warning('Geodis error 500')
         xml = self.get_parts(response)['start']
         obj = objectify.fromstring(xml)
+        message = obj.xpath("//*[local-name() = 'message']")
+        if len(message) > 0:
+            message = message[0]
         return {
             "id": obj.xpath('//faultcode')[0],
             "status": self.STATUS_ERROR,
-            "message": obj.xpath('//faultstring')[0],
+            "message": message or obj.xpath('//faultstring')[0],
             "response": response,
         }
 
