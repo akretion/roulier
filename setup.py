@@ -16,6 +16,6 @@ setup(
     include_package_data=True,
     package_data={'roulier': ['*.xml', '*.xsl', '*.zpl']},
     url="https://github.com/akretion/roulier",
-    download_url="https://github.com/akretion/roulier/tarball/0.1.0",
+    download_url="https://github.com/akretion/roulier/archive/0.0.1.zip",
     keywords=['carrier', 'logistics', 'delivery'],
 )
