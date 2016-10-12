@@ -4,6 +4,7 @@
 from setuptools import setup, find_packages
 
 version = open('VERSION').read().strip()
+download_url = "https://github.com/akretion/roulier/archive/%s.zip" % version
 
 setup(
     name="roulier",
@@ -16,6 +17,6 @@ setup(
     include_package_data=True,
     package_data={'roulier': ['*.xml', '*.xsl', '*.zpl']},
     url="https://github.com/akretion/roulier",
-    download_url="https://github.com/akretion/roulier/releases",
+    download_url=download_url,
     keywords=['carrier', 'logistics', 'delivery'],
 )
