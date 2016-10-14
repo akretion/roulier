@@ -55,7 +55,7 @@ class Api(object):
 
     def _parcel(self):
         return {
-            "weight": {'type': 'string', 'default': '', 'description': 'Weight in kg', 'required': True, 'empty': False},
+            "weight": {'type': 'float', 'default': '', 'description': 'Weight in kg', 'required': True, 'empty': False},
         }
 
     def _service(self):

@@ -78,7 +78,7 @@ class LaposteApi(Api):
                 'type': 'list',
                 'schema': {
                     'quantity': {'default': ''},
-                    'weight': {'default': ''},
+                    'weight': {'type': 'float', 'default': 0.0},
                     'description': {'default': ''},
                     'hs': {'default': ''},
                     'value': {'default': ''},
