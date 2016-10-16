@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 """Transform input to laposte compatible xml."""
+import logging
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
 from laposte_api import LaposteApi, LAPOSTE_LABEL_FORMAT
+from roulier.exception import InvalidApiInput
 LAPOSTE_ACTIONS = ('generateLabelRequest', 'getProductInter')
+_logger = logging.getLogger(__name__)
 
 
 class LaposteEncoder(Encoder):
@@ -17,8 +20,9 @@ class LaposteEncoder(Encoder):
 
         api = LaposteApi()
         if not api.validate(api_input):
-            raise Exception(
-                'Input error : %s' % api.errors(api_input))
+            _logger.warning('Laposte api call exception:')
+            raise InvalidApiInput(
+                {'api_call_exception': api.errors(api_input)})
         data = api.normalize(api_input)
 
         data['service']['labelFormat'] = self.lookup_label_format(
