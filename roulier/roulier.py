@@ -4,6 +4,25 @@ from carriers.laposte.laposte import Laposte
 from carriers.dummy.dummy import Dummy
 
 
+def _carriers():
+    """Get names:class of carriers.
+
+    You may use the factory get('laposte') instead.
+    """
+    return {
+        "laposte": Laposte,
+        "dummy": Dummy,
+    }
+
+
+def get_carriers():
+    """Get name of available carriers.
+
+    return: list of strings
+    """
+    return _carriers().keys()
+
+
 def get(carrier):
     """Get a 1 method carrier implementation.
 
@@ -13,13 +32,10 @@ def get(carrier):
     ws = LaposteTransport()
     ws.send(data)
     """
-    carriers = {
-        "laposte": Laposte,
-        "dummy": Dummy,
-    }
-    carrier_obj = carriers.get(carrier.lower())
+    carrier_obj = _carriers().get(carrier.lower())
 
     if carrier_obj:
         return carrier_obj()
     else:
         raise BaseException("Carrier not found")
+
