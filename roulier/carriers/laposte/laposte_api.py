@@ -21,7 +21,7 @@ class LaposteApi(Api):
         schema['labelFormat_y'] = {'default': 0}
         schema['labelFormat'].update({'required': True, 'empty': False})
         schema['product'].update({'required': True, 'empty': False})
-
+        schema['pickupLocationId'] = {'default': '', 'description': """Si productCode = A2P, BPR, ACP, CDI, CMT, BDP. Identifiant du point de retrait (dans le cas d’une livraison Colissimo hors domicile)"""}
         schema['totalAmount'] = {'default': '', 'description': 'Needed for cn23'}
         schema['orderNumber'] = {'default': ''}
         schema['commercialName'] = {'default': '', 'description': """Obligatoire pour les produits DOM, DOS, BPR, A2P. Nom commercial du chargeur qui sera affiché dans les notifications par email aux destinataires des colis"""}
@@ -40,7 +40,6 @@ class LaposteApi(Api):
         schema['door1'] = {'default': '', 'description': """Code porte 1"""}
         schema['door2'] = {'default': '', 'description': """Code porte 2"""}
         schema['intercom'] = {'default': '', 'description': """Interphone"""}
-        schema['pickupLocationId'] = {'default': '', 'description': """Si productCode = A2P, BPR, ACP, CDI, CMT, BDP. Identifiant du point de retrait (dans le cas d’une livraison Colissimo hors domicile)"""}
 
         return schema
 
