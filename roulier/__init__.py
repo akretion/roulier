@@ -3,6 +3,7 @@ from . import carrier
 from . import codec
 from . import transport
 from . import roulier
+from . import exception
 import logging
 
 __all__ = [roulier]
