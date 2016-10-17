@@ -40,6 +40,8 @@ class LaposteApi(Api):
         schema['door1'] = {'default': '', 'description': """Code porte 1"""}
         schema['door2'] = {'default': '', 'description': """Code porte 2"""}
         schema['intercom'] = {'default': '', 'description': """Interphone"""}
+        schema['pickupLocationId'] = {'default': '', 'description': """Si productCode = A2P, BPR, ACP, CDI, CMT, BDP. Identifiant du point de retrait (dans le cas d’une livraison Colissimo hors domicile)"""}
+
         return schema
 
     def _from_address(self):
@@ -57,7 +59,6 @@ class LaposteApi(Api):
         schema = super(LaposteApi, self)._parcel()
         schema['nonMachinable'] = {'default': False, 'description': """Passer à true pour indiquer que le format du colis est non standard"""}
         schema['instructions'] = {'default': '', 'description': """Indications complémentaires pour la livraison"""}
-        schema['pickupLocationId'] = {'default': '', 'description': """Si productCode = A2P, BPR, ACP, CDI, CMT, BDP. Identifiant du point de retrait (dans le cas d’une livraison Colissimo hors domicile)"""}
         schema['insuranceValue'] = {'default': '0', 'description': """Valeur assurée. Max= 1500€ Passer 1230 pour 12,30€ Cette valeur sera arrondie à l’entier le plus proche (Ex : 12 euros si 1232 est envoyé) Par défaut, renseigner « 0 » (zéro)"""}
         schema['recommendationLevel'] = {'default': '', 'description': """Niveau de recommandation (cf. III.2) Peut valoir « R1 », ou « R2 », ou « R3 »"""}
         schema['cod'] = {'default': False, 'description': """Passer à true si la livraison doit se faire contre remboursement Par défaut, renseigner « 0 » (zéro)"""}
