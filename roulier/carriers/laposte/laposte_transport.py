@@ -70,7 +70,6 @@ class LaposteTransport(Transport):
             "status": self.STATUS_ERROR,
             "message": obj.xpath('//faultstring')[0],
             "response": response,
-            "payload": None
         }
 
     def handle_200(self, response):
