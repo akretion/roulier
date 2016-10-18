@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Implementation for dummy."""
-from dummy_encoder import DummyEncoder
-from dummy_decoder import DummyDecoder
-from dummy_transport import DummyTransport
+from .dummy_encoder import DummyEncoder
+from .dummy_decoder import DummyDecoder
+from .dummy_transport import DummyTransport
 from roulier.carrier import Carrier
 
 

@@ -2,7 +2,7 @@
 """Transform input to dummy zpl."""
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
-from dummy_api import DummyApi
+from .dummy_api import DummyApi
 
 DUMMY_ACTIONS = ('generateLabel')
 

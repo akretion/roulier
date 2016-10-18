@@ -3,8 +3,8 @@
 import logging
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
-from laposte_api import LaposteApi, LAPOSTE_LABEL_FORMAT
 from roulier.exception import InvalidApiInput
+from .laposte_api import LaposteApi, LAPOSTE_LABEL_FORMAT
 LAPOSTE_ACTIONS = ('generateLabelRequest', 'getProductInter')
 _logger = logging.getLogger(__name__)
 
