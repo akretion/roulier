@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Factory of main classes."""
-from carriers.laposte.laposte import Laposte
-from carriers.dummy.dummy import Dummy
+from .carriers.laposte.laposte import Laposte
+from .carriers.dummy.dummy import Dummy
 
 
 def _carriers():
