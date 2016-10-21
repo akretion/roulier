@@ -1,0 +1,65 @@
+N
+FK"FKNR"
+FS"FKNR"
+JF
+ZT
+S6
+D9
+R5,0
+GG10,10,"LOGOKN"
+A20,20,0,4,3,3,N,"KUEHNE + NAGEL"
+LO0,140,660,2
+LO0,180,660,2
+LO660,140,2,120
+LO0,220,810,2
+LO660,260,150,2
+A20,120,0,3,1,1,N,"Etiquette CLIENT"
+A20,150,0,3,1,1,N,"{{ service.kuehneOfficeName }}"
+A20,190,0,3,1,1,N,"EXP.: {{ sender_address.companyName}}"
+A670,190,0,3,1,1,N,"{{ service.shippingDate }}"
+A670,230,0,3,1,1,N,"{% if service.epalQuantity %}EUR {{ service.epalQuantity }}{% endif %}"
+A70,270,0,5,2,2,N,"{{ service.shippingOffice }}"
+A400,270,0,4,3,3,N,"{{ service.shippingRound }}"
+LO50,255,260,10
+LO50,255,10,120
+LO50,375,260,10
+LO300,255,10,120
+LO680,320,50,4
+LO676,324,50,4
+LO672,328,50,4
+LO672,328,4,50
+LO672,378,54,4
+LO730,320,4,54
+LO726,324,4,54
+LO722,328,4,54
+A92,430,0,4,1,1,N,"{{ recipient_address.name }}"
+A20,465,0,4,1,1,N,"{{ recipient_address.street }}"
+A20,495,0,4,1,1,N,"{{ recipient_address.street2 }}"
+A20,530,0,4,1,1,N,"{{ recipient_address.country }} {{ recipient_address.zip }} {{ recipient_address.city }}"
+A20,560,0,3,1,1,N,"No Exp : /"
+A20,595,0,3,1,1,N,"Ref Exped.: {{ service.shippingName }}"
+A20,635,0,3,1,1,N,"Desc.: {{ service.goodsName }}"
+A20,700,0,3,1,1,N,"Nb Colis: {{ service.mhuQuantity }}"
+A20,735,0,4,1,1,N,"Poids: {{ service.weight}} Kg"
+A20,770,0,3,1,1,N,"Vol. Decl.: {{ service.volume }} m3"
+A450,560,0,3,1,1,N,"Etiquette : "
+LO290,1040,520,2
+LO290,1040,2,130
+LO290,1170,520,2
+LO550,1040,2,130
+LO810,1040,2,132
+{% if service.deliveryContract == 'EXPORT' %}A50,1070,0,4,2,3,N,"{{ service.exportHub }}"{% endif %}
+{% if service.deliveryContract in ['C', 'D'] %}
+A300,1070,0,4,3,3,N,"{{ service.deliveryContract }}"
+A370,1080,0,4,2,2,N,"{% if service.deliveryContract == 'D' %}{{ service.wishedDate }}{% endif %}"
+LO550,1040,260,130
+{% else %}
+LO290,1040,260,130
+A560,1070,0,4,2,3,N,"{{ service.deliveryContract }}"
+{% endif %}
+FE
+FR"FKNR"
+A450,590,0,4,1,1,N,"{{ parcel.number }}"
+B70,830,0,1,2,2,160,B,"{{ parcel.barcode }}"
+B785,440,1,1,2,2,140,B,"{{ parcel.barcode }}"
+P1,1
