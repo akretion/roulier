@@ -143,7 +143,7 @@ class LaposteTransport(Transport):
     def get_parts(self, response):
         head_lines = ''
         for k, v in response.raw.getheaders().iteritems():
-            head_lines += str(k)+':'+str(v)+'\n'
+            head_lines += str(k) + ':' + str(v) + '\n'
 
         full = head_lines + response.content
 
