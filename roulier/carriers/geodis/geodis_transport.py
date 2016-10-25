@@ -2,7 +2,7 @@
 """Implement geodisWS."""
 import requests
 import email.parser
-from lxml import objectify, etree
+from lxml import objectify
 from jinja2 import Environment, PackageLoader
 from roulier.transport import Transport
 from roulier.ws_tools import remove_empty_tags
@@ -14,7 +14,8 @@ log = logging.getLogger(__name__)
 class GeodisTransport(Transport):
     """Implement Geodis WS communication."""
 
-    GEODIS_WS = "http://espace.recette.geodis.com/geolabel/services/ImpressionEtiquette"
+    GEODIS_WS = "http://espace.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8
+    GEODIS_WS_TEST = "http://espace.recette.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8
     STATUS_SUCCES = "success"
     STATUS_ERROR = "error"
 
@@ -35,9 +36,10 @@ class GeodisTransport(Transport):
         """
         body = payload['body']
         headers = payload['headers']
+        is_test = payload['is_test']
         soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
-        response = self.send_request(soap_message)
+        response = self.send_request(soap_message, is_test)
         log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
 
@@ -54,10 +56,11 @@ class GeodisTransport(Transport):
         data = template.render(body=body_stripped, header=header_xml)
         return data.encode('utf8')
 
-    def send_request(self, body):
+    def send_request(self, body, is_test):
         """Send body to geodis WS."""
+        ws_url = self.GEODIS_WS_TEST if is_test else self.GEODIS_WS
         return requests.post(
-            self.GEODIS_WS,
+            ws_url,
             headers={
                 'content-type': 'text/xml',
                 'SOAPAction': '<SOAP Action>'

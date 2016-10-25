@@ -26,6 +26,8 @@ class GeodisEncoder(Encoder):
             data['service']['labelFormat'])
         data['service']['shippingDate'] = data['service']['shippingDate'].replace('/','') 
 
+        is_test = data['service']['is_test']
+
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/geodis/templates'),
             extensions=['jinja2.ext.with_'])
@@ -37,7 +39,8 @@ class GeodisEncoder(Encoder):
                 parcel=data['parcel'],
                 sender_address=data['from_address'],
                 receiver_address=data['to_address']),
-            "headers": data['auth']
+            "headers": data['auth'],
+            "is_test": is_test
         }
 
     def api(self):

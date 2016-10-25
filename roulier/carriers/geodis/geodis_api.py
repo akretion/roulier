@@ -21,6 +21,10 @@ class GeodisApi(Api):
         schema['agencyId'].update({'required': True, 'empty': False})
         schema['customerId'].update({'required': True, 'empty': False})
         schema['shippingId'].update({'required': True, 'empty': False})
+        schema['is_test'] = {
+            'type': 'boolean', 'default': True,
+            'description': 'Use test WS'}
+
         return schema
 
     def _address(self):
