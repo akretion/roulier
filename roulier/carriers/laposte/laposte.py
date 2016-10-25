@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Implementation for Laposte."""
-from laposte_encoder import LaposteEncoder
-from laposte_decoder import LaposteDecoder
-from laposte_transport import LaposteTransport
+from .laposte_encoder import LaposteEncoder
+from .laposte_decoder import LaposteDecoder
+from .laposte_transport import LaposteTransport
 from roulier.carrier import Carrier
 
 
