@@ -2,7 +2,8 @@
 """Transform input to geodis compatible xml."""
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
-from geodis_api import GeodisApi
+from roulier.exception import InvalidApiInput
+from .geodis_api import GeodisApi
 
 GEODIS_ACTIONS = ('demandeImpressionEtiquette',)
 
@@ -18,7 +19,7 @@ class GeodisEncoder(Encoder):
 
         api = GeodisApi()
         if not api.validate(api_input):
-            raise Exception(
+            raise InvalidApiInput(
                 'Input error : %s' % api.errors(api_input))
         data = api.normalize(api_input)
 
