@@ -1,0 +1,29 @@
+<imp:demandeImpressionEtiquette  xmlns:imp="http://impression.service.web.etiquette.geodis.com">
+    <imp:csadep>{{ service.agencyId }}</imp:csadep>
+    <imp:codclidep>{{ service.customerId }}</imp:codclidep>
+    <imp:format>{{ service.labelFormat }}</imp:format>
+    <imp:posFirstEtiqu>1</imp:posFirstEtiqu>
+    <imp:codpro>{{ service.product }}</imp:codpro>
+    <imp:nrecep>{{ service.shippingId }}</imp:nrecep>
+    <imp:datdep>{{ service.shippingDate }}</imp:datdep>
+    {% with address = sender_address %}
+        <imp:nomexp>{{ address.name }}</imp:nomexp>
+        <imp:payexp>{{ address.country }}</imp:payexp>
+        <imp:cpoexp>{{ address.zip }}</imp:cpoexp>
+        <imp:locexp>{{ address.city }}</imp:locexp>
+        <imp:telexp>{{ address.phone }}</imp:telexp>
+    {% endwith %}
+    {% with address = receiver_address %}
+        <imp:nomdst>{{ address.name }}</imp:nomdst>
+        <imp:ad1dst>{{ address.street1 }}</imp:ad1dst>
+        <imp:ad2dst>{{ address.street2 }}</imp:ad2dst>
+        <imp:paydst>{{ address.country }}</imp:paydst>
+        <imp:cpodst>{{ address.zip }}</imp:cpodst>
+        <imp:locdst>{{ address.city}}</imp:locdst>
+        <imp:nomcta>{{ address.name }}</imp:nomcta>
+        <imp:telcta>{{ address.phone }}</imp:telcta>
+    {% endwith %}
+    <imp:nbtumg>1</imp:nbtumg>
+    <imp:poids>{{ parcel.weight }}</imp:poids>
+    <imp:refclt>{{ service.reference }}</imp:refclt>
+</imp:demandeImpressionEtiquette>

@@ -2,6 +2,7 @@
 """Factory of main classes."""
 from .carriers.laposte.laposte import Laposte
 from .carriers.dummy.dummy import Dummy
+from .carriers.geodis.geodis import Geodis
 
 
 def _carriers():
@@ -12,6 +13,7 @@ def _carriers():
     return {
         "laposte": Laposte,
         "dummy": Dummy,
+        "geodis": Geodis,
     }
 
 
@@ -38,4 +40,3 @@ def get(carrier):
         return carrier_obj()
     else:
         raise BaseException("Carrier not found")
-
