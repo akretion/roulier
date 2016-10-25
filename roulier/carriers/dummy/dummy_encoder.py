@@ -2,6 +2,7 @@
 """Transform input to dummy zpl."""
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
+from roulier.exception import InvalidApiInput
 from .dummy_api import DummyApi
 
 DUMMY_ACTIONS = ('generateLabel')
@@ -18,7 +19,7 @@ class DummyEncoder(Encoder):
 
         api = DummyApi()
         if not api.validate(api_input):
-            raise Exception(
+            raise InvalidApiInput(
                 'Input error : %s' % api.errors(api_input))
         data = api.normalize(api_input)
 
