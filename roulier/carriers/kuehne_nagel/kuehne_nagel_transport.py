@@ -34,7 +34,6 @@ class KuehneNagelTransport(Transport):
             'parcel': self.generate_parcel_line(conv_body),
             'footer': self.generate_footer_line(conv_body)
         }
-        import pdb; pdb.set_trace()
         return {
             "status": self.STATUS_SUCCESS,
             "message": None,

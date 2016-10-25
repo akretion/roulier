@@ -5,6 +5,7 @@ from .carriers.dummy.dummy import Dummy
 from .carriers.geodis.geodis import Geodis
 from .carriers.dpd.dpd import Dpd
 from .carriers.trs.trs import Trs
+from .carriers.kuehne_nagel.kuehne_nagel import KuehneNagel
 
 
 def _carriers():
@@ -18,25 +19,7 @@ def _carriers():
         "geodis": Geodis,
         "dpd": Dpd,
         "trs": Trs,
-    }
-
-
-def get_carriers():
-    """Get name of available carriers.
-
-    return: list of strings
-    """
-    return _carriers().keys()
-
-
-def _carriers():
-    """Get names:class of carriers.
-
-    You may use the factory get('laposte') instead.
-    """
-    return {
-        "laposte": Laposte,
-        "dummy": Dummy,
+        "kuehne": KuehneNagel,
     }
 
 
