@@ -66,10 +66,9 @@ class KuehneNagelTransport(Transport):
         return template.render(
             auth=body['auth'],
             service=body['service'],
-            outputFormat=body['output_format'],
             parcel=body['parcel'],
-            sender_address=body['sender_address'],
-            recipient_address=body['recipient_address'])
+            sender_address=body['from_address'],
+            recipient_address=body['to_address'])
 
     def generate_parcel_line(self, body):
         env = Environment(
@@ -96,10 +95,9 @@ class KuehneNagelTransport(Transport):
         return template.render(
             auth=body['auth'],
             service=body['service'],
-            outputFormat=body['output_format'],
             parcel=body['parcel'],
-            sender_address=body['sender_address'],
-            recipient_address=body['recipient_address'])
+            sender_address=body['from_address'],
+            recipient_address=body['to_address'])
 
     def generate_deposit_slip(self, body):
         body = self.convert_dict(body)
@@ -111,7 +109,5 @@ class KuehneNagelTransport(Transport):
         return template.render(
             auth=body['auth'],
             service=body['service'],
-            outputFormat=body['output_format'],
-            lines=body['lines'],
-            sender_address=body['sender_address'],
-            recipient_address=body['recipient_address'])
+            sender_address=body['from_address'],
+            recipient_address=body['to_address'])

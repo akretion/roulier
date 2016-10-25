@@ -33,7 +33,7 @@ LO730,320,4,54
 LO726,324,4,54
 LO722,328,4,54
 A92,430,0,4,1,1,N,"{{ recipient_address.name }}"
-A20,465,0,4,1,1,N,"{{ recipient_address.street }}"
+A20,465,0,4,1,1,N,"{{ recipient_address.street1 }}"
 A20,495,0,4,1,1,N,"{{ recipient_address.street2 }}"
 A20,530,0,4,1,1,N,"{{ recipient_address.country }} {{ recipient_address.zip }} {{ recipient_address.city }}"
 A20,560,0,3,1,1,N,"No Exp : /"

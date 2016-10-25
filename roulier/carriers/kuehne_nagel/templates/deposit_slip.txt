@@ -11,7 +11,7 @@ GDS+G+{{ service.goodsName }}'
 TDT++++3'
 DOC+730+++ACG+{{ service.depositNumber }}'
 UNS+D'
-{% for line in lines -%}
+{% for line in service.lines -%}
 {{ line }}
 {%- endfor %}
 UNS+S'
