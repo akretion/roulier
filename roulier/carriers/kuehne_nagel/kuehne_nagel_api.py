@@ -40,25 +40,12 @@ class KuehneNagelApi(Api):
 
 class KuehneNagelDepositApi(Api):
 
-    def _to_address(self):
-        address = self._address()
-        address['street1']['required'] = False
-        address['country']['required'] = False
-        address['city']['required'] = False
-        address['zip']['required'] = False
-        address.update({
+    def _contact_info(self):
+        return {
+            'name': {'type': 'string', 'default': '', 'required': True, 'empty': False},
             'siret': {'required': True, 'empty': False},
             'number': {'required': True, 'empty': False},
-        })
-        return address
-
-    def _from_address(self):
-        address = self._address()
-        address.update({
-            'siret': {'required': True, 'empty': False},
-            'number': {'required': True, 'empty': False},
-        })
-        return address
+        }
 
     def _service(self):
         schema = super(KuehneNagelDepositApi, self)._service()
@@ -78,7 +65,11 @@ class KuehneNagelDepositApi(Api):
         schema['shippingDate'] = {'required': False, 'empty': True}
         return schema
 
-    def _parcel(self):
-        schema = super(KuehneNagelDepositApi, self)._parcel()
-        schema['weight'] = {'default': 0}
-        return schema
+    def _schemas(self):
+        return {
+            'service': self._service(),
+            'auth': self._auth(),
+            'sender_info': self._contact_info(),
+            'recipient_info': self._contact_info(),
+        }
+

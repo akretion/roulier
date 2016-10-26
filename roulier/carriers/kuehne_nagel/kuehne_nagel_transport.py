@@ -29,10 +29,10 @@ class KuehneNagelTransport(Transport):
         """
         conv_body = self.convert_dict(body.copy())
         payload = {
-            'epl': self.generate_epl(body),
-            'line': self.generate_deposit_line(conv_body),
-            'parcel': self.generate_parcel_line(conv_body),
-            'footer': self.generate_footer_line(conv_body)
+            'epl': self.render_template(body, "kuehnenagel_generateLabel.epl"),
+            'line': self.render_template(conv_body, "deposit_slip_line.txt"),
+            'parcel': self.render_template(conv_body, "deposit_slip_line_parcel.txt"),
+            'footer': self.render_template(conv_body, "deposit_slip_line_footer.txt")
         }
         return {
             "status": self.STATUS_SUCCESS,
@@ -41,56 +41,26 @@ class KuehneNagelTransport(Transport):
             "payload": payload,
         }
 
-    def convert_string(self, string):
-        converted_string = string
-        if isinstance(string, str):
-            converted_string = string.replace('?', '??').replace("'", "?'").replace('+', '?+').replace(':', '?:')
-        return converted_string
-
     def convert_dict(self, row_dict):
+        """
+        Concert dict by replacing forbiden characters in strings.
+        Add '?' before ?+.' chararacters to be compatible with DISPOR message syntax.
+        """
         converted_dict = {}
         for key, value in row_dict.iteritems():
             if isinstance(value, dict):
                 converted_dict[key] = self.convert_dict(value)
+            elif isinstance(value, (str, unicode)):
+                converted_dict[key] = value.replace('?', '??').replace("'", "?'").replace('+', '?+').replace(':', '?:')
             else:
-                converted_dict[key] = self.convert_string(value)
+                converted_dict[key] = value
         return converted_dict
 
-    def generate_epl(self, body):
+    def render_template(self, body, template_name):
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/kuehne_nagel/templates'),
             extensions=['jinja2.ext.with_'])
-
-        template = env.get_template("kuehnenagel_generateLabel.epl")
-        return template.render(
-            auth=body['auth'],
-            service=body['service'],
-            parcel=body['parcel'],
-            sender_address=body['from_address'],
-            recipient_address=body['to_address'])
-
-    def generate_parcel_line(self, body):
-        env = Environment(
-            loader=PackageLoader('roulier', '/carriers/kuehne_nagel/templates'),
-            extensions=['jinja2.ext.with_'])
-
-        template = env.get_template("deposit_slip_line_parcel.txt")
-        return template.render(parcel=body['parcel'])
-
-    def generate_footer_line(self, body):
-        env = Environment(
-            loader=PackageLoader('roulier', '/carriers/kuehne_nagel/templates'),
-            extensions=['jinja2.ext.with_'])
-
-        template = env.get_template("deposit_slip_line_footer.txt")
-        return template.render(service=body['service'])
-
-    def generate_deposit_line(self, body):
-        env = Environment(
-            loader=PackageLoader('roulier', '/carriers/kuehne_nagel/templates'),
-            extensions=['jinja2.ext.with_'])
-
-        template = env.get_template("deposit_slip_line.txt")
+        template = env.get_template(template_name)
         return template.render(
             auth=body['auth'],
             service=body['service'],
@@ -108,5 +78,5 @@ class KuehneNagelTransport(Transport):
         return template.render(
             auth=body['auth'],
             service=body['service'],
-            sender_address=body['from_address'],
-            recipient_address=body['to_address'])
+            sender_info=body['sender_info'],
+            recipient_info=body['recipient_info'])

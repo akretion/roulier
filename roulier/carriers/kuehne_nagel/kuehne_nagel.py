@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Implementation for Kuehne & Nagel."""
-from kuehne_nagel_encoder import KuehneNagelEncoder
-from kuehne_nagel_decoder import KuehneNagelDecoder
-from kuehne_nagel_transport import KuehneNagelTransport
+from .kuehne_nagel_encoder import KuehneNagelEncoder
+from .kuehne_nagel_decoder import KuehneNagelDecoder
+from .kuehne_nagel_transport import KuehneNagelTransport
 from roulier.carrier import Carrier
 
 
