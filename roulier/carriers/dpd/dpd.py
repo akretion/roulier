@@ -23,7 +23,7 @@ class Dpd(Carrier):
         """Run an action with data against Dpd WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-        if "payload" not in response:
+        if not response['payload']:
             return response
         parts = self.ws.get_parts(response['response'])
         self.decoder.decode(response, parts)
