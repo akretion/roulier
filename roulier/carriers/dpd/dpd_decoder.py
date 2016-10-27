@@ -20,7 +20,7 @@ class DpdDecoder(Decoder):
                 msg.CreateShipmentWithLabelsResult.getchildren()
             )
             shipment = shipments.getchildren()[0]
-            label, attachment = labels.getChildren()
+            label, attachment = labels.getchildren()
             x = {
                 'barcode': shipment.barcode,
                 'parcelnumber': shipment.parcelnumber,
