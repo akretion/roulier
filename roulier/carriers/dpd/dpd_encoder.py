@@ -29,9 +29,10 @@ class DpdEncoder(Encoder):
             .strftime('%d/%M/%Y')
         )
 
-        if data['service']['labelFormat'] == 'ZPL':
+        if data['service']['labelFormat'] in ('PNG', 'ZPL'):
             # WS doesn't handle zpl yet, we convert it later
-            data['service']['labelFormat'] = 'PNG'
+            # png is named Default, WTF DPD?
+            data['service']['labelFormat'] = 'Default'
 
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/dpd/templates'),
