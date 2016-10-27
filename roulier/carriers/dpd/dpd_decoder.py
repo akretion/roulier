@@ -30,7 +30,7 @@ class DpdDecoder(Decoder):
         xml = objectify.fromstring(xml_string)
         tag = xml.tag
         lookup = {
-            "'{http://www.cargonet.software}CreateShipmentWithLabelsResponse'":
+            "{http://www.cargonet.software}CreateShipmentWithLabelsResponse":
                 create_shipment_with_labels,
         }
         return tag, lookup[tag](xml.xpath('//return')[0])
