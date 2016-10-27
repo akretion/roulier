@@ -16,7 +16,9 @@ class DpdDecoder(Decoder):
         """Dpd XML -> Python."""
         def create_shipment_with_labels(msg):
             """Understand a CreateShipmentWithLabelsResponse."""
-            shipments, labels = msg.CreateShipmentWithLabelsResult
+            shipments, labels = (
+                msg.CreateShipmentWithLabelsResult.getchildren()
+            )
             shipment = shipments.getchildren()[0]
             label, attachment = labels.getChildren()
             x = {
@@ -33,4 +35,4 @@ class DpdDecoder(Decoder):
             "{http://www.cargonet.software}CreateShipmentWithLabelsResponse":
                 create_shipment_with_labels,
         }
-        return tag, lookup[tag]()
+        return tag, lookup[tag](xml)
