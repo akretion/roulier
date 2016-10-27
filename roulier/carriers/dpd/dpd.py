@@ -27,7 +27,8 @@ class Dpd(Carrier):
         if not response['payload']:
             return response
         payload = self.decoder.decode(response, {})
-        payload['zpl'] = self.handle_zpl(data, payload['label'])
+        zpl = self.handle_zpl(data, payload['label'])
+        payload['label'] = zpl if zpl else payload['label']
         return payload
 
     # shortcuts
@@ -37,6 +38,17 @@ class Dpd(Carrier):
 
     # utils
     def handle_zpl(self, data, png):
+        """Convert a png in zpl.
+
+        if labelFormat was asked as ZPL, WS returns a png
+        This function rotate it and convert it an suitable zpl format
+        @params:
+            data : full dict with all the params of the get method
+            png : a base64 formatted string (returned by ws)
+        @returns:
+            a zpl in a string
+
+        """
         label_format = DpdApi().normalize(data)['service']['labelFormat']
 
         if label_format == 'ZPL':
