@@ -2,7 +2,7 @@
 """Implement dpdWS."""
 import requests
 import email.parser
-from lxml import objectify
+from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader
 from roulier.transport import Transport
 from roulier.ws_tools import remove_empty_tags
@@ -84,23 +84,12 @@ class DpdTransport(Transport):
             obj = objectify.fromstring(response_xml)
             return obj.Body.getchildren()[0]
 
-        def extract_body(obj):
-            res = obj.CreateShipmentWithLabelsResult
-            ship = res.shipments.getchildren()[0]
-            label = res.labels.getchildren()[0]
-            return {
-                'parcelNumber': ship.parcelnumber,
-                'barcode': ship.barcode,
-                'label': label.label
-            }
-
         body = extract_soap(response.content)
-        payload = extract_body(body)
-
+        body_xml = etree.tostring(body)
         return {
             "status": "ok",
             "message": "",
-            "payload": payload,
+            "payload": body_xml,
             "response": response,
         }
 
