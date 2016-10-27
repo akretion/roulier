@@ -33,4 +33,4 @@ class DpdDecoder(Decoder):
             "{http://www.cargonet.software}CreateShipmentWithLabelsResponse":
                 create_shipment_with_labels,
         }
-        return tag, lookup[tag](xml.xpath('//return')[0])
+        return tag, lookup[tag]()
