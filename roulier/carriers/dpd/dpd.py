@@ -32,8 +32,8 @@ class Dpd(Carrier):
 
     # shortcuts
     def get_label(self, data):
-        """Genereate a generateLabelRequest."""
-        return self.get(data, 'generateLabelRequest')
+        """Genereate a createShipmentWithLabels."""
+        return self.get(data, 'createShipmentWithLabels')
 
     # utils
     def handle_zpl(self, data, png):
