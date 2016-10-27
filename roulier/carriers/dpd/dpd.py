@@ -25,7 +25,7 @@ class Dpd(Carrier):
         response = self.ws.send(request)
         if not response['payload']:
             return response
-        parts = self.ws.get_parts(response['response'])
+        parts = tools.get_parts(response['response'])
         self.decoder.decode(response, parts)
         self.handle_zpl(data, parts)
         return response

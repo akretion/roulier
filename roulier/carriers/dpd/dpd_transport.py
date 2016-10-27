@@ -2,7 +2,7 @@
 """Implement dpdWS."""
 import requests
 import email.parser
-from lxml import objectify, etree
+from lxml import objectify
 from jinja2 import Environment, PackageLoader
 from roulier.transport import Transport
 from roulier.ws_tools import remove_empty_tags
