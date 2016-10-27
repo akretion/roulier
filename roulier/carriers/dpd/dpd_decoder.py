@@ -21,11 +21,12 @@ class DpdDecoder(Decoder):
             )
             shipment = shipments.getchildren()[0]
             label, attachment = labels.getchildren()
+            # .text because we want str instead of objectify.StringElement
             x = {
-                'barcode': shipment.barcode,
-                'parcelnumber': shipment.parcelnumber,
-                'label': label.label,
-                'attachment': attachment.label
+                'barcode': shipment.barcode.text,
+                'parcelnumber': shipment.parcelnumber.text,
+                'label': label.label.text,
+                'attachment': attachment.label.text
             }
             return x
 

@@ -37,7 +37,7 @@ class Dpd(Carrier):
 
     # utils
     def handle_zpl(self, data, png):
-        label_format = DpdApi().normailze(data)['service']['labelFormat']
+        label_format = DpdApi().normalize(data)['service']['labelFormat']
 
         if label_format == 'ZPL':
             return tools.png_to_zpl(png, True)
