@@ -25,10 +25,9 @@ class Dpd(Carrier):
         response = self.ws.send(request)
         if not response['payload']:
             return response
-        parts = self.ws.get_parts(response['response'])
-        self.decoder.decode(response, parts)
-        self.handle_zpl(data, parts)
-        return response
+        payload = self.decoder.decode(response, {})
+        payload['zpl'] = self.handle_zpl(data, payload['label'])
+        return payload
 
     # shortcuts
     def get_label(self, data):
