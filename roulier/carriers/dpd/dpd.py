@@ -4,6 +4,7 @@
 from .dpd_decoder import DpdDecoder
 from .dpd_encoder import DpdEncoder
 from .dpd_transport import DpdTransport
+from .dpd_api import DpdApi
 from roulier.carrier import Carrier
 from roulier import ws_tools as tools
 
@@ -36,6 +37,8 @@ class Dpd(Carrier):
 
     # utils
     def handle_zpl(self, data, png):
-        if data['labelFormat'] == 'ZPL':
-            zpl = tools.png_to_zpl(png, True)
-        return zpl
+        label_format = DpdApi().normailze(data)['service']['labelFormat']
+
+        if label_format == 'ZPL':
+            return tools.png_to_zpl(png, True)
+        return None

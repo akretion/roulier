@@ -20,7 +20,7 @@ class DpdApi(Api):
     def _service(self):
         schema = super(DpdApi, self)._service()
         schema['labelFormat']['allowed'] = DPD_LABEL_FORMAT
-        schema['labelFormat']['default'] = 'PDF'
+        schema['labelFormat']['default'] = 'ZPL'
         schema['labelFormat'].update({'required': True, 'empty': False})
         schema['agencyId'].update({'required': True, 'empty': False, 'description': 'Agency code int(3)'})
         schema['customerCountry'] = {'required': True, 'empty': False, 'description': 'Customer country code (France = 250) int(3)'}
