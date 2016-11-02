@@ -85,14 +85,15 @@ class LaposteApi(Api):
     def _parcel(self):
         schema = super(LaposteApi, self)._parcel()
         schema['nonMachinable'] = {
-            'default': False,
+            'type': 'boolean', 'default': False,
             'description': """Passer à true pour indiquer que le "
             "format du colis est non standard"""}
         schema['instructions'] = {
             'default': '', 'description': """Indications complémentaires "
             "pour la livraison"""}
         schema['insuranceValue'] = {
-            'default': '0', 'description': """Valeur assurée. Max= 1500€ "
+            'type': 'number', 'default': '0',
+            'description': """Valeur assurée. Max= 1500€ "
             "Passer 1230 pour 12,30€ Cette valeur sera arrondie "
             "à l’entier le plus proche (Ex : 12 euros si 1232 est envoyé) "
             "Par défaut, renseigner « 0 » (zéro)"""}
@@ -100,17 +101,19 @@ class LaposteApi(Api):
             'default': '', 'description': """Niveau de recommandation "
             "(cf. III.2) Peut valoir « R1 », ou « R2 », ou « R3 »"""}
         schema['cod'] = {
-            'default': False,
+            'type': 'boolean', 'default': False,
             'description': """Passer à true si la livraison doit se "
-            "faire contre remboursement Par défaut, renseigner « 0 » (zéro)"""}
+            "faire contre remboursement."""}
         schema['codAmount'] = {
-            'default': '0', 'description': """Montant attendu lors de la "
+            'type': 'number', 'default': '0',
+            'description': """Montant attendu lors de la "
             "livraison contre remboursement. Par défaut, renseigner "
             "« 0 » (zéro)"""}
         schema['ftd'] = {
-            'default': '0', 'description': """Pour les envois vers "
+            'type': 'boolean', 'default': False,
+            'description': """Pour les envois vers "
             "l’Outre-Mer uniquement Indique si le colis est franc de taxes "
-            "et de droits. Par défaut, renseigner « 0 » (zéro)"""}
+            "et de droits."""}
         return schema
 
     def _auth(self):
