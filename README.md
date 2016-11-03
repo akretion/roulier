@@ -110,6 +110,34 @@ data['response']
 It's more or less the same for every carrier with SOAP webservice.
 
 
+Validate input
+
+For input validate we use [Cerberus](http://docs.python-cerberus.org/en/stable/)
+```python
+from roulier import roulier
+laposte = roulier.get('laposte')
+
+# get a ready to fill dict with default values:
+laposte.api()
+
+
+# advanced usage : 
+from roulier.carriers.laposte.laposte_api import LaposteApi
+l_api = LaposteApi()
+
+# get the full schema:
+l_api.api_schema()
+
+# validate a dict against the schema
+a_dict = { 'auth': {'login': '', 'password': 'password'}, ... }
+l_api.errors(a_dict)
+# > {'auth': [{'login': ['empty values not allowed']}], ...}
+
+# get a part of schema (like 'parcel')
+l_api._parcel()
+```
+
+
 ###Contributors
 
 
