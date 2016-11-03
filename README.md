@@ -144,3 +144,12 @@ l_api._parcel()
 * [@hparfr](https://github.com/hparfr) ([Akretion.com](https://akretion.com))
 * [@damdam-s](https://github.com/damdam-s) ([Camp2Camp.com](http://camptocamp.com))
 * [@bealdav](https://github.com/bealdav) ([Akretion.com](https://akretion.com))
+
+
+### Dependencies
+
+* [Cerberus](http://docs.python-cerberus.org/) - input validation and normalization
+* [lxml](http://lxml.de/) - XML parsing
+* [Jinja2](http://jinja.pocoo.org/) - templating
+* [Requests](http://docs.python-requests.org/) - HTTP requests
+* [zplgrf](https://github.com/kylemacfarlane/zplgrf) - PNG to ZPL conversion
