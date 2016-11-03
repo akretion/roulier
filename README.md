@@ -74,6 +74,42 @@ pprint(laposte.api())
 
 ```
 
+Advanced usage for Laposte
+
+Usefull for debugging: get the xml before the call, send an xml directly, analyse the response
+
+```python
+from roulier import roulier
+laposte = roulier.get('laposte')
+
+#0) create dict for the request as usually 
+api = laposte.api();
+api['auth']['login'] = '12345'
+...
+
+# 1) get the sls xml: 
+req = laposte.encoder.encode(api, 'generateLabelRequest')
+# req['body'] contains the xml payload (<sls:generateLabel xmlns:sls="http://sls.ws.coliposte.fr">...</sls:generateLabel>)
+
+# 2) get the soap message
+soap_request = laposte.ws.soap_wrap(req['body'], req['headers'])
+#soap_request is a string (xml)
+
+# 3) send xml_request to ws
+soap_response = laposte.ws.send_request(xml_request)
+# soap_response is a Requests response
+
+# 4) interpret the response
+data = laposte.ws.handle_response(soap_response)
+
+# 5)get the raw Request Response:
+data['response'] 
+
+
+```
+It's more or less the same for every carrier with SOAP webservice.
+
+
 ###Contributors
 
 
