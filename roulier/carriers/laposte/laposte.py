@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Implementation for Laposte."""
+
 from .laposte_encoder import LaposteEncoder
 from .laposte_decoder import LaposteDecoder
 from .laposte_transport import LaposteTransport
@@ -21,8 +22,13 @@ class Laposte(Carrier):
         """Run an action with data against Laposte WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-        if not response['payload']:
-            return response
+        if response.get('message') and response['message']['exception']:
+            return {
+                'status': 'error',
+                'messages': self.ws.exception_handling(
+                    response['message']['message']),
+                'response': response['response'],
+            }
         parts = self.ws.get_parts(response['response'])
         return self.decoder.decode(response, parts)
 

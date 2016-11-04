@@ -81,12 +81,16 @@ class LaposteTransport(Transport):
         """
         def extract_message(response_xml):
             xml = objectify.fromstring(response_xml)
-            message = xml.xpath('//messages')[0]  # always one
+            messages = xml.xpath('//messages')
+            exception = False
+            for message in messages:
+                mess_type = str(message.type)
+                if mess_type.lower() == self.STATUS_ERROR.lower():
+                    exception = True
             # dirty serialization
             return {
-                "id": message.id,
-                "type": message.type,
-                "message": message.messageContent
+                "exception": exception,
+                "message": messages,
             }
 
         def extract_payload(response_xml):
@@ -109,17 +113,15 @@ class LaposteTransport(Transport):
 
         message = extract_message(response_xml)
 
-        status = self.STATUS_ERROR
         payload = None
 
-        if message['type'] == "INFOS":
+        if message['exception']:
+            log.warning('Laposte error 200')
+            status = self.STATUS_ERROR
+        else:
             status = self.STATUS_SUCCES
             payload = extract_payload(response_xml)
-        else:
-            log.warning('Laposte error 200')
         log.info('status: %s' % status)
-        log.debug('message: %s' % message)
-
         return {
             "status": status,
             "message": message,
@@ -159,5 +161,15 @@ class LaposteTransport(Transport):
             else:
                 parts[cid or 'Attachment%d' % i] = part.get_payload()
             i += 1
-
         return parts
+
+    def exception_handling(self, messages):
+        message_labels = []
+        for message in messages:
+            if message.messageContent:
+                message_labels.append({
+                    'id': message.id,
+                    'message': unicode(message.messageContent),
+                })
+        log.debug('message: %s' % message_labels)
+        return message_labels
