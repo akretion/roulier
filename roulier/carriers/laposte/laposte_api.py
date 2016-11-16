@@ -92,7 +92,7 @@ class LaposteApi(Api):
             'default': '', 'description': """Indications complémentaires "
             "pour la livraison"""}
         schema['insuranceValue'] = {
-            'type': 'number', 'default': '0',
+            'type': 'number', 'default': 0,
             'description': """Valeur assurée. Max= 1500€ "
             "Passer 1230 pour 12,30€ Cette valeur sera arrondie "
             "à l’entier le plus proche (Ex : 12 euros si 1232 est envoyé) "
@@ -105,7 +105,7 @@ class LaposteApi(Api):
             'description': """Passer à true si la livraison doit se "
             "faire contre remboursement."""}
         schema['codAmount'] = {
-            'type': 'number', 'default': '0',
+            'type': 'number', 'default': 0,
             'description': """Montant attendu lors de la "
             "livraison contre remboursement. Par défaut, renseigner "
             "« 0 » (zéro)"""}
