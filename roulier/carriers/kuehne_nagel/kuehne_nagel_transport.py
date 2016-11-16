@@ -29,7 +29,7 @@ class KuehneNagelTransport(Transport):
         """
         conv_body = self.convert_dict(body.copy())
         payload = {
-            'epl': self.render_template(body, "kuehnenagel_generateLabel.epl"),
+            'zpl': self.render_template(body, "kuehnenagel_generateLabel.zpl"),
             'line': self.render_template(conv_body, "deposit_slip_line.txt"),
             'parcel': self.render_template(conv_body, "deposit_slip_line_parcel.txt"),
             'footer': self.render_template(conv_body, "deposit_slip_line_footer.txt")

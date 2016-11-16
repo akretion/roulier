@@ -9,7 +9,7 @@ class KuehneNagelDecoder(Decoder):
     def decode(self, payload):
         """Return {}."""
         return {
-            'epl': payload['epl'].encode('utf-8'),
+            'zpl': payload['zpl'].encode('utf-8'),
             'line': payload['line'],
             'parcel': payload['parcel'],
             'footer': payload['footer']
