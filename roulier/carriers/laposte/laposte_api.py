@@ -52,11 +52,14 @@ class LaposteApi(Api):
         schema['country'].update({'required': True, 'empty': False})
         schema['zip'].update({'required': True, 'empty': False})
         schema['city'].update({'required': True, 'empty': False})
-        schema['street1'].update({
-            'required': False, 'empty': True,
-            'description': 'Entrée, bâtiment, immeuble, résidence'})
         schema['street0'] = {
             'default': '', 'description': 'Etage, couloir, escalier, appart.'}
+        schema['street1'].update({
+            'required': True, 'empty': False,
+            'description': 'Numéro et libellé de voie. Ex : 5 rue du Bellay'})
+        schema['street2'].update({
+            'required': False, 'empty': True,
+            'description': 'Entrée, bâtiment, immeuble, résidence'})
         schema['street3'] = {
             'default': '', 'description': """Lieu dit ou autre mention"""}
         schema['door1'] = {'default': '', 'description': """Code porte 1"""}
