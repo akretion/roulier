@@ -56,7 +56,7 @@ class LaposteTransport(Transport):
         """Send body to laposte WS."""
         return requests.post(
             self.LAPOSTE_WS,
-            headers={'content-type': 'text/xml'},
+            headers={'content-type': 'text/xml;charset=UTF-8'},
             data=body)
 
     def handle_500(self, response):
