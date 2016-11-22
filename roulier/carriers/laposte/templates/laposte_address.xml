@@ -3,8 +3,8 @@
 	<lastName>{{ address.name }}</lastName>
 	<firstName>{{ address.firstName }}</firstName>
 	<line0>{{ address.street0 }}</line0>
-	<line1>{{ address.street1 }}</line1>
-	<line2>{{ address.street2 }}</line2>
+	<line1>{{ address.street2 }}</line1>
+	<line2>{{ address.street1 }}</line2>
 	<line3>{{ address.street3 }}</line3>
 	<countryCode>{{ address.country }}</countryCode>
 	<city>{{ address.city }}</city>
