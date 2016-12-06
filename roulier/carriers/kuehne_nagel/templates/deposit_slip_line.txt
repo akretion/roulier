@@ -1,7 +1,7 @@
 RFF+SEN+{{ service.shippingName }}'
 GID++{{ service.mhuQuantity }}:23{% if service.parcelQuantity %}+{{ service.parcelQuantity }}:21{% endif %}{% if service.epalQuantity %}+{{ service.epalQuantity }}:22{% endif %}'
-MSE+CGW+{{ service.weight }}:KG'
-MSE+CGM+{{ service.volume }}:MTQ'
+MSE+CGW+{{ service.weight }}:KG'{% if service.volume %}
+MSE+CGM+{{ service.volume }}:MTQ'{% endif %}
 NAD+CN+++{{ recipient_address.name }}+{{ recipient_address.street1 }}:{{ recipient_address.street2 }}+{{ recipient_address.city }}++{{ recipient_address.zip }}+{{ recipient_address.country.upper() }}'
 CTA++:{{ recipient_address.contact }}+{{ recipient_address.phone }}:TE'
 LOC+WHO:{{ service.shippingOffice }}+ROT:{{ service.shippingRound }}+PLD:{{ service.exportHub }}'
