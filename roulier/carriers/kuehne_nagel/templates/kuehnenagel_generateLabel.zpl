@@ -21,7 +21,7 @@
 ^FO640,252^GB145,2^FS
 ^FO436,105^A0N,30,30^FDEtiquette CLIENT^FS
 ^FO19,147^A0N,30,30^FD{{ service.kuehneOfficeName }}^FS
-^FO19,186^A0N,30,30^FDEXP.: {{ sender_address.companyName }}^FS
+^FO19,186^A0N,30,30^FDEXP.: {{ sender_address.company }}^FS
 ^FO655,184^A0N,30,30^FD{{ service.labelShippingDate }}^FS
 ^FO669,284^A0N,30,30^FD{% if service.epalQuantity %}EUR {{ service.epalQuantity }}{% endif %}^FS
 ^FO67,261^A0N,139,139^FD{{ service.shippingOffice }}^FS
