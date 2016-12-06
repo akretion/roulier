@@ -12,7 +12,7 @@ class KuehneNagelApi(Api):
             'epalQuantity': {'default': 0},
             'labelShippingDate': {'required': True, 'empty': False},
             'shippingOffice': {'required': True, 'empty': False},
-            'shippingRound': {'required': True, 'empty': False},
+            'shippingRound': {'default': 0},
             'shippingName': {'required': True, 'empty': False},
             'mhuQuantity': {'default': 1},
             'weight': {'default': 0},
