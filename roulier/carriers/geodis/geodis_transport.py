@@ -76,11 +76,15 @@ class GeodisTransport(Transport):
         obj = objectify.fromstring(xml)
         message = obj.xpath("//*[local-name() = 'message']")
         if len(message) > 0:
-            message = message[0]
+            message = message[0] or obj.xpath('//faultstring')[0]
+            id_message = obj.xpath("//*[local-name() = 'code']")[0]
         return {
             "id": obj.xpath('//faultcode')[0],
             "status": self.STATUS_ERROR,
-            "message": message or obj.xpath('//faultstring')[0],
+            "messages": [{  # only one error msg is returned by ws
+                'id': id_message,
+                'message': message,
+            }],
             "response": response,
         }
 
@@ -119,7 +123,10 @@ class GeodisTransport(Transport):
         else:
             return {
                 "status": "error",
-                "message": "Unexpected status code from server",
+                "messages": [{
+                    'id': False,
+                    'message': "Unexpected status code from server",
+                }],
                 "response": response
             }
 

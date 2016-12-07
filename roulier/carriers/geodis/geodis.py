@@ -21,7 +21,7 @@ class Geodis(Carrier):
         """Run an action with data against Geodis WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-        if "payload" not in response:
+        if response['status'] == 'error':
             return response
         parts = response['attachement']
         return self.decoder.decode(response, parts)
