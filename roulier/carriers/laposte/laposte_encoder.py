@@ -30,7 +30,8 @@ class LaposteEncoder(Encoder):
 
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/laposte/templates'),
-            extensions=['jinja2.ext.with_'])
+            extensions=['jinja2.ext.with_', 'jinja2.ext.autoescape'],
+            autoescape=True)
 
         template = env.get_template("laposte_%s.xml" % action)
         return {
