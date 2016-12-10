@@ -34,7 +34,7 @@ response = laposte.get_label({
 		"weight": 3.4,
 	},
 	"to_address": {
-		"fristName": "Hparfr"
+		"firstName": "Hparfr"
 		"street1": "35 b Rue Montgolfier"
 		"city": "Villeurbanne"
         "country": "FR",
