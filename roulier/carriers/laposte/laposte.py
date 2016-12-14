@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Implementation for Laposte."""
 
+from lxml import objectify
 from .laposte_encoder import LaposteEncoder
 from .laposte_decoder import LaposteDecoder
 from .laposte_transport import LaposteTransport
@@ -22,13 +23,27 @@ class Laposte(Carrier):
         """Run an action with data against Laposte WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-        if response.get('message') and response['message']['exception']:
-            return {
-                'status': 'error',
-                'messages': self.ws.exception_handling(
-                    response['message']['message']),
-                'response': response['response'],
-            }
+        if response.get('message'):
+            if isinstance(response['message'], dict) and \
+                    response['message'].get('exception'):
+                return {
+                    'status': 'error',
+                    'messages': self.ws.exception_handling(
+                        response['message']['message']),
+                    'response': response['response'],
+                }
+            elif isinstance(response['message'], (
+                    str, unicode, objectify.StringElement)):
+                # here is an exemple of message:
+                # 'Unmarshalling Error: 14/12/2016 '
+                # as objectify.StringElement
+                return {
+                    'status': 'error',
+                    'messages': [{
+                        'id': 0,
+                        'message': unicode(response['message'])}],
+                    'response': response['response'],
+                }
         parts = self.ws.get_parts(response['response'])
         return self.decoder.decode(response, parts)
 
