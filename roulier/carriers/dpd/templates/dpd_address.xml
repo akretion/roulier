@@ -1,0 +1,6 @@
+<car:name>{{ address.name }}</car:name>
+<car:countryPrefix>{{ address.country }}</car:countryPrefix>
+<car:zipCode>{{ address.zip }}</car:zipCode>
+<car:city>{{ address.city }}</car:city>
+<car:street>{{ address.street1 }}</car:street>
+<car:phoneNumber>{{ address.phone }}</car:phoneNumber>

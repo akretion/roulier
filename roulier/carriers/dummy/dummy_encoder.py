@@ -2,6 +2,8 @@
 """Transform input to dummy zpl."""
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
+from roulier.exception import InvalidApiInput
+from .dummy_api import DummyApi
 
 DUMMY_ACTIONS = ('generateLabel')
 
@@ -15,37 +17,13 @@ class DummyEncoder(Encoder):
             raise Exception(
                 'action %s not in %s' % (action, ', '.join(DUMMY_ACTIONS)))
 
-        dj = self.api()
-        dj['service'].update(api_input.get('service', {}) or {})
-        dj['parcel'].update(api_input.get('parcel', {}) or {})
-        dj['from_address'].update(api_input.get('from_address', {}) or {})
-        dj['to_address'].update(api_input.get('to_address', {}) or {})
-        dj['infos'].update(api_input.get('infos', {}) or {})
+        api = DummyApi()
+        if not api.validate(api_input):
+            raise InvalidApiInput(
+                'Input error : %s' % api.errors(api_input))
+        data = api.normalize(api_input)
 
-        service = {
-            'shippingReference': dj['service']['shippingReference']
-        }
-        output_format = {}
-        auth = {}
-
-        parcel = {
-            "reference": dj['parcel']['reference'],
-        }
-
-        sender_address = {
-            "companyName": dj['from_address']['company'],
-        }
-
-        receiver_address = {
-            "companyName": dj['to_address']['company'],
-            "name": dj['to_address']['name'],
-            "street1": dj['to_address']['street1'],
-            "street2": dj['to_address']['street2'],
-            "city": dj['to_address']['city'],
-            "zipCode": dj['to_address']['zip'],
-            "phoneNumber": dj['to_address']['phone'],
-            "dept": dj['to_address']['zip'][0:2]
-        }
+        data['to_address']['dept'] = data['to_address']['zip'][0:2]
 
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/dummy/templates'),
@@ -53,42 +31,13 @@ class DummyEncoder(Encoder):
 
         template = env.get_template("dummy_%s.zpl" % action)
         return template.render(
-            auth=auth,
-            service=service,
-            outputFormat=output_format,
-            parcel=parcel,
-            sender_address=sender_address,
-            receiver_address=receiver_address)
+            auth=data['auth'],
+            service=data['service'],
+            parcel=data['parcel'],
+            sender_address=data['from_address'],
+            receiver_address=data['to_address'])
 
     def api(self):
         """Return API we are expecting."""
-        address = {
-            'company': "",
-            'name': "",
-            'street1': "",
-            'street2': "",
-            'country': "",
-            'city': "",
-            'zip': "",
-            'phone': "",
-            'email': "",
-            "intercom": "",
-        }
-
-        return {
-            "service": {
-                'productCode': '',
-                'shippingDate': '',
-                'labelFormat': '',
-                'shippingReference': '',
-            },
-            "parcel": {
-                "reference": "",
-            },
-            "to_address": address.copy(),
-            "from_address": address.copy(),
-            "infos": {
-                'contractNumber': '',
-                'password': ''
-            }
-        }
+        api = DummyApi()
+        return api.api_values()

@@ -1,6 +1,6 @@
 <sls:generateLabel xmlns:sls="http://sls.ws.coliposte.fr">
   <generateLabelRequest>
-    <contractNumber>{{ auth.contractNumber }}</contractNumber>
+    <contractNumber>{{ auth.login }}</contractNumber>
     <password>{{ auth.password }}</password>
     {% include "laposte_outputFormat.xml" %}
     <letter>

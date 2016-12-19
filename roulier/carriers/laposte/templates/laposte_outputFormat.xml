@@ -1,6 +1,6 @@
 <outputFormat>
-	<x>{{ outputFormat.x | default(0) }}</x>
-	<y>{{ outputFormat.y | default(0) }}</y>
-	<outputPrintingType>{{ outputFormat.outputPrintingType }}</outputPrintingType>
-	<returnType>{{ outputFormat.returnType | default("SendPDFByMail") }}</returnType>
+	<x>{{ service.labelFormat_x | default(0) }}</x>
+	<y>{{ service.labelFormat_y | default(0) }}</y>
+	<outputPrintingType>{{ service.labelFormat }}</outputPrintingType>
+	<returnType>{{ service.returnType | default("SendPDFByMail") }}</returnType>
 </outputFormat>

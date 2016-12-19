@@ -1,0 +1,4 @@
+<car:UserCredentials xmlns:car="http://www.cargonet.software">
+	<car:userid>{{ auth.login }}</car:userid>
+	<car:password>{{ auth.password }}</car:password>
+</car:UserCredentials>

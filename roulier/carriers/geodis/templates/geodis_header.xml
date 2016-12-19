@@ -1,0 +1,4 @@
+<imp:authenticationInfo xmlns:imp="http://impression.service.web.etiquette.geodis.com">
+	<imp:userName>{{ auth.login }}</imp:userName>
+	<imp:password>{{ auth.password }}</imp:password> 
+</imp:authenticationInfo>

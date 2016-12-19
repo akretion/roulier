@@ -18,11 +18,12 @@ class LaposteTransport(Transport):
     STATUS_SUCCES = "success"
     STATUS_ERROR = "error"
 
-    def send(self, body):
+    def send(self, payload):
         """Call this function.
 
         Args:
-            body: XML in a string
+            payload.body: XML in a string
+            payload.headers: auth
         Return:
             {
                 status: STATUS_SUCCES or STATUS_ERROR, (string)
@@ -32,13 +33,15 @@ class LaposteTransport(Transport):
 
             }
         """
-        soap_message = self.soap_wrap(body)
+        body = payload['body']
+        headers = payload['headers']
+        soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
         response = self.send_request(soap_message)
         log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
 
-    def soap_wrap(self, body):
+    def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/laposte/templates'),
@@ -53,7 +56,7 @@ class LaposteTransport(Transport):
         """Send body to laposte WS."""
         return requests.post(
             self.LAPOSTE_WS,
-            headers={'content-type': 'text/xml'},
+            headers={'content-type': 'text/xml;charset=UTF-8'},
             data=body)
 
     def handle_500(self, response):
@@ -78,12 +81,16 @@ class LaposteTransport(Transport):
         """
         def extract_message(response_xml):
             xml = objectify.fromstring(response_xml)
-            message = xml.xpath('//messages')[0]  # always one
+            messages = xml.xpath('//messages')
+            exception = False
+            for message in messages:
+                mess_type = str(message.type)
+                if mess_type.lower() == self.STATUS_ERROR.lower():
+                    exception = True
             # dirty serialization
             return {
-                "id": message.id,
-                "type": message.type,
-                "message": message.messageContent
+                "exception": exception,
+                "message": messages,
             }
 
         def extract_payload(response_xml):
@@ -106,17 +113,15 @@ class LaposteTransport(Transport):
 
         message = extract_message(response_xml)
 
-        status = self.STATUS_ERROR
         payload = None
 
-        if message['type'] == "INFOS":
+        if message['exception']:
+            log.warning('Laposte error 200')
+            status = self.STATUS_ERROR
+        else:
             status = self.STATUS_SUCCES
             payload = extract_payload(response_xml)
-        else:
-            log.warning('Laposte error 200')
         log.info('status: %s' % status)
-        log.debug('message: %s' % message)
-
         return {
             "status": status,
             "message": message,
@@ -140,7 +145,7 @@ class LaposteTransport(Transport):
     def get_parts(self, response):
         head_lines = ''
         for k, v in response.raw.getheaders().iteritems():
-            head_lines += str(k)+':'+str(v)+'\n'
+            head_lines += str(k) + ':' + str(v) + '\n'
 
         full = head_lines + response.content
 
@@ -156,5 +161,15 @@ class LaposteTransport(Transport):
             else:
                 parts[cid or 'Attachment%d' % i] = part.get_payload()
             i += 1
-
         return parts
+
+    def exception_handling(self, messages):
+        message_labels = []
+        for message in messages:
+            if message.messageContent:
+                message_labels.append({
+                    'id': message.id,
+                    'message': unicode(message.messageContent),
+                })
+        log.debug('message: %s' % message_labels)
+        return message_labels
