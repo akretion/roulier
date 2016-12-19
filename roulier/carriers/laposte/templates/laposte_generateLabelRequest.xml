@@ -8,13 +8,13 @@
       {% include "laposte_parcel.xml" %}
       {% include "laposte_customsDeclarations.xml" %}
       <sender>
-        <senderParcelRef>refsenderXXX</senderParcelRef>
+        <senderParcelRef>{{ service.reference1 }}</senderParcelRef>
         {% with address = sender_address %}
           {% include "laposte_address.xml" %}
         {% endwith %}
       </sender>
       <addressee>
-        <addresseeParcelRef>12345</addresseeParcelRef>
+        <addresseeParcelRef>{{ service.reference2 }}</addresseeParcelRef>
         <codeBarForReference>false</codeBarForReference>
         <serviceInfo>service info</serviceInfo>
         <promotionCode></promotionCode>
