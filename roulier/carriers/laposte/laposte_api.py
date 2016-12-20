@@ -45,6 +45,12 @@ class LaposteApi(Api):
             'default': '', 'description':
             """Utilisé pour le Colissimo Retour uniquement. "
             "Définit le mode de transmission de l’étiquette"""}
+        schema['reference1'].update({
+            'description': """Référence expediteur ('Réf client')"""
+        })
+        schema['reference2'].update({
+            'description': """Référence destinataire ('Réf destinataire')"""
+        })
         return schema
 
     def _address(self):
