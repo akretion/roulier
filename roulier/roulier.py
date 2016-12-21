@@ -2,7 +2,7 @@
 """Factory of main classes."""
 from carriers.laposte.laposte import Laposte
 from carriers.dummy.dummy import Dummy
-from carriers.trs.trs import Trs
+from .carriers.trs.trs import Trs
 
 
 def get(carrier):
