@@ -1,0 +1,44 @@
+<car:CreateShipmentWithLabels xmlns:car="http://www.cargonet.software">
+	<car:request>
+		{% with address = receiver_address %}
+		<car:receiveraddress>
+			{% include "dpd_address.xml" %}
+		</car:receiveraddress>
+		<car:receiverinfo>
+			{% include "dpd_addressInfo.xml" %}
+		</car:receiverinfo>
+		{% endwith %}
+
+		{% with address = sender_address %}
+		<car:shipperaddress>
+			{% include "dpd_address.xml" %}
+		</car:shipperaddress>
+		<car:services>
+			<car:contact>
+				<car:sms>{{ address.phone }}</car:sms>
+				<car:email>{{ address.email }}</car:email>
+				<car:type>{{ service.notifications }}</car:type>
+			</car:contact>
+			{% if service.dropOffLocation %}
+			<car:parcelshop>
+				<car:shopaddress>
+					<car:shopid>{{ service.dropOffLocation }}</car:shopid>
+				</car:shopaddress>
+			</car:parcelshop>
+			{% endif %}
+		</car:services>
+		{% endwith %}
+
+		<car:labelType>
+		   <car:type>{{ service.labelFormat }}</car:type>
+		</car:labelType>
+		<car:customer_countrycode>{{ service.customerCountry }}</car:customer_countrycode>
+		<car:customer_centernumber>{{ service.agencyId }}</car:customer_centernumber>
+		<car:shippingdate>{{ service.shippingDate }}</car:shippingdate>
+		<car:customer_number>{{ service.customerId}}</car:customer_number>
+		<car:weight>{{ parcel.weight }}</car:weight>
+		<car:referencenumber>{{ service.reference1 }}</car:referencenumber>
+		<car:reference2>{{ service.reference2 }}</car:reference2>
+		<car:reference3>{{ service.reference3 }}</car:reference3>
+	</car:request>
+</car:CreateShipmentWithLabels>

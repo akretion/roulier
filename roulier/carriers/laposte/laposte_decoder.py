@@ -7,7 +7,27 @@ from roulier.codec import Decoder
 class LaposteDecoder(Decoder):
     """Laposte XML -> Python."""
 
-    def decode(self, xml_string):
+    def decode(self, response, parts):
+        payload_xml = response['payload']
+        tag, content = self.decode_payload(payload_xml)
+        if tag.endswith('getProductInterResponse'):
+            return content
+        else:
+            # tag is generateLabelResponse
+            label_cid = content.get('label').getchildren()[0].attrib['href']
+            if content.get('cn23'):
+                cn23_cid = content.get('cn23').getchildren()[0].attrib['href']
+            else:
+                cn23_cid = False
+                content['cn23'] = False
+
+            content['label'] = parts[label_cid.replace('cid:', '')]
+            if cn23_cid:
+                content['cn23'] = parts[cn23_cid.replace('cid:', '')]
+
+        return content
+
+    def decode_payload(self, xml_string):
         """Laposte XML -> Python."""
         def get_product_inter(msg):
             """Understand a getProductInterResponse."""
@@ -23,8 +43,8 @@ class LaposteDecoder(Decoder):
                 "parcelNumber": msg.labelResponse.parcelNumber,
                 "parcelNumberPartner": msg.labelResponse.find(
                     'parcelNumberPartner'),
-                "url": msg.labelResponse.pdfUrl,
                 "cn23": msg.labelResponse.find('cn23'),
+                "label": msg.labelResponse.find('label'),
             }
             return x
 
@@ -36,5 +56,4 @@ class LaposteDecoder(Decoder):
             "{http://sls.ws.coliposte.fr}generateLabelResponse":
                 generate_label_response
         }
-
-        return lookup[tag](xml.xpath('//return')[0])
+        return tag, lookup[tag](xml.xpath('//return')[0])
