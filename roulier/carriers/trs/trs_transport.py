@@ -12,7 +12,7 @@ class TrsTransport(Transport):
 
     STATUS_SUCCESS = "Success"
 
-    def send(self, body):
+    def send(self, payload):
         """Call this function.
 
         Args:
@@ -26,15 +26,15 @@ class TrsTransport(Transport):
 
             }
         """
-        payload = {
-            'zpl': self.generate_zpl(body),
-            'meta': self.map_delivery_line(body),
-        }
+        body = payload['body']
+        label = self.generate_zpl(body)
+        attachment = self.map_delivery_line(body)
         return {
             "status": self.STATUS_SUCCESS,
             "message": None,
             "response": None,
-            "payload": payload,
+            "payload": label,
+            "attachment": attachment
         }
 
     def generate_zpl(self, body):
