@@ -44,30 +44,28 @@ class TrsTransport(Transport):
 
         template = env.get_template("trs_generateLabel.zpl")
         return template.render(
-            auth=body['auth'],
             service=body['service'],
-            outputFormat=body['output_format'],
             parcel=body['parcel'],
-            sender_address=body['sender_address'],
-            receiver_address=body['receiver_address'])
+            from_address=body['from_address'],
+            to_address=body['to_address'])
 
     def map_delivery_line(self, body):
         data = OrderedDict([
-            (u'client', body['sender_address']['companyName']),
+            (u'client', body['from_address']['company']),
             (u'siret', None),
-            (u'refCommande', body['service']['shippingReference']),
+            (u'refCommande', body['service']['reference1']),
             (u'dateEnlevement', body['service']['shippingDate']),
             (u'cr', None),
             (u'va', None),
-            (u'nom', body['receiver_address']['name']),
-            (u'adr1', body['receiver_address']['street1']),
-            (u'adr2', body['receiver_address']['street2']),
-            (u'cp', body['receiver_address']['zipCode']),
-            (u'ville', body['receiver_address']['city']),
-            (u'telephone', body['receiver_address']['phoneNumber']),
-            (u'mobile', body['receiver_address']['phoneNumber']),
-            (u'email', body['receiver_address']['email']),
-            (u'refDest', None),
+            (u'nom', body['to_address']['name']),
+            (u'adr1', body['to_address']['street1']),
+            (u'adr2', body['to_address']['street2']),
+            (u'cp', body['to_address']['zip']),
+            (u'ville', body['to_address']['city']),
+            (u'telephone', body['to_address']['phone']),
+            (u'mobile', body['to_address']['phone']),
+            (u'email', body['to_address']['email']),
+            (u'refDest', body['service']['reference2']),
             (u'commentLiv', None),
             (u'nbConducteurs', None),
             (u'Poids', body['parcel']['weight']),
@@ -94,7 +92,7 @@ class TrsTransport(Transport):
             (u'article10', None),
             (u'regroupement', None),
             (u'refComfour', None),
-            (u'codeBarre', body['parcel']['barcode']),
+            (u'codeBarre', body['service']['shippingId']),
             (u'descColis', None),
             (u'porteur', None),
             (u'jourLivraison', None),

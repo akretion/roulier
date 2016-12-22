@@ -25,7 +25,7 @@ class TrsEncoder(Encoder):
                 'Input error : %s' % api.errors(api_input))
         data = api.normalize(api_input)
 
-        data['to_address']["dept"] = data['to_address']['zip'][0:2],
+        data['to_address']["dept"] = data['to_address']['zip'][0:2]
 
         return {'body': data, 'header': None}
 

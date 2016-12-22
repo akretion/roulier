@@ -34,7 +34,7 @@ class Trs(Carrier):
 
         if not response['payload']:
             return response
-        return self.decoder.decode(response['payload'])
+        return self.decoder.decode(response)
 
     def get_deposit_slip(self, data):
         """Generate a deposit slip (csv file)."""

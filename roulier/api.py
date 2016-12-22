@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """API interface."""
 from cerberus import Validator
+from unidecode import unidecode
 
 
 class MyValidator(Validator):
@@ -13,6 +14,26 @@ class MyValidator(Validator):
         { 'description': 'a string'}
         """
         pass
+
+    def _normalize_coerce_zpl(self, value):
+        """Sanitze input for ZPL.
+
+        Remove ZPL ctrl caraters
+        Remove accents
+        """
+        if not isinstance(value, basestring):
+            return value
+
+        ctrl_cars = [
+            0xFE,  # Tilde ~
+            0x5E,  # Caret ^
+            0x1E,  # RS (^ substitution)
+            0x10,  # DLE (~ substitution)
+        ]
+        val = unidecode(value)
+        for ctrl in ctrl_cars:
+            val = val.replace("%c" % ctrl, "")
+        return val
 
 
 class Api(object):

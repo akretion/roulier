@@ -8,4 +8,4 @@ class TrsDecoder(Decoder):
 
     def decode(self, payload):
         """Return {}."""
-        return {"zpl": payload['zpl'], 'meta': payload['meta']}
+        return payload  # {"zpl": payload['zpl'], 'meta': payload['meta']}

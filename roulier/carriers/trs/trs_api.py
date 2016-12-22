@@ -12,10 +12,7 @@ class TrsApi(Api):
         schema = super(TrsApi, self)._service()
         schema['labelFormat']['allowed'] = TRS_LABEL_FORMAT
         schema['labelFormat']['default'] = TRS_LABEL_FORMAT[0]
-        schema['agencyId'].update({'required': True, 'empty': False})
-        schema['customerId'].update({'required': True, 'empty': False})
         schema['shippingId'].update({'required': True, 'empty': False})
-        schema['barcode'] = {'required': True, 'empty': False}
 
         return schema
 
@@ -38,3 +35,11 @@ class TrsApi(Api):
         schema['login'].update({'required': False, 'empty': True})
         schema['password']['required'] = False
         return schema
+
+    def _schemas(self):
+        # Santize all fields for zpl
+        schemas = super(TrsApi, self)._schemas()
+        for schema in schemas:
+            for field in schemas[schema]:
+                schemas[schema][field].update({'coerce': 'zpl'})
+        return schemas
