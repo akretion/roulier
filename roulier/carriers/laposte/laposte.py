@@ -22,13 +22,8 @@ class Laposte(Carrier):
         """Run an action with data against Laposte WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-        if response.get('message') and response['message']['exception']:
-            return {
-                'status': 'error',
-                'messages': self.ws.exception_handling(
-                    response['message']['message']),
-                'response': response['response'],
-            }
+        if response.get('status') == self.ws.STATUS_ERROR:
+            return response
         parts = self.ws.get_parts(response['response'])
         return self.decoder.decode(response, parts)
 
