@@ -65,13 +65,20 @@ class LaposteTransport(Transport):
         # no need to extract_body shit here
         log.warning('Laposte error 500')
         obj = objectify.fromstring(response.text)
-        return {
+        exception = {
             "id": obj.xpath('//faultcode')[0],
             "status": self.STATUS_ERROR,
             "message": obj.xpath('//faultstring')[0],
             "response": response,
             "payload": None
         }
+        if isinstance(exception['message'], objectify.StringElement):
+            exception['messages'] = [unicode(exception['message'])]
+        if isinstance(exception['message'], dict) and \
+                exception.get('exception'):
+            exception['messages'] = self.exception_handling(
+                exception['message']['message'])
+        return exception
 
     def handle_200(self, response):
         """
