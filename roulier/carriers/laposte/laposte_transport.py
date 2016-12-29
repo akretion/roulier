@@ -38,7 +38,7 @@ class LaposteTransport(Transport):
         soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
         response = self.send_request(soap_message)
-        return self.handle_response(response)
+        return (soap_message, self.handle_response(response))
 
     def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
