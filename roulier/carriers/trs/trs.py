@@ -32,9 +32,7 @@ class Trs(Carrier):
         request = self.encoder.encode(data, 'generateLabel')
         response = self.ws.send(request)
 
-        if not response['payload']:
-            return response
-        return self.decoder.decode(response)
+        return self.decoder.decode(response, request)
 
     def get_deposit_slip(self, data):
         """Generate a deposit slip (csv file)."""

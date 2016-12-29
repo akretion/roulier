@@ -4,8 +4,19 @@ from roulier.codec import Decoder
 
 
 class TrsDecoder(Decoder):
-    """Mock class."""
+    """Prepare output"""
 
-    def decode(self, payload):
+    def decode(self, response, request):
         """Return {}."""
-        return payload  # {"zpl": payload['zpl'], 'meta': payload['meta']}
+        return {
+            'label': response['label'],
+            'tracking_number': request['service']['shippingId'],
+            'tracking_url': '',
+            'annexes': [
+                {
+                    'name': 'meta',
+                    'type': 'csv',
+                    'data': response['attachment']
+                }
+            ]
+        }
