@@ -38,7 +38,6 @@ class LaposteTransport(Transport):
         soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
         response = self.send_request(soap_message)
-        log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
 
     def soap_wrap(self, body, headers):
