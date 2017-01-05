@@ -83,12 +83,6 @@ class LaposteApi(Api):
         schema['firstName'] = {
             'default': '',
             'description': """Prénom. Obligatoire pour So Colissimo"""}
-        schema['street2'].update(
-            {'required': True, 'description': """Numéro et libellé de voie. "
-                                                "Ex : « 5 rue du Bellay »"""})
-        schema['street1'].update(
-            {'required': False, 'empty': True,
-             'description': 'Entrée, bâtiment, immeuble, résidence'})
         return schema
 
     def _parcel(self):
