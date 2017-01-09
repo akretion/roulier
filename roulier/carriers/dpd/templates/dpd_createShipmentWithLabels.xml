@@ -13,12 +13,16 @@
 		<car:shipperaddress>
 			{% include "dpd_address.xml" %}
 		</car:shipperaddress>
+		{% endwith %}
+
 		<car:services>
+			{% with address = receiver_address %}
 			<car:contact>
 				<car:sms>{{ address.phone }}</car:sms>
 				<car:email>{{ address.email }}</car:email>
 				<car:type>{{ service.notifications }}</car:type>
 			</car:contact>
+			{% endwith %}
 			{% if service.dropOffLocation %}
 			<car:parcelshop>
 				<car:shopaddress>
