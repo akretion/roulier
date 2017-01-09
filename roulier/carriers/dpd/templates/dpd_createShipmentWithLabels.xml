@@ -31,7 +31,6 @@
 			</car:parcelshop>
 			{% endif %}
 		</car:services>
-		{% endwith %}
 
 		<car:labelType>
 		   <car:type>{{ service.labelFormat }}</car:type>
