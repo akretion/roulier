@@ -32,7 +32,9 @@ class KuehneNagelTransport(Transport):
             'zpl': self.render_template(body, "kuehnenagel_generateLabel.zpl"),
             'line': self.render_template(conv_body, "deposit_slip_line.txt"),
             'parcel': self.render_template(conv_body, "deposit_slip_line_parcel.txt"),
-            'footer': self.render_template(conv_body, "deposit_slip_line_footer.txt")
+            'footer': self.render_template(conv_body, "deposit_slip_line_footer.txt"),
+            'parcelNumber': body['parcel']['barcode'],
+            'trackingNumber': body['service']['shippingName'],
         }
         return {
             "status": self.STATUS_SUCCESS,

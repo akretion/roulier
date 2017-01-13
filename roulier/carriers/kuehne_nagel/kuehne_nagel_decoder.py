@@ -12,5 +12,8 @@ class KuehneNagelDecoder(Decoder):
             'zpl': payload['zpl'].encode('utf-8'),
             'line': payload['line'],
             'parcel': payload['parcel'],
-            'footer': payload['footer']
+            'footer': payload['footer'],
+            'parcelNumber': payload['parcelNumber'],
+            'trackingNumber': payload['trackingNumber'],
+
         }
