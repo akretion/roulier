@@ -7,7 +7,6 @@ CTA++:{{ recipient_address.contact }}+{{ recipient_address.phone }}:TE'
 LOC+WHO:{{ service.shippingOffice }}+ROT:{{ service.shippingRound }}+PLD:{{ service.exportHub }}'{% if service.deliveryType != 'R' %}
 DTM+DAD+{{ service.shippingDate }}'{% endif %}
 CAG+{{ service.shippingConfig }}+{{ service.vatConfig }}+++++{{ service.invoicingContract }}++KG+{{ service.weight }}'
-VAL+RE+251.14:EUR'
 TSR+{{ service.deliveryContract }}+{{ service.deliveryType }}:P+{{ service.serviceSystem }}'
 TXT+DEL+{{ service.note }}'
 PCI+23'
