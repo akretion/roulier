@@ -8,9 +8,10 @@ class TrsDecoder(Decoder):
 
     def decode(self, response, request):
         """Return {}."""
+
         return {
-            'label': response['label'],
-            'tracking_number': request['service']['shippingId'],
+            'label': response['payload'],
+            'tracking_number': request['body']['service']['shippingId'],
             'tracking_url': '',
             'annexes': [
                 {
