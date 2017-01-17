@@ -28,7 +28,7 @@ class DpdEncoder(Encoder):
         # add some rules which are hard to implement with
         # cerberus.
         # TODO: add additional schemas for that
-        if data['service']['product'] == 'DPD Predict':
+        if data['service']['product'] == 'DPD_Predict':
             if len(data['service']['dropOffLocation']) > 0:
                 raise Exception(
                     "dropOffLocation can't be used with predict")
@@ -37,7 +37,7 @@ class DpdEncoder(Encoder):
                     'Notification forced to predict because of product')
                 data['service']['notifications'] = 'Predict'
 
-        if data['service']['product'] == 'DPD Classic':
+        if data['service']['product'] == 'DPD_Classic':
             if len(data['service']['dropOffLocation']) > 0:
                 raise Exception(
                     "dropOffLocation can't be used with classic")
@@ -45,7 +45,7 @@ class DpdEncoder(Encoder):
                 raise Exception(
                     "Predict notifications can't be used with classic")
 
-        if data['service']['product'] == 'DPD Relais':
+        if data['service']['product'] == 'DPD_Relais':
             if len(data['service']['dropOffLocation']) < 1:
                 raise Exception(
                     "dropOffLocation is mandatory for this product")
