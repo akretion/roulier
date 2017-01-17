@@ -4,8 +4,10 @@ from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
 from datetime import datetime
 from .dpd_api import DpdApi
+import logging
 
 DPD_ACTIONS = ('createShipmentWithLabels')
+log = logging.getLogger(__name__)
 
 
 class DpdEncoder(Encoder):
@@ -22,6 +24,34 @@ class DpdEncoder(Encoder):
             raise Exception(
                 'Input error : %s' % api.errors(api_input))
         data = api.normalize(api_input)
+
+        # add some rules which are hard to implement with
+        # cerberus.
+        # TODO: add additional schemas for that
+        if data['service']['product'] == 'DPD Predict':
+            if len(data['service']['dropOffLocation']) > 0:
+                raise Exception(
+                    "dropOffLocation can't be used with predict")
+            if data['service']['notifications'] != 'Predict':
+                log.info(
+                    'Notification forced to predict because of product')
+                data['service']['notifications'] = 'Predict'
+
+        if data['service']['product'] == 'DPD Classic':
+            if len(data['service']['dropOffLocation']) > 0:
+                raise Exception(
+                    "dropOffLocation can't be used with classic")
+            if data['service']['notifications'] == 'Predict':
+                raise Exception(
+                    "Predict notifications can't be used with classic")
+
+        if data['service']['product'] == 'DPD Relais':
+            if len(data['service']['dropOffLocation']) < 1:
+                raise Exception(
+                    "dropOffLocation is mandatory for this product")
+            if data['service']['notifications'] == 'Predict':
+                raise Exception(
+                    "Predict notifications can't be used with Relais")
 
         data['service']['shippingDate'] = (
             datetime
