@@ -15,9 +15,9 @@ DPD_ALLOWED_NOTIFICATIONS = (
     'AutomaticEmail',
 )
 DPD_PRODUCTS = (
-    'DPD Classic',
-    'DPD Relais',
-    'DPD Predict',
+    'DPD_Classic',
+    'DPD_Relais',
+    'DPD_Predict',
     # 'DPD Retour en Relais',  # Not implemented yet
 )
 
