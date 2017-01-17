@@ -46,16 +46,17 @@ class DpdApi(Api):
         schema['product'].update({
             'empty': False,
             'required': True,
-            'default': DPD_PRODUCTS[0]
+            'default': DPD_PRODUCTS[0],
             'description': 'Type de produit',
-            'allowed': DPD_PRODUCTS})
+            'allowed': DPD_PRODUCTS
+        })
 
         schema['dropOffLocation'] = {
             'default': '',
             'empty': True,
             'required': False,
-            'description': 'Drop-off Location id (Relais Colis)',
-        })
+            'description': 'Drop-off Location id (Relais Colis)'
+        }
 
         return schema
 
