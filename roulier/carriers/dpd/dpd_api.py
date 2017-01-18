@@ -12,7 +12,7 @@ DPD_ALLOWED_NOTIFICATIONS = (
     'No',
     'Predict',
     'AutomaticSMS',
-    'AutomaticEmail',
+    'AutomaticMail',
 )
 DPD_PRODUCTS = (
     'DPD_Classic',
