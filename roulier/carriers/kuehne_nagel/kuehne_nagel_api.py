@@ -28,6 +28,7 @@ class KuehneNagelApi(Api):
             'serviceSystem': {'default': '3'},
             'note': {'default': ''},
             'kuehneOfficeName': {'required': True, 'empty': False},
+            'labelLogo': {'default': ''},
         })
         return schema
 
