@@ -65,11 +65,11 @@ class TrsTransport(Transport):
             (u'telephone', body['to_address']['phone']),
             (u'mobile', body['to_address']['phone']),
             (u'email', body['to_address']['email']),
-            (u'refDest', body['service']['reference2']),
+            (u'refDest', body['service']['reference1']),
             (u'commentLiv', None),
             (u'nbConducteurs', None),
-            (u'Poids', body['parcel']['weight']),
-            (u'nbColis', None),
+            (u'Poids', '%.f' % (body['parcel']['weight'] * 1000)),  # kg to g
+            (u'nbColis', 1),  # one row per parcel
             (u'qtéFacturée1', None),
             (u'qtéFacturée2', None),
             (u'qtéFacturée3', None),
