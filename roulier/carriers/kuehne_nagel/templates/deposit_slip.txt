@@ -10,8 +10,7 @@ NAD+FW+{{ recipient_info.siret }}:05++{{ recipient_info.name}}'
 GDS+G+{{ service.goodsName }}'
 TDT++++3'
 DOC+730+++ACG+{{ service.depositNumber }}'
-UNS+D'
-{% for line in service.lines -%}
+UNS+D'{% for line in service.lines %}
 {{ line }}
 {%- endfor %}
 UNS+S'
