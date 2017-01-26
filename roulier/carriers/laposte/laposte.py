@@ -21,11 +21,13 @@ class Laposte(Carrier):
     def get(self, data, action):
         """Run an action with data against Laposte WS."""
         request = self.encoder.encode(data, action)
-        response = self.ws.send(request)
-        if response.get('status') == self.ws.STATUS_ERROR:
-            return response
-        parts = self.ws.get_parts(response['response'])
-        return self.decoder.decode(response, parts)
+        xml_request, ws_response = self.ws.send(request)
+        if ws_response.get('status') == self.ws.STATUS_ERROR:
+            return ws_response
+        parts = self.ws.get_parts(ws_response['response'])
+        response = self.decoder.decode(ws_response, parts)
+        response['xml_request'] = xml_request
+        return response
 
     # shortcuts
     def get_label(self, data):
