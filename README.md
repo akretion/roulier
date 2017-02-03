@@ -74,6 +74,36 @@ pprint(laposte.api())
 
 ```
 
+### Return
+
+```python
+from roulier import roulier
+laposte = roulier.get('laposte')
+api = laposte.api()
+api['auth']['login'] = '12345'
+...
+print laposte.get_label(api)
+
+# {
+#	label: {
+#		'name':'label',
+#		'type': 'zpl',
+#		'data': 'base64 here',
+#	},
+#	tracking: {
+#		'barcode': 'tracking code here',
+#	},
+#	annexes: [
+#		{
+#			'name': 'cn23',
+#			'type': 'pdf',
+#			'data': 'base64 here'
+#		}, ...
+#	],
+#}
+```
+
+
 
 ### Advanced usage for Laposte
 

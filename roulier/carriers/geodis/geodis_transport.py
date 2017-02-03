@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Implement geodisWS."""
 import requests
-import email.parser
 from lxml import objectify
 from jinja2 import Environment, PackageLoader
 from roulier.transport import Transport
-from roulier.ws_tools import remove_empty_tags
+from roulier.ws_tools import remove_empty_tags, get_parts
+from roulier.exception import CarrierError
 import logging
 
 log = logging.getLogger(__name__)
@@ -16,8 +16,6 @@ class GeodisTransport(Transport):
 
     GEODIS_WS = "http://espace.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8
     GEODIS_WS_TEST = "http://espace.recette.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8
-    STATUS_SUCCES = "success"
-    STATUS_ERROR = "error"
 
     def send(self, payload):
         """Call this function.
@@ -27,18 +25,15 @@ class GeodisTransport(Transport):
             payload.header : auth
         Return:
             {
-                status: STATUS_SUCCES or STATUS_ERROR, (string)
-                message: more info about status of result (lxml)
                 response: (Requests.response)
-                payload: usefull payload (if success) (xml as string)
-
+                body: XML response (without soap)
+                parts: dict of attachments
             }
         """
         body = payload['body']
         headers = payload['headers']
         is_test = payload['is_test']
         soap_message = self.soap_wrap(body, headers)
-        log.debug(soap_message)
         response = self.send_request(soap_message, is_test)
         log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
@@ -72,29 +67,21 @@ class GeodisTransport(Transport):
         # TODO : put a try catch (like wrong server)
         # no need to extract_body shit here
         log.warning('Geodis error 500')
-        xml = self.get_parts(response)['start']
+        xml = get_parts(response)['start']
         obj = objectify.fromstring(xml)
         message = obj.xpath("//*[local-name() = 'message']")
         if len(message) > 0:
             message = message[0] or obj.xpath('//faultstring')[0]
             id_message = obj.xpath("//*[local-name() = 'code']")[0]
-        return {
-            "id": obj.xpath('//faultcode')[0],
-            "status": self.STATUS_ERROR,
-            "messages": [{  # only one error msg is returned by ws
-                'id': id_message,
-                'message': message,
-            }],
-            "response": response,
-        }
+        errors = [{
+            "id": id_message,
+            "message": message,
+        }]
+        raise CarrierError(response, errors)
 
     def handle_200(self, response):
-        """
-        Handle response type 200 (success).
-
-        It still can be a success or a failure.
-        """
-        parts = self.get_parts(response)
+        """Handle response type 200."""
+        parts = get_parts(response)
         xml = parts['start']
 
         def extract_soap(response_xml):
@@ -102,15 +89,12 @@ class GeodisTransport(Transport):
             return obj.Body.getchildren()[0]
 
         payload = extract_soap(xml)
-        attachement_id = payload.codeAttachement.text[4:]  # remove cid:
-        attachement = parts[attachement_id]
-        # payload.infoColis.cab
+        attachement_cid = payload.codeAttachement.text[len('cid:'):]
+        attachement = parts[attachement_cid]
 
         return {
-            "status": "ok",
-            "message": "",
-            "payload": payload,
-            "attachement": attachement,
+            "body": payload,
+            "parts": attachement,
             "response": response,
         }
 
@@ -121,33 +105,7 @@ class GeodisTransport(Transport):
         elif response.status_code == 200:
             return self.handle_200(response)
         else:
-            return {
-                "status": "error",
-                "messages": [{
-                    'id': False,
-                    'message': "Unexpected status code from server",
-                }],
-                "response": response
-            }
-
-    def get_parts(self, response):
-        head_lines = ''
-        for k, v in response.raw.getheaders().iteritems():
-            head_lines += str(k)+':'+str(v)+'\n'
-
-        full = head_lines + response.content
-
-        parser = email.parser.Parser()
-        decoded_reply = parser.parsestr(full)
-        parts = {}
-        start = decoded_reply.get_param('start').lstrip('<').rstrip('>')
-        i = 0
-        for part in decoded_reply.get_payload():
-            cid = part.get('content-Id', '').lstrip('<').rstrip('>')
-            if (not start or start == cid) and 'start' not in parts:
-                parts['start'] = part.get_payload()
-            else:
-                parts[cid or 'Attachment%d' % i] = part.get_payload()
-            i += 1
-
-        return parts
+            raise CarrierError(response, [{
+                'id': None,
+                'message': "Unexpected status code from server",
+            }])
