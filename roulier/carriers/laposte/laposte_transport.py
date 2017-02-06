@@ -5,7 +5,8 @@ import email.parser
 from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader
 from roulier.transport import Transport
-from roulier.ws_tools import remove_empty_tags
+from roulier.ws_tools import remove_empty_tags, get_parts
+from roulier.exception import CarrierError
 import logging
 
 log = logging.getLogger(__name__)
@@ -15,22 +16,18 @@ class LaposteTransport(Transport):
     """Implement Laposte WS communication."""
 
     LAPOSTE_WS = "https://ws.colissimo.fr/sls-ws/SlsServiceWS"
-    STATUS_SUCCES = "success"
-    STATUS_ERROR = "error"
 
     def send(self, payload):
         """Call this function.
 
         Args:
             payload.body: XML in a string
-            payload.headers: auth
+            payload.header : auth
         Return:
             {
-                status: STATUS_SUCCES or STATUS_ERROR, (string)
-                message: more info about status of result (lxml)
                 response: (Requests.response)
-                payload: usefull payload (if success) (xml as string)
-
+                body: XML response (without soap)
+                parts: dict of attachments
             }
         """
         body = payload['body']
@@ -60,24 +57,13 @@ class LaposteTransport(Transport):
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
-        # TODO : put a try catch (like wrong server)
-        # no need to extract_body shit here
         log.warning('Laposte error 500')
         obj = objectify.fromstring(response.text)
-        exception = {
+        errors = [{
             "id": obj.xpath('//faultcode')[0],
-            "status": self.STATUS_ERROR,
             "message": obj.xpath('//faultstring')[0],
-            "response": response,
-            "payload": None
-        }
-        if isinstance(exception['message'], objectify.StringElement):
-            exception['messages'] = [unicode(exception['message'])]
-        if isinstance(exception['message'], dict) and \
-                exception.get('exception'):
-            exception['messages'] = self.exception_handling(
-                exception['message']['message'])
-        return exception
+        }]
+        raise CarrierError(response, errors)
 
     def handle_200(self, response):
         """
@@ -85,26 +71,20 @@ class LaposteTransport(Transport):
 
         It still can be a success or a failure.
         """
-        def extract_message(response_xml):
+        def raise_on_error(response_xml):
             xml = objectify.fromstring(response_xml)
             messages = xml.xpath('//messages')
-            exception = False
-            for message in messages:
-                mess_type = str(message.type)
-                if mess_type.lower() == self.STATUS_ERROR.lower():
-                    exception = True
-            # dirty serialization
-            return {
-                "exception": exception,
-                "message": messages,
-            }
+            errors = [
+                {
+                    'id': message.id,
+                    'message': unicode(message.messageContent),
+                }
+                for message in messages if message.type == "ERROR"
+            ]
+            if len(errors) > 0:
+                raise CarrierError(response, errors)
 
-        def extract_payload(response_xml):
-            xml = objectify.fromstring(response_xml)
-            payload_xml = xml.Body.getchildren()[0]
-            return etree.tostring(payload_xml)
-
-        def extract_body(response):
+        def extract_xml(response):
             """Because the answer is mixedpart we need to extract."""
             content_type = response.headers['Content-Type']
             boundary = content_type.split('boundary="')[1].split('";')[0]
@@ -115,67 +95,30 @@ class LaposteTransport(Transport):
             clean_xml = after_start.strip()  # = trim()
             return clean_xml
 
-        response_xml = extract_body(response)
+        def extract_body(response_xml):
+            """Remove soap wrapper."""
+            xml = objectify.fromstring(response_xml)
+            payload_xml = xml.Body.getchildren()[0]
+            return etree.tostring(payload_xml)
 
-        message = extract_message(response_xml)
-
-        payload = None
-
-        if message['exception']:
-            log.warning('Laposte error 200')
-            status = self.STATUS_ERROR
-        else:
-            status = self.STATUS_SUCCES
-            payload = extract_payload(response_xml)
-        log.info('status: %s' % status)
+        response_xml = extract_xml(response)
+        raise_on_error(response_xml)
         return {
-            "status": status,
-            "message": message,
-            "payload": payload,
-            "response": response,
+            'body': extract_body(response_xml),
+            'parts': get_parts(response),
+            'response': response,
         }
 
     def handle_response(self, response):
         """Handle response of webservice."""
-        if response.status_code == 500:
-            return self.handle_500(response)
-        elif response.status_code == 200:
+        if response.status_code == 200:
             return self.handle_200(response)
+        elif response.status_code == 500:
+            return self.handle_500(response)  # will raise
         else:
-            return {
-                "status": "error",
-                "message": "Unexpected status code from server",
-                "response": response
-            }
+            raise CarrierError(response, [{
+                'id': None,
+                'message': "Unexpected status code from server",
+            }])
 
-    def get_parts(self, response):
-        head_lines = ''
-        for k, v in response.raw.getheaders().iteritems():
-            head_lines += str(k) + ':' + str(v) + '\n'
-
-        full = head_lines + response.content
-
-        parser = email.parser.Parser()
-        decoded_reply = parser.parsestr(full)
-        parts = {}
-        start = decoded_reply.get_param('start').lstrip('<').rstrip('>')
-        i = 0
-        for part in decoded_reply.get_payload():
-            cid = part.get('content-Id', '').lstrip('<').rstrip('>')
-            if (not start or start == cid) and 'start' not in parts:
-                parts['start'] = part.get_payload()
-            else:
-                parts[cid or 'Attachment%d' % i] = part.get_payload()
-            i += 1
-        return parts
-
-    def exception_handling(self, messages):
-        message_labels = []
-        for message in messages:
-            if message.messageContent:
-                message_labels.append({
-                    'id': message.id,
-                    'message': unicode(message.messageContent),
-                })
-        log.debug('message: %s' % message_labels)
-        return message_labels
+    

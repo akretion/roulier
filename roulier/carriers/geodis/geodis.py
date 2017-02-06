@@ -21,10 +21,10 @@ class Geodis(Carrier):
         """Run an action with data against Geodis WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-        if response['status'] == 'error':
-            return response
-        parts = response['attachement']
-        return self.decoder.decode(response, parts)
+        return self.decoder.decode(
+            response['body'],
+            response['parts'],
+            request['output_format'])
 
     # shortcuts
     def get_label(self, data):

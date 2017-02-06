@@ -5,6 +5,7 @@ from jinja2 import Environment, PackageLoader
 from zplgrf import GRF
 from PIL import Image
 from io import BytesIO
+import email.parser
 import re
 import base64
 
@@ -32,6 +33,35 @@ def remove_empty_tags(xml, ouput_as_string=True):
         return unicode(transform(xml))
     else:
         return transform(xml)
+
+
+def get_parts(response):
+    """Extract parts from headers.
+
+    Params:
+        response: a request object
+    Returns:
+        an array of content-ids
+    """
+    head_lines = ''
+    for k, v in response.raw.getheaders().iteritems():
+        head_lines += str(k) + ':' + str(v) + '\n'
+
+    full = head_lines + response.content
+
+    parser = email.parser.Parser()
+    decoded_reply = parser.parsestr(full)
+    parts = {}
+    start = decoded_reply.get_param('start').lstrip('<').rstrip('>')
+    i = 0
+    for part in decoded_reply.get_payload():
+        cid = part.get('content-Id', '').lstrip('<').rstrip('>')
+        if (not start or start == cid) and 'start' not in parts:
+            parts['start'] = part.get_payload()
+        else:
+            parts[cid or 'Attachment%d' % i] = part.get_payload()
+        i += 1
+    return parts
 
 
 def png_to_zpl(png, rotate):

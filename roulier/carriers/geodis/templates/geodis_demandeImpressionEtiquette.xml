@@ -1,5 +1,6 @@
 <imp:demandeImpressionEtiquette  xmlns:imp="http://impression.service.web.etiquette.geodis.com">
     <imp:csadep>{{ service.agencyId }}</imp:csadep>
+    <imp:csadepteos>{{ service.hubId }}</imp:csadepteos>
     <imp:codclidep>{{ service.customerId }}</imp:codclidep>
     <imp:format>{{ service.labelFormat }}</imp:format>
     <imp:posFirstEtiqu>1</imp:posFirstEtiqu>
@@ -25,5 +26,5 @@
     {% endwith %}
     <imp:nbtumg>1</imp:nbtumg>
     <imp:poids>{{ parcel.weight }}</imp:poids>
-    <imp:refclt>{{ service.reference }}</imp:refclt>
+    <imp:refclt>{{ service.reference1 }}</imp:refclt>
 </imp:demandeImpressionEtiquette>
