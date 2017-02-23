@@ -8,7 +8,7 @@ from .geodis_api_edi import GeodisApiEdi
 
 class GeodisEncoderEdi(Encoder):
 
-    def api_edi(self):
+    def api(self):
         api = GeodisApiEdi()
         return api.api_values()
 

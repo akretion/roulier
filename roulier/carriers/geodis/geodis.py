@@ -18,7 +18,7 @@ class Geodis(Carrier):
             method = self.ACTIONS[action]
         except:
             raise InvalidAction("Action not supported")
-        return self[method](None, api=True)
+        return method(self, None, api=True)
 
     def get(self, data, action):
         """."""
@@ -27,10 +27,10 @@ class Geodis(Carrier):
         except:
             raise InvalidAction("Action not supported")
 
-        return self[method](data)
+        return method(self, data)
 
     def get_label(self, data, api=False):
-        """Genereate a generateLabelRequest."""
+        """Genereate a demandeImpressionEtiquette."""
         encoder = GeodisEncoderWs()
         decoder = GeodisDecoder()
         transport = GeodisTransportWs()
@@ -38,7 +38,7 @@ class Geodis(Carrier):
         if api:
             return encoder.api()
 
-        request = encoder.encode(data, "generateLabelRequest")
+        request = encoder.encode(data, "demandeImpressionEtiquette")
         response = transport.send(request)
         return decoder.decode(
             response['body'],
@@ -55,6 +55,6 @@ class Geodis(Carrier):
 
     ACTIONS = {
         'label': get_label,
-        'generateLabelRequest': get_label,
+        'demandeImpressionEtiquette': get_label,
         'edi': get_edi
     }
