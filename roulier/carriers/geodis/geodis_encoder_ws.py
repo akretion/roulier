@@ -3,12 +3,12 @@
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
 from roulier.exception import InvalidApiInput
-from .geodis_api import GeodisApi
+from .geodis_api_ws import GeodisApiWs
 
 GEODIS_ACTIONS = ('demandeImpressionEtiquette',)
 
 
-class GeodisEncoder(Encoder):
+class GeodisEncoderWs(Encoder):
     """Transform input to geodis compatible xml."""
 
     def encode(self, api_input, action):
@@ -17,7 +17,7 @@ class GeodisEncoder(Encoder):
             raise InvalidApiInput(
                 'action %s not in %s' % (action, ', '.join(GEODIS_ACTIONS)))
 
-        api = GeodisApi()
+        api = GeodisApiWs()
         if not api.validate(api_input):
             raise InvalidApiInput(
                 'Input error : %s' % api.errors(api_input))
@@ -47,7 +47,7 @@ class GeodisEncoder(Encoder):
         }
 
     def api(self):
-        api = GeodisApi()
+        api = GeodisApiWs()
         return api.api_values()
 
     def lookup_label_format(self, label_format="ZPL"):

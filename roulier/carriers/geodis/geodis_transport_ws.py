@@ -11,7 +11,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class GeodisTransport(Transport):
+class GeodisTransportWs(Transport):
     """Implement Geodis WS communication."""
 
     GEODIS_WS = "http://espace.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8

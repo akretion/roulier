@@ -13,6 +13,13 @@ class InvalidApiInput(Exception):
     """
 
 
+class InvalidAction(Exception):
+    """Bad action requested.
+
+    Actions are WS method or else
+    """
+
+
 class CarrierError(Exception):
     """Error from WS.
 
