@@ -32,9 +32,10 @@ class GeodisApiEdi(Api):
         return schema
 
     def _parcel(self):
-        ws_api = GeodisApiWs()
+        weight = GeodisApiWs()._parcel()['weight']
+        weight.update({'coerce': 'string'})
         return {
-            'weight': ws_api._parcel()['weight'],
+            'weight': weight,
             'barcode': {
                 'type': 'string', 'empty': False, 'default': '',
                 'description': 'Barcode of the parcel'}
