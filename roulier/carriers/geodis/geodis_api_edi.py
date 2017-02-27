@@ -57,6 +57,7 @@ class GeodisApiEdi(Api):
             'product': {'type': 'string', 'default': '', 'empty': False, 'required': True},
             'productOption': {'type': 'string', 'default': '', 'empty': True, 'required': False},
             'productTOD': {'type': 'string', 'default': '', 'empty': True, 'required': False},
+            'shippingId': {'type': 'string', 'default': '', 'empty': False, 'required': True},
             'reference1': {'type': 'string', 'default': '', 'empty': True},
             'reference2': {'type': 'string', 'default': '', 'empty': True},
             'reference3': {'type': 'string', 'default': '', 'empty': True},
