@@ -43,7 +43,7 @@ class GeodisEncoderWs(Encoder):
                 receiver_address=data['to_address']),
             "headers": data['auth'],
             "is_test": is_test,
-            "output_format": data['service']['labelFormat']
+            "output_format": api_input['service']['labelFormat']
         }
 
     def api(self):
