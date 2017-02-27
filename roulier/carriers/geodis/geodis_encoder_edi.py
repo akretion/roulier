@@ -58,7 +58,7 @@ class GeodisEncoderEdi(Encoder):
             j = j + 1
             lines += [
                 ['GID', '%s' % j, ['1', 'PC', '21', '6']],
-                ['MEA', 'AAE', 'AAD', ['KGM', pack['weight']]],
+                ['MEA', 'AAE', 'AAD', ['KGM', '%s' % pack['weight']]],
                 ['PCI', '18'],
                 ['GIN', 'BN', pack['barcode']]
             ]

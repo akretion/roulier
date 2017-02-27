@@ -33,7 +33,6 @@ class GeodisApiEdi(Api):
 
     def _parcel(self):
         weight = GeodisApiWs()._parcel()['weight']
-        weight.update({'coerce': 'string'})
         return {
             'weight': weight,
             'barcode': {
