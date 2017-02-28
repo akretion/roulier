@@ -72,7 +72,9 @@ class GeodisTransportWs(Transport):
         message = obj.xpath("//*[local-name() = 'message']")
         if len(message) > 0:
             message = message[0] or obj.xpath('//faultstring')[0]
-            id_message = obj.xpath("//*[local-name() = 'code']")[0]
+            id_message = (
+                obj.xpath("//*[local-name() = 'code']") and
+                obj.xpath("//*[local-name() = 'code']")[0] or '')
         errors = [{
             "id": id_message,
             "message": message,
