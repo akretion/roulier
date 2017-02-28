@@ -70,6 +70,7 @@ class GeodisTransportWs(Transport):
         xml = get_parts(response)['start']
         obj = objectify.fromstring(xml)
         message = obj.xpath("//*[local-name() = 'message']")
+        id_message = None
         if len(message) > 0:
             message = message[0] or obj.xpath('//faultstring')[0]
             id_message = (
