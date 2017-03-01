@@ -91,7 +91,7 @@ print laposte.get_label(api)
 #		'data': 'base64 here',
 #	},
 #	tracking: {
-#		'barcode': 'tracking code here',
+#		'number': 'tracking code here',
 #	},
 #	annexes: [
 #		{

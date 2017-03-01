@@ -21,7 +21,7 @@ class DpdDecoder(Decoder):
             # .text because we want str instead of objectify.StringElement
             x = {
                 "tracking": {
-                    'barcode': shipment.barcode.text,
+                    'number': shipment.barcode.text,
                     'parcelnumber': shipment.parcelnumber.text,
                 },
                 "label": {

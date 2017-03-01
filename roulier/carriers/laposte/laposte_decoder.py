@@ -49,7 +49,7 @@ class LaposteDecoder(Decoder):
 
             return {
                 "tracking": {
-                    "id": rep.parcelNumber,
+                    "number": rep.parcelNumber,
                     "partner": rep.find('parcelNumberPartner'),
                 },
                 "label": {

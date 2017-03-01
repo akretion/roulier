@@ -15,7 +15,7 @@ Roadmap / TODO:
 	- Simplification of return code
 	- Remove duplicate code of get_parts
 	- Handling of additionnal attachments ("annexes")
-	- tracking code is always in tracking.barcode
+	- tracking code is always in tracking.number
 	- label is always in label.data
 
 ###	BREAKING CHANGES
