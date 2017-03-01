@@ -10,8 +10,8 @@
     {% with address = sender_address %}
         <imp:nomexp>{{ address.name }}</imp:nomexp>
         <imp:payexp>{{ address.country }}</imp:payexp>
-        <imp:cpoexp>{{ address.zip }}</imp:cpoexp>
         <imp:dptexp>{{ address.departement }}</imp:dptexp>
+        <imp:cpoexp>{{ address.zip }}</imp:cpoexp>
         <imp:locexp>{{ address.city }}</imp:locexp>
         <imp:telexp>{{ address.phone }}</imp:telexp>
     {% endwith %}
