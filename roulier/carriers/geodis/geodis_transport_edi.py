@@ -34,7 +34,7 @@ class GeodisTransportEdi(Transport):
             ['UNB', ['UNOA', '3'],
                 [headers['interchangeSender'], '22'],
                 [headers['interchangeRecipient'], '22'],
-                [date.strftime('%d%m%y'), date.strftime('%H:%M')],
+                [date.strftime('%d%m%y'), date.strftime('%H%M')],
                 headers['depositId']
              ],
         ] + body + [['UNZ', '1', headers['depositId']]]
