@@ -49,6 +49,7 @@ class GeodisApiEdi(Api):
             'weight': weight,
             'barcode': {
                 'type': 'string', 'empty': False, 'default': '',
+                'required': True,
                 'description': 'Barcode of the parcel'}
         }
 
