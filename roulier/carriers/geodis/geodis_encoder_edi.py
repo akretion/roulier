@@ -67,7 +67,7 @@ class GeodisEncoderEdi(Encoder):
     def encode_agency(self, agency_address, from_address, shipments, service):
         shipment_lines = []
         i = 0
-        deposit = service['deposit']
+        deposit = service['depositId']
         date = datetime.now()
         for shipment in shipments:
             i = i + 1
