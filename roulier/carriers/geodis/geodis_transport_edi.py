@@ -35,9 +35,9 @@ class GeodisTransportEdi(Transport):
                 [headers['interchangeSender'], '22'],
                 [headers['interchangeRecipient'], '22'],
                 [date.strftime('%d%m%y'), date.strftime('%H:%M')],
-                headers['deposit']
+                headers['depositId']
              ],
-        ] + body + [['UNZ', '1', headers['deposit']]]
+        ] + body + [['UNZ', '1', headers['depositId']]]
 
     def convert_to_edi(self, arr):
         def parse_token(token):
