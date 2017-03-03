@@ -76,7 +76,7 @@ class GeodisEncoderEdi(Encoder):
         lines = [
             ['UNH', deposit, ['IFCSUM', 'D', '96A', 'UN', 'ETT021']],
             ['BGM', '630', deposit],
-            ['DTM', ['137', date.strftime('%y%m%d%H%M'), '203']],
+            ['DTM', ['137', date.strftime('%Y%m%d%H%M'), '203']],
             ['RFF', ['ADE', service['customerId']]],
             ['TDT', '20', '', '30', '31'],
             ["NAD", "CA",
