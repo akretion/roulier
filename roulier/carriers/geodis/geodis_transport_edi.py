@@ -42,7 +42,7 @@ class GeodisTransportEdi(Transport):
     def convert_to_edi(self, arr):
         def parse_token(token):
             if isinstance(token, list):
-                return ":".join(sanitize(token))
+                return ":".join([sanitize(tok) for tok in token])
             else:
                 return sanitize(token)
 
