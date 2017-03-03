@@ -42,9 +42,9 @@ class GeodisTransportEdi(Transport):
     def convert_to_edi(self, arr):
         def parse_token(token):
             if isinstance(token, list):
-                return ":".join(token)
+                return ":".join(sanitize(token))
             else:
-                return token
+                return sanitize(token)
 
         def parse_segment(segment):
             return "%s'" % "+".join([parse_token(token) for token in segment])
@@ -52,6 +52,12 @@ class GeodisTransportEdi(Transport):
         def parse_lines(lines):
             return "\n".join([parse_segment(segment) for segment in lines])
 
-        print arr
-        return parse_lines(arr)
+        def sanitize(token):
+            sanitized = (
+                token
+                .replace("'", "\'")
+                .replace("?", "\?")
+            )
+            return sanitized
 
+        return parse_lines(arr)
