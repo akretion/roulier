@@ -7,17 +7,29 @@ from .geodis_api_ws import GeodisApiWs
 class GeodisApiEdi(Api):
     def _service(self):
         schema = {
-            "depositId": {'type': 'string', 'default': ''},
-            "depositDate": {'type': 'datetime', 'default': ''},
-            "customerId": {'type': 'string', 'default': ''},
-            "interchangeSender": {'type': 'string', 'default': ''},
-            "interchangeRecipient": {'type': 'string', 'default': ''},
+            "depositId": {
+                'type': 'string',
+                'default': '', 'empty': False, 'required': True},
+            "depositDate": {
+                'type': 'datetime',
+                'default': '', 'empty': False, 'required': True},
+            "customerId": {
+                'type': 'string',
+                'default': '', 'empty': False, 'required': True},
+            "interchangeSender": {
+                'type': 'string',
+                'default': '', 'empty': False, 'required': True},
+            "interchangeRecipient": {
+                'type': 'string',
+                'default': '', 'empty': False, 'required': True},
         }
         return schema
 
     def _address(self):
         schema = super(GeodisApiEdi, self)._address()
-        schema['country'].update({'required': True, 'empty': False})
+        schema['country'].update({
+            'required': True, 'empty': False,
+            'maxlength': 2})
         schema['zip'].update({'required': True, 'empty': False})
         schema['city'].update({'required': True, 'empty': False})
         return schema
@@ -28,7 +40,7 @@ class GeodisApiEdi(Api):
         schema['street1']['required'] = True
         schema['siret'] = {
             'type': 'string', 'required': True,
-            'default': '1234', 'empty': False}
+            'default': '', 'empty': False}
         return schema
 
     def _parcel(self):
@@ -75,4 +87,3 @@ class GeodisApiEdi(Api):
             'agency_address': self._from_address(),
             'from_address': self._from_address(),
         }
-
