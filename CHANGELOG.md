@@ -1,14 +1,16 @@
 
-# 0.1.1 
 
 Roadmap / TODO: 
 	- Add Kuehne & Nagel carrier
+	- Add Geodis EDI
 	- Add UPS carrier
 	- Support test_mode for some carriers
 	- Improve documentation
 	- Support additionnal methods of api
-	- Support carrier tracking
 	- Write tests
+
+# 0.1.1 2017-03-20
+
 
 ### Features / Refactorings
 	- Refactoring of error handling: exception are now always raised, returns code (success | warning) removed
