@@ -1,14 +1,30 @@
 
-# 0.1.1 
 
 Roadmap / TODO: 
 	- Add Kuehne & Nagel carrier
+	- Add Geodis EDI
 	- Add UPS carrier
 	- Support test_mode for some carriers
 	- Improve documentation
 	- Support additionnal methods of api
-	- Support carrier tracking
 	- Write tests
+
+# 0.1.1 2017-03-20
+
+
+### Features / Refactorings
+	- Refactoring of error handling: exception are now always raised, returns code (success | warning) removed
+	- Simplification of return code
+	- Remove duplicate code of get_parts
+	- Handling of additionnal attachments ("annexes")
+	- tracking code is always in tracking.number
+	- label is always in label.data
+
+###	BREAKING CHANGES
+	- errors are all raised with exceptions
+	- raise Exception removed in favor of better defined exceptions
+	- return of get_label harmonized
+
 
 # 0.1.0 2016-12-19
 

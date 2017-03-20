@@ -18,9 +18,13 @@ class GeodisApi(Api):
         schema['labelFormat']['default'] = 'ZPL'
         schema['labelFormat'].update({'required': True, 'empty': False})
         schema['product'].update({'required': True, 'empty': False})
-        schema['agencyId'].update({'required': True, 'empty': False})
+        schema['agencyId'].update({'required': False, 'empty': True})
         schema['customerId'].update({'required': True, 'empty': False})
         schema['shippingId'].update({'required': True, 'empty': False})
+        schema['hubId'] = {
+            'description': 'TEOS : code agence Hub de sortie',
+            'default': ''
+        }
         schema['is_test'] = {
             'type': 'boolean', 'default': True,
             'description': 'Use test WS'}

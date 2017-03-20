@@ -15,7 +15,7 @@ class LaposteEncoder(Encoder):
     def encode(self, api_input, action):
         """Transform input to laposte compatible xml."""
         if not (action in LAPOSTE_ACTIONS):
-            raise Exception(
+            raise InvalidApiInput(
                 'action %s not in %s' % (action, ', '.join(LAPOSTE_ACTIONS)))
 
         api = LaposteApi()
@@ -42,7 +42,8 @@ class LaposteEncoder(Encoder):
                 sender_address=data['from_address'],
                 receiver_address=data['to_address'],
                 customs=data['customs']),
-            "headers": data['auth']
+            "headers": data['auth'],
+            "output_format": data['service']['labelFormat']
         }
 
     def api(self):

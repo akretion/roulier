@@ -14,7 +14,7 @@ class GeodisEncoder(Encoder):
     def encode(self, api_input, action):
         """Transform input to geodis compatible xml."""
         if not (action in GEODIS_ACTIONS):
-            raise Exception(
+            raise InvalidApiInput(
                 'action %s not in %s' % (action, ', '.join(GEODIS_ACTIONS)))
 
         api = GeodisApi()
@@ -42,7 +42,8 @@ class GeodisEncoder(Encoder):
                 sender_address=data['from_address'],
                 receiver_address=data['to_address']),
             "headers": data['auth'],
-            "is_test": is_test
+            "is_test": is_test,
+            "output_format": data['service']['labelFormat']
         }
 
     def api(self):

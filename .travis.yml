@@ -1,0 +1,14 @@
+language: python
+python: 
+- "2.7"
+script: 
+- echo "1"
+deploy: 
+  provider: pypi
+  user: hparfr
+  password: 
+    secure: yyroV8BdvIaQZSbDf/6zKXmu0uL4u5SdyxCPLTJU+qyTlhtS/IJAJZK+W00zu6rOimHUFSgkhi0s21kuck9m4gYuDZnl9ghSuTCkmlra1l4pY565XkIutu1ArGBViQb5A6EkWf8oX9JPXY2fnYr4R/7PMQbDEyY/Ft9yG5zLsug5DtmUJgYU3M9r3lweN8Jv9TFRXjBEFwhbtgpe+/0mWHAMyDQmZE/+CocSf2F7LtILPaqIGvVVXJg3mItV1vCzGi0FbHolIWRnSpLCSun/G2ldQcNUrtKnZY+2vPFfnOGLOwHn8iKqY7Rxid7cI8vYFE65tWkJZ+g6gKI8Rk0JG0IBE1hUl86Smy3+g84Q5SfVDiCXRFQwpAx77SPsfrUD7uYzFQAf+n43inF1X/r26hdZnhr0FjWVUVvtJIVeUGOtO1Dp1NFIpLmCvXHDT8nV6qva7+yIMU2+6HPI2Sy41xMpDAKPJWCCq7rdKd4t0sPnpj2PFdDQ1nY8ZuQV1iQfuqv82Vz89fFCW5S5OHoN01EC6zThAjfRFkAefPtGP7QCZnaAGMcsLhDDG9J/S5Np4sx33hrFuvGtrv/P6zQCPOS7iBn3UA0xEzZORUEImVKL5eFJtQdS7Firl2HYYvPkv7SsDHUvONjk0Drv3Gsk4AtB7Wxx26bXgoqLDrdt0Pk=
+  distributions: sdist bdist_wheel
+  on: 
+    tags: true
+    branch: master

@@ -45,6 +45,12 @@ class LaposteApi(Api):
             'default': '', 'description':
             """Utilisé pour le Colissimo Retour uniquement. "
             "Définit le mode de transmission de l’étiquette"""}
+        schema['reference1'].update({
+            'description': """Référence expediteur ('Réf client')"""
+        })
+        schema['reference2'].update({
+            'description': """Référence destinataire ('Réf destinataire')"""
+        })
         return schema
 
     def _address(self):
@@ -53,15 +59,18 @@ class LaposteApi(Api):
         schema['zip'].update({'required': True, 'empty': False})
         schema['city'].update({'required': True, 'empty': False})
         schema['street0'] = {
-            'default': '', 'description': 'Etage, couloir, escalier, appart.'}
+            'required': False, 'empty': True,
+            'description': """Entrée, bâtiment, immeuble, résidence. """
+                           """Non utilisé pour la Belgique."""}
+        schema['street2'].update({
+            'default': '', 'description': 'Etage, couloir, escalier, appart.'})
         schema['street1'].update({
             'required': True, 'empty': False,
             'description': 'Numéro et libellé de voie. Ex : 5 rue du Bellay'})
-        schema['street2'].update({
-            'required': False, 'empty': True,
-            'description': 'Entrée, bâtiment, immeuble, résidence'})
         schema['street3'] = {
-            'default': '', 'description': """Lieu dit ou autre mention"""}
+            'default': '',
+            'description': """Lieu dit ou autre mention. """
+                           """Non utilisé pour la Belgique."""}
         schema['door1'] = {'default': '', 'description': """Code porte 1"""}
         schema['door2'] = {'default': '', 'description': """Code porte 2"""}
         schema['intercom'] = {'default': '', 'description': """Interphone"""}
@@ -77,12 +86,6 @@ class LaposteApi(Api):
         schema['firstName'] = {
             'default': '',
             'description': """Prénom. Obligatoire pour So Colissimo"""}
-        schema['street2'].update(
-            {'required': True, 'description': """Numéro et libellé de voie. "
-                                                "Ex : « 5 rue du Bellay »"""})
-        schema['street1'].update(
-            {'required': False, 'empty': True,
-             'description': 'Entrée, bâtiment, immeuble, résidence'})
         return schema
 
     def _parcel(self):

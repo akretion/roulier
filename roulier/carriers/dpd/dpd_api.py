@@ -12,7 +12,13 @@ DPD_ALLOWED_NOTIFICATIONS = (
     'No',
     'Predict',
     'AutomaticSMS',
-    'AutomaticEmail',
+    'AutomaticMail',
+)
+DPD_PRODUCTS = (
+    'DPD_Classic',
+    'DPD_Relais',
+    'DPD_Predict',
+    # 'DPD Retour en Relais',  # Not implemented yet
 )
 
 
@@ -22,16 +28,35 @@ class DpdApi(Api):
         schema['labelFormat']['allowed'] = DPD_LABEL_FORMAT
         schema['labelFormat']['default'] = 'ZPL'
         schema['labelFormat'].update({'required': True, 'empty': False})
-        schema['agencyId'].update({'required': True, 'empty': False, 'description': 'Agency code int(3)'})
-        schema['customerCountry'] = {'required': True, 'empty': False, 'description': 'Customer country code (France = 250) int(3)'}
-        schema['customerId'].update({'required': True, 'empty': False, 'description': 'Customer number int(6)'})
+        schema['agencyId'].update({
+            'required': True, 'empty': False,
+            'description': 'Agency code int(3)'})
+        schema['customerCountry'] = {
+            'required': True, 'empty': False,
+            'description': 'Customer country code (France = 250) int(3)'}
+        schema['customerId'].update({
+            'required': True, 'empty': False,
+            'description': 'Customer number int(6)'})
         schema['shippingDate'].update({'required': False, 'empty': True})
 
         # mettre ça ensemble ?
-        schema['notifications'] = {'default': 'Predict', 'allowed': DPD_ALLOWED_NOTIFICATIONS}
-        schema['product'].update({'description': 'N/A for DPD'})
+        schema['notifications'] = {
+            'default': DPD_ALLOWED_NOTIFICATIONS[0],
+            'allowed': DPD_ALLOWED_NOTIFICATIONS}
+        schema['product'].update({
+            'empty': False,
+            'required': True,
+            'default': DPD_PRODUCTS[0],
+            'description': 'Type de produit',
+            'allowed': DPD_PRODUCTS
+        })
 
-        schema['dropOffLocation'] = {'default': '', 'description': 'Drop-off Location id (Relais Colis)' }
+        schema['dropOffLocation'] = {
+            'default': '',
+            'empty': True,
+            'required': False,
+            'description': 'Drop-off Location id (Relais Colis)'
+        }
 
         return schema
 
