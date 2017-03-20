@@ -9,6 +9,9 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.1.4 2017-03-20
+	- Automatic deployment to pypi
+
 # 0.1.1 2017-03-20
 
 
