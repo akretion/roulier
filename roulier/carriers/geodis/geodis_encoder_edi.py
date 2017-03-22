@@ -41,7 +41,7 @@ class GeodisEncoderEdi(Encoder):
             ['RFF', ['ADE', service['customerId']]],
             ['RFF', ['ACL', shipment['reference1']]],
             ["NAD", "CN",
-                ""
+                "",
                 "",  # C058
                 to_address['name'],
                 [to_address['street1'], to_address['street2']],
@@ -102,7 +102,6 @@ class GeodisEncoderEdi(Encoder):
             ['DOC', '630', deposit],
         ] + shipment_lines
         lines += [
-            ['UNT', '%s' % (len(lines) + 6), deposit]
+            ['UNT', '%s' % (len(lines) + 1), deposit]
         ]
         return lines
-

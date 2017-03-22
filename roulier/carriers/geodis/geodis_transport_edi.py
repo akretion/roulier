@@ -55,8 +55,10 @@ class GeodisTransportEdi(Transport):
         def sanitize(token):
             sanitized = (
                 token
-                .replace("'", "\'")
-                .replace("?", "\?")
+                .replace("?", "??")
+                .replace("'", "?'")
+                .replace("+", "?+")
+                .replace(":", "?:")
             )
             return sanitized
 
