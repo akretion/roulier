@@ -46,4 +46,3 @@ def get(carrier):
         return carrier_obj()
     else:
         raise BaseException("Carrier not found")
-

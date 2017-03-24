@@ -9,11 +9,18 @@ class KuehneNagelDecoder(Decoder):
     def decode(self, payload):
         """Return {}."""
         return {
-            'zpl': payload['zpl'].encode('utf-8'),
-            'line': payload['line'],
-            'parcel': payload['parcel'],
-            'footer': payload['footer'],
-            'parcelNumber': payload['parcelNumber'],
-            'trackingNumber': payload['trackingNumber'],
-
+            'label': {
+                "name": "label",
+                "data": payload['zpl'].encode('utf-8'),
+                "type": 'zpl'
+            },
+            'deposit': {
+                'line': payload['line'],
+                'parcel': payload['parcel'],
+                'footer': payload['footer'],
+            },
+            'tracking': {
+                'parcel': payload['parcelNumber'],
+                'number': payload['trackingNumber'],
+            }
         }

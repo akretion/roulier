@@ -75,7 +75,6 @@ class KuehneNagelTransport(Transport):
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/kuehne_nagel/templates'),
             extensions=['jinja2.ext.with_'])
-
         template = env.get_template("deposit_slip.txt")
         return template.render(
             auth=body['auth'],
