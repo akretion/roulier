@@ -9,6 +9,9 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.1.5
+	- fix escaping issue in DPD
+
 # 0.1.4 2017-03-20
 	- Automatic deployment to pypi
 

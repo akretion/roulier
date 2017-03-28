@@ -68,7 +68,8 @@ class DpdEncoder(Encoder):
 
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/dpd/templates'),
-            extensions=['jinja2.ext.with_'])
+            extensions=['jinja2.ext.with_', 'jinja2.ext.autoescape'],
+            autoescape=True)
 
         template = env.get_template("dpd_%s.xml" % action)
         return {
