@@ -41,9 +41,12 @@
 ^FO19,630^A0N,32,32^FDDesc.: {{ service.goodsName }}^FS
 
 ^FO36,660^A0N,32,32^FD"
-^FO19,710^A0N,32,32^FDNb Colis: {{ service.mhuQuantity }}^FS
-^FO19,740^A0N,32,32^FDPoids: {{ service.weight }} Kg^FS
-^FO19,770^A0N,32,32^FDVol. Decl.: {{ service.volume }} m3^FS
+
+^FO19,680^A0N,42,42^FDNo commande : {{ service.orderName }}^FS
+
+^FO19,760^A0N,32,32^FDNb Colis: {{ service.mhuQuantity }}^FS
+^FO19,790^A0N,32,32^FDPoids: {{ service.weight }} Kg^FS
+^FO19,820^A0N,32,32^FDVol. Decl.: {{ service.volume }} m3^FS
 ^FO436,572^A0N,32,32^FDEtiquette :^FS
 ^FO280,1038^GB504,2^FS
 ^FO280,1038^GB2,126^FS
@@ -69,7 +72,7 @@
 ^XFALLOIN.ZPL^FS
 
 ^FO519,612^A0N,52,52^FD{{ parcel.number }}^FS
-^BY3^FO67,834^BCN,154,Y,N,N,A^FD{{ parcel.barcode }}^FS
+^BY3^FO67,890^BCN,100,Y,N,N,A^FD{{ parcel.barcode }}^FS
 ^BY3^FO670,330^BCR,90,Y,N,N,A^FD{{ parcel.barcode }}^FS
 
 
