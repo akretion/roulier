@@ -71,7 +71,7 @@
 
 ^XFALLOIN.ZPL^FS
 
-^FO519,612^A0N,52,52^FD{{ parcel.number }}^FS
+^FO519,612^A0N,52,52^FD{{ parcel.number }}/{{ service.mhuQuantity }}^FS
 ^BY3^FO67,890^BCN,100,Y,N,N,A^FD{{ parcel.barcode }}^FS
 ^BY3^FO670,330^BCR,90,Y,N,N,A^FD{{ parcel.barcode }}^FS
 
