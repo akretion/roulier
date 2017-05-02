@@ -3,6 +3,7 @@
 from lxml import objectify
 from roulier.codec import Decoder
 from roulier import ws_tools as tools
+import base64
 
 
 class DpdDecoder(Decoder):
@@ -19,6 +20,8 @@ class DpdDecoder(Decoder):
             label, attachment = labels.getchildren()
             label_data = self.handle_zpl(label.label.text, output_format)
             # .text because we want str instead of objectify.StringElement
+            summary_data = base64.b64decode(attachment.label.text)
+            summary_format = output_format == 'ZPL' and 'png' or output_format
             x = {
                 "tracking": {
                     'number': shipment.barcode.text,
@@ -30,9 +33,9 @@ class DpdDecoder(Decoder):
                     "type": output_format,
                 },
                 "annexes": [{
-                    "data": attachment.label.text,
+                    "data": summary_data,
                     "name": "Summary",
-                    "type": output_format
+                    "type": summary_format
                 }]
             }
             return x
@@ -54,4 +57,4 @@ class DpdDecoder(Decoder):
         if label_format == 'ZPL':
             return tools.png_to_zpl(png, True)
         else:
-            return png
+            return base64.b64decode(png)
