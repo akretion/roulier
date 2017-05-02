@@ -9,10 +9,6 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
-# 0.1.5 2017-05-02
-	- fix escaping issue in DPD
-	- fix output of DPD (now always base64 decoded)
-
 # 0.1.4 2017-03-20
 	- Automatic deployment to pypi
 
