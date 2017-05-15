@@ -24,7 +24,17 @@
         <imp:nomcta>{{ address.name }}</imp:nomcta>
         <imp:telcta>{{ address.phone }}</imp:telcta>
     {% endwith %}
-    <imp:nbtumg>1</imp:nbtumg>
-    <imp:poids>{{ parcel.weight }}</imp:poids>
+    <imp:nbtumg>{{ parcels | length }}</imp:nbtumg>
+    <imp:poids>{{ parcels | sum(attribute='weight') }}</imp:poids>
+    {% for parcel in parcels: %}
+        <imp:detailUmg>
+            <imp:codumg>PC</imp:codumg>
+            <imp:poiumg>{{ parcel.weight }}</imp:poiumg>
+            <imp:volumg>{{ parcel.volume }}</imp:volumg>
+            <imp:numcol>{{ loop.index }}</imp:numcol>
+            {# <imp:cabeti></imp:cabeti> #}
+            <imp:refclicol>{{ parcel.reference }}</imp:refclicol>
+        </imp:detailUmg>
+    {% endfor %}
     <imp:refclt>{{ service.reference1 }}</imp:refclt>
 </imp:demandeImpressionEtiquette>

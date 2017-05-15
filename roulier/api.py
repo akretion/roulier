@@ -79,6 +79,14 @@ class Api(object):
             "weight": {'type': 'float', 'default': '', 'description': 'Weight in kg', 'required': True, 'empty': False},
         }
 
+    def _parcels(self):
+        v = MyValidator()
+        return {
+            'type': 'list',
+            'items': [self._parcel()],  # force len=1!
+            'default': [v.normalized({}, self._parcel())]
+        }
+
     def _service(self):
         return {
             "product": {'default': '', 'description': ''},
@@ -103,7 +111,7 @@ class Api(object):
         return {
             'service': self._service(),
             'auth': self._auth(),
-            'parcel': self._parcel(),
+            'parcels': self._parcels(),
             'from_address': self._from_address(),
             'to_address': self._to_address(),
         }
@@ -122,11 +130,22 @@ class Api(object):
         v = MyValidator()
         schemas = self._schemas()
 
-        return {
-            s: {
-                'schema': schemas[s],
-                'default': v.normalized({}, schemas[s])
+        def wrap_schema(schema):
+            # if schema is a simple dict, wrap it as a dict
+            # else this work has already be done
+            # like it's a list
+            if 'schema' in schema or 'items' in schema:
+                return schema
+            return {
+                'schema': schema,
+                'default':
+                    schema.get('default') or
+                    v.normalized({}, schema),
+                'type': schema.get('type', 'dict')
             }
+
+        return {
+            s: wrap_schema(schemas[s])
             for s in schemas}
 
     def api_values(self):

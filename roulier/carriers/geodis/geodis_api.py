@@ -49,3 +49,21 @@ class GeodisApi(Api):
         schema['login'].update({'required': True, 'empty': False})
         schema['password']['required'] = False
         return schema
+
+    def _parcel(self):
+        schema = super(GeodisApi, self)._parcel()
+        schema['volume'] = {
+            'type': 'float', 'required': False,
+            'empty': True, 'default': 0}
+        schema['reference'] = {
+            'type': 'string', 'required': False,
+            'empty': True, 'default': '',
+            'description': 'Description of this parcel'}
+        return schema
+
+    def _parcels(self):
+        """Allow multiple parcels."""
+        schema = super(GeodisApi, self)._parcels()
+        del schema['items']
+        schema['schema'] = self._parcel()
+        return schema
