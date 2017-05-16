@@ -75,7 +75,7 @@ class DpdEncoder(Encoder):
         return {
             "body": template.render(
                 service=data['service'],
-                parcel=data['parcel'][0],
+                parcel=data['parcels'][0],
                 sender_address=data['from_address'],
                 receiver_address=data['to_address']),
             "headers": data['auth'],
