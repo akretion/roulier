@@ -85,7 +85,7 @@ class Api(object):
         v = MyValidator()
         return {
             'type': 'list',
-            'items': [self._parcel()],  # force len=1!
+            'items': [{'schema': self._parcel(), 'type': 'dict'}],  # force len=1!
             'default': [v.normalized({}, self._parcel())]
         }
 
