@@ -44,10 +44,12 @@ class Api(object):
 
     def __init__(self):
         """."""
+
+    def _validator(self):
         v = MyValidator()
         v.allow_unknown = True
-        v.purge_unknown = True
-        self._validator = v
+        # v.purge_unknown = True
+        return v
 
     def _address(self):
         return {
@@ -127,7 +129,7 @@ class Api(object):
         See http://docs.python-cerberus.org/en/stable/schemas.html
 
         """
-        v = MyValidator()
+        v = self._validator()
         schemas = self._schemas()
 
         def wrap_schema(schema):
@@ -157,8 +159,9 @@ class Api(object):
 
     def errors(self, data):
         """Return validation errors."""
-        self._validator.validate(data, self.api_schema())
-        return self._validator.errors
+        v = self._validator()
+        v.validate(data, self.api_schema())
+        return v.errors
 
     def validate(self, data):
         """Ensure the data are valid.
@@ -167,11 +170,11 @@ class Api(object):
 
         See also errors()
         """
-        return self._validator.validate(data, self.api_schema())
+        return self._validator().validate(data, self.api_schema())
 
     def normalize(self, data):
         """Retrurn a normalized dict based on input.
 
         See http://docs.python-cerberus.org/en/stable/usage.html
         """
-        return self._validator.normalized(data, self.api_schema())
+        return self._validator().normalized(data, self.api_schema())
