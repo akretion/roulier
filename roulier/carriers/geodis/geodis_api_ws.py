@@ -51,7 +51,7 @@ class GeodisApiWs(Api):
         return schema
 
     def _parcel(self):
-        schema = super(GeodisApi, self)._parcel()
+        schema = super(GeodisApiWs, self)._parcel()
         schema['volume'] = {
             'type': 'float', 'required': False,
             'empty': True, 'default': 0}
@@ -63,7 +63,7 @@ class GeodisApiWs(Api):
 
     def _parcels(self):
         """Allow multiple parcels."""
-        schema = super(GeodisApi, self)._parcels()
+        schema = super(GeodisApiWs, self)._parcels()
         del schema['items']
         schema['schema'] = self._parcel()
         return schema
