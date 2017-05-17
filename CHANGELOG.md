@@ -9,6 +9,16 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.2.0
+
+### Features / Refactorings
+	- allow multiparcel (only for GEODIS)
+	(Not possible for Laposte API and not implemented for DPD)
+
+###	BREAKING CHANGES
+	- parcels should be used instead of parcel. Easy fix: suffix parcel with an "s" and wrap value with []
+
+
 # 0.1.5 2017-05-02
 	- fix escaping issue in DPD
 	- fix output of DPD (now always base64 decoded)

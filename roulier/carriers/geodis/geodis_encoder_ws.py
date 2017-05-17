@@ -39,7 +39,7 @@ class GeodisEncoderWs(Encoder):
         return {
             "body": template.render(
                 service=data['service'],
-                parcel=data['parcel'],
+                parcels=data['parcels'],
                 sender_address=data['from_address'],
                 receiver_address=data['to_address']),
             "headers": data['auth'],
