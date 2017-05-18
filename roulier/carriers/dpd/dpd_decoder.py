@@ -25,9 +25,18 @@ class DpdDecoder(Decoder):
             x = {
                 "tracking": {
                     'number': shipment.barcode.text,
-                    'parcelnumber': shipment.parcelnumber.text,
                 },
-                "label": {
+                "parcels": [{
+                    "id": 1,
+                    "reference": "",
+                    "number": shipment.parcelnumber.text,
+                    "label": {  # same as main label
+                        "data": label_data,
+                        "name": "label 1",
+                        "type": output_format,
+                    }
+                }],
+                "label": {  # main label
                     "data": label_data,
                     "name": "label",
                     "type": output_format,

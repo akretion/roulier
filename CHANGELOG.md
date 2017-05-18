@@ -17,6 +17,7 @@ Roadmap / TODO:
 
 ###	BREAKING CHANGES
 	- parcels should be used instead of parcel. Easy fix: suffix parcel with an "s" and wrap value with []
+	- new parcels key added in response
 
 
 # 0.1.5 2017-05-02
