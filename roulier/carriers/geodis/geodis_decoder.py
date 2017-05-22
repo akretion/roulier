@@ -10,7 +10,7 @@ class GeodisDecoder(Decoder):
         """Geodis XML -> Python."""
 
         def reponse_impression_etiquette(msg, parts):
-            labels = parts.split('^XZ\r\n^XA')
+            labels = '^XZ•^XA'.join(parts.split('^XZ\r\n^XA')).split('•')
             labels_idx = iter(range(len(labels)))
             labels_data = iter(labels)
             return {
