@@ -3,7 +3,7 @@ GID++{{ service.mhuQuantity }}:23{% if service.parcelQuantity %}+{{ service.parc
 MSE+CGW+{{ service.weight }}:KG'{% if service.volume %}
 MSE+CGM+{{ service.volume }}:MTQ'{% endif %}
 NAD+CN+++{{ recipient_address.name }}+{{ recipient_address.street1 }}:{{ recipient_address.street2 }}+{{ recipient_address.city }}++{{ recipient_address.zip }}+{{ recipient_address.country.upper() }}'
-CTA++:{{ recipient_address.contact }}+{{ recipient_address.phone }}:TE'
+CTA++:{{ recipient_address.contact }}+{{ recipient_address.phone }}:TE+{{ recipient_address.email }}:TM'
 LOC+WHO:{{ service.shippingOffice }}+ROT:{{ service.shippingRound }}+PLD:{{ service.exportHub }}'{% if service.deliveryType != 'R' %}
 DTM+DAD+{{ service.shippingDate }}'{% endif %}
 CAG+{{ service.shippingConfig }}+{{ service.vatConfig }}+++++{{ service.invoicingContract }}++KG+{{ service.weight }}'
