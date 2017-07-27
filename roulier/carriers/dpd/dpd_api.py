@@ -62,7 +62,8 @@ class DpdApi(Api):
 
     def _address(self):
         schema = super(DpdApi, self)._address()
-        schema['street2']['description'] = "N/A for DPD"
+        schema['street2']['description'] = (
+            "N/A for DPD. It will be appended to street1")
         schema['country'].update({'required': True, 'empty': False})
         schema['zip'].update({'required': True, 'empty': False})
         schema['city'].update({'required': True, 'empty': False})
