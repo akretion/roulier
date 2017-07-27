@@ -9,6 +9,11 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.1.6 2017-07-27
+	- DPD concat street2 to street1 (no street2 in DPD API)
+	- DPD concat company to name (no name in DPD API)
+
+
 # 0.1.5 2017-05-02
 	- fix escaping issue in DPD
 	- fix output of DPD (now always base64 decoded)
