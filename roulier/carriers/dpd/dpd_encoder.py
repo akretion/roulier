@@ -60,6 +60,21 @@ class DpdEncoder(Encoder):
             .strftime('%d/%M/%Y')
         )
 
+        def reduce_address(address):
+            """Concat some fields.
+
+            Because there is no street2 nor company in DPD api.
+            append street2 to street1 and truncate at 70
+            append company to name
+            """
+            address['street1'] = ("%s, %s" % (
+                address['street1'], address['street2']))[0:70]
+            address['name'] = ("%s, %s" % (
+                address['name'], address['company']))[0:35]
+
+        reduce_address(data['to_address'])
+        reduce_address(data['from_address'])
+
         output_format = data['service']['labelFormat']
         if data['service']['labelFormat'] in ('PNG', 'ZPL'):
             # WS doesn't handle zpl yet, we convert it later
