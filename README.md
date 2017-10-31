@@ -30,9 +30,9 @@ response = laposte.get_label({
 	"service": {
 		"productCode": "COL"
 	},
-	"parcel": {
+	"parcels": [{
 		"weight": 3.4,
-	},
+	}],
 	"to_address": {
 		"firstName": "Hparfr"
 		"street1": "35 b Rue Montgolfier"
@@ -88,11 +88,20 @@ print laposte.get_label(api)
 #	label: {
 #		'name':'label',
 #		'type': 'zpl',
-#		'data': 'base64 here',
+#		'data': 'base64 here', #main label
 #	},
 #	tracking: {
 #		'number': 'tracking code here',
 #	},
+#	parcels: [{
+#		{ 'id': 1,
+#		'reference: '',
+#		'number': 'tracking code here',
+#		'label': {
+#			'data': '', 'type': 'zpl',
+#			'name': 'label 1 '
+#		}
+#	}],
 #	annexes: [
 #		{
 #			'name': 'cn23',

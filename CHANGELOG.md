@@ -14,6 +14,16 @@ Roadmap / TODO:
 	- DPD concat street2 to street1 (no street2 in DPD API)
 	- DPD concat company to name (no name in DPD API)
 
+# 0.2.0
+
+### Features / Refactorings
+	- allow multiparcel (only for GEODIS)
+	(Not possible for Laposte API and not implemented for DPD)
+
+###	BREAKING CHANGES
+	- parcels should be used instead of parcel. Easy fix: suffix parcel with an "s" and wrap value with []
+	- new parcels key added in response
+
 
 # 0.1.5 2017-05-02
 	- fix escaping issue in DPD

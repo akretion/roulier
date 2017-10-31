@@ -11,7 +11,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class GeodisTransport(Transport):
+class GeodisTransportWs(Transport):
     """Implement Geodis WS communication."""
 
     GEODIS_WS = "http://espace.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8
@@ -70,9 +70,12 @@ class GeodisTransport(Transport):
         xml = get_parts(response)['start']
         obj = objectify.fromstring(xml)
         message = obj.xpath("//*[local-name() = 'message']")
+        id_message = None
         if len(message) > 0:
             message = message[0] or obj.xpath('//faultstring')[0]
-            id_message = obj.xpath("//*[local-name() = 'code']")[0]
+            id_message = (
+                obj.xpath("//*[local-name() = 'code']") and
+                obj.xpath("//*[local-name() = 'code']")[0] or '')
         errors = [{
             "id": id_message,
             "message": message,
