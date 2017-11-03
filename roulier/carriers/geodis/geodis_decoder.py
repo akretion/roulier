@@ -10,30 +10,38 @@ class GeodisDecoder(Decoder):
         """Geodis XML -> Python."""
 
         def reponse_impression_etiquette(msg, parts):
-            x = {
+            labels = '^XZ•^XA'.join(parts.split('^XZ\r\n^XA')).split('•')
+            labels_idx = iter(range(len(labels)))
+            labels_data = iter(labels)
+            return {
                 "tracking": {
-                    "barcode": body.cabRouting,
+                    "number": body.cabRouting,
                 },
                 "label": {
                     "name": "label",
                     "data": parts,
                     "type": output_format
                 },
+                "parcels": [{
+                    "codeUmg": getattr(colis, 'codumg', ''),
+                    "id": getattr(colis, 'numero', ''),
+                    "number": getattr(colis, 'cab', ''),
+                    "reference": getattr(colis, 'cabclt', ''),
+                    "label": {
+                        "name": "label_%s" % labels_idx.next(),
+                        "data": labels_data.next(),
+                        "type": output_format,
+                    }
+                } for colis in body.infoColis],
                 "annexes": [
                 ],
                 "extra": {
-                    "reseau": body.reseau,
-                    "priorite": body.priorite,
-                    "codeDirectionel": body.codire,
-                    "cabRouting": body.cabRouting,
-                    "colis": {
-                        "codeUmg": body.infoColis.codumg,
-                        "numero": body.infoColis.numero,
-                        "cab": body.infoColis.cab,
-                    }
+                    "reseau": getattr(body, 'reseau', ''),
+                    "priorite": getattr(body, 'priorite', ''),
+                    "codeDirectionel": getattr(body, 'codire', ''),
+                    "cabRouting": getattr(body, 'cabRouting', ''),
                 }
             }
-            return x
 
         tag = body.tag
         lookup = {

@@ -3,12 +3,12 @@
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder
 from roulier.exception import InvalidApiInput
-from .geodis_api import GeodisApi
+from .geodis_api_ws import GeodisApiWs
 
 GEODIS_ACTIONS = ('demandeImpressionEtiquette',)
 
 
-class GeodisEncoder(Encoder):
+class GeodisEncoderWs(Encoder):
     """Transform input to geodis compatible xml."""
 
     def encode(self, api_input, action):
@@ -17,7 +17,7 @@ class GeodisEncoder(Encoder):
             raise InvalidApiInput(
                 'action %s not in %s' % (action, ', '.join(GEODIS_ACTIONS)))
 
-        api = GeodisApi()
+        api = GeodisApiWs()
         if not api.validate(api_input):
             raise InvalidApiInput(
                 'Input error : %s' % api.errors(api_input))
@@ -26,6 +26,7 @@ class GeodisEncoder(Encoder):
         data['service']['labelFormat'] = self.lookup_label_format(
             data['service']['labelFormat'])
         data['service']['shippingDate'] = data['service']['shippingDate'].replace('/','') 
+        data['from_address']['departement'] = data['from_address']['zip'][:2]
 
         is_test = data['service']['is_test']
 
@@ -38,16 +39,16 @@ class GeodisEncoder(Encoder):
         return {
             "body": template.render(
                 service=data['service'],
-                parcel=data['parcel'],
+                parcels=data['parcels'],
                 sender_address=data['from_address'],
                 receiver_address=data['to_address']),
             "headers": data['auth'],
             "is_test": is_test,
-            "output_format": data['service']['labelFormat']
+            "output_format": api_input['service']['labelFormat']
         }
 
     def api(self):
-        api = GeodisApi()
+        api = GeodisApiWs()
         return api.api_values()
 
     def lookup_label_format(self, label_format="ZPL"):

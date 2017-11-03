@@ -52,11 +52,22 @@ class LaposteDecoder(Decoder):
                     "number": rep.parcelNumber,
                     "partner": rep.find('parcelNumberPartner'),
                 },
-                "label": {
+                "label": {  # main label
                     "name": "label",
                     "data": parts.get(label_cid),
                     "type": output_format
                 },
+                "parcels": [{
+                    "id": 1,
+                    "number": rep.parcelNumber,
+                    "reference": "",
+                    "label": {  # same as main label
+                        "name": "label_1",
+                        "data": parts.get(label_cid),
+                        "type": output_format,
+                    }
+
+                }],
                 "annexes": annexes
             }
 

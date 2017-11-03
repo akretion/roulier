@@ -1,32 +1,60 @@
 # -*- coding: utf-8 -*-
 """Implementation for Geodis."""
-from geodis_encoder import GeodisEncoder
+from geodis_encoder_edi import GeodisEncoderEdi
+from geodis_encoder_ws import GeodisEncoderWs
 from geodis_decoder import GeodisDecoder
-from geodis_transport import GeodisTransport
+from geodis_transport_ws import GeodisTransportWs
+from geodis_transport_edi import GeodisTransportEdi
 from roulier.carrier import Carrier
+from roulier.exception import InvalidAction
 
 
 class Geodis(Carrier):
     """Implementation for Geodis."""
 
-    encoder = GeodisEncoder()
-    decoder = GeodisDecoder()
-    ws = GeodisTransport()
-
-    def api(self):
+    def api(self, action='label'):
         """Expose how to communicate with Geodis."""
-        return self.encoder.api()
+        try:
+            method = self.ACTIONS[action]
+        except:
+            raise InvalidAction("Action not supported")
+        return method(self, None, api=True)
 
     def get(self, data, action):
-        """Run an action with data against Geodis WS."""
-        request = self.encoder.encode(data, action)
-        response = self.ws.send(request)
-        return self.decoder.decode(
+        """."""
+        try:
+            method = self.ACTIONS[action]
+        except:
+            raise InvalidAction("Action not supported")
+
+        return method(self, data)
+
+    def get_label(self, data, api=False):
+        """Genereate a demandeImpressionEtiquette."""
+        encoder = GeodisEncoderWs()
+        decoder = GeodisDecoder()
+        transport = GeodisTransportWs()
+
+        if api:
+            return encoder.api()
+
+        request = encoder.encode(data, "demandeImpressionEtiquette")
+        response = transport.send(request)
+        return decoder.decode(
             response['body'],
             response['parts'],
             request['output_format'])
 
-    # shortcuts
-    def get_label(self, data):
-        """Genereate a generateLabelRequest."""
-        return self.get(data, 'demandeImpressionEtiquette')
+    def get_edi(self, data, api=False):
+        encoder = GeodisEncoderEdi()
+        transport = GeodisTransportEdi()
+        if api:
+            return encoder.api()
+        arr = encoder.encode(data)
+        return transport.send(arr)
+
+    ACTIONS = {
+        'label': get_label,
+        'demandeImpressionEtiquette': get_label,
+        'edi': get_edi
+    }
