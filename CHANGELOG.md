@@ -3,26 +3,27 @@
 Roadmap / TODO: 
 
 	- Add Kuehne & Nagel carrier
-	- Add Geodis EDI
 	- Add UPS carrier
 	- Support test_mode for some carriers
 	- Improve documentation
 	- Support additionnal methods of api
 	- Write tests
 
-# 0.1.6 2017-07-27
-	- DPD concat street2 to street1 (no street2 in DPD API)
-	- DPD concat company to name (no name in DPD API)
-
-# 0.2.0
+# 0.2.0 2017-11-03
 
 ### Features / Refactorings
+	- add Geodis EDI
 	- allow multiparcel (only for GEODIS)
 	(Not possible for Laposte API and not implemented for DPD)
 
 ###	BREAKING CHANGES
 	- parcels should be used instead of parcel. Easy fix: suffix parcel with an "s" and wrap value with []
 	- new parcels key added in response
+
+
+# 0.1.6 2017-07-27
+	- DPD concat street2 to street1 (no street2 in DPD API)
+	- DPD concat company to name (no name in DPD API)
 
 
 # 0.1.5 2017-05-02
