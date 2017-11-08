@@ -37,6 +37,7 @@ class KuehneNagelApi(Api):
         schema.update({
             'barcode': {'default': ''},
             'number': {'default': 1},
+            'weight': {'default': 0},
         })
         return schema
 
