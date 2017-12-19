@@ -9,6 +9,9 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.2.1 2017-12-19
+	- fix Geodis EDI escaping, remplace by special chars by spaces
+
 # 0.2.0 2017-11-03
 
 ### Features / Refactorings

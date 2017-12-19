@@ -53,12 +53,16 @@ class GeodisTransportEdi(Transport):
             return "\n".join([parse_segment(segment) for segment in lines])
 
         def sanitize(token):
+            # replace escapable chars by space
+            # because, replacing "'" by "?'"
+            # increase length of the token
+            # which is limited by 35
             sanitized = (
                 token
-                .replace("?", "??")
-                .replace("'", "?'")
-                .replace("+", "?+")
-                .replace(":", "?:")
+                .replace("?", " ")
+                .replace("'", " ")
+                .replace("+", " ")
+                .replace(":", " ")
             )
             return sanitized
 
