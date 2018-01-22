@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Implementation of Geodis Api."""
 from roulier.api import Api, MyValidator
-from .geodis_api_ws import GeodisApiWs
+from .geodis_api_ws import GeodisApiWs, GEODIS_ALLOWED_NOTIFICATIONS
 
 
 class GeodisApiEdi(Api):
@@ -67,10 +67,30 @@ class GeodisApiEdi(Api):
                 'schema': self._parcel(),
                 'default': [v.normalized({}, self._parcel())]
             },
-            'product': {'type': 'string', 'default': '', 'empty': False, 'required': True},
-            'productOption': {'type': 'string', 'default': '', 'empty': True, 'required': False},
-            'productTOD': {'type': 'string', 'default': '', 'empty': True, 'required': False},
-            'shippingId': {'type': 'string', 'default': '', 'empty': False, 'required': True},
+            'product': {
+                'type': 'string', 'default': '', 'empty': False,
+                'required': True},
+            'productTOD': {
+                'type': 'string', 'default': '', 'empty': True,
+                'required': False},
+            'productPriority': {
+                'type': 'string', 'default': '', 'empty': True,
+                'required': False,
+                'description': """4219, 1: express, 3: normal speed"""},
+            'productOption': {
+                'type': 'string', 'default': '', 'empty': True,
+                'required': False,
+                'description': """7273, like RDV, B2C, BRT, AEX, A2P..."""},
+            'notifications': {
+                'type': 'string',
+                'default': GEODIS_ALLOWED_NOTIFICATIONS[0],
+                'allowed': GEODIS_ALLOWED_NOTIFICATIONS,
+                'required': False,
+                'description': """7085 : Notify recipient by
+                    M(ail), S(ms), P(=M+S)"""},
+            'shippingId': {
+                'type': 'string', 'default': '', 'empty': False,
+                'required': True},
             'reference1': {'type': 'string', 'default': '', 'empty': True},
             'reference2': {'type': 'string', 'default': '', 'empty': True},
             'reference3': {'type': 'string', 'default': '', 'empty': True},
