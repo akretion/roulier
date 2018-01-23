@@ -14,15 +14,13 @@ log = logging.getLogger(__name__)
 class GeodisTransportWs(Transport):
     """Implement Geodis WS communication."""
 
-    GEODIS_WS = "http://espace.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8
-    GEODIS_WS_TEST = "http://espace.recette.geodis.com/geolabel/services/ImpressionEtiquette"  # nopep8
-
     def send(self, payload):
         """Call this function.
 
         Args:
             payload.body: XML in a string
             payload.header : auth
+            payload.infos: { url: string, xmlns: string}
         Return:
             {
                 response: (Requests.response)
@@ -32,13 +30,13 @@ class GeodisTransportWs(Transport):
         """
         body = payload['body']
         headers = payload['headers']
-        is_test = payload['is_test']
-        soap_message = self.soap_wrap(body, headers)
-        response = self.send_request(soap_message, is_test)
+        infos = payload['infos']
+        soap_message = self.soap_wrap(body, headers, infos)
+        response = self.send_request(soap_message, infos)
         log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
 
-    def soap_wrap(self, body, auth):
+    def soap_wrap(self, body, auth, infos):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/geodis/templates'),
@@ -47,13 +45,14 @@ class GeodisTransportWs(Transport):
         template = env.get_template("geodis_soap.xml")
         body_stripped = remove_empty_tags(body)
         header_template = env.get_template("geodis_header.xml")
-        header_xml = header_template.render(auth=auth)
-        data = template.render(body=body_stripped, header=header_xml)
+        header_xml = header_template.render(auth=auth, xmlns=infos['xmlns'])
+        data = template.render(
+            body=body_stripped, header=header_xml, xmlns=infos['xmlns'])
         return data.encode('utf8')
 
-    def send_request(self, body, is_test):
+    def send_request(self, body, infos):
         """Send body to geodis WS."""
-        ws_url = self.GEODIS_WS_TEST if is_test else self.GEODIS_WS
+        ws_url = infos['url']
         return requests.post(
             ws_url,
             headers={
@@ -65,7 +64,6 @@ class GeodisTransportWs(Transport):
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
         # TODO : put a try catch (like wrong server)
-        # no need to extract_body shit here
         log.warning('Geodis error 500')
         xml = get_parts(response)['start']
         obj = objectify.fromstring(xml)
@@ -92,8 +90,13 @@ class GeodisTransportWs(Transport):
             return obj.Body.getchildren()[0]
 
         payload = extract_soap(xml)
-        attachement_cid = payload.codeAttachement.text[len('cid:'):]
-        attachement = parts[attachement_cid]
+        try:
+            # TODO : may be extract this elsewere
+            # rechercheLocalite has no attachment
+            attachement_cid = payload.codeAttachement.text[len('cid:'):]
+            attachement = parts[attachement_cid]
+        except AttributeError:
+            attachement = None
 
         return {
             "body": payload,

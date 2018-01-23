@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:imp="http://impression.service.web.etiquette.geodis.com"> 
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:imp="{{xmlns}}">
 	<soap:Header>
 		{{ header }}
 	</soap:Header>

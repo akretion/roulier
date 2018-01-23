@@ -16,7 +16,7 @@ class Geodis(Carrier):
         """Expose how to communicate with Geodis."""
         try:
             method = self.ACTIONS[action]
-        except:
+        except KeyError:
             raise InvalidAction("Action not supported")
         return method(self, None, api=True)
 
@@ -24,26 +24,10 @@ class Geodis(Carrier):
         """."""
         try:
             method = self.ACTIONS[action]
-        except:
+        except KeyError:
             raise InvalidAction("Action not supported")
 
         return method(self, data)
-
-    def get_label(self, data, api=False):
-        """Genereate a demandeImpressionEtiquette."""
-        encoder = GeodisEncoderWs()
-        decoder = GeodisDecoder()
-        transport = GeodisTransportWs()
-
-        if api:
-            return encoder.api()
-
-        request = encoder.encode(data, "demandeImpressionEtiquette")
-        response = transport.send(request)
-        return decoder.decode(
-            response['body'],
-            response['parts'],
-            request['output_format'])
 
     def get_edi(self, data, api=False):
         encoder = GeodisEncoderEdi()
@@ -53,8 +37,32 @@ class Geodis(Carrier):
         arr = encoder.encode(data)
         return transport.send(arr)
 
+    def get_label(self, data, api=False):
+        """Genereate a demandeImpressionEtiquette."""
+        return self._get_ws(data, api, 'demandeImpressionEtiquette')
+
+    def address_validator(self, data, api=False):
+        return self._get_ws(data, api, 'findLocalite')
+
+    def _get_ws(self, data, api=False, action=None):
+        encoder = GeodisEncoderWs()
+        decoder = GeodisDecoder()
+        transport = GeodisTransportWs()
+
+        if api:
+            return encoder.api(action=action)
+
+        request = encoder.encode(data, action)
+        response = transport.send(request)
+        return decoder.decode(
+            response['body'],
+            response['parts'],
+            request['infos'],
+        )
+
     ACTIONS = {
         'label': get_label,
+        'findLocalite': address_validator,
         'demandeImpressionEtiquette': get_label,
         'edi': get_edi
     }
