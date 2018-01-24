@@ -38,4 +38,5 @@
         </imp:detailUmg>
     {% endfor %}
     <imp:refclt>{{ service.reference1 }}</imp:refclt>
+    <imp:codopt>{{ service.option }}</imp:codopt>
 </imp:demandeImpressionEtiquette>
