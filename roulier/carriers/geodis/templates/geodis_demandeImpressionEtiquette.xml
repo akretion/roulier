@@ -1,4 +1,4 @@
-<imp:demandeImpressionEtiquette  xmlns:imp="http://impression.service.web.etiquette.geodis.com">
+<imp:demandeImpressionEtiquette  xmlns:imp="{{xmlns}}">
     <imp:csadep>{{ service.agencyId }}</imp:csadep>
     <imp:csadepteos>{{ service.hubId }}</imp:csadepteos>
     <imp:codclidep>{{ service.customerId }}</imp:codclidep>
