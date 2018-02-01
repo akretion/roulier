@@ -9,6 +9,18 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+
+# 0.3.0 2018-02-01
+
+### Features / Refactorings
+	- Geodis add options like (rdv)
+	- Geodis add notifications (by mail or sms)
+	- Geodis add new method : findLocalite (check address based on city or zip)
+	- Geodis refactoring internals of WS
+
+###	BREAKING CHANGES
+	- Geodis WS api: option is now named priority
+
 # 0.2.1 2017-12-19
 	- fix Geodis EDI escaping, remplace by special chars by spaces
 
