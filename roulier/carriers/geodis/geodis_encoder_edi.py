@@ -59,8 +59,8 @@ class GeodisEncoderEdi(Encoder):
                 to_address['country']
              ],
         ]
-        if to_address['mail']:
-            lines.append(['COM', [to_address['mail'], 'EM']])
+        if to_address['email']:
+            lines.append(['COM', [to_address['email'], 'EM']])
         if to_address['phone']:
             lines.append(['COM', [to_address['phone'], 'TE']])
         j = 0
