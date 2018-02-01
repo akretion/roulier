@@ -33,7 +33,15 @@ class GeodisEncoderEdi(Encoder):
         to_address = shipment['to_address']
         lines = [
             ['CNI', '%s' % idx, shipment['shippingId']],
-            ['TSR', '2', shipment['product'], shipment['productOption']],
+            ['TSR', '2',  # 4065
+                [
+                    shipment['product'],
+                    '', '',
+                    shipment['productOption']  # 7273
+                ],
+                shipment['productPriority'],  # 4219
+                shipment['notifications'],  # 7085 : M, S, P
+             ],
             # /*MOA si envoi international */
             # ['MOA', '43', $shipment['cost'], 'EUR'],
             ['FTX', 'DEL', '', '', shipment['reference2']],
@@ -50,9 +58,11 @@ class GeodisEncoderEdi(Encoder):
                 to_address['zip'],
                 to_address['country']
              ],
-            ['CTA', 'IC', ['', to_address['name']]],
-            ['COM', [to_address['phone'], 'TE']],
         ]
+        if to_address['mail']:
+            lines.append(['COM', [to_address['mail'], 'EM']])
+        if to_address['phone']:
+            lines.append(['COM', [to_address['phone'], 'TE']])
         j = 0
         for pack in packs:
             j = j + 1

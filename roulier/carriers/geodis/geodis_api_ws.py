@@ -9,6 +9,11 @@ GEODIS_LABEL_FORMAT = (
     'ZPL',
     'XML',
 )
+GEODIS_ALLOWED_NOTIFICATIONS = (
+    'M',  # Mail
+    'S',  # SMS
+    'P',  # Mail & SMS
+)
 
 
 class GeodisApiWs(Api):
@@ -28,6 +33,12 @@ class GeodisApiWs(Api):
         schema['is_test'] = {
             'type': 'boolean', 'default': True,
             'description': 'Use test Ws'}
+        schema['option'] = {
+            'type': 'string', 'default': False,
+            'description': """Options (RDW, RDV, ETG, ...)"""}
+        schema['notification'] = {
+            'default': GEODIS_ALLOWED_NOTIFICATIONS[0],
+            'allowed': GEODIS_ALLOWED_NOTIFICATIONS}
 
         return schema
 

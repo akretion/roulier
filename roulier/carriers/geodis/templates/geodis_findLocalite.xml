@@ -1,0 +1,7 @@
+<imp:findLocalite  xmlns:imp="{{xmlns}}">
+    {% with address = receiver_address %}
+    <imp:codePays>{{ address.country }}</imp:codePays>
+    <imp:codePostal>{{ address.zip }}</imp:codePostal>
+    <imp:libelle>{{ address.city }}</imp:libelle>
+    {% endwith %}
+</imp:findLocalite>
