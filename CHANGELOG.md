@@ -10,6 +10,9 @@ Roadmap / TODO:
 	- Write tests
 
 
+# 0.3.2 2018-02-06
+	- Geodis fix missing CTA segment
+
 # 0.3.1 2018-02-01
 	- Geodis fix typo in (e)mail
 
