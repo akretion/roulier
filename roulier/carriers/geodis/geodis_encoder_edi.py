@@ -58,6 +58,7 @@ class GeodisEncoderEdi(Encoder):
                 to_address['zip'],
                 to_address['country']
              ],
+             ['CTA', 'IC', ['', to_address['name']]], 
         ]
         if to_address['email']:
             lines.append(['COM', [to_address['email'], 'EM']])
