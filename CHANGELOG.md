@@ -9,6 +9,8 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.3.3 2018-02-19
+	- Geodis force ASCII conversion for EDI.
 
 # 0.3.2 2018-02-06
 	- Geodis fix missing CTA segment
