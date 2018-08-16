@@ -20,6 +20,7 @@ class LaposteDecoder(Decoder):
         def generate_label_response(msg):
             """Understand a generateLabelResponse."""
             def get_cid(tag, tree):
+
                 element = tree.find(tag)
                 if element is None:
                     return None
@@ -30,6 +31,7 @@ class LaposteDecoder(Decoder):
             rep = msg.labelResponse
             cn23_cid = get_cid('cn23', rep)
             label_cid = get_cid('label', rep)
+
 
             annexes = []
 

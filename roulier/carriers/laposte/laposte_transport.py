@@ -77,7 +77,7 @@ class LaposteTransport(Transport):
             errors = [
                 {
                     'id': message.id,
-                    'message': unicode(message.messageContent),
+                    'message': str(message.messageContent),
                 }
                 for message in messages if message.type == "ERROR"
             ]

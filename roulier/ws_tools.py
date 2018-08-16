@@ -26,11 +26,11 @@ def remove_empty_tags(xml, ouput_as_string=True):
     xsl = etree.parse(open(template.filename))
     transform = etree.XSLT(xsl)
 
-    if isinstance(xml, basestring):
+    if isinstance(xml, str):
         xml = etree.fromstring(xml)
     # else we asume xml is an lxml.etree
     if ouput_as_string:
-        return unicode(transform(xml))
+        return str(transform(xml))
     else:
         return transform(xml)
 
@@ -47,13 +47,18 @@ def get_parts(response):
     for k, v in response.raw.getheaders().iteritems():
         head_lines += str(k) + ':' + str(v) + '\n'
 
-    full = head_lines + response.content
 
+    full = head_lines + response.text
+
+    
     parser = email.parser.Parser()
     decoded_reply = parser.parsestr(full)
+    decoded_reply2 = parser.parsestr(str(response.raw))
+
     parts = {}
     start = decoded_reply.get_param('start').lstrip('<').rstrip('>')
     i = 0
+
     for part in decoded_reply.get_payload():
         cid = part.get('content-Id', '').lstrip('<').rstrip('>')
         if (not start or start == cid) and 'start' not in parts:
