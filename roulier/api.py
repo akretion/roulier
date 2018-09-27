@@ -34,6 +34,43 @@ class MyValidator(Validator):
         for ctrl in ctrl_cars:
             val = val.replace("%c" % ctrl, "")
         return val
+    
+    def _normalize_coerce_accents(self, value):
+        """Sanitize accents for some WS."""
+        if not isinstance(value, basestring):
+            return value
+        import pdb; pdb.set_trace()
+        sanitized = (
+            value
+            # quick and dirty replacement
+            # of common accentued chars in french
+            # because some ws don't handle well utf8
+            .replace(u"é", "e")
+            .replace(u"è", "e")
+            .replace(u"ë", "e")
+            .replace(u"ê", "e")
+            .replace(u"ô", "o")
+            .replace(u"ï", "i")
+            .replace(u"ö", "o")
+            .replace(u"à", "a")
+            .replace(u"â", "a")
+            .replace(u"ç", "c")
+            .replace(u"û", "u")
+            .replace(u"ù", "u")
+            .replace(u"É", "E")
+            .replace(u"È", "E")
+            .replace(u"Ë", "E")
+            .replace(u"Ê", "E")
+            .replace(u"Ô", "O")
+            .replace(u"Ï", "I")
+            .replace(u"Ö", "O")
+            .replace(u"À", "A")
+            .replace(u"Â", "A")
+            .replace(u"Ç", "C")
+            .replace(u"Û", "U")
+            .replace(u"Ù", "U")
+        ).encode('ascii', 'ignore') # cut remaining chars
+        return sanitized
 
 
 class Api(object):
