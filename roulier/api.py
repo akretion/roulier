@@ -34,12 +34,11 @@ class MyValidator(Validator):
         for ctrl in ctrl_cars:
             val = val.replace("%c" % ctrl, "")
         return val
-    
+
     def _normalize_coerce_accents(self, value):
         """Sanitize accents for some WS."""
         if not isinstance(value, basestring):
             return value
-        import pdb; pdb.set_trace()
         sanitized = (
             value
             # quick and dirty replacement
