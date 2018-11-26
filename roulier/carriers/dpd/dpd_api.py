@@ -71,10 +71,13 @@ class DpdApi(Api):
 
     def _to_address(self):
         schema = super(DpdApi, self)._to_address()
-        schema['firstName'] = {'default': '', 'description': """First name"""}
+        schema['firstName'] = {'default': '', 'description': """First name""",
+            'coerce': 'accents'}
         schema['door1'] = {'default': '', 'description': """Door code 1"""}
         schema['door2'] = {'default': '', 'description': """Door code 2"""}
         schema['intercom'] = {'default': '', 'description': """Intercom"""}
+        for field in ['city', 'company', 'name', 'street1', 'street2']:
+            schema[field].update({ 'coerce': 'accents'})
         return schema
 
     def _from_address(self):

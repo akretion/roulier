@@ -102,9 +102,13 @@ class GeodisApiEdi(Api):
         }
 
     def _schemas(self):
-        return {
+        schemas = {
             'service': self._service(),
             'shipments': self._shipments(),
             'agency_address': self._from_address(),
             'from_address': self._from_address(),
         }
+        for schema in schemas:
+            for field in schemas[schema]:
+                schemas[schema][field].update({'coerce': 'accents'})
+        return schemas

@@ -9,6 +9,9 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.3.4 2018-11-26
+        - DPD convert characters to ASCII (because issues on labels) 
+
 # 0.3.3 2018-02-19
 	- Geodis force ASCII conversion for EDI.
 
