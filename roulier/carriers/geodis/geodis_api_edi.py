@@ -8,19 +8,19 @@ class GeodisApiEdi(Api):
     def _service(self):
         schema = {
             "depositId": {
-                'type': 'string',
+                'type': 'string', 'coerce': 'accents',
                 'default': '', 'empty': False, 'required': True},
             "depositDate": {
-                'type': 'datetime',
+                'type': 'datetime', 'coerce': 'accents',
                 'default': '', 'empty': False, 'required': True},
             "customerId": {
-                'type': 'string',
+                'type': 'string', 'coerce': 'accents',
                 'default': '', 'empty': False, 'required': True},
             "interchangeSender": {
-                'type': 'string',
+                'type': 'string', 'coerce': 'accents',
                 'default': '', 'empty': False, 'required': True},
             "interchangeRecipient": {
-                'type': 'string',
+                'type': 'string', 'coerce': 'accents',
                 'default': '', 'empty': False, 'required': True},
         }
         return schema
@@ -32,6 +32,9 @@ class GeodisApiEdi(Api):
             'maxlength': 2})
         schema['zip'].update({'required': True, 'empty': False})
         schema['city'].update({'required': True, 'empty': False})
+        for key in schema:
+            if schema[key].get('type', '') == 'string':
+                schema[key].update({'coerce': 'accents'})
         return schema
 
     def _from_address(self):
@@ -41,6 +44,9 @@ class GeodisApiEdi(Api):
         schema['siret'] = {
             'type': 'string', 'required': True,
             'default': '', 'empty': False}
+        for key in schema:
+            if schema[key].get('type', '') == 'string':
+                schema[key].update({'coerce': 'accents'})
         return schema
 
     def _parcel(self):
@@ -49,18 +55,24 @@ class GeodisApiEdi(Api):
             'weight': weight,
             'barcode': {
                 'type': 'string', 'empty': False, 'default': '',
-                'required': True,
+                'required': True, 'coerce': 'accents',
                 'description': 'Barcode of the parcel'}
         }
 
+    def _to_address(self):
+        schema = GeodisApiWs()._to_address()
+        for key in schema:
+            if schema[key].get('type', '') == 'string':
+                schema[key].update({'coerce': 'accents'})
+        return schema
+
     def _shipments(self):
-        ws_api = GeodisApiWs()
         v = MyValidator()
         schema = {
             'to_address': {
                 'type': 'dict',
-                'schema': ws_api._to_address(),
-                'default': v.normalized({}, ws_api._to_address())
+                'schema': self._to_address(),
+                'default': v.normalized({}, self._to_address())
             },
             'parcels': {
                 'type': 'list',
@@ -108,7 +120,4 @@ class GeodisApiEdi(Api):
             'agency_address': self._from_address(),
             'from_address': self._from_address(),
         }
-        for schema in schemas:
-            for field in schemas[schema]:
-                schemas[schema][field].update({'coerce': 'accents'})
         return schemas

@@ -68,6 +68,8 @@ class MyValidator(Validator):
             .replace(u"Ç", "C")
             .replace(u"Û", "U")
             .replace(u"Ù", "U")
+            .replace(u"œ", "oe")
+            .replace(u"Œ", "OE")
         ).encode('ascii', 'ignore') # cut remaining chars
         return sanitized
 
