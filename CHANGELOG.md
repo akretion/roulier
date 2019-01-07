@@ -9,6 +9,11 @@ Roadmap / TODO:
 	- Support additionnal methods of api
 	- Write tests
 
+# 0.3.6 2019-01-07
+    - Geodis: fix sending company name
+    - Geodis: fix coerce for EDI
+    - Add coercing for oe
+
 # 0.3.5 2018-11-26
         - Add requirements.txt
 
