@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Implementation for trs."""
-from trs_encoder import TrsEncoder
-from trs_decoder import TrsDecoder
-from trs_transport import TrsTransport
+from .trs_encoder import TrsEncoder
+from .trs_decoder import TrsDecoder
+from .trs_transport import TrsTransport
 from roulier.carrier import Carrier
 
 

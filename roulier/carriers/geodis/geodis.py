@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Implementation for Geodis."""
-from geodis_encoder_edi import GeodisEncoderEdi
-from geodis_encoder_ws import GeodisEncoderWs
-from geodis_decoder import GeodisDecoder
-from geodis_transport_ws import GeodisTransportWs
-from geodis_transport_edi import GeodisTransportEdi
+from .geodis_encoder_edi import GeodisEncoderEdi
+from .geodis_encoder_ws import GeodisEncoderWs
+from .geodis_decoder import GeodisDecoder
+from .geodis_transport_ws import GeodisTransportWs
+from .geodis_transport_edi import GeodisTransportEdi
 from roulier.carrier import Carrier
 from roulier.exception import InvalidAction
 
