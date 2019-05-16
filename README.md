@@ -11,7 +11,7 @@ Roulier will get a label + tracking number to your carrier for you.
 * Roulier runs on your server and call each carrier API directly.
 * You have to use your own credentials provided by each carriers.
 * Roulier is Open Source software, AGPL-3
-* Roulier integrate a multitude of carriers : Laposte, Geodis, DPD, K&N, TRS... more to come.
+* Roulier integrate a multitude of carriers : Laposte, Geodis, DPD, K&N... more to come.
 
 
 
