@@ -50,7 +50,7 @@ response = laposte.get_label({
 })
 
 
-print response
+print(response)
 
 ```
 
@@ -58,7 +58,7 @@ print response
 Get supported carriers:
 ```python
 from roulier import roulier
-print roulier.get_carriers()
+print(roulier.get_carriers())
 ```
 
 To get the full list of parameters:
@@ -82,7 +82,7 @@ laposte = roulier.get('laposte')
 api = laposte.api()
 api['auth']['login'] = '12345'
 ...
-print laposte.get_label(api)
+print(laposte.get_label(api))
 
 # {
 #	label: {
