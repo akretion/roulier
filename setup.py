@@ -12,7 +12,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'lxml', 'Jinja2', 'requests', 'cerberus', 'zplgrf',
-        'unicodecsv', 'unidecode'],
+        'unidecode'],
     author="Hparfr <https://github.com/hparfr>",
     author_email="roulier@hpar.fr",
     description="Label parcels without pain",

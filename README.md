@@ -194,4 +194,3 @@ l_api._parcel()
 * [Requests](http://docs.python-requests.org/) - HTTP requests
 * [zplgrf](https://github.com/kylemacfarlane/zplgrf) - PNG to ZPL conversion
 * [unidecode](https://pypi.python.org/pypi/Unidecode) - Remove accents from ZPL
-* [unicodecsv](https://github.com/jdunck/python-unicodecsv) - CSV generation
