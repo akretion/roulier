@@ -53,10 +53,10 @@ class GeodisApiEdi(Api):
         weight = GeodisApiWs()._parcel()['weight']
         return {
             'weight': weight,
+            # 'description': 'Barcode of the parcel'
             'barcode': {
                 'type': 'string', 'empty': False, 'default': '',
-                'required': True, 'coerce': 'accents',
-                'description': 'Barcode of the parcel'}
+                'required': True, 'coerce': 'accents'}
         }
 
     def _to_address(self):
@@ -88,18 +88,20 @@ class GeodisApiEdi(Api):
             'productPriority': {
                 'type': 'string', 'default': '', 'empty': True,
                 'required': False,
-                'description': """4219, 1: express, 3: normal speed"""},
+                # 'description': """4219, 1: express, 3: normal speed"""
+                },
             'productOption': {
                 'type': 'string', 'default': '', 'empty': True,
                 'required': False,
-                'description': """7273, like RDV, B2C, BRT, AEX, A2P..."""},
+                # 'description': """7273, like RDV, B2C, BRT, AEX, A2P..."""
+                },
             'notifications': {
                 'type': 'string',
                 'default': GEODIS_ALLOWED_NOTIFICATIONS[0],
                 'allowed': GEODIS_ALLOWED_NOTIFICATIONS,
                 'required': False,
-                'description': """7085 : Notify recipient by
-                    M(ail), S(ms), P(=M+S)"""},
+                # 'description': """7085 : Notify recipient by M(ail), S(ms), P(=M+S)"""
+                },
             'shippingId': {
                 'type': 'string', 'default': '', 'empty': False,
                 'required': True},
