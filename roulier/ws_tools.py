@@ -116,3 +116,14 @@ def png_to_zpl(png, rotate):
         grf = get_grf(png_stream, rotate)
         zpl = build_gfa(grf)
     return zpl
+
+def sanitize_to_string(value):
+    if isinstance(value, dict):
+        value = {sanitize_to_string(k):sanitize_to_string(v) for k, v in value.iteritems()}
+    elif isinstance(value, list):
+        value = [sanitize_to_string(v) for v in value]
+    elif value.__str__:
+        value = value.__str__()
+    else:
+        value = value.__class__.__name__ + " object"
+    return value
