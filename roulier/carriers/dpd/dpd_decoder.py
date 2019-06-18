@@ -3,7 +3,9 @@
 from lxml import objectify
 from roulier.codec import Decoder
 from roulier import ws_tools as tools
+from roulier.ws_tools import objectified_to_base_types
 import base64
+
 
 
 class DpdDecoder(Decoder):
@@ -47,7 +49,7 @@ class DpdDecoder(Decoder):
                     "type": summary_format
                 }]
             }
-            return x
+            return objectified_to_base_types(x)
 
         xml = objectify.fromstring(body)
         tag = xml.tag

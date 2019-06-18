@@ -51,7 +51,7 @@ class GeodisDecoder(Decoder):
                 "region": localite.codeRegion,
                 "zip": localite.codePostal,
                 "city": localite.libelle,
-            } for localite in msg.infoLocalite]
+            } for localite in objectified_to_base_types(msg.infoLocalite)]
 
         tag = body.tag
         lookup = {

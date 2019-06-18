@@ -2,7 +2,7 @@
 """Laposte XML -> Python."""
 from lxml import objectify
 from roulier.codec import Decoder
-from roulier.ws_tools import sanitize_to_string
+from roulier.ws_tools import objectified_to_base_types
 
 
 class LaposteDecoder(Decoder):
@@ -27,8 +27,7 @@ class LaposteDecoder(Decoder):
                 href = element.getchildren()[0].attrib['href']
                 # href contains cid:236212...-38932@cfx.apache.org
                 return href[len('cid:'):]  # remove prefix
-
-            rep = msg.labelResponse
+            rep = objectified_to_base_types(msg.labelResponse)
             cn23_cid = get_cid('cn23', rep)
             label_cid = get_cid('label', rep)
 
@@ -48,7 +47,7 @@ class LaposteDecoder(Decoder):
                     "type": "url"
                 })
 
-            return sanitize_to_string({
+            return {
                 "tracking": {
                     "number": rep.parcelNumber,
                     "partner": rep.find('parcelNumberPartner'),
@@ -70,7 +69,7 @@ class LaposteDecoder(Decoder):
 
                 }],
                 "annexes": annexes
-            })
+            }
 
         xml = objectify.fromstring(body)
         tag = xml.tag
