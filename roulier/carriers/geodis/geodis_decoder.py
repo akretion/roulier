@@ -47,10 +47,10 @@ class GeodisDecoder(Decoder):
 
         def response_find_localite(msg, parts):
             return [{
-                "ordre": localite.numOrdre,
-                "region": localite.codeRegion,
-                "zip": localite.codePostal,
-                "city": localite.libelle,
+                "ordre": localite.get('numOrdre'),
+                "region": localite.get('codeRegion'),
+                "zip": localite.get('codePostal'),
+                "city": localite.get('libelle'),
             } for localite in objectified_to_base_types(msg.infoLocalite)]
 
         tag = body.tag

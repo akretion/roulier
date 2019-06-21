@@ -127,7 +127,7 @@ def png_to_zpl(png, rotate):
 
 
 def objectified_to_base_types(obj):
-    # handle only ObjectifiedElement from lxml 
+    # handle only ObjectifiedElement from lxml
     # or multi-value structure that may contain ObjectifiedElements
     if not isinstance(obj, (list, tuple, set, dict, ObjectifiedElement)):
         return obj
@@ -151,7 +151,7 @@ def objectified_to_base_types(obj):
                 children_dict = [children_dict[c.tag], objectified_to_base_types(c)]
             else:
                 children_dict[c.tag] = objectified_to_base_types(c)
-            
+
         return children_dict
     if isinstance(obj, list):
         return [objectified_to_base_types(o) for o in obj]
