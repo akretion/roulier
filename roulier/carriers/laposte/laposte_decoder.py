@@ -2,6 +2,7 @@
 """Laposte XML -> Python."""
 from lxml import objectify
 from roulier.codec import Decoder
+from roulier.ws_tools import objectified_to_base_types
 
 
 class LaposteDecoder(Decoder):
@@ -26,10 +27,9 @@ class LaposteDecoder(Decoder):
                 href = element.getchildren()[0].attrib['href']
                 # href contains cid:236212...-38932@cfx.apache.org
                 return href[len('cid:'):]  # remove prefix
-
-            rep = msg.labelResponse
-            cn23_cid = get_cid('cn23', rep)
-            label_cid = get_cid('label', rep)
+            rep = objectified_to_base_types(msg.labelResponse)
+            cn23_cid = get_cid('cn23', msg.labelResponse)
+            label_cid = get_cid('label', msg.labelResponse)
 
             annexes = []
 
@@ -40,17 +40,17 @@ class LaposteDecoder(Decoder):
                     "type": "pdf"
                 })
 
-            if rep.find('pdfUrl'):
+            if rep.get('pdfUrl'):
                 annexes.append({
                     "name": "label",
-                    "data": rep.find('pdfUrl'),
+                    "data": rep.get('pdfUrl'),
                     "type": "url"
                 })
-
+            
             return {
                 "tracking": {
-                    "number": rep.parcelNumber,
-                    "partner": rep.find('parcelNumberPartner'),
+                    "number": rep.get('parcelNumber'),
+                    "partner": rep.get('parcelNumberPartner'),
                 },
                 "label": {  # main label
                     "name": "label",
@@ -59,7 +59,7 @@ class LaposteDecoder(Decoder):
                 },
                 "parcels": [{
                     "id": 1,
-                    "number": rep.parcelNumber,
+                    "number": rep.get('parcelNumber'),
                     "reference": "",
                     "label": {  # same as main label
                         "name": "label_1",

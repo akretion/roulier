@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 """Utilities for WS."""
 from lxml import etree
+from lxml.objectify import BoolElement
+from lxml.objectify import FloatElement
+from lxml.objectify import IntElement
+from lxml.objectify import NoneElement
+from lxml.objectify import NumberElement
+from lxml.objectify import ObjectifiedDataElement
+from lxml.objectify import ObjectifiedElement
+
 from jinja2 import Environment, PackageLoader
 from zplgrf import GRF
 from PIL import Image
@@ -116,3 +124,36 @@ def png_to_zpl(png, rotate):
         grf = get_grf(png_stream, rotate)
         zpl = build_gfa(grf)
     return zpl
+
+
+def objectified_to_base_types(obj):
+    # handle only ObjectifiedElement from lxml
+    # or multi-value structure that may contain ObjectifiedElements
+    if not isinstance(obj, (list, tuple, set, dict, ObjectifiedElement)):
+        return obj
+
+    if isinstance(obj, IntElement):
+        return int(obj)
+    if isinstance(obj, (NumberElement, FloatElement)):
+        return float(obj)
+    if isinstance(obj, BoolElement):
+        return bool(obj)
+    if isinstance(obj, NoneElement):
+        return None
+    if isinstance(obj, ObjectifiedDataElement):
+        return str(obj)
+
+    if hasattr(obj, 'getchildren'):
+        children_dict = {}
+        for c in obj.iterchildren():
+            # Manage lists
+            if c.tag in children_dict:
+                children_dict = [children_dict[c.tag], objectified_to_base_types(c)]
+            else:
+                children_dict[c.tag] = objectified_to_base_types(c)
+
+        return children_dict
+    if isinstance(obj, list):
+        return [objectified_to_base_types(o) for o in obj]
+    # Let python chose the str (__repr__ or __str__) of the obj if no structure is matched
+    return '%s' % obj
