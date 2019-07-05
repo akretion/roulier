@@ -16,5 +16,6 @@
 			<value>{{ customs.category }}</value>
 		</category>
 	</contents>
+	<invoiceNumber>{{customs.invoiceNumber}}</invoiceNumber>
 	{% endif %}
 </customsDeclarations>

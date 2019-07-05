@@ -167,7 +167,8 @@ class LaposteApi(Api):
                     'originCountry': {'default': ''}
                 },
                 'default': []
-            }
+            },
+            'invoiceNumber': {'default': ''},
         }
         return schema
 
