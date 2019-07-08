@@ -141,8 +141,9 @@ class LaposteApi(Api):
                     'value': {'default': ''},
                     'originCountry': {'default': ''}
                 },
-                'default': []
-            }
+                'default': [],
+            },
+            'invoiceNumber': {'default': ''},
         }
         return schema
 
