@@ -12,8 +12,8 @@ class LaposteDecoder(Decoder):
         def get_product_inter(msg):
             """Understand a getProductInterResponse."""
             x = {
-                "product": msg.product,
-                "partnerType": msg.partnerType
+                "product": msg.product.text,
+                "partnerType": msg.partnerType.text
             }
             return x
 
@@ -43,14 +43,14 @@ class LaposteDecoder(Decoder):
             if rep.find('pdfUrl'):
                 annexes.append({
                     "name": "label",
-                    "data": rep.find('pdfUrl'),
+                    "data": rep.find('pdfUrl').text,
                     "type": "url"
                 })
 
             return {
                 "tracking": {
-                    "number": rep.parcelNumber,
-                    "partner": rep.find('parcelNumberPartner'),
+                    "number": rep.parcelNumber.text,
+                    "partner": rep.find('parcelNumberPartner').text,
                 },
                 "label": {  # main label
                     "name": "label",
@@ -59,7 +59,7 @@ class LaposteDecoder(Decoder):
                 },
                 "parcels": [{
                     "id": 1,
-                    "number": rep.parcelNumber,
+                    "number": rep.parcelNumber.text,
                     "reference": "",
                     "label": {  # same as main label
                         "name": "label_1",
