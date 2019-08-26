@@ -104,6 +104,7 @@ class GeodisTrackingListApi():
         # AAR: en cours acheminement
         # None: en attente prise en charge
         # LIV: livré
+        # CFM: conforme
         if data['codeSituation'] == 'LIV':
             state = 'DELIVERED'
         elif data['codeSituation'] == 'SOL':

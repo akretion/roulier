@@ -27,6 +27,14 @@ class GeodisTransportRestWs(Transport):
             ]).encode("utf-8")
         ).hexdigest()
 
+    def prepare_data(self, data, login, api_key, service):
+        timestamp = "%d" % (time.time() * 1000)
+        lang = "fr"
+        body = json.dumps(data)
+        hash = self.get_hash(api_key, login, timestamp, lang, service, body)
+        token = self.get_token(login, timestamp, lang, hash)
+        return body, token
+
     def send(self, payload):
         """Call this function.
 
@@ -41,16 +49,16 @@ class GeodisTransportRestWs(Transport):
                 parts: empty dict // compat with WS
             }
         """
-        timestamp = "%d" % (time.time() * 1000)
-        lang = "fr"
-        login = payload['headers']['login']
-        api_key = payload['headers']['password']
-        body = json.dumps(payload['body'])
-        service = payload['infos']['service']
-        hash = self.get_hash(api_key, login, timestamp, lang, service, body)
-        token = self.get_token(login, timestamp, lang, hash)
+        body, token = self.prepare_data(
+            payload['body'],
+            payload['headers']['login'],
+            payload['headers']['password'],
+            payload['infos']['service']
+        )
+
         infos = payload['infos']
         infos['token'] = token
+
         response = self.send_request(body, infos)
         log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
