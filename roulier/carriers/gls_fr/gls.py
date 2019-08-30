@@ -20,14 +20,16 @@ class Gls(Carrier):
         """ Expose how to communicate with GLS """
         return self.encoder.api()
 
-    def get(self, data, action):
+    def get(self, data, action=None):
         """ Run an action with data against Gls WS """
         if not action:
             action = 'label'
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
+        if isinstance(response, dict):
+            response["data_request"] = data
         if action == 'label':
-            dict_response = self.decoder.decode(response['body'])
+            dict_response = self.decoder.decode(response)
             dict_response.update(
                 # We also return formatted call and formatted answer
                 # for traceability

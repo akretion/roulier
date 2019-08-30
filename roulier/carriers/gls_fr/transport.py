@@ -8,8 +8,7 @@ import logging
 log = logging.getLogger(__name__)
 
 WEB_SERVICE_CODING = 'ISO-8859-1'
-URL_PROD = "http://www.gls-france.com/cgi-bin/glsboxGI.cgi"
-URL_TEST = "http://www.gls-france.com/cgi-bin/glsboxGITest.cgi"
+URL = "http://www.gls-france.com/cgi-bin/glsboxGI%s.cgi"
 
 
 class GlsTransport(Transport):
@@ -32,9 +31,9 @@ class GlsTransport(Transport):
 
     def send_request(self, payload):
         """Send body to Gls WS."""
-        ws_url = URL_PROD
+        ws_url = URL % ""
         if payload.get('isTest'):
-            ws_url = URL_TEST
+            ws_url = URL % "Test"
         headers = {
             'content-type': 'text/plain;charset=%s' % WEB_SERVICE_CODING}
         return requests.post(ws_url, headers=headers, data=payload.get('data'))

@@ -15,11 +15,12 @@ ZPL_FILE_PATH = os.path.join(os.path.dirname(__file__), "templates/zpl.zpl")
 class GlsDecoder(Decoder):
     """Gls weird string -> Python."""
 
-    def decode(self, body):
+    def decode(self, response):
         """Gls -> Python."""
-
-        data = self.exotic_serialization_to_dict(body)
-        self.raise_on_error(data)
+        data = self.exotic_serialization_to_dict(response.get("body"))
+        exception = self.search_exception(data, response.get("data_request"))
+        if exception:
+            return exception
         return {
             "tracking_number": data.get("T8913"),
             "content": self.populate_label(data),
@@ -42,8 +43,8 @@ class GlsDecoder(Decoder):
             t = Template(zpl)
             return t.substitute(data)
 
-    def raise_on_error(self, data):
-        errors, value = [], ""
+    def search_exception(self, data, data_request):
+        exception, value = "", ""
         result = data.get('RESULT')
         components = result.split(':')
         code, tag = components[0], components[1]
@@ -52,34 +53,38 @@ class GlsDecoder(Decoder):
             value = components[2]
         if code == 'E000':
             return False
-        message = "Web service error : code: %s ; tag: %s ; value: %s"
-        log.warning(message % (code, tag, value))
+        ctx_except = "Web service error : code: %s ; tag: %s ; value: %s" % (
+            code, tag, value)
         if code == 'E999':
-            log.warning(
-                "Unibox server (web service) is not responding.\n"
-                "Check network connection, webservice accessibility.")
+            exception = "Unibox server (web service) is not responding.\n" \
+                "Check network connection, webservice accessibility."
         elif tag == 'T330':
             zip_code = ''
             if data['T330']:
                 zip_code = data['T330']
-            errors.append(
-                "Postal code '%s' is wrong (relative to the "
-                "destination country)" % zip_code)
+            exception = "Postal code '%s' is wrong (relative to the " \
+                "destination country)" % zip_code
         elif tag == 'T100':
             cnty_code = ''
             if data['T100']:
                 cnty_code = data['T100']
-            errors.append("Country code '%s' is wrong" % cnty_code)
+            exception = "Country code '%s' is wrong" % cnty_code
         else:
             info = {}
             merge_dict(info)
+            log.warning("Exception according these data:")
             log.warning("""Tag "%s" (%s), value %s""" % (
                 tag, info.get(tag), value))
-        log.info("""
-        >>> Rescue label will be printed instead of the standard label""")
-        if len(errors) > 0:
-            raise CarrierError(ResponseObject(result), errors[0])
+        if exception:
+            self.format_exception(result, exception, ctx_except, data_request)
         return False
+
+    def format_exception(self, result, exception, ctx_except, data_request):
+        exc = "Roulier library for gls exception:\n\t%s\n\n" \
+            "Contexte :\n\t%s\n\nDonnées envoyées:\n%s" % (
+                exception, ctx_except, data_request)
+        log.warning(exc)
+        raise CarrierError(result, exc)
 
     def validate_template(self, template_string, available_keys):
         import re
@@ -97,12 +102,3 @@ class GlsDecoder(Decoder):
                      "in template but without valid replacement "
                      "values\n" % unknown_unmatch)
         return unmatch
-
-
-class ResponseObject():
-    """ Minimal response object for Roulier integration
-    """
-    text = None
-
-    def __init__(self, text):
-        self.text = text
