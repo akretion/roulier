@@ -18,13 +18,22 @@ class GlsDecoder(Decoder):
     def decode(self, response):
         """Gls -> Python."""
         data = self.exotic_serialization_to_dict(response.get("body"))
-        exception = self.search_exception(data, response.get("data_request"))
-        if exception:
-            return exception
+        self.search_exception(data, response.get("data_request"))
         return {
-            "tracking_number": data.get("T8913"),
-            "content": self.populate_label(data),
-            "name": data.get("T8913")
+            "parcels": [{
+                "id": 1,  # no multi parcel management for now.
+                "reference": "",
+                "tracking": {
+                    'number': data.get("T8913"),
+                    "url": "",
+                },
+                "label": {
+                    "data": self.populate_label(data),
+                    "name": "label_%s" % data.get("T8913"),
+                    "type": "zpl",
+                },
+            }],
+            "annexes": [],
         }
 
     def exotic_serialization_to_dict(self, data):
@@ -76,10 +85,10 @@ class GlsDecoder(Decoder):
             log.warning("""Tag "%s" (%s), value %s""" % (
                 tag, info.get(tag), value))
         if exception:
-            self.format_exception(result, exception, ctx_except, data_request)
+            self.create_exception(result, exception, ctx_except, data_request)
         return False
 
-    def format_exception(self, result, exception, ctx_except, data_request):
+    def create_exception(self, result, exception, ctx_except, data_request):
         exc = "Roulier library for gls exception:\n\t%s\n\n" \
             "Contexte :\n\t%s\n\nDonnées envoyées:\n%s" % (
                 exception, ctx_except, data_request)
