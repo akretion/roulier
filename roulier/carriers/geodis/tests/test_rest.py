@@ -3,9 +3,10 @@
 import json
 from collections import OrderedDict
 
-from ..geodis_decoder_rest_ws import GeodisTrackingListApi, GeodisDecoderRestWs
+from ..geodis_decoder_rest_ws import GeodisDecoderRestWs
 from ..geodis_encoder_rest_ws import GeodisEncoderRestWs
 from ..geodis_transport_rest_ws import GeodisTransportRestWs
+from ..geodis_api_rest_ws import GeodisApiTrackingListOut
 
 
 def test_encode():
@@ -15,6 +16,20 @@ def test_encode():
     infos = payload['infos']
     assert infos['action'] == 'trackingList'
     assert infos['service'] in infos['url']
+
+
+def test_encode_api():
+    encoder = GeodisEncoderRestWs()
+    data = encoder.api('trackingList')
+
+    data['service']['shippingDateStart'] = "2019-07-02"
+    data['service']['shippingDateEnd'] = "2019-07-02"
+    data['auth']['login'] = 'Akretion'
+    data['auth']['password'] = '121221789271'
+
+    payload = encoder.encode(data, 'trackingList')
+    body = payload['body']
+    assert body['dateDepartFin'] == "2019-07-02"
 
 
 def test_transport_hash():
@@ -56,7 +71,7 @@ def test_transport_hash():
 
 
 def test_decoder_visit():
-    api = GeodisTrackingListApi()
+    api = GeodisApiTrackingListOut()
     schema = {
         'str': 'simple_string',
         'int': 'simple_integer',

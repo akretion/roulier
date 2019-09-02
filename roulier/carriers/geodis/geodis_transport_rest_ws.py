@@ -84,11 +84,11 @@ class GeodisTransportRestWs(Transport):
         }]
         raise CarrierError(response, errors)
 
-    def handle_true_negative_error(self, response):
+    def handle_true_negative_error(self, response, payload):
         """When servers answer an error with a 200 status code."""
         errors = [{
-            "id": response.get('codeErreur', ''),
-            "message": response.get('texteErreur', '')
+            "id": payload.get('codeErreur', ''),
+            "message": payload.get('texteErreur', '')
         }]
         raise CarrierError(response, errors)
 
@@ -96,7 +96,7 @@ class GeodisTransportRestWs(Transport):
         """Handle response type 200."""
         payload = json.loads(response.text)
         if payload['ok'] is not True:
-            self.handle_true_negative_error(response)
+            self.handle_true_negative_error(response, payload)
         return {
             "body": payload.get('contenu', []),
             "parts": [],
