@@ -18,6 +18,14 @@ class GeodisApiRestWs(Api):
         step2 = internalApi.normalize(step1)
         return step2
 
+    def api_values(self):
+        """Return a dict containing expected keys.
+
+        It's a normalized version of the schema.
+        only internal api
+        """
+        return self._validator().normalized({}, self.api_schema())
+
     def _interal_api(self):
         pass
 
