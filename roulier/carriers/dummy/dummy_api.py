@@ -16,12 +16,13 @@ class DummyApi(Api):
 
     def _to_address(self):
         schema = super(DummyApi, self)._to_address()
-        schema['dept'] = {'default': '', 'description': 'Region code'}
+        # , 'description': 'Region code'
+        schema['dept'] = {'default': ''}
         return schema
 
     def _parcel(self):
         schema = super(DummyApi, self)._parcel()
-        schema['reference'] = {'default': '', 'description': 'Parcel reference'}
+        schema['reference'] = {'default': ''}
         return schema
 
     def _auth(self):

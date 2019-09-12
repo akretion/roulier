@@ -27,15 +27,17 @@ class GeodisApiWs(Api):
         schema['customerId'].update({'required': True, 'empty': False})
         schema['shippingId'].update({'required': True, 'empty': False})
         schema['hubId'] = {
-            'description': 'TEOS : code agence Hub de sortie',
+            # 'description': 'TEOS : code agence Hub de sortie',
             'default': ''
         }
         schema['is_test'] = {
             'type': 'boolean', 'default': True,
-            'description': 'Use test Ws'}
+            # 'description': 'Use test Ws'
+            }
         schema['option'] = {
             'type': 'string', 'default': False,
-            'description': """Options (RDW, RDV, ETG, ...)"""}
+            # 'description': """Options (RDW, RDV, ETG, ...)"""
+            }
         schema['notification'] = {
             'default': GEODIS_ALLOWED_NOTIFICATIONS[0],
             'allowed': GEODIS_ALLOWED_NOTIFICATIONS}
@@ -69,7 +71,8 @@ class GeodisApiWs(Api):
         schema['reference'] = {
             'type': 'string', 'required': False,
             'empty': True, 'default': '',
-            'description': 'Description of this parcel'}
+            # 'description': 'Description of this parcel'
+            }
         return schema
 
     def _parcels(self):

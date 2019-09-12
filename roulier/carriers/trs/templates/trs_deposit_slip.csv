@@ -1,4 +1,0 @@
-client,siret,refCommande,dateEnlevement,dateLivraison,cr,va,nom,adr1,adr2,cp,ville,telephone,mobile,email,refDest,commentLiv,nbConducteurs,Poids,nbColis,qtéFacturée,article1,regroupement,refComfour,codeBarre,descColis,porteur,jourLivraison
-{{sender_address.name}},{{#siret}},{{parcel.ref?}},{{ ?.date}},{{ #dateLivraison}},{{#cod}},{{#va}},{{ receiver_address.name}},{{ receiver_address.street1}},{{ receiver_address.street2}},{{ receiver_address.zipCode}},{{ receiver_address.city}},{{ receiver_address.phone}},{{ receiver_address.email}},{{#refDest}},{{#commentaire livraison}},{{#nombre de conduteurs?}},{{parcel.weight}},{{#nombre de colis}},{{#qteFacture?}},{{#article}},{{#regroupement}},{{#refComfour}},{{codebar}},descColis,porteur,jourLivraison
-
-

@@ -1,4 +1,7 @@
 
+# Next
+    - Misc python3 fix
+    - Remove TRS carrier because aborted project
 
 Roadmap / TODO: 
 

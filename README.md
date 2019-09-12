@@ -11,7 +11,7 @@ Roulier will get a label + tracking number to your carrier for you.
 * Roulier runs on your server and call each carrier API directly.
 * You have to use your own credentials provided by each carriers.
 * Roulier is Open Source software, AGPL-3
-* Roulier integrate a multitude of carriers : Laposte, Geodis, DPD, K&N, TRS... more to come.
+* Roulier integrate a multitude of carriers : Laposte, Geodis, DPD, K&N... more to come.
 
 
 
@@ -50,7 +50,7 @@ response = laposte.get_label({
 })
 
 
-print response
+print(response)
 
 ```
 
@@ -58,7 +58,7 @@ print response
 Get supported carriers:
 ```python
 from roulier import roulier
-print roulier.get_carriers()
+print(roulier.get_carriers())
 ```
 
 To get the full list of parameters:
@@ -82,7 +82,7 @@ laposte = roulier.get('laposte')
 api = laposte.api()
 api['auth']['login'] = '12345'
 ...
-print laposte.get_label(api)
+print(laposte.get_label(api))
 
 # {
 #	label: {
@@ -194,4 +194,3 @@ l_api._parcel()
 * [Requests](http://docs.python-requests.org/) - HTTP requests
 * [zplgrf](https://github.com/kylemacfarlane/zplgrf) - PNG to ZPL conversion
 * [unidecode](https://pypi.python.org/pypi/Unidecode) - Remove accents from ZPL
-* [unicodecsv](https://github.com/jdunck/python-unicodecsv) - CSV generation
