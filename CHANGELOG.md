@@ -14,6 +14,13 @@ Roadmap / TODO:
 	- define an output API (tracking)
 	- generate api documentation
 
+# 0.3.8 2019-09-12
+    - Geodis: add Zoom API implementation (tracking)
+    - Geodis: name specifications in comments in geodis.py
+    - Geodis: add tests about Zoom Api
+    - Geodis: GeodisDecoder -> GeodisDecoderWs
+    - Add tests in .travis
+
 # 0.3.7 2019-01-07
     - Geodis: fix sending company name
     - Geodis: fix coerce for EDI
