@@ -2,7 +2,10 @@ language: python
 python: 
 - "2.7"
 - "3.6"
-script: 
+install:
+  - pip install -r requirements.txt
+  - pip install pytest
+script:
 - pytest
 deploy: 
   provider: pypi
