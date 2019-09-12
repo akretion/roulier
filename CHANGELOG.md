@@ -11,6 +11,8 @@ Roadmap / TODO:
 	- Improve documentation
 	- Support additionnal methods of api
 	- Write tests
+	- define an output API (tracking)
+	- generate api documentation
 
 # 0.3.7 2019-01-07
     - Geodis: fix sending company name
