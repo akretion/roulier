@@ -7,9 +7,8 @@ class GeodisApiFindLocaliteWs(Api):
 
     def _service(self):
         schema = {}
-        schema['is_test'] = {
-            'type': 'boolean', 'default': True,
-            'description': 'Use test Ws'}
+        # 'description': 'Use test Ws'
+        schema['is_test'] = {'type': 'boolean', 'default': True}
         return schema
 
     def _address(self):

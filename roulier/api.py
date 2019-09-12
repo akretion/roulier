@@ -7,14 +7,6 @@ from unidecode import unidecode
 class MyValidator(Validator):
     """Custom validator."""
 
-    def _validate_description(self, description, field, value):
-        """Allow 'description' in schema.
-
-        The rule's arguments are validated against this schema:
-        { 'description': 'a string'}
-        """
-        pass
-
     def _normalize_coerce_zpl(self, value):
         """Sanitze input for ZPL.
 
@@ -68,6 +60,8 @@ class MyValidator(Validator):
             .replace(u"Ç", "C")
             .replace(u"Û", "U")
             .replace(u"Ù", "U")
+            .replace(u"œ", "oe")
+            .replace(u"Œ", "OE")
         ).encode('ascii', 'ignore') # cut remaining chars
         return sanitized
 
@@ -89,14 +83,15 @@ class Api(object):
 
     def _address(self):
         return {
-            'company': {'type': 'string', 'default': '', 'description': 'Company'},
+            'company': {'type': 'string', 'default': ''},
             'name': {'type': 'string', 'default': '', 'required': True, 'empty': False},
             'street1': {'type': 'string', 'default': ''},
             'street2': {'type': 'string', 'default': ''},
-            'country': {'type': 'string', 'default': '', 'description': 'ISO 3166-1 alpha-2 '},
+            'country': {'type': 'string', 'default': ''},
+            # , 'description': 'ISO 3166-1 alpha-2 '},
             'city': {'type': 'string', 'default': ''},
             'zip': {'type': 'string', 'default': ''},
-            'phone': {'type': 'string', 'default': '', 'description': 'Phone'},
+            'phone': {'type': 'string', 'default': ''},
             'email': {'type': 'string', 'default': ''},
         }
 
@@ -114,8 +109,9 @@ class Api(object):
 
     def _parcel(self):
         return {
-            "weight": {'type': 'float', 'default': '', 'description': 'Weight in kg', 'required': True, 'empty': False},
+            "weight": {'type': 'float', 'default': '', 'required': True, 'empty': False},
         }
+        # 'description': 'Weight in kg',
 
     def _parcels(self):
         v = MyValidator()
@@ -127,16 +123,20 @@ class Api(object):
 
     def _service(self):
         return {
-            "product": {'default': '', 'description': ''},
-            "agencyId": {'default': '', 'description': ''},
-            "customerId": {'default': '', 'description': ''},
+            "product": {'default': ''},
+            "agencyId": {'default': ''},
+            "customerId": {'default': ''},
             "shippingId": {'default': ''},
-            'shippingDate': {'default': '', 'type': 'string', 'required': True, 'empty': False, 'description': 'When the carrier has the package. Format: YYYY/MM/DD'},
-            'reference1': {'type': 'string', 'default': '', 'description': 'Additionnal info visible by the client. Example : order number'},
+            # 'description': 'When the carrier has the package. Format: YYYY/MM/DD'
+            'shippingDate': {'default': '', 'type': 'string', 'required': True, 'empty': False},
+            # 'description': 'Additionnal info visible by the client. Example : order number'
+            'reference1': {'type': 'string', 'default': ''},
             'reference2': {'type': 'string', 'default': ''},
             'reference3': {'type': 'string', 'default': ''},
-            "labelFormat": {'description': 'Format of output (usually pdf or zpl)', 'default': ''},
-            "instructions": {'description': 'Additionnal instructions for delivery', 'default': ''},
+            # 'description': 'Format of output (usually pdf or zpl)'
+            "labelFormat": {'default': ''},
+            # 'description': 'Additionnal instructions for delivery',
+            "instructions": {'default': ''},
         }
 
     def _auth(self):

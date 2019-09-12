@@ -1,4 +1,7 @@
 
+# Next
+    - Misc python3 fix
+    - Remove TRS carrier because aborted project
 
 Roadmap / TODO: 
 
@@ -8,6 +11,23 @@ Roadmap / TODO:
 	- Improve documentation
 	- Support additionnal methods of api
 	- Write tests
+	- define an output API (tracking)
+	- generate api documentation
+
+# 0.3.8 2019-09-12
+    - Geodis: add Zoom API implementation (tracking)
+    - Geodis: name specifications in comments in geodis.py
+    - Geodis: add tests about Zoom Api
+    - Geodis: GeodisDecoder -> GeodisDecoderWs
+    - Add tests in .travis
+
+# 0.3.7 2019-01-07
+    - Geodis: fix sending company name
+    - Geodis: fix coerce for EDI
+    - Add coercing for oe
+
+# 0.3.5 2018-11-26
+        - Add requirements.txt
 
 # 0.3.4 2018-11-26
         - DPD convert characters to ASCII (because issues on labels) 

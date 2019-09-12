@@ -31,6 +31,12 @@ class GeodisEncoderEdi(Encoder):
     def encode_shipment(self, shipment, service, idx):
         packs = shipment['parcels']
         to_address = shipment['to_address']
+        # There is company notion in to_address, so if company exists
+        # we put it in dest name and person name in contact name.
+        # if it does not exist, we just put person name in both dest name
+        # and contact name. Same is done in webservice side.
+        dest_name = to_address.get('company') or to_address['name']
+        contact_name = to_address['name']
         lines = [
             ['CNI', '%s' % idx, shipment['shippingId']],
             ['TSR', '2',  # 4065
@@ -51,14 +57,14 @@ class GeodisEncoderEdi(Encoder):
             ["NAD", "CN",
                 "",
                 "",  # C058
-                to_address['name'],
+                dest_name,
                 [to_address['street1'], to_address['street2']],
                 to_address['city'],
                 "",  # 3164
                 to_address['zip'],
                 to_address['country']
              ],
-             ['CTA', 'IC', ['', to_address['name']]], 
+             ['CTA', 'IC', ['', contact_name]],
         ]
         if to_address['email']:
             lines.append(['COM', [to_address['email'], 'EM']])

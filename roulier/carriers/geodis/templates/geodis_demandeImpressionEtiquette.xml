@@ -16,7 +16,7 @@
         <imp:telexp>{{ address.phone }}</imp:telexp>
     {% endwith %}
     {% with address = receiver_address %}
-        <imp:nomdst>{{ address.name }}</imp:nomdst>
+        <imp:nomdst>{{ address.company or address.name }}</imp:nomdst>
         <imp:ad1dst>{{ address.street1 }}</imp:ad1dst>
         <imp:ad2dst>{{ address.street2 }}</imp:ad2dst>
         <imp:paydst>{{ address.country }}</imp:paydst>
