@@ -14,6 +14,9 @@ Roadmap / TODO:
 	- define an output API (tracking)
 	- generate api documentation
 
+# 0.3.9 2019-09-12
+    - Improve setup.py
+
 # 0.3.8 2019-09-12
     - Geodis: add Zoom API implementation (tracking)
     - Geodis: name specifications in comments in geodis.py
