@@ -4,6 +4,7 @@ from .carriers.laposte.laposte import Laposte
 from .carriers.dummy.dummy import Dummy
 from .carriers.geodis.geodis import Geodis
 from .carriers.dpd.dpd import Dpd
+from .carriers.gls_fr.gls import Gls
 
 
 def _carriers():
@@ -16,6 +17,8 @@ def _carriers():
         "dummy": Dummy,
         "geodis": Geodis,
         "dpd": Dpd,
+        "gls_fr": Gls,
+        "gls": Gls,
     }
 
 

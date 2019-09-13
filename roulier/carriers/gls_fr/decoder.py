@@ -2,6 +2,7 @@
 
 import logging
 import os
+from io import BytesIO
 from string import Template
 from roulier.codec import Decoder
 from roulier.exception import CarrierError
@@ -19,6 +20,7 @@ class GlsDecoder(Decoder):
         """Gls -> Python."""
         data = self.exotic_serialization_to_dict(response.get("body"))
         self.search_exception(data, response.get("data_request"))
+        data_file = BytesIO(self.populate_label(data).encode())
         return {
             "parcels": [{
                 "id": 1,  # no multi parcel management for now.
@@ -28,9 +30,9 @@ class GlsDecoder(Decoder):
                     "url": "",
                 },
                 "label": {
-                    "data": self.populate_label(data),
+                    "data": data_file.read(),
                     "name": "label_%s" % data.get("T8913"),
-                    "type": "zpl",
+                    "type": "zpl2",
                 },
             }],
             "annexes": [],
@@ -89,10 +91,10 @@ class GlsDecoder(Decoder):
         return False
 
     def create_exception(self, result, exception, ctx_except, data_request):
-        exc = "Roulier library for gls exception:\n\t%s\n\n" \
-            "Contexte :\n\t%s\n\nDonnées envoyées:\n%s" % (
-                exception, ctx_except, data_request)
+        exc = "%s\n\n" "Contexte :\n\t%s" % (exception, ctx_except)
+        log.warning("Gls exception Roulier library ")
         log.warning(exc)
+        log.warning("Données envoyées:\n%s" % data_request)
         raise CarrierError(result, exc)
 
     def validate_template(self, template_string, available_keys):
