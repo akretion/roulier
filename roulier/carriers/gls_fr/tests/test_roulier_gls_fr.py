@@ -1,6 +1,5 @@
 import logging
 from datetime import date
-# from roulier_gls_fr import __version__
 from roulier.carriers.gls_fr.gls import Gls
 
 logger = logging.getLogger(__name__)

@@ -77,7 +77,6 @@ class GlsEncoder(Encoder):
         api = GlsApi()
         # if not api.validate(api_input):
         #     _logger.warning('GLS api call exception:')
-        #     # import pdb; pdb.set_trace()
         #     raise InvalidApiInput(
         #         {'api_call_exception': api.errors(api_input)})
         raw_data = api.normalize(api_input)
