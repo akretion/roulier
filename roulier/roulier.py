@@ -3,8 +3,7 @@
 from .carriers.laposte.laposte import Laposte
 from .carriers.dummy.dummy import Dummy
 from .carriers.geodis.geodis import Geodis
-from .carriers.dpd.dpd import Dpd
-
+from .carriers.dpd.dpd import Dpd as Dpd_legacy
 
 def _carriers():
     """Get names:class of carriers.
@@ -15,7 +14,7 @@ def _carriers():
         "laposte": Laposte,
         "dummy": Dummy,
         "geodis": Geodis,
-        "dpd": Dpd,
+        "dpd": Dpd_legacy,
     }
 
 
