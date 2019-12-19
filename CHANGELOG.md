@@ -14,6 +14,11 @@ Roadmap / TODO:
 	- define an output API (tracking)
 	- generate api documentation
 
+# 0.4.0 2019-12-19
+	- Add dpd_fr (new api for DPD), the old dpd api is still present
+	but deprecated.
+	- Add tests in dpd_fr
+
 # 0.3.9 2019-09-12
     - Improve setup.py
 
