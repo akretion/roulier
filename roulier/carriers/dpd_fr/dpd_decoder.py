@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """Dpd XML -> Python."""
 from roulier.codec import Decoder
-from exceptions import NotImplementedError
-
 
 class DpdDecoder(Decoder):
     """Dpd json response -> Python."""
