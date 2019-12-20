@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Implementation of Dpd Api."""
+"""Implementation of Dpd Fr Api."""
 from roulier.api import Api
 
 DPD_LABEL_FORMAT = (
@@ -203,6 +203,7 @@ class DpdApiGetLabelMappingIn():
         return {
            "receiverFirmName": data["to_address"]["company"],
            "receiverFistName": data["to_address"]["name"],
+           "receiverLastName": data['to_address']["lastName"],
            "receiverStreet": data["to_address"]["street1"],
            "receiverStreetInfo": data["to_address"]["street2"],
            "receiverCountryCode": data["to_address"]["country"],
