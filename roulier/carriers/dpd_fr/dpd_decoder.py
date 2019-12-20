@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Dpd XML -> Python."""
 from roulier.codec import Decoder
+import base64
 
 class DpdDecoder(Decoder):
     """Dpd json response -> Python."""
@@ -13,7 +14,7 @@ class DpdDecoder(Decoder):
         """
         if action == 'createShipmentWithLabels':
             mapping = DpdApiGetLabelMappingOut()
-            return mapping.normalize(payload, request)
+            return mapping.normalize(payload['body'], request['body'])
         else:
             raise NotImplementedError(action)
 
@@ -68,7 +69,7 @@ class DpdApiGetLabelMappingOut():
     def _label(self, data):
         return {
             "name": data['fileName'],
-            "data": data['fileContent'],
+            "data": base64.b64decode(data['fileContent']),
             "type": data['fileType'],
         }
     def _main_label(self, data):
