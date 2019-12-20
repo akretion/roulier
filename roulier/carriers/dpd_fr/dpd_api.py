@@ -110,7 +110,7 @@ class DpdApi(Api):
     def _to_address(self):
         schema = super(DpdApi, self)._to_address()
         schema['name'] = { 'empty': True}
-        schema['lastName'] = {'default': '', 'coerce': 'accents'}
+        schema['firstName'] = {'default': '', 'coerce': 'accents'}
         schema['door1'] = {'default': ''}  # 'description': """Door code 1"""
         schema['door2'] = {'default': ''}  # 'description': """Door code 2"""}
         schema['intercom'] = {'default': ''}  # 'description': """Intercom"""}
@@ -202,8 +202,8 @@ class DpdApiGetLabelMappingIn():
     def _to_address(self, data):
         return {
            "receiverFirmName": data["to_address"]["company"],
-           "receiverFistName": data["to_address"]["name"],
-           "receiverLastName": data['to_address']["lastName"],
+           "receiverFistName": data["to_address"]["firstName"],
+           "receiverLastName": data['to_address']["name"],
            "receiverStreet": data["to_address"]["street1"],
            "receiverStreetInfo": data["to_address"]["street2"],
            "receiverCountryCode": data["to_address"]["country"],
