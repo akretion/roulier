@@ -200,10 +200,33 @@ class DpdApiGetLabelMappingIn():
         }
 
     def _to_address(self, data):
-        return {
-           "receiverFirmName": data["to_address"]["company"],
-           "receiverFistName": data["to_address"]["firstName"],
-           "receiverLastName": data['to_address']["name"],
+
+        def harmonize_address(to_address):
+            """If firstName then lastName should be send
+
+            Otherwise we put stuff in company."""
+            company = to_address["company"]
+            firstName = to_address["firstName"]
+            lastName = to_address["name"]
+
+            if not firstName:
+                if company == lastName:
+                    return {
+                        "receiverFirmName": company,
+                    }
+                else:
+                    return {
+                        "receiverFirmName": "%s %s" % (lastName, company)
+                    }
+            else:
+                return {
+                    "receiverFirmName": company,
+                    "receiverFirstName": firstName,
+                    "receiverLastName": lastName,
+                }
+
+        add = harmonize_address(data['to_address'])
+        add.update({
            "receiverStreet": data["to_address"]["street1"],
            "receiverStreetInfo": data["to_address"]["street2"],
            "receiverCountryCode": data["to_address"]["country"],
@@ -211,7 +234,9 @@ class DpdApiGetLabelMappingIn():
            "receiverZipCode": data["to_address"]["zip"],
            "receiverMobileNumber": data["to_address"]["phone"],
            "receiverEmailAddress": data["to_address"]["email"],
-        }
+        })
+        return add
+
 
     def _from_address(self, data):
         if not data['service']['replaceSender']:
