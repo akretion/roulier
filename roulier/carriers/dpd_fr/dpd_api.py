@@ -87,7 +87,7 @@ class DpdApi(Api):
             'required': True,
             'default': DPD_PRODUCTS["DPD CLASSIC"],
             # 'description': 'Type de produit',
-            'allowed': DPD_PRODUCTS.values(),
+            'allowed': DPD_PRODUCTS.values() + DPD_PRODUCTS.keys(),
             'coerce': dpd_product_coerce
         })
 
