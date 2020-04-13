@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
 """Factory of main classes."""
-from .carriers.laposte.laposte import Laposte
-from .carriers.dummy.dummy import Dummy
-from .carriers.geodis.geodis import Geodis
-from .carriers.dpd.dpd import Dpd
+
+from .codec import Encoder, Decoder
+from .api import Api
+from .transport import Transport
+from .tools import get_subclass
 
 
-def _carriers():
-    """Get names:class of carriers.
-
-    You may use the factory get('laposte') instead.
-    """
-    return {
-        "laposte": Laposte,
-        "dummy": Dummy,
-        "geodis": Geodis,
-        "dpd": Dpd,
-    }
+# generic method which call the right action on the right class.
+def get(action, carrier_type, *args):
+    myclass = get_subclass(Carrier, carrier_type, action)
+    return getattr(myclass, action)(carrier_type, action, *args)
 
 
 def get_carriers():
@@ -24,21 +18,32 @@ def get_carriers():
 
     return: list of strings
     """
-    return _carriers().keys()
+    return [
+        'laposte_fr',
+        'chronopost_fr',
+    ]
 
 
-def get(carrier):
-    """Get a 1 method carrier implementation.
+def get_schema(action, carrier_type):
+    carrier_api = get_subclass(Api, carrier_type, action)()
+    return getattr(carrier_api, 'api_schema')()
 
-    If you need more, like only encode or only transport
-    (Webservice), instanciate class directly like:
-    from roulier.carriers.laposte import LaposteTransport
-    ws = LaposteTransport()
-    ws.send(data)
-    """
-    carrier_obj = _carriers().get(carrier.lower())
 
-    if carrier_obj:
-        return carrier_obj()
-    else:
-        raise BaseException("Carrier not found")
+class Carrier(object):
+    _carrier_type = None
+    _action = []
+
+
+    @classmethod
+    def get_label(cls, carrier_type, action, data):
+        encoder = get_subclass(Encoder, carrier_type, action)()
+        decoder = get_subclass(Decoder, carrier_type, action)()
+        transport = get_subclass(Transport, carrier_type, action)()
+
+        payload = encoder.encode(data, action)
+        response = transport.send(payload)
+        return decoder.decode(response, payload)
+
+    def get_tracking_link(carrier_type, action, data):
+        # nothing generic todo?
+        pass

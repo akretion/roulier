@@ -1,41 +1,29 @@
 # -*- coding: utf-8 -*-
 """Implement laposteWS."""
 import requests
-import email.parser
 from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader
-from roulier.transport import Transport
 from roulier.ws_tools import remove_empty_tags, get_parts
 from roulier.exception import CarrierError
 import logging
 
+from roulier.transport import Transport
+from .common import CARRIER_TYPE, LAPOSTE_WS
+
 log = logging.getLogger(__name__)
 
 
-class LaposteTransport(Transport):
+class LaposteFrTransport(Transport):
     """Implement Laposte WS communication."""
+    _carrier_type = CARRIER_TYPE
+    _action = ['get_label']
+    WS_URL = LAPOSTE_WS
 
-    LAPOSTE_WS = "https://ws.colissimo.fr/sls-ws/SlsServiceWS"
-
-    def send(self, payload):
-        """Call this function.
-
-        Args:
-            payload.body: XML in a string
-            payload.header : auth
-        Return:
-            {
-                response: (Requests.response)
-                body: XML response (without soap)
-                parts: dict of attachments
-            }
-        """
+    def before_ws_call_transform_payload(self, payload):
         body = payload['body']
         headers = payload['headers']
         soap_message = self.soap_wrap(body, headers)
-        log.debug(soap_message)
-        response = self.send_request(soap_message)
-        return self.handle_response(response)
+        return soap_message
 
     def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
@@ -48,12 +36,8 @@ class LaposteTransport(Transport):
         data = template.render(body=body_stripped)
         return data.encode('utf8')
 
-    def send_request(self, body):
-        """Send body to laposte WS."""
-        return requests.post(
-            self.LAPOSTE_WS,
-            headers={'content-type': 'text/xml;charset=UTF-8'},
-            data=body)
+    def _get_requests_headers(self):
+        return {'content-type': 'text/xml;charset=UTF-8'}
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
@@ -77,7 +61,7 @@ class LaposteTransport(Transport):
             errors = [
                 {
                     'id': message.id,
-                    'message': unicode(message.messageContent),
+                    'message': str(message.messageContent),
                 }
                 for message in messages if message.type == "ERROR"
             ]
@@ -108,17 +92,3 @@ class LaposteTransport(Transport):
             'parts': get_parts(response),
             'response': response,
         }
-
-    def handle_response(self, response):
-        """Handle response of webservice."""
-        if response.status_code == 200:
-            return self.handle_200(response)
-        elif response.status_code == 500:
-            return self.handle_500(response)  # will raise
-        else:
-            raise CarrierError(response, [{
-                'id': None,
-                'message': "Unexpected status code from server",
-            }])
-
-    

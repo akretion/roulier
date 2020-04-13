@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from . import laposte
-from . import dummy
-from . import geodis
-from . import dummy
-from . import dpd
+from . import laposte_fr
+from . import chronopost_fr
+
+# from . import geodis
+# from . import dpd

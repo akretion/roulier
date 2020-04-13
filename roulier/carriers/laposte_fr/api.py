@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Implementation of Laposte Api."""
 from roulier.api import Api
+from .common import CARRIER_TYPE
 
 LAPOSTE_LABEL_FORMAT = (
     'ZPL_10x15_203dpi',
@@ -12,9 +13,12 @@ LAPOSTE_LABEL_FORMAT = (
 )
 
 
-class LaposteApi(Api):
+class LaposteFrApi(Api):
+    _carrier_type = CARRIER_TYPE
+    _action = ['get_label']
+
     def _service(self):
-        schema = super(LaposteApi, self)._service()
+        schema = super()._service()
         schema['labelFormat']['allowed'] = (
             list(LAPOSTE_LABEL_FORMAT) + ["PDF", "ZPL", "DPL"])
         schema['labelFormat']['default'] = 'ZPL_10x15_203dpi'
@@ -63,7 +67,7 @@ class LaposteApi(Api):
         return schema
 
     def _address(self):
-        schema = super(LaposteApi, self)._address()
+        schema = super()._address()
         schema['country'].update({'required': True, 'empty': False})
         schema['zip'].update({'required': True, 'empty': False})
         schema['city'].update({'required': True, 'empty': False})
@@ -95,11 +99,11 @@ class LaposteApi(Api):
         return schema
 
     def _from_address(self):
-        schema = super(LaposteApi, self)._from_address()
+        schema = super()._from_address()
         return schema
 
     def _to_address(self):
-        schema = super(LaposteApi, self)._to_address()
+        schema = super()._to_address()
         schema['firstName'] = {
             'default': '',
             }
@@ -107,7 +111,7 @@ class LaposteApi(Api):
         return schema
 
     def _parcel(self):
-        schema = super(LaposteApi, self)._parcel()
+        schema = super()._parcel()
         schema['nonMachinable'] = {
             'type': 'boolean', 'default': False,
             # 'description': """Passer à true pour indiquer que le "
@@ -148,7 +152,7 @@ class LaposteApi(Api):
         return schema
 
     def _auth(self):
-        schema = super(LaposteApi, self)._auth()
+        schema = super()._auth()
         schema['login'].update({'required': True, 'empty': False})
         schema['password']['required'] = False
         return schema
@@ -172,6 +176,6 @@ class LaposteApi(Api):
         return schema
 
     def _schemas(self):
-        schemas = super(LaposteApi, self)._schemas()
+        schemas = super()._schemas()
         schemas['customs'] = self._customs()
         return schemas

@@ -67,6 +67,8 @@ class MyValidator(Validator):
 
 
 class Api(object):
+    _carrier_type = ""
+    _action = []
     """Define expected fields of carriers.
 
     This class should be overriden by each carrier.
