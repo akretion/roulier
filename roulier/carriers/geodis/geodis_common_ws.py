@@ -11,13 +11,13 @@ GEODIS_INFOS = {
     'demandeImpressionEtiquette': {
         'xmlns': 'http://impression.service.web.etiquette.geodis.com',
         'endpoint': "http://espace.geodis.com/geolabel/services/ImpressionEtiquette",  # nopep8
-        'endpoint_test': "http://espace.recette.geodis.com/geolabel/services/ImpressionEtiquette",  # nopep8
+        'endpoint_test': "http://espace-rct.geodis.com/geolabel/services/ImpressionEtiquette",  # nopep8
         'api': GeodisApiWs,
     },
     'findLocalite': {
         'xmlns': 'http://localite.service.web.etiquette.geodis.com',
         'endpoint': "http://espace.geodis.com/geolabel/services/RechercherLocalite",  # nopep8
-        'endpoint_test': "http://espace.recette.geodis.com/geolabel/services/RechercherLocalite",  # nopep8
+        'endpoint_test': "http://espace-rct.geodis.com/geolabel/services/RechercherLocalite",  # nopep8
         'api': GeodisApiFindLocaliteWs,
     },
     'trackingList': {
