@@ -16,8 +16,8 @@ GEODIS_INFOS = {
     },
     'findLocalite': {
         'xmlns': 'http://localite.service.web.etiquette.geodis.com',
-        'endpoint': "http://espace.geodis.com/geolabel/services/RechercherLocalite",  # nopep8
-        'endpoint_test': "http://espace-rct.geodis.com/geolabel/services/RechercherLocalite",  # nopep8
+        'endpoint': "https://espace.geodis.com/geolabel/services/RechercherLocalite",  # nopep8
+        'endpoint_test': "https://espace-rct.geodis.com/geolabel/services/RechercherLocalite",  # nopep8
         'api': GeodisApiFindLocaliteWs,
     },
     'trackingList': {
