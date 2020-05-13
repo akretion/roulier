@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """API interface."""
 from cerberus import Validator
 from unidecode import unidecode
@@ -66,16 +65,15 @@ class MyValidator(Validator):
         return sanitized
 
 
-class Api(object):
-    _carrier_type = ""
-    _action = []
+class ApiParcel(object):
     """Define expected fields of carriers.
 
     This class should be overriden by each carrier.
     """
 
-    def __init__(self):
-        """."""
+
+    def __init__(self, config_object):
+        self.config = config_object
 
     def _validator(self):
         v = MyValidator()

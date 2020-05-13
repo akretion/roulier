@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
 """Implement laposteWS."""
-import requests
 from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader
 from roulier.ws_tools import remove_empty_tags, get_parts
 from roulier.exception import CarrierError
 import logging
 
-from roulier.transport import Transport
-from .common import CARRIER_TYPE, LAPOSTE_WS
+from roulier.transport import RequestTransport
 
 log = logging.getLogger(__name__)
 
 
-class LaposteFrTransport(Transport):
+class LaposteFrTransport(RequestTransport):
     """Implement Laposte WS communication."""
-    _carrier_type = CARRIER_TYPE
-    _action = ['get_label']
-    WS_URL = LAPOSTE_WS
 
     def before_ws_call_transform_payload(self, payload):
         body = payload['body']
@@ -28,7 +23,7 @@ class LaposteFrTransport(Transport):
     def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader('roulier', '/carriers/laposte/templates'),
+            loader=PackageLoader('roulier', '/carriers/laposte_fr/templates'),
             extensions=['jinja2.ext.with_'])
 
         template = env.get_template("laposte_soap.xml")

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Implementation of Laposte Api."""
-from roulier.api import Api
-from .common import CARRIER_TYPE
+from roulier.api import ApiParcel
 
 LAPOSTE_LABEL_FORMAT = (
     'ZPL_10x15_203dpi',
@@ -13,9 +12,7 @@ LAPOSTE_LABEL_FORMAT = (
 )
 
 
-class LaposteFrApi(Api):
-    _carrier_type = CARRIER_TYPE
-    _action = ['get_label']
+class LaposteFrApiParcel(ApiParcel):
 
     def _service(self):
         schema = super()._service()

@@ -6,18 +6,11 @@ from roulier.exception import InvalidApiInput
 
 _logger = logging.getLogger(__name__)
 from roulier.codec import Encoder
-from .common import CARRIER_TYPE
 from .api import LAPOSTE_LABEL_FORMAT
 
 
 class LaposteFrEncoder(Encoder):
     """Transform input to laposte compatible xml."""
-
-    _carrier_type = CARRIER_TYPE
-    _action = ["get_label"]
-
-    def _get_actions_mapping():
-        return {"get_label": "generateLabelRequest"}
 
     def _extra_input_data_processing(self, input_payload, data):
         data["service"]["labelFormat"] = self.lookup_label_format(
@@ -25,12 +18,13 @@ class LaposteFrEncoder(Encoder):
         )
         return data
 
-    def transform_input_to_carrier_webservice(self, data, action):
+    def transform_input_to_carrier_webservice(self, data):
         env = Environment(
-            loader=PackageLoader("roulier", "/carriers/laposte/templates"),
+            loader=PackageLoader("roulier", "/carriers/laposte_fr/templates"),
             extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )
+        action = self.config.action
 
         template = env.get_template("laposte_%s.xml" % action)
         return {

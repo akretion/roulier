@@ -1,49 +1,35 @@
-# -*- coding: utf-8 -*-
 """Factory of main classes."""
 
-from .codec import Encoder, Decoder
-from .api import Api
-from .transport import Transport
-from .tools import get_subclass
+class RoulierFactory(object):
+    def __init__(self):
+        self._carrier_action = {}
+
+    def register_builder(self, carrier_type, action, Carrierclass):
+        self._carrier_action[(carrier_type, action)] = Carrierclass
+
+    def get(self, carrier_type, action, **kwargs):
+        carrierclass = self._carrier_action.get((carrier_type, action))
+        if not carrierclass:
+            raise ValueError((carrier_type, action))
+        return carrierclass(carrier_type, action, **kwargs)
+
+
+factory = RoulierFactory()
 
 
 # generic method which call the right action on the right class.
-def get(action, carrier_type, *args):
-    myclass = get_subclass(Carrier, carrier_type, action)
-    return getattr(myclass, action)(carrier_type, action, *args)
+def get(carrier_type, action, *args, **kwargs):
+    carrier_obj = factory.get(carrier_type, action)
+    return getattr(carrier_obj, action)(carrier_type, action, *args, **kwargs)
 
 
-def get_carriers():
-    """Get name of available carriers.
-
-    return: list of strings
+def get_carriers_action_available():
     """
-    return [
-        'laposte_fr',
-        'chronopost_fr',
-    ]
-
-
-def get_schema(action, carrier_type):
-    carrier_api = get_subclass(Api, carrier_type, action)()
-    return getattr(carrier_api, 'api_schema')()
-
-
-class Carrier(object):
-    _carrier_type = None
-    _action = []
-
-
-    @classmethod
-    def get_label(cls, carrier_type, action, data):
-        encoder = get_subclass(Encoder, carrier_type, action)()
-        decoder = get_subclass(Decoder, carrier_type, action)()
-        transport = get_subclass(Transport, carrier_type, action)()
-
-        payload = encoder.encode(data, action)
-        response = transport.send(payload)
-        return decoder.decode(response, payload)
-
-    def get_tracking_link(carrier_type, action, data):
-        # nothing generic todo?
-        pass
+        Return all possible action by implemented carriers.
+    """
+    action_by_carrier = {}
+    for carrier_type, action in factory._carrier_action.keys():
+        if not carrier_type in action_by_carrier:
+            action_by_carrier[carrier_type] = []
+        action_by_carrier[carrier_type].append(action)
+    return action_by_carrier

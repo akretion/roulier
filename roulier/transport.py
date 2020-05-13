@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Send a request to a carrier and get the result."""
+from abc import ABC, abstractmethod
 import requests
 from .exception import CarrierError
 import logging
@@ -7,10 +8,10 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Transport(object):
-    _carrier_type = ''
-    _action = []
-    WS_URL = ''
+class RequestTransport(ABC):
+
+    def __init__(self, config_object):
+        self.config = config_object
 
     def before_ws_call_transform_payload(self, payload):
         return payload
@@ -22,30 +23,34 @@ class Transport(object):
         log.info("WS response time %s" % response.elapsed.total_seconds())
         return self.handle_response(response)
 
+    @abstractmethod
     def _get_requests_headers(self):
         return {}
 
     def send_request(self, body):
-        """Send body to Chronopost WS."""
         headers = self._get_requests_headers()
+        ws_url = self.config.ws_url
         return requests.post(
-            self.WS_URL, headers=headers, data=body
+            ws_url, headers=headers, data=body
         )
 
+    @abstractmethod
     def handle_200(self, response):
         """ 
             Handle response type 200 (success).
             But it still may contain errors from the carrier webservice.
         """
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
-        raise NotImplementedError
+        pass
 
-    def handle_400(self, response):
-        """Handle reponse in case of ERROR 500 type."""
-        raise CarrierError(response, 'Error 400 : Carrier webservice is unavailable')
+#    @abstractmethod
+#    def handle_400(self, response):
+#        """Handle reponse in case of ERROR 500 type."""
+#        pass
 
     def handle_response(self, response):
         """Handle response of webservice."""
@@ -54,8 +59,8 @@ class Transport(object):
         elif response.status_code == 500:
             log.warning("%s error 500" % self._carrier_type)
             return self.handle_500(response)
-        elif response.status_code == 400:
-            return self.handle_400(response)
+#        elif response.status_code == 400:
+#            return self.handle_400(response)
         else:
             raise CarrierError(
                 response,
