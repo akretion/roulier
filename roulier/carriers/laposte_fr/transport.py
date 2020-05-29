@@ -6,12 +6,12 @@ from roulier.ws_tools import remove_empty_tags, get_parts
 from roulier.exception import CarrierError
 import logging
 
-from roulier.transport import RequestTransport
+from roulier.transport import RequestsTransport
 
 log = logging.getLogger(__name__)
 
 
-class LaposteFrTransport(RequestTransport):
+class LaposteFrTransport(RequestsTransport):
     """Implement Laposte WS communication."""
 
     def before_ws_call_transform_payload(self, payload):

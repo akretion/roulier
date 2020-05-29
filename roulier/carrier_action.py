@@ -36,11 +36,31 @@ class Carrier(ABC):
 
 class CarrierGetLabel(Carrier, ABC):
 
+    @property
+    @abstractmethod
+    def manage_multi_label(self):
+        """
+        True if carrier webservice accept multiple parcels in one call or False
+        if we have to make one call per parcels, even if it belongs to a same shipment
+        """
+        pass
+
     def get_label(self, carrier_type, action, data):
         encoder = self.encoder(self)
         decoder = self.decoder(self)
         transport = self.transport(self)
 
-        payload = encoder.encode(data)
-        response = transport.send(payload)
-        return decoder.decode(response, payload)
+        parcels = data.get('parcels', []).copy()
+        # one call to carrier webservice is enough
+        if self.manage_multi_label or len(parcels) == 1:
+            payload = encoder.encode(data)
+            response = transport.send(payload)
+            decoder.decode(response, payload)
+        # one call by parcel
+        else:
+            for parcel in parcels:
+                data['parcels'] = [parcel]
+                payload = encoder.encode(data)
+                response = transport.send(payload)
+                decoder.decode(response, payload)
+        return decoder.result

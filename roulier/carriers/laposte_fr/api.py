@@ -29,10 +29,6 @@ class LaposteFrApiParcel(ApiParcel):
             # "Identifiant du point de retrait "
             # "(dans le cas d’une livraison Colissimo hors domicile)"""
             }
-        schema['totalAmount'] = {
-            'default': '',
-            # 'description': 'Needed for cn23'
-            }
         schema['orderNumber'] = {'default': ''}
         schema['commercialName'] = {
             'default': '',
@@ -145,6 +141,10 @@ class LaposteFrApiParcel(ApiParcel):
             # 'description': """Pour les envois vers "
             # "l’Outre-Mer uniquement Indique si le colis est franc de taxes "
             # "et de droits."""
+            }
+        schema['totalAmount'] = {
+            'default': '',
+            # 'description': 'Needed for cn23'
             }
         return schema
 

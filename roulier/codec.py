@@ -31,17 +31,39 @@ class Encoder(ABC):
         return self.transform_input_to_carrier_webservice(data)
 
 
-class Decoder(ABC):
+class DecoderGetLabel(ABC):
 
     def __init__(self, config_object):
+        """
+            items in parcels list should be a dict of this form
+            label = {
+                "id": 1,
+                "reference": "",
+                "tracking": {
+                    "number":"",
+                    "url": "",
+                    "partner": "",
+                },
+                "label": {
+                    "data": base64 label,
+                    "name": "",
+                    "type": "",
+                },
+            }
+        """
         self.config = config_object
+        self.result = {
+            "parcels": [],
+            "annexes": [],
+        }
 
     @abstractmethod
-    def decode(self, answer):
+    def decode(self, response, payload):
         """Transform a specific representation to python dict.
         Args:
-            answer: specific representation of an response of the carrier
-        Return:
-            Python dict
+            response : answer from the webservice
+            payload : data sent initially to the webservice
+        Need to increment the result attribute of the object, it does not need to return
+        anything
         """
-        return
+        pass

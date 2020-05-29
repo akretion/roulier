@@ -117,8 +117,7 @@ class ApiParcel(object):
         v = MyValidator()
         return {
             'type': 'list',
-            'items': [{'schema': self._parcel(), 'type': 'dict'}],  # force len=1!
-            'default': [v.normalized({}, self._parcel())]
+            'schema': {'schema': self._parcel(), 'type': 'dict'},
         }
 
     def _service(self):

@@ -8,7 +8,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class RequestTransport(ABC):
+class RequestsTransport(ABC):
 
     def __init__(self, config_object):
         self.config = config_object

@@ -15,6 +15,7 @@ class LaposteFrGetabel(CarrierGetLabel):
     decoder = LaposteFrDecoderGetLabel
     transport = LaposteFrTransport
     api = LaposteFrApiParcel
+    manage_multi_label = False
 
 
 factory.register_builder('laposte_fr', 'get_label', LaposteFrGetabel)

@@ -2,11 +2,11 @@
 """Laposte XML -> Python."""
 from lxml import objectify
 
-from ...codec import Decoder
+from ...codec import DecoderGetLabel
 import base64
 
 
-class LaposteFrDecoderGetLabel(Decoder):
+class LaposteFrDecoderGetLabel(DecoderGetLabel):
     """Laposte XML -> Python."""
 
     def decode(self, response, input_payload):
@@ -42,22 +42,18 @@ class LaposteFrDecoderGetLabel(Decoder):
                 {"name": "label", "data": rep.find("pdfUrl"), "type": "url"}
             )
 
-        return {
-            "parcels": [
-                {
-                    "id": 1,  # no multi parcel management for now.
-                    "reference": rep.parcelNumber,
-                    "tracking": {
-                        "number": rep.parcelNumber,
-                        "url": "",
-                        "partner": rep.find("parcelNumberPartner"),
-                    },
-                    "label": {
-                        "data": base64.b64encode(parts.get(label_cid).encode()),
-                        "name": "label_1",
-                        "type": output_format,
-                    },
-                }
-            ],
-            "annexes": [],
+        parcel = {
+            "id": 1,  # no multi parcel management for now.
+            "reference": rep.parcelNumber,
+            "tracking": {
+                "number": rep.parcelNumber,
+                "url": "",
+                "partner": rep.find("parcelNumberPartner"),
+            },
+            "label": {
+                "data": base64.b64encode(parts.get(label_cid).encode()),
+                "name": "label_1",
+                "type": output_format,
+            },
         }
+        self.result['parcels'].append(parcel)
