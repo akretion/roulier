@@ -22,10 +22,9 @@ class Dpd(Carrier):
         """Run an action with data against Dpd WS."""
         request = self.encoder.encode(data, action)
         response = self.ws.send(request)
-        return self.decoder.decode(
-            response['body'], request['output_format'])
+        return self.decoder.decode(response["body"], request["output_format"])
 
     # shortcuts
     def get_label(self, data):
         """Genereate a createShipmentWithLabels."""
-        return self.get(data, 'createShipmentWithLabels')
+        return self.get(data, "createShipmentWithLabels")

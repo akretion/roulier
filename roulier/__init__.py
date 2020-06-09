@@ -9,6 +9,6 @@ from . import carriers
 import logging
 
 __all__ = [roulier]
-#__version__ = open('VERSION').read().strip()
+# __version__ = open('VERSION').read().strip()
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())

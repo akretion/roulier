@@ -15,33 +15,36 @@ class LaposteFrTransport(RequestsTransport):
     """Implement Laposte WS communication."""
 
     def before_ws_call_transform_payload(self, payload):
-        body = payload['body']
-        headers = payload['headers']
+        body = payload["body"]
+        headers = payload["headers"]
         soap_message = self.soap_wrap(body, headers)
         return soap_message
 
     def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader('roulier', '/carriers/laposte_fr/templates'),
-            extensions=['jinja2.ext.with_'])
+            loader=PackageLoader("roulier", "/carriers/laposte_fr/templates"),
+            extensions=["jinja2.ext.with_"],
+        )
 
         template = env.get_template("laposte_soap.xml")
         body_stripped = remove_empty_tags(body)
         data = template.render(body=body_stripped)
-        return data.encode('utf8')
+        return data.encode("utf8")
 
     def _get_requests_headers(self):
-        return {'content-type': 'text/xml;charset=UTF-8'}
+        return {"content-type": "text/xml;charset=UTF-8"}
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
-        log.warning('Laposte error 500')
+        log.warning("Laposte error 500")
         obj = objectify.fromstring(response.text)
-        errors = [{
-            "id": obj.xpath('//faultcode')[0],
-            "message": obj.xpath('//faultstring')[0],
-        }]
+        errors = [
+            {
+                "id": obj.xpath("//faultcode")[0],
+                "message": obj.xpath("//faultstring")[0],
+            }
+        ]
         raise CarrierError(response, errors)
 
     def handle_200(self, response):
@@ -50,22 +53,21 @@ class LaposteFrTransport(RequestsTransport):
 
         It still can be a success or a failure.
         """
+
         def raise_on_error(response_xml):
             xml = objectify.fromstring(response_xml)
-            messages = xml.xpath('//messages')
+            messages = xml.xpath("//messages")
             errors = [
-                {
-                    'id': message.id,
-                    'message': str(message.messageContent),
-                }
-                for message in messages if message.type == "ERROR"
+                {"id": message.id, "message": str(message.messageContent),}
+                for message in messages
+                if message.type == "ERROR"
             ]
             if len(errors) > 0:
                 raise CarrierError(response, errors)
 
         def extract_xml(response):
             """Because the answer is mixedpart we need to extract."""
-            content_type = response.headers['Content-Type']
+            content_type = response.headers["Content-Type"]
             boundary = content_type.split('boundary="')[1].split('";')[0]
             start = content_type.split('start="')[1].split('";')[0]
 
@@ -83,7 +85,7 @@ class LaposteFrTransport(RequestsTransport):
         response_xml = extract_xml(response)
         raise_on_error(response_xml)
         return {
-            'body': extract_body(response_xml),
-            'parts': get_parts(response),
-            'response': response,
+            "body": extract_body(response_xml),
+            "parts": get_parts(response),
+            "response": response,
         }

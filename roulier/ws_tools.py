@@ -20,8 +20,8 @@ def remove_empty_tags(xml, ouput_as_string=True):
     # pkg_resouces may be an alternative, but we already
     # have Jinja
     env = Environment(
-        loader=PackageLoader('roulier', 'templates'),
-        extensions=['jinja2.ext.with_'])
+        loader=PackageLoader("roulier", "templates"), extensions=["jinja2.ext.with_"]
+    )
     template = env.get_template("remove_empty_tags.xsl")
     xsl = etree.parse(open(template.filename))
     transform = etree.XSLT(xsl)
@@ -43,23 +43,23 @@ def get_parts(response):
     Returns:
         an array of content-ids
     """
-    head_lines = ''
+    head_lines = ""
     for k, v in response.raw.getheaders().iteritems():
-        head_lines += str(k) + ':' + str(v) + '\n'
+        head_lines += str(k) + ":" + str(v) + "\n"
 
-    full = head_lines + response.content.decode('utf-8')
+    full = head_lines + response.content.decode("utf-8")
 
     parser = email.parser.Parser()
     decoded_reply = parser.parsestr(full)
     parts = {}
-    start = decoded_reply.get_param('start').lstrip('<').rstrip('>')
+    start = decoded_reply.get_param("start").lstrip("<").rstrip(">")
     i = 0
     for part in decoded_reply.get_payload():
-        cid = part.get('content-Id', '').lstrip('<').rstrip('>')
-        if (not start or start == cid) and 'start' not in parts:
-            parts['start'] = part.get_payload()
+        cid = part.get("content-Id", "").lstrip("<").rstrip(">")
+        if (not start or start == cid) and "start" not in parts:
+            parts["start"] = part.get_payload()
         else:
-            parts[cid or 'Attachment%d' % i] = part.get_payload()
+            parts[cid or "Attachment%d" % i] = part.get_payload()
         i += 1
     return parts
 
@@ -78,6 +78,7 @@ def png_to_zpl(png, rotate):
     returns:
         a ^GFA instruction with the image.
     """
+
     def base64_to_png(data):
         return BytesIO(base64.b64decode(data))
 
@@ -90,26 +91,23 @@ def png_to_zpl(png, rotate):
         """
         if rotate:
             png_bytes = BytesIO()
-            (Image
-                .open(png)
-                .rotate(90, expand=True)
-                .save(png_bytes, format="PNG"))
+            (Image.open(png).rotate(90, expand=True).save(png_bytes, format="PNG"))
             png = png_bytes.getvalue()
             png_bytes.close()
 
-        return GRF.from_image(png, 'DEMO')
+        return GRF.from_image(png, "DEMO")
 
     def build_gfa(grf):
         zpl = grf.to_zpl_line(compression=2)
 
-        m = re.search('\~DGR:DEMO.GRF,(\d+),(\d+),(.*)$', zpl)
+        m = re.search("\~DGR:DEMO.GRF,(\d+),(\d+),(.*)$", zpl)
         size = m.group(1)
         width = m.group(2)
         payload = m.group(3)
 
-        return '''^XA^FO00,00
-^GFA,%(size)s,%(size)s,%(width)s,,%(payload)s^XZ''' % (
-            {'size': size, 'width': width, 'payload': payload}
+        return """^XA^FO00,00
+^GFA,%(size)s,%(size)s,%(width)s,,%(payload)s^XZ""" % (
+            {"size": size, "width": width, "payload": payload}
         )
 
     with base64_to_png(png) as png_stream:
