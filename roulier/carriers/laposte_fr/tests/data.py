@@ -9,6 +9,7 @@ try:
     from .credential import credentials
 except ImportError:
     from .credential_demo import credentials
+
     logger.debug(
         "To test with real credentials copy and paste "
         "tests/credential_demo.py to tests/credential.py and "

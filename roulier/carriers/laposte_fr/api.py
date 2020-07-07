@@ -168,19 +168,37 @@ class LaposteFrApiParcel(ApiParcel):
         return schema
 
     def _customs(self):
+#        schema = {
+#            "category": {"default": ""},
+#            "articles": {
+#                "type": "list",
+#                "schema": {
+#                    "quantity": {"default": ""},
+#                    "weight": {"type": "float", "default": 0.0},
+#                    "description": {"default": ""},
+#                    "hs": {"default": ""},
+#                    "value": {"default": ""},
+#                    "originCountry": {"default": ""},
+#                },
+#                "default": [],
+#            },
+#        }
         schema = {
             "category": {"default": ""},
             "articles": {
                 "type": "list",
-                "schema": {
-                    "quantity": {"default": ""},
-                    "weight": {"type": "float", "default": 0.0},
-                    "description": {"default": ""},
-                    "hs": {"default": ""},
-                    "value": {"default": ""},
-                    "originCountry": {"default": ""},
-                },
-                "default": [],
+                 "schema": {
+                    "type": "dict",
+                    "schema": {
+                        "quantity": {"default": ""},
+                        "weight": {"type": "float", "default": 0.0},
+                        "description": {"default": ""},
+                        "hs": {"default": ""},
+                        "value": {"default": ""},
+                        "originCountry": {"default": ""},
+                    },
+                    "default": [],
+                 }
             },
         }
         return schema

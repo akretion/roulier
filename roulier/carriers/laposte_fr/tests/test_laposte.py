@@ -46,6 +46,147 @@ def test_methods():
     assert roulier.get_carriers_action_available()["laposte_fr"] == ["get_label"]
 
 
+def test_auth():
+    if _do_not_execute_test_on_remote():
+        return
+    vals = copy.deepcopy(DATA)
+    vals["auth"]["login"] = "test"
+    vals["service"]["product"] = "COL"
+    with pytest.raises(CarrierError, match="Identifiant ou mot de passe incorrect"):
+        roulier.get("laposte_fr", "get_label", vals)
+
+    vals = copy.deepcopy(DATA)
+    vals["auth"]["password"] = "test"
+    vals["service"]["product"] = "COL"
+    with pytest.raises(CarrierError, match="Identifiant ou mot de passe incorrect"):
+        roulier.get("laposte_fr", "get_label", vals)
+
+
+def test_DOM_product():
+    """France - Colissimo Domicile - sans signature"""
+    if _do_not_execute_test_on_remote():
+        return
+    vals = copy.deepcopy(DATA)
+    vals["service"]["product"] = "DOM"
+    result = roulier.get("laposte_fr", "get_label", vals)
+    parcel = result["parcels"][0]
+    assert sorted(parcel.keys()) == ["id", "label", "reference", "tracking"], True
+
+    vals["to_address"]["zip"] = "99999"
+    with pytest.raises(
+        CarrierError,
+        match="Le code pays ou le code postal du destinataire est incorrect pour le code produit fourni",
+    ):
+        roulier.get("laposte_fr", "get_label", vals)
+
+    # 30108 = Le code postal de l'expéditeur ne correspond pas au pays
+    vals["to_address"]["zip"] = "21000"
+    vals["from_address"]["zip"] = "9999"
+    with pytest.raises(CarrierError, match="30108"):
+        roulier.get("laposte_fr", "get_label", vals)
+
+
+def test_DOS_product():
+    """France - Colissimo Domicile - avec signature"""
+    if _do_not_execute_test_on_remote():
+        return
+    vals = copy.deepcopy(DATA)
+    vals["service"]["product"] = "DOS"
+    result = roulier.get("laposte_fr", "get_label", vals)
+    parcel = result["parcels"][0]
+    assert sorted(parcel.keys()) == ["id", "label", "reference", "tracking"], True
+
+
+def test_CORE_product():
+    """France - Colissimo Retour France"""
+    if _do_not_execute_test_on_remote():
+        return
+    vals = copy.deepcopy(DATA)
+    vals["service"]["product"] = "CORE"
+    vals["to_address"]["company"] = "InfoSaône"
+    result = roulier.get("laposte_fr", "get_label", vals)
+    parcel = result["parcels"][0]
+    assert sorted(parcel.keys()) == ["id", "label", "reference", "tracking"], True
+
+
+# TODO : UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe2 in position 7143: invalid continuation byte
+# def test_COM_product():
+#    """Outre-Mer - Colissimo Domicile - sans signature"""
+#    if _do_not_execute_test_on_remote():
+#        return
+#    vals = copy.deepcopy(DATA)
+#    vals["service"]["product"] = "COM"
+#    vals["service"]["transportationAmount"] = 123
+#    vals["service"]["totalAmount"] = 123
+#    vals["to_address"]["country"] = "GP" # Guadeloupe
+#    vals["to_address"]["zip"] = "97100"  # Basse-Terre
+#    vals["customs"]={
+#        "articles":[
+#            {
+#                "quantity":"2",
+#                "weight":0.5,
+#                "originCountry":"FR",
+#                "description":"Printed circuits",
+#                "hs":"853400",
+#                "value":1.0
+#            }
+#        ],
+#        "category":3
+#    }
+#    vals["parcels"][0]["totalAmount"] = 123 # Frais de transport
+#    result = roulier.get("laposte_fr", "get_label", vals)
+#    parcel = result["parcels"][0]
+#    assert (sorted(parcel.keys())==["id", "label", "reference", "tracking"]), True
+
+
+# TODO idem ci-dessus
+# def test_CDS_product():
+#    """Outre-Mer - Colissimo Domicile - avec signature"""
+#    if _do_not_execute_test_on_remote():
+#        return
+#    vals = copy.deepcopy(DATA)
+#    vals["service"]["product"] = "CDS"
+#    roulier.get("laposte_fr", "get_label", vals)
+
+
+# TODO idem ci-dessus
+# def test_CORI_product():
+#    """Outre-Mer - Colissimo Retour OM"""
+#    if _do_not_execute_test_on_remote():
+#        return
+#    vals = copy.deepcopy(DATA)
+#    vals["service"]["product"] = "CORI"
+#    roulier.get("laposte_fr", "get_label", vals)
+
+
+# TODO : Le type de choix retour n'a pas été transmis
+# def test_COLI_product():
+#    """International - Colissimo Expert International"""
+#    if _do_not_execute_test_on_remote():
+#        return
+#    vals = copy.deepcopy(DATA)
+#    vals["service"]["product"] = "COLI"
+#    vals["service"]["totalAmount"] = 123
+#    vals["to_address"]["country"] = "TN" # Tunisie
+#    vals["to_address"]["zip"] = "1000"   # Tunis
+#    vals["customs"]={
+#        "articles":[
+#            {
+#                "quantity":"2",
+#                "weight":0.5,
+#                "originCountry":"FR",
+#                "description":"Printed circuits",
+#                "hs":"853400",
+#                "value":1.0
+#            }
+#        ],
+#        "category":3
+#    }
+#    result = roulier.get("laposte_fr", "get_label", vals)
+#    parcel = result["parcels"][0]
+#    assert (sorted(parcel.keys())==["id", "label", "reference", "tracking"]), True
+
+
 def test_label_basic_checks():
     if _do_not_execute_test_on_remote():
         return
@@ -86,7 +227,7 @@ def test_common_failed_get_label():
     with pytest.raises(CarrierError, match="Le poids du colis est incorrect"):
         roulier.get("laposte_fr", "get_label", vals)
     vals["parcels"][0]["weight"] = 0
-    with pytest.raises(CarrierError, match="Le poids du colis n\'a pas été transmis"):
+    with pytest.raises(CarrierError, match="Le poids du colis n'a pas été transmis"):
         roulier.get("laposte_fr", "get_label", vals)
         vals["parcels"][0]["weight"] = DATA["parcels"][0]["weight"]
     # country
