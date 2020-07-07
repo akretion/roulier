@@ -60,11 +60,11 @@ def test_label_basic_checks():
     vals["service"]["product"] = "COL"
     vals["parcels"][0]["nonMachinable"] = True
     result = roulier.get("laposte_fr", "get_label", vals)
-    assert (sorted(result.keys()), ["annexes", "parcels"])
+    assert sorted(result.keys()), ["annexes", "parcels"]
     print(_print_label_with_labelary_dot_com(result))
 
     parcel = result["parcels"][0]
-    assert (sorted(parcel.keys()), ["id", "label", "reference", "tracking"])
+    assert sorted(parcel.keys()), ["id", "label", "reference", "tracking"]
 
 
 def test_misc_product():
@@ -73,7 +73,7 @@ def test_misc_product():
     vals = copy.deepcopy(DATA)
     vals["service"]["product"] = "DOS"
     result = roulier.get("laposte_fr", "get_label", vals)
-    assert (result.get("parcels"), True)
+    assert result.get("parcels"), True
 
 
 def test_common_failed_get_label():
