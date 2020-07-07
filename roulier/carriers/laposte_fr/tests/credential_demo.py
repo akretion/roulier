@@ -3,8 +3,7 @@
 """
 
 credentials = {
-    "login": "2509999999",
-    "customerId": "2588888888",
-    "agencyId": "2588888888",
+    "login": "888888",
+    "password": "blablabla",
     "isTest": True,
 }

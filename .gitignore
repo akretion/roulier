@@ -1,5 +1,5 @@
 # specific on the project
-tests/credential.py
+*credential.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -58,3 +58,6 @@ docs/_build/
 # Backup files
 *~
 *.swp
+
+# Labels files
+*label*.pdf

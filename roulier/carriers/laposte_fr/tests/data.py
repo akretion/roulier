@@ -1,43 +1,42 @@
 # -*- coding: utf-8 -*-
-from roulier import roulier
+
 import logging
+from datetime import date
 
 logger = logging.getLogger(__name__)
 
 try:
-    from credential import credentials
+    from .credential import credentials
 except ImportError:
+    from .credential_demo import credentials
     logger.debug(
         "To test with real credentials copy and paste "
         "tests/credential_demo.py to tests/credential.py and "
         "fill it with real values"
     )
 
-data = {
+DATA = {
     "auth": {
         "login": credentials["login"],
         "password": credentials["password"],
         "isTest'": credentials["isTest"],
     },
-    "service": {"product": "COL", "productCode": "COL", "shippingDate": "2020-06-30",},
-    "parcels": [{"weight": 1.2,},],
+    "service": {"shippingDate": date.today().isoformat()},
+    "parcels": [{"weight": 1.2, "instructions": "Fake instructions"}],
     "to_address": {
-        "name": "Hparfr",
-        "firstName": "Hparfr",
-        "street1": "35 b Rue Montgolfier",
+        "name": "Fr",
+        "firstName": "Hpar",
+        "street1": "27 rue Léon CAMET",
         "city": "Villeurbanne",
         "country": "FR",
         "zip": "69100",
     },
     "from_address": {
-        "name": "Hparfr",
-        "fristName": "Akretion France",
-        "street1": "35 b Rue Montgolfier",
-        "city": "Villeurbanne",
+        "name": "TEST",
+        "firstName": "AUTOMATIC",
+        "street1": "72 rue Cécile Honxa",
+        "city": "Paris",
         "country": "FR",
-        "zip": "69100",
+        "zip": "75001",
     },
 }
-
-print(roulier.get_carriers_action_available())
-print(roulier.get("laposte_fr", "get_label", data))
