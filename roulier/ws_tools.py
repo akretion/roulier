@@ -100,7 +100,7 @@ def png_to_zpl(png, rotate):
     def build_gfa(grf):
         zpl = grf.to_zpl_line(compression=2)
 
-        m = re.search("\~DGR:DEMO.GRF,(\d+),(\d+),(.*)$", zpl)
+        m = re.search(r"\~DGR:DEMO.GRF,(\d+),(\d+),(.*)$", zpl)
         size = m.group(1)
         width = m.group(2)
         payload = m.group(3)
