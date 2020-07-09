@@ -9,7 +9,6 @@ log = logging.getLogger(__name__)
 
 
 class RequestsTransport(ABC):
-
     def __init__(self, config_object):
         self.config = config_object
 
@@ -30,9 +29,7 @@ class RequestsTransport(ABC):
     def send_request(self, body):
         headers = self._get_requests_headers()
         ws_url = self.config.ws_url
-        return requests.post(
-            ws_url, headers=headers, data=body
-        )
+        return requests.post(ws_url, headers=headers, data=body)
 
     @abstractmethod
     def handle_200(self, response):
@@ -47,10 +44,10 @@ class RequestsTransport(ABC):
         """Handle reponse in case of ERROR 500 type."""
         pass
 
-#    @abstractmethod
-#    def handle_400(self, response):
-#        """Handle reponse in case of ERROR 500 type."""
-#        pass
+    #    @abstractmethod
+    #    def handle_400(self, response):
+    #        """Handle reponse in case of ERROR 500 type."""
+    #        pass
 
     def handle_response(self, response):
         """Handle response of webservice."""
@@ -59,15 +56,10 @@ class RequestsTransport(ABC):
         elif response.status_code == 500:
             log.warning("%s error 500" % self._carrier_type)
             return self.handle_500(response)
-#        elif response.status_code == 400:
-#            return self.handle_400(response)
+        #        elif response.status_code == 400:
+        #            return self.handle_400(response)
         else:
             raise CarrierError(
                 response,
-                [
-                    {
-                        "id": None,
-                        "message": "Unexpected status code from server",
-                    }
-                ],
+                [{"id": None, "message": "Unexpected status code from server",}],
             )

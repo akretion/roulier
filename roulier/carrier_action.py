@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 
 
 class Carrier(ABC):
-
     def __init__(self, carrier_type, action, **kwargs):
         self.carrier_type = carrier_type
         self.action = action
@@ -35,7 +34,6 @@ class Carrier(ABC):
 
 
 class CarrierGetLabel(Carrier, ABC):
-
     @property
     @abstractmethod
     def manage_multi_label(self):
@@ -50,7 +48,7 @@ class CarrierGetLabel(Carrier, ABC):
         decoder = self.decoder(self)
         transport = self.transport(self)
 
-        parcels = data.get('parcels', []).copy()
+        parcels = data.get("parcels", []).copy()
         # one call to carrier webservice is enough
         if self.manage_multi_label or len(parcels) == 1:
             payload = encoder.encode(data)
@@ -59,7 +57,7 @@ class CarrierGetLabel(Carrier, ABC):
         # one call by parcel
         else:
             for parcel in parcels:
-                data['parcels'] = [parcel]
+                data["parcels"] = [parcel]
                 payload = encoder.encode(data)
                 response = transport.send(payload)
                 decoder.decode(response, payload)

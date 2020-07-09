@@ -8,7 +8,6 @@ _logger = logging.getLogger(__name__)
 
 
 class Encoder(ABC):
-
     def __init__(self, config_object):
         self.config = config_object
 
@@ -23,16 +22,16 @@ class Encoder(ABC):
         """Transform input from external app to compatible input for carrier webservice."""
         validator = self.config.api(self.config)
         if not validator.validate(input_payload):
-            _logger.warning('Laposte api call exception:')
+            _logger.warning("Laposte api call exception:")
             raise InvalidApiInput(
-                {'api_call_exception': validator.errors(input_payload)})
+                {"api_call_exception": validator.errors(input_payload)}
+            )
         data = validator.normalize(input_payload)
         data = self._extra_input_data_processing(input_payload, data)
         return self.transform_input_to_carrier_webservice(data)
 
 
 class DecoderGetLabel(ABC):
-
     def __init__(self, config_object):
         """
             items in parcels list should be a dict of this form

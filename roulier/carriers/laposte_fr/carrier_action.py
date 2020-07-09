@@ -18,4 +18,4 @@ class LaposteFrGetabel(CarrierGetLabel):
     manage_multi_label = False
 
 
-factory.register_builder('laposte_fr', 'get_label', LaposteFrGetabel)
+factory.register_builder("laposte_fr", "get_label", LaposteFrGetabel)

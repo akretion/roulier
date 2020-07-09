@@ -16,7 +16,7 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
         output_format = input_payload["output_format"]
 
         xml = objectify.fromstring(body)
-        msg = xml.xpath('//return')[0]
+        msg = xml.xpath("//return")[0]
 
         def get_cid(tag, tree):
             element = tree.find(tag)
@@ -33,14 +33,10 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
         annexes = []
 
         if cn23_cid:
-            annexes.append(
-                {"name": "cn23", "data": parts.get(cn23_cid), "type": "pdf"}
-            )
+            annexes.append({"name": "cn23", "data": parts.get(cn23_cid), "type": "pdf"})
 
         if rep.find("pdfUrl"):
-            annexes.append(
-                {"name": "label", "data": rep.find("pdfUrl"), "type": "url"}
-            )
+            annexes.append({"name": "label", "data": rep.find("pdfUrl"), "type": "url"})
 
         parcel = {
             "id": 1,  # no multi parcel management for now.
@@ -56,4 +52,4 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
                 "type": output_format,
             },
         }
-        self.result['parcels'].append(parcel)
+        self.result["parcels"].append(parcel)

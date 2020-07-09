@@ -31,7 +31,7 @@ from roulier.exception import InvalidAction
 class Geodis(Carrier):
     """Implementation for Geodis."""
 
-    def api(self, action='label'):
+    def api(self, action="label"):
         """Expose how to communicate with Geodis."""
         try:
             method = self.ACTIONS[action]
@@ -58,16 +58,16 @@ class Geodis(Carrier):
 
     def get_label(self, data, api=False):
         """Genereate a demandeImpressionEtiquette."""
-        return self._get_ws(data, api, 'demandeImpressionEtiquette')
+        return self._get_ws(data, api, "demandeImpressionEtiquette")
 
     def address_validator(self, data, api=False):
-        return self._get_ws(data, api, 'findLocalite')
+        return self._get_ws(data, api, "findLocalite")
 
     def get_tracking(self, data, api=False):
-        return self._get_rest_ws(data, api, 'tracking')
+        return self._get_rest_ws(data, api, "tracking")
 
     def get_tracking_list(self, data, api=False):
-        return self._get_rest_ws(data, api, 'trackingList')
+        return self._get_rest_ws(data, api, "trackingList")
 
     def _get_ws(self, data, api=False, action=None):
         encoder = GeodisEncoderWs()
@@ -79,11 +79,7 @@ class Geodis(Carrier):
 
         request = encoder.encode(data, action)
         response = transport.send(request)
-        return decoder.decode(
-            response['body'],
-            response['parts'],
-            request['infos'],
-        )
+        return decoder.decode(response["body"], response["parts"], request["infos"],)
 
     def _get_rest_ws(self, data, api=False, action=None):
         encoder = GeodisEncoderRestWs()
@@ -96,10 +92,10 @@ class Geodis(Carrier):
         return decode.decode(response, action)
 
     ACTIONS = {
-        'label': get_label,
-        'findLocalite': address_validator,
-        'demandeImpressionEtiquette': get_label,
-        'edi': get_edi,
-        'tracking': get_tracking,
-        'trackingList': get_tracking_list,
+        "label": get_label,
+        "findLocalite": address_validator,
+        "demandeImpressionEtiquette": get_label,
+        "edi": get_edi,
+        "tracking": get_tracking,
+        "trackingList": get_tracking_list,
     }

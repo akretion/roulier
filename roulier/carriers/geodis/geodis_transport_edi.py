@@ -23,21 +23,27 @@ class GeodisTransportEdi(Transport):
                 parts: dict of attachments
             }
         """
-        body = payload['body']
-        headers = payload['headers']
+        body = payload["body"]
+        headers = payload["headers"]
         message = self.transport_wrap(body, headers)
         return self.convert_to_edi(message)
 
     def transport_wrap(self, body, headers):
         date = datetime.now()
-        return [
-            ['UNB', ['UNOA', '3'],
-                [headers['interchangeSender'], '22'],
-                [headers['interchangeRecipient'], '22'],
-                [date.strftime('%d%m%y'), date.strftime('%H%M')],
-                headers['depositId']
-             ],
-        ] + body + [['UNZ', '1', headers['depositId']]]
+        return (
+            [
+                [
+                    "UNB",
+                    ["UNOA", "3"],
+                    [headers["interchangeSender"], "22"],
+                    [headers["interchangeRecipient"], "22"],
+                    [date.strftime("%d%m%y"), date.strftime("%H%M")],
+                    headers["depositId"],
+                ],
+            ]
+            + body
+            + [["UNZ", "1", headers["depositId"]]]
+        )
 
     def convert_to_edi(self, arr):
         def parse_token(token):
@@ -58,12 +64,13 @@ class GeodisTransportEdi(Transport):
             # increase length of the token
             # which is limited by 35
             sanitized = (
-                token
-                .replace("?", " ")
+                token.replace("?", " ")
                 .replace("'", " ")
                 .replace("+", " ")
                 .replace(":", " ")
-            ).encode('ascii', 'ignore') # cut remaining chars
+            ).encode(
+                "ascii", "ignore"
+            )  # cut remaining chars
             return sanitized
 
         return parse_lines(arr)

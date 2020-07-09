@@ -1,5 +1,6 @@
 """Factory of main classes."""
 
+
 class RoulierFactory(object):
     def __init__(self):
         self._carrier_action = {}

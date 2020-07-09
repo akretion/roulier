@@ -26,6 +26,7 @@ class CarrierError(Exception):
     Use this class in your application to manage
     exception with the carrier WS
     """
+
     def __init__(self, response, msg=None):
         if msg is None:
             msg = "An error occured with WS"

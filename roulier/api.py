@@ -61,7 +61,9 @@ class MyValidator(Validator):
             .replace(u"Ù", "U")
             .replace(u"œ", "oe")
             .replace(u"Œ", "OE")
-        ).encode('ascii', 'ignore') # cut remaining chars
+        ).encode(
+            "ascii", "ignore"
+        )  # cut remaining chars
         return sanitized
 
 
@@ -70,7 +72,6 @@ class ApiParcel(object):
 
     This class should be overriden by each carrier.
     """
-
 
     def __init__(self, config_object):
         self.config = config_object
@@ -83,16 +84,16 @@ class ApiParcel(object):
 
     def _address(self):
         return {
-            'company': {'type': 'string', 'default': ''},
-            'name': {'type': 'string', 'default': '', 'required': True, 'empty': False},
-            'street1': {'type': 'string', 'default': ''},
-            'street2': {'type': 'string', 'default': ''},
-            'country': {'type': 'string', 'default': ''},
+            "company": {"type": "string", "default": ""},
+            "name": {"type": "string", "default": "", "required": True, "empty": False},
+            "street1": {"type": "string", "default": ""},
+            "street2": {"type": "string", "default": ""},
+            "country": {"type": "string", "default": ""},
             # , 'description': 'ISO 3166-1 alpha-2 '},
-            'city': {'type': 'string', 'default': ''},
-            'zip': {'type': 'string', 'default': ''},
-            'phone': {'type': 'string', 'default': ''},
-            'email': {'type': 'string', 'default': ''},
+            "city": {"type": "string", "default": ""},
+            "zip": {"type": "string", "default": ""},
+            "phone": {"type": "string", "default": ""},
+            "email": {"type": "string", "default": ""},
         }
 
     def _from_address(self):
@@ -101,56 +102,66 @@ class ApiParcel(object):
 
     def _to_address(self):
         address = self._address()
-        address['street1'].update({'required': True, 'empty': False})
-        address['country'].update({'required': True, 'empty': False})
-        address['city'].update({'required': True, 'empty': False})
-        address['zip'].update({'required': True, 'empty': False})
+        address["street1"].update({"required": True, "empty": False})
+        address["country"].update({"required": True, "empty": False})
+        address["city"].update({"required": True, "empty": False})
+        address["zip"].update({"required": True, "empty": False})
         return address
 
     def _parcel(self):
         return {
-            "weight": {'type': 'float', 'default': '', 'required': True, 'empty': False},
+            "weight": {
+                "type": "float",
+                "default": "",
+                "required": True,
+                "empty": False,
+            },
         }
         # 'description': 'Weight in kg',
 
     def _parcels(self):
         v = MyValidator()
         return {
-            'type': 'list',
-            'schema': {'schema': self._parcel(), 'type': 'dict'},
+            "type": "list",
+            "schema": {"schema": self._parcel(), "type": "dict"},
         }
 
     def _service(self):
         return {
-            "product": {'default': ''},
-            "agencyId": {'default': ''},
-            "customerId": {'default': ''},
-            "shippingId": {'default': ''},
+            "product": {"default": ""},
+            "agencyId": {"default": ""},
+            "customerId": {"default": ""},
+            "shippingId": {"default": ""},
             # 'description': 'When the carrier has the package. Format: YYYY/MM/DD'
-            'shippingDate': {'default': '', 'type': 'string', 'required': True, 'empty': False},
+            "shippingDate": {
+                "default": "",
+                "type": "string",
+                "required": True,
+                "empty": False,
+            },
             # 'description': 'Additionnal info visible by the client. Example : order number'
-            'reference1': {'type': 'string', 'default': ''},
-            'reference2': {'type': 'string', 'default': ''},
-            'reference3': {'type': 'string', 'default': ''},
+            "reference1": {"type": "string", "default": ""},
+            "reference2": {"type": "string", "default": ""},
+            "reference3": {"type": "string", "default": ""},
             # 'description': 'Format of output (usually pdf or zpl)'
-            "labelFormat": {'default': ''},
+            "labelFormat": {"default": ""},
             # 'description': 'Additionnal instructions for delivery',
-            "instructions": {'default': ''},
+            "instructions": {"default": ""},
         }
 
     def _auth(self):
         return {
-            'login': {'type': 'string', 'default': ''},
-            'password': {'type': 'string', 'default': ''},
+            "login": {"type": "string", "default": ""},
+            "password": {"type": "string", "default": ""},
         }
 
     def _schemas(self):
         return {
-            'service': self._service(),
-            'auth': self._auth(),
-            'parcels': self._parcels(),
-            'from_address': self._from_address(),
-            'to_address': self._to_address(),
+            "service": self._service(),
+            "auth": self._auth(),
+            "parcels": self._parcels(),
+            "from_address": self._from_address(),
+            "to_address": self._to_address(),
         }
 
     def api_schema(self):
@@ -171,19 +182,15 @@ class ApiParcel(object):
             # if schema is a simple dict, wrap it as a dict
             # else this work has already be done
             # like it's a list
-            if 'schema' in schema or 'items' in schema:
+            if "schema" in schema or "items" in schema:
                 return schema
             return {
-                'schema': schema,
-                'default':
-                    schema.get('default') or
-                    v.normalized({}, schema),
-                'type': schema.get('type', 'dict')
+                "schema": schema,
+                "default": schema.get("default") or v.normalized({}, schema),
+                "type": schema.get("type", "dict"),
             }
 
-        return {
-            s: wrap_schema(schemas[s])
-            for s in schemas}
+        return {s: wrap_schema(schemas[s]) for s in schemas}
 
     def api_values(self):
         """Return a dict containing expected keys.
