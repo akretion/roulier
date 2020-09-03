@@ -17,31 +17,6 @@ DOWNLOAD_PDF_FILE = False  # Update to get demo files
 
 EXCEPTION_MESSAGE = "Failed call with parameters %s"
 
-"""
-Here is the format of laposte response:
-
-{
-    "parcels": [
-        {
-            "id": 1,
-            "reference": "9V31904388888",
-            "tracking": {
-                "number": "9V31904388888",
-                "url": "",
-                "partner": "0069100119V3198888888802250T",
-            },
-            "label": {
-                "data": b"EENUfn5DRCx+Q0NefkNUfg0KX...lhBDQpeUFc3OTkNCEsWV5YWg0K",
-                "name": "label_1",
-                "type": "ZPL_10x15_203dpi",
-            },
-        }
-    ],
-    "annexes": [],
-}
-
-"""
-
 
 def test_methods():
     assert (
@@ -73,62 +48,6 @@ def test_label_basic_checks():
     assert sorted(parcel.keys()) == ["id", "label", "reference", "tracking"], (
         EXCEPTION_MESSAGE % vals
     )
-
-
-def test_DOM_product():
-    """France - Colissimo Domicile - sans signature"""
-    if _do_not_execute_test_on_remote():
-        return
-    vals = copy.deepcopy(DATA)
-    vals["service"]["product"] = "DOM"
-    vals["to_address"]["zip"] = "99999"
-    with pytest.raises(
-        CarrierError,
-        match="Le code pays ou le code postal du destinataire est incorrect "
-        "pour le code produit fourni",
-    ):
-        roulier.get("laposte_fr", "get_label", vals)
-
-    # 30108 = Le code postal de l'expéditeur ne correspond pas au pays
-    vals["to_address"]["zip"] = "21000"
-    vals["from_address"]["zip"] = "9999"
-    with pytest.raises(CarrierError, match="30108"):
-        roulier.get("laposte_fr", "get_label", vals)
-
-
-def test_DOS_product():
-    """France - Colissimo Domicile - avec signature"""
-    if _do_not_execute_test_on_remote():
-        return
-    vals = copy.deepcopy(DATA)
-    vals["service"]["product"] = "DOS"
-
-
-# TODO : UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe2 in position 7143: invalid continuation byte
-def test_COM_product():
-    """Outre-Mer - Colissimo Domicile - sans signature"""
-    if _do_not_execute_test_on_remote():
-        return
-    vals = copy.deepcopy(DATA)
-    vals["service"]["product"] = "COM"
-    vals["service"]["transportationAmount"] = 123
-    vals["service"]["totalAmount"] = 123
-    vals["to_address"]["country"] = "GP"  # Guadeloupe
-    vals["to_address"]["zip"] = "97100"  # Basse-Terre
-    vals["customs"] = {
-        "articles": [
-            {
-                "quantity": "2",
-                "weight": 0.5,
-                "originCountry": "FR",
-                "description": "Printed circuits",
-                "hs": "853400",
-                "value": 1.0,
-            }
-        ],
-        "category": 3,
-    }
-    vals["parcels"][0]["totalAmount"] = 123  # Frais de transport
 
 
 def test_common_failed_get_label():
@@ -171,6 +90,7 @@ def _do_not_execute_test_on_remote():
         which are not included in commited files.
 
         Main tests are only executable in local installation.
+        This method when called allow to escape remote tests
     """
     if DATA["auth"]["password"] == "blablabla":
         return True
@@ -178,6 +98,8 @@ def _do_not_execute_test_on_remote():
 
 
 def _print_label_with_labelary_dot_com(result):
+    """ This method convert zpl data in pdf file
+    """
     if not DOWNLOAD_PDF_FILE:
         return
     url = "http://api.labelary.com/v1/printers/8dpmm/labels/4x6/%s"
@@ -198,3 +120,11 @@ def _print_label_with_labelary_dot_com(result):
                     print("label %s downloaded" % parcel.get("id"))
             else:
                 print("Error: " + response.text)
+
+
+def assert_label(result):
+    assert("parcels" in result)
+    assert(len(result["parcels"]) > 0)
+    assert("label" in result["parcels"][0])
+    assert("data" in result["parcels"][0]["label"])
+    return result["parcels"][0]["label"]
