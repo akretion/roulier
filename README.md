@@ -1,3 +1,12 @@
+# This BRANCH IS NO MORE UPDATED
+
+# SEE `python2` BRANCH instead of this
+
+# SEE `master` BRANCH for python 3
+
+This branch in only kept for relation with PR
+
+
 Roulier
 ===
 
