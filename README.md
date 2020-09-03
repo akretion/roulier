@@ -13,16 +13,19 @@ Roulier will get a label + tracking number to your carrier for you.
 * Roulier is Open Source software, AGPL-3
 * Roulier integrate a multitude of carriers : Laposte, Geodis, DPD, K&N... more to come.
 
+### Installation
 
+This is not compatible with python 2.7.
+Please use the python 2 branch in that case.
+This is work in progress.
 
 ### Usage
 
 ```python
 from roulier import roulier
 
-laposte = roulier.get('laposte')
-
-response = laposte.get_label({
+response = laposte.get_label(
+payload= {
 	"auth": { 
 		"login": "12345",
 		"password": "password",
@@ -47,7 +50,10 @@ response = laposte.get_label({
         "country": "FR",
         "zip": "69100"
    	},
-})
+}
+# first parameter is the carrier type.
+# second is the action and then the parameters needed by the action
+response = roulier.get('laposte_fr', 'get_label', payload)
 
 
 print(response)
@@ -55,126 +61,10 @@ print(response)
 ```
 
 
-Get supported carriers:
+Get supported carriers and related actions:
 ```python
 from roulier import roulier
-print(roulier.get_carriers())
-```
-
-To get the full list of parameters:
-```python
-from pprint import pprint
-from roulier import roulier
-
-
-laposte = roulier.get('laposte')
-pprint(laposte.api())
-
-# ...
-
-```
-
-### Return
-
-```python
-from roulier import roulier
-laposte = roulier.get('laposte')
-api = laposte.api()
-api['auth']['login'] = '12345'
-...
-print(laposte.get_label(api))
-
-# {
-#	label: {
-#		'name':'label',
-#		'type': 'zpl',
-#		'data': 'base64 here', #main label
-#	},
-#	tracking: {
-#		'number': 'tracking code here',
-#	},
-#	parcels: [{
-#		{ 'id': 1,
-#		'reference: '',
-#		'number': 'tracking code here',
-#		'label': {
-#			'data': '', 'type': 'zpl',
-#			'name': 'label 1 '
-#		}
-#	}],
-#	annexes: [
-#		{
-#			'name': 'cn23',
-#			'type': 'pdf',
-#			'data': 'base64 here'
-#		}, ...
-#	],
-#}
-```
-
-
-
-### Advanced usage for Laposte
-
-Usefull for debugging: get the xml before the call, send an xml directly, analyse the response
-
-```python
-from roulier import roulier
-laposte = roulier.get('laposte')
-
-#0) create dict for the request as usually 
-api = laposte.api();
-api['auth']['login'] = '12345'
-...
-
-# 1) get the sls xml: 
-req = laposte.encoder.encode(api, 'generateLabelRequest')
-# req['body'] contains the xml payload (<sls:generateLabel xmlns:sls="http://sls.ws.coliposte.fr">...</sls:generateLabel>)
-
-# 2) get the soap message
-soap_request = laposte.ws.soap_wrap(req['body'], req['headers'])
-#soap_request is a string (xml)
-
-# 3) send xml_request to ws
-soap_response = laposte.ws.send_request(xml_request)
-# soap_response is a Requests response
-
-# 4) interpret the response
-data = laposte.ws.handle_response(soap_response)
-
-# 5)get the raw Request Response:
-data['response'] 
-
-
-```
-It's more or less the same for every carrier with SOAP webservice.
-
-
-Validate input
-
-For input validate we use [Cerberus](http://docs.python-cerberus.org/en/stable/)
-```python
-from roulier import roulier
-laposte = roulier.get('laposte')
-
-# get a ready to fill dict with default values:
-laposte.api()
-
-
-# advanced usage : 
-from roulier.carriers.laposte.laposte_api import LaposteApi
-l_api = LaposteApi()
-
-# get the full schema:
-l_api.api_schema()
-
-# validate a dict against the schema
-a_dict = { 'auth': {'login': '', 'password': 'password'}, ... }
-l_api.errors(a_dict)
-# > {'auth': [{'login': ['empty values not allowed']}], ...}
-
-# get a part of schema (like 'parcel')
-l_api._parcel()
+print(roulier.get_carriers_action_available())
 ```
 
 
