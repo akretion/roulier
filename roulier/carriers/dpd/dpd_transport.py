@@ -15,7 +15,9 @@ log = logging.getLogger(__name__)
 class DpdTransport(Transport):
     """Implement Dpd WS communication."""
 
-    DPD_WS = "https://e-station.cargonet.software/dpd-eprintwebservice/eprintwebservice.asmx"
+    DPD_WS = (
+        "https://e-station.cargonet.software/dpd-eprintwebservice/eprintwebservice.asmx"
+    )
 
     def send(self, payload):
         """Call this function.
@@ -29,46 +31,49 @@ class DpdTransport(Transport):
                 body: XML response (without soap)
             }
         """
-        body = payload['body']
-        headers = payload['headers']
+        body = payload["body"]
+        headers = payload["headers"]
         soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
         response = self.send_request(soap_message)
-        log.info('WS response time %s' % response.elapsed.total_seconds())
+        log.info("WS response time %s" % response.elapsed.total_seconds())
         return self.handle_response(response)
 
     def soap_wrap(self, body, auth):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader('roulier', '/carriers/dpd/templates'),
-            extensions=['jinja2.ext.with_'])
+            loader=PackageLoader("roulier", "/carriers/dpd/templates"),
+            extensions=["jinja2.ext.with_"],
+        )
 
         template = env.get_template("dpd_soap.xml")
         body_stripped = remove_empty_tags(body)
         header_template = env.get_template("dpd_header.xml")
         header_xml = header_template.render(auth=auth)
         data = template.render(body=body_stripped, header=header_xml)
-        return data.encode('utf8')
+        return data.encode("utf8")
 
     def send_request(self, body):
         """Send body to dpd WS."""
         return requests.post(
-            self.DPD_WS,
-            headers={'content-type': 'text/xml'},
-            data=body)
+            self.DPD_WS, headers={"content-type": "text/xml"}, data=body
+        )
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
-        log.warning('Dpd error 500')
+        log.warning("Dpd error 500")
         obj = objectify.fromstring(response.content)
-        errors = [{
-            "id": obj.xpath('//faultcode')[0],
-            "message": obj.xpath('//faultstring')[0],
-        }]
+        errors = [
+            {
+                "id": obj.xpath("//faultcode")[0],
+                "message": obj.xpath("//faultstring")[0],
+            }
+        ]
         raise CarrierError(response, errors)
 
     def handle_200(self, response):
         """Handle response type 200 (success)."""
+
         def extract_soap(response_xml):
             obj = objectify.fromstring(response_xml)
             return obj.Body.getchildren()[0]
@@ -87,7 +92,7 @@ class DpdTransport(Transport):
         elif response.status_code == 500:
             return self.handle_500(response)
         else:
-            raise CarrierError(response, [{
-                'id': None,
-                'message': "Unexpected status code from server",
-            }])
+            raise CarrierError(
+                response,
+                [{"id": None, "message": "Unexpected status code from server",}],
+            )
