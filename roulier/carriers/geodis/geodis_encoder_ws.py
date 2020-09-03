@@ -46,7 +46,7 @@ class GeodisEncoderWs(Encoder):
         }
 
         def request_impression_etiquette():
-            infos["output_format"] = api_input['service']['labelFormat'],
+            infos["output_format"] = api_input['service']['labelFormat']
             data['service']['labelFormat'] = self.lookup_label_format(
                 data['service']['labelFormat'])
             data['service']['shippingDate'] = (
