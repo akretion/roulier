@@ -54,7 +54,7 @@ class RequestsTransport(ABC):
         if response.status_code == 200:
             return self.handle_200(response)
         elif response.status_code == 500:
-            log.warning("%s error 500" % self._carrier_type)
+            log.warning("%s error 500" % self.config.carrier_type)
             return self.handle_500(response)
         #        elif response.status_code == 400:
         #            return self.handle_400(response)

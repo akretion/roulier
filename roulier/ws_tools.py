@@ -44,10 +44,9 @@ def get_parts(response):
         an array of content-ids
     """
     head_lines = ""
-    for k, v in response.raw.getheaders().iteritems():
+    for k, v in response.raw.getheaders().items():
         head_lines += str(k) + ":" + str(v) + "\n"
-
-    full = head_lines + response.content.decode("utf-8")
+    full = head_lines + response.text
 
     parser = email.parser.Parser()
     decoded_reply = parser.parsestr(full)
