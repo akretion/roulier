@@ -173,15 +173,18 @@ class LaposteFrApiParcel(ApiParcel):
             "articles": {
                 "type": "list",
                 "schema": {
-                    "quantity": {"default": ""},
-                    "weight": {"type": "float", "default": 0.0},
-                    "description": {"default": ""},
-                    "hs": {"default": ""},
-                    "value": {"default": ""},
-                    "originCountry": {"default": ""},
+                    "type": "dict",
+                    "schema": {
+                        "quantity": {"default": ""},
+                        "weight": {"type": "float", "default": 0.0},
+                        "description": {"default": ""},
+                        "hs": {"default": ""},
+                        "value": {"default": ""},
+                        "originCountry": {"default": ""},
+                    },
+                    "default": [],
                 },
-                "default": [],
-            },
+            }
         }
         return schema
 
