@@ -8,20 +8,19 @@ try:
     from .credential import credentials
 except ImportError:
     from .credential_demo import credentials
+
     logger.debug(
         "To test with real credentials copy and paste "
         "tests/credential_demo.py to tests/credential.py and "
-        "fill it with real values")
+        "fill it with real values"
+    )
 
 
 def test_connexion():
     gls = Gls()
     gls.get_label(
         {
-            "auth": {
-                "login": credentials["login"],
-                "isTest": credentials["isTest"],
-            },
+            "auth": {"login": credentials["login"], "isTest": credentials["isTest"]},
             "service": {
                 "agencyId": credentials["agencyId"],
                 "customerId": credentials["customerId"],
@@ -48,11 +47,13 @@ def test_connexion():
                 "email": "contact@mycustomer.fr",
                 "country_code": "FR",
             },
-            "parcels": [{
-                "weight": 3.4,
-                "parcel_number_label": 1,
-                "parcel_number_barcode": 1,
-                "custom_sequence": "1234567899",
-            }],
+            "parcels": [
+                {
+                    "weight": 3.4,
+                    "parcel_number_label": 1,
+                    "parcel_number_barcode": 1,
+                    "custom_sequence": "1234567899",
+                }
+            ],
         }
     )

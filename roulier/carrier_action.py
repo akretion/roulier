@@ -32,8 +32,13 @@ class Carrier(ABC):
     def api(self):
         pass
 
+    ws_test_url = ''
+
 
 class CarrierGetLabel(Carrier, ABC):
+
+    is_test = False
+
     @property
     @abstractmethod
     def manage_multi_label(self):

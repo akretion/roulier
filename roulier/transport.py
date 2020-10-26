@@ -28,7 +28,10 @@ class RequestsTransport(ABC):
 
     def send_request(self, body):
         headers = self._get_requests_headers()
-        ws_url = self.config.ws_url
+        if self.config.is_test and self.config.ws_test_url:
+            ws_url = self.config.ws_test_url
+        else:
+            ws_url = self.config.ws_url
         return requests.post(ws_url, headers=headers, data=body)
 
     @abstractmethod

@@ -15,7 +15,7 @@ class Encoder(ABC):
         return data
 
     @abstractmethod
-    def transform_input_to_carrier_webservice(self, data, action):
+    def transform_input_to_carrier_webservice(self, data):
         pass
 
     def encode(self, input_payload):
@@ -26,6 +26,10 @@ class Encoder(ABC):
             raise InvalidApiInput(
                 {"api_call_exception": validator.errors(input_payload)}
             )
+        # Set isTest in config if it is the case so the system choose the test url
+        # if any
+        if input_payload.get('auth', {}).get('isTest'):
+            self.config.is_test = True
         data = validator.normalize(input_payload)
         data = self._extra_input_data_processing(input_payload, data)
         return self.transform_input_to_carrier_webservice(data)
