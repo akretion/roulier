@@ -72,8 +72,6 @@ class ChronopostFrApiParcel(ApiParcel):
         schema = super(ChronopostFrApiParcel, self)._address()
         additional_fields = {
             "civility": {
-                "required": True,
-                "empty": False,
                 "type": "string",
                 "allowed": ["E", "L", "M"],
             },
@@ -99,6 +97,11 @@ class ChronopostFrApiParcel(ApiParcel):
     def _from_address(self):
         schema = super(ChronopostFrApiParcel, self)._from_address()
         schema["preAlert"].update({"allowed": [0, 11]})
+        # strangely, civility seem really mandatory for shipper
+        schema['civility'].update({
+            "required": True,
+            "empty": False,
+        })
         return schema
 
     def _auth(self):
