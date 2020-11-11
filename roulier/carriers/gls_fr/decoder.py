@@ -20,7 +20,7 @@ class GlsDecoder(DecoderGetLabel):
     def decode(self, response, inpyt_payload):
         """Gls -> Python."""
         data = self.exotic_serialization_to_dict(response.get("body"))
-        self.search_exception(data, response.get("data_request"))
+        self.search_exception(data, inpyt_payload)
         data_file = BytesIO(self.populate_label(data).encode())
         self.result["parcels"].append(
             {
@@ -88,7 +88,9 @@ class GlsDecoder(DecoderGetLabel):
             info = {}
             merge_dict(info)
             log.warning("Exception according these data:")
-            log.warning("""Tag "%s" (%s), value %s""" % (tag, info.get(tag), value))
+            detail = """Tag "%s" (%s), value %s""" % (tag, info.get(tag), value)
+            log.warning(detail)
+            exception = ("wrong or absent information : %s" % detail)
         if exception:
             self.create_exception(result, exception, ctx_except, data_request)
         return False
