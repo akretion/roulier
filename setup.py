@@ -12,7 +12,15 @@ setup(
     name="roulier",
     version=version,
     packages=find_packages(),
-    install_requires=["lxml", "Jinja2", "requests", "cerberus", "zplgrf", "unidecode"],
+    install_requires=[
+        'lxml', 'Jinja2', 'requests', 'cerberus', 'zplgrf',
+        'unidecode', 'pycountry'],
+    extras_requires={
+        'dev': [
+            'ptpython',
+            'pytest'
+        ],
+    },
     author="Hparfr <https://github.com/hparfr>",
     author_email="roulier@hpar.fr",
     description="Label parcels without pain",
