@@ -1,0 +1,78 @@
+<ns1:shipping>
+ <headerValue>
+    <accountNumber>{{ auth.login }}</accountNumber>
+    <idEmit>CHRFR</idEmit>
+    <subAccount>{{ auth.subAccount }}</subAccount>
+ </headerValue>
+ <shipperValue>
+    <shipperAdress1>{{ from_address.street1 }}</shipperAdress1>
+    <shipperAdress2>{{ from_address.street2 }}</shipperAdress2>
+    <shipperCity>{{ from_address.city }}</shipperCity>
+    <shipperCivility>{{ from_address.civility }}</shipperCivility>
+    <shipperContactName>{{ from_address.contact_name }}</shipperContactName>
+    <shipperCountry>{{ from_address.country }}</shipperCountry>
+    <shipperEmail>{{ from_address.email }}</shipperEmail>
+    <shipperMobilePhone>{{ from_address.mobile }}</shipperMobilePhone>
+    <shipperName>{{ from_address.company or from_address.name }}</shipperName>
+    <shipperName2>{{ from_address.company and from_address.name or from_address.name }}</shipperName2>
+    <shipperPhone>{{ from_address.phone }}</shipperPhone>
+    <shipperPreAlert>{{ from_address.preAlert }}</shipperPreAlert>
+    <shipperZipCode>{{ from_address.zip }}</shipperZipCode>
+ </shipperValue>
+ <customerValue>
+    <customerAdress1>{{ customer_address.street1 }}</customerAdress1>
+    <customerAdress2>{{ customer_address.street2 }}</customerAdress2>
+    <customerCity>{{ customer_address.city }}</customerCity>
+    <customerCivility>{{ customer_address.civility }}</customerCivility>
+    <customerContactName>{{ customer_address.contact_name }}</customerContactName>
+    <customerCountry>{{ customer_address.country }}</customerCountry>
+    <customerEmail>{{ customer_address.email }}</customerEmail>
+    <customerMobilePhone>{{ customer_address.mobile }}</customerMobilePhone>
+    <customerName>{{ customer_address.company or customer_address.name }}</customerName>
+    <customerName2>{{ customer_address.company and customer_address.name or customer_address.name }}</customerName2>
+    <customerPhone>{{ customer_address.phone }}</customerPhone>
+    <customerPreAlert>{{ customer_address.preAlert }}</customerPreAlert>
+    <customerZipCode>{{ customer_address.zip }}</customerZipCode>
+    <printAsSender></printAsSender>
+ </customerValue>
+ <recipientValue>
+    <recipientAdress1>{{ to_address.street1 }}</recipientAdress1>
+    <recipientAdress2>{{ to_address.street2 }}</recipientAdress2>
+    <recipientCity>{{ to_address.city }}</recipientCity>
+    <recipientCivility>{{ to_address.civility }}</recipientCivility>
+    <recipientContactName>{{ to_address.contact_name }}</recipientContactName>
+    <recipientCountry>{{ to_address.country }}</recipientCountry>
+    <recipientEmail>{{ to_address.email }}</recipientEmail>
+    <recipientMobilePhone>{{ to_address.mobile }}</recipientMobilePhone>
+    <recipientName>{{ to_address.company or to_address.name }}</recipientName>
+    <recipientName2>{{ to_address.company and to_address.name or to_address.name }}</recipientName2>
+    <recipientPhone>{{ to_address.phone }}</recipientPhone>
+    <recipientPreAlert>{{ to_address.preAlert }}</recipientPreAlert>
+    <recipientZipCode>{{ to_address.zip }}</recipientZipCode>
+ </recipientValue>
+ <refValue>
+    <customerSkybillNumber>{{ parcel.reference }}</customerSkybillNumber>
+    <recipientRef>{{ service.customerId }}</recipientRef>
+    <shipperRef>{{ service.shippingId }}</shipperRef>
+ </refValue>
+ <skybillValue>
+    <evtCode>DC</evtCode>
+    <insuredCurrency>{{ parcel.insuredCurrency }}</insuredCurrency>
+    <insuredValue>{{ parcel.insuredValue }}</insuredValue>
+    <codCurrency>{{ parcel.codCurrency }}</codCurrency>
+    <codValue>{{ parcel.codValue }}</codValue>
+    <customsCurrency>{{ parcel.customsCurrency }}</customsCurrency>
+    <customsValue>{{ parcel.customsValue }}</customsValue>
+    <objectType>{{ parcel.objectType }}</objectType>
+    <productCode>{{ service.product }}</productCode>
+    <service>{{ service.service }}</service>
+    <shipDate>{{ service.shippingDate }}</shipDate>
+    <shipHour>{{ service.shippingHour }}</shipHour>
+    <weight>{{ parcel.weight }}</weight>
+    <weightUnit>KGM</weightUnit>
+ </skybillValue>
+ <skybillParamsValue>
+    <mode>{{ service.labelFormat }}</mode>
+ </skybillParamsValue>
+ <password>{{ auth.password }}</password>
+</ns1:shipping>
