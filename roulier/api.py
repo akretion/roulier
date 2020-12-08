@@ -21,6 +21,7 @@ class MyValidator(Validator):
             0x1E,  # RS (^ substitution)
             0x10,  # DLE (~ substitution)
         ]
+        test = ['test 1', 'testt tttttttttttttttttttttttttttttttttttttttttttttttttt2', 'test3', 'test4', 'test5']
         val = unidecode(value)
         for ctrl in ctrl_cars:
             val = val.replace("%c" % ctrl, "")
