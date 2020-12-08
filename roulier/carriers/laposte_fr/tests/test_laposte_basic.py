@@ -86,11 +86,11 @@ def test_auth():
 
 
 def _do_not_execute_test_on_remote():
-    """ Test execution require valid credentials
-        which are not included in commited files.
+    """Test execution require valid credentials
+    which are not included in commited files.
 
-        Main tests are only executable in local installation.
-        This method when called allow to escape remote tests
+    Main tests are only executable in local installation.
+    This method when called allow to escape remote tests
     """
     if DATA["auth"]["password"] == "blablabla":
         return True
@@ -98,8 +98,7 @@ def _do_not_execute_test_on_remote():
 
 
 def _print_label_with_labelary_dot_com(result):
-    """ This method convert zpl data in pdf file
-    """
+    """This method convert zpl data in pdf file"""
     if not DOWNLOAD_PDF_FILE:
         return
     url = "http://api.labelary.com/v1/printers/8dpmm/labels/4x6/%s"
@@ -123,8 +122,8 @@ def _print_label_with_labelary_dot_com(result):
 
 
 def assert_label(result):
-    assert("parcels" in result)
-    assert(len(result["parcels"]) > 0)
-    assert("label" in result["parcels"][0])
-    assert("data" in result["parcels"][0]["label"])
+    assert "parcels" in result
+    assert len(result["parcels"]) > 0
+    assert "label" in result["parcels"][0]
+    assert "data" in result["parcels"][0]["label"]
     return result["parcels"][0]["label"]

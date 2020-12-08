@@ -33,7 +33,7 @@ class CarrierError(Exception):
         super(CarrierError, self).__init__(msg)
         self.response = response
         if self.response:
-            if hasattr(self.response, 'text'):
+            if hasattr(self.response, "text"):
                 log.debug(response.text)
             else:
                 log.debug(response)

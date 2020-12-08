@@ -90,7 +90,7 @@ class GlsDecoder(DecoderGetLabel):
             log.warning("Exception according these data:")
             detail = """Tag "%s" (%s), value %s""" % (tag, info.get(tag), value)
             log.warning(detail)
-            exception = ("wrong or absent information : %s" % detail)
+            exception = "wrong or absent information : %s" % detail
         if exception:
             self.create_exception(result, exception, ctx_except, data_request)
         return False

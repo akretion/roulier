@@ -184,7 +184,7 @@ class LaposteFrApiParcel(ApiParcel):
                     },
                     "default": [],
                 },
-            }
+            },
         }
         return schema
 

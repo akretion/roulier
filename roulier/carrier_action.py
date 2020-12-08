@@ -32,7 +32,7 @@ class Carrier(ABC):
     def api(self):
         pass
 
-    ws_test_url = ''
+    ws_test_url = ""
 
 
 class CarrierGetLabel(Carrier, ABC):

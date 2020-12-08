@@ -26,7 +26,7 @@ def get(carrier_type, action, *args, **kwargs):
 
 def get_carriers_action_available():
     """
-        Return all possible action by implemented carriers.
+    Return all possible action by implemented carriers.
     """
     action_by_carrier = {}
     for carrier_type, action in factory._carrier_action.keys():

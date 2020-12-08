@@ -153,7 +153,7 @@ class ApiParcel(object):
         return {
             "login": {"type": "string", "default": ""},
             "password": {"type": "string", "default": ""},
-            "isTest": {"type": "boolean", "default": False}
+            "isTest": {"type": "boolean", "default": False},
         }
 
     def _schemas(self):
