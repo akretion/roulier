@@ -1,17 +1,40 @@
 language: python
+cache:
+  directories:
+  - $HOME/.cache/pip
+  - $HOME/.cache/pre-commit
 python: 
 - "3.6"
 install:
   - pip install -r requirements.txt
-  - pip install pytest
-script:
-- pytest -s roulier/carriers/laposte_fr
-deploy: 
-  provider: pypi
-  user: hparfr
-  password: 
-    secure: go1MWqMNj5t21FWbZWlSvZsMYiAAJkgO8aeQRMCIv5ZQN8LGCE3nUQxjx1REY768lD9uMD6QgrXchxWWoWk+4B95cEjVOfi+CcINwOT9i3tvQoixwWhK/d4kgUmYggjCR1yOgGR75wc5CrAE5wghg36vnLAxJxxXR1mP5/L2Cz/0qSLUp7MEEal7j+Yo8Hx2o6/lBBHSjKXQugK5FlmOvyfJHHTARU4puSQdyBc/GfgKE6Uxt5vihD3lvj8n/HmXLG1nInEd0DKbIZvFc759ZAk3njKxuL1FWycdaSoGc3XVa5b3qFZa5+7LNrFOjldBm0O21MaHGDHgVE8DLs45i/PgC3L3ATSQ7eDx/1ArPazrZCSdn+umJtkxS2Id/KHLF1yDHguXmUtYwDjW4NmUSLAiVInz5Il/bnADFwXnOQ4WLdmU0GMHkWPLd+TJe4iPTj+SagVpUMVxtQXm2RgFhGSo5h8daK5/ZQnu8DEMX4dtdSKGrMF7FJkbBWFzXIMw8mGbIKKoSjw+nYIl72lNgaPorR3l9s6aR/bwHFaxF0sviSwebvNEecLKIP2TZEIU45u6CQEU5iKptCLzznWemA9mvzw/JDiUlehqm5M0cLgYiJf74QJJbrj6eTC1IK9oAo8iCfn3511u19SqPpnV2ovEenPHly1Gni0i/Gv8JQ0=
-  distributions: sdist bdist_wheel
-  on: 
-    tags: true
-    branch: master
+  - pip install -r requirements-test.txt
+stages:
+  - name: linting
+  - name: test
+  - name: deploy
+    if: tag IS present
+
+jobs:
+  include:
+    - stage: linting
+      name: "pre-commit"
+      python: 3.6
+      install: pip install pre-commit
+      script: pre-commit run --all --show-diff-on-failure
+    - stage: test
+      python: 3.6
+      script: pytest -s roulier/carriers
+    - stage: deploy
+      install:
+      script: echo "Deploy to PyPi"
+      deploy:
+        provider: pypi
+        user: hparfr
+        password:
+          secure: go1MWqMNj5t21FWbZWlSvZsMYiAAJkgO8aeQRMCIv5ZQN8LGCE3nUQxjx1REY768lD9uMD6QgrXchxWWoWk+4B95cEjVOfi+CcINwOT9i3tvQoixwWhK/d4kgUmYggjCR1yOgGR75wc5CrAE5wghg36vnLAxJxxXR1mP5/L2Cz/0qSLUp7MEEal7j+Yo8Hx2o6/lBBHSjKXQugK5FlmOvyfJHHTARU4puSQdyBc/GfgKE6Uxt5vihD3lvj8n/HmXLG1nInEd0DKbIZvFc759ZAk3njKxuL1FWycdaSoGc3XVa5b3qFZa5+7LNrFOjldBm0O21MaHGDHgVE8DLs45i/PgC3L3ATSQ7eDx/1ArPazrZCSdn+umJtkxS2Id/KHLF1yDHguXmUtYwDjW4NmUSLAiVInz5Il/bnADFwXnOQ4WLdmU0GMHkWPLd+TJe4iPTj+SagVpUMVxtQXm2RgFhGSo5h8daK5/ZQnu8DEMX4dtdSKGrMF7FJkbBWFzXIMw8mGbIKKoSjw+nYIl72lNgaPorR3l9s6aR/bwHFaxF0sviSwebvNEecLKIP2TZEIU45u6CQEU5iKptCLzznWemA9mvzw/JDiUlehqm5M0cLgYiJf74QJJbrj6eTC1IK9oAo8iCfn3511u19SqPpnV2ovEenPHly1Gni0i/Gv8JQ0=
+        distributions: "sdist bdist_wheel"
+        skip_upload_docs: true
+        on:
+          repo: akretion/roulier
+          branch: master
+          tags: true

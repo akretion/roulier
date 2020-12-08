@@ -1,18 +1,23 @@
 
-# Next
-    - Misc python3 fix
-    - Remove TRS carrier because aborted project
-
 Roadmap / TODO: 
 
 	- Add Kuehne & Nagel carrier
 	- Add UPS carrier
+	- Add geodis carrier
+	- Add dpd carrier
 	- Support test_mode for some carriers
 	- Improve documentation
 	- Support additionnal methods of api
 	- Write tests
-	- define an output API (tracking)
 	- generate api documentation
+
+# 1.0.0 2020-12-08
+    - Refactore library design to be able to re-use some logic between carriers
+    - Add compatibility with python 3
+    - Remove compatibility with python 2 (check versions < 1.0.0 for that)
+    - Adapt laposte and chronopost to python 3
+    - Add gls France support
+    - standardize output for all supported carriers
 
 # 0.3.9 2019-09-12
     - Improve setup.py
