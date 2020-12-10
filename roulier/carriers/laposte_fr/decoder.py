@@ -53,3 +53,4 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
             },
         }
         self.result["parcels"].append(parcel)
+        self.result["annexes"] += annexes
