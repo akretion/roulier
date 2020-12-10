@@ -16,6 +16,11 @@ class LaposteFrEncoder(Encoder):
         data["service"]["labelFormat"] = self.lookup_label_format(
             data["service"]["labelFormat"]
         )
+        # Since multi parcels is not managed for la poste, some informations are expected
+        # in service by laposte but are in parcel in roulier.
+        parcel = data["parcels"][0]
+        if parcel.get("totalAmount"):
+            data["service"]["totalAmount"] = parcel["totalAmount"]
         return data
 
     def transform_input_to_carrier_webservice(self, data):
@@ -34,7 +39,7 @@ class LaposteFrEncoder(Encoder):
                 auth=data["auth"],
                 sender_address=data["from_address"],
                 receiver_address=data["to_address"],
-                customs=data["customs"],
+                customs=data["parcels"][0].get("customs", False),
             ),
             "headers": data["auth"],
             "output_format": data["service"]["labelFormat"],

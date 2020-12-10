@@ -159,6 +159,7 @@ class LaposteFrApiParcel(ApiParcel):
             "default": "",
             # 'description': 'Needed for cn23'
         }
+        schema["customs"] = {"type": "dict", "schema": self._customs()}
         return schema
 
     def _auth(self):
@@ -184,11 +185,10 @@ class LaposteFrApiParcel(ApiParcel):
                     },
                     "default": [],
                 },
-            }
+            },
         }
         return schema
 
     def _schemas(self):
         schemas = super()._schemas()
-        schemas["customs"] = self._customs()
         return schemas

@@ -64,7 +64,7 @@ class GeodisTransportRestWs(Transport):
         """Send body to geodis WS."""
         ws_url = infos["url"]
         token = infos["token"]
-        return requests.post(ws_url, headers={"X-GEODIS-Service": token,}, data=body)
+        return requests.post(ws_url, headers={"X-GEODIS-Service": token,}, data=body,)
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""

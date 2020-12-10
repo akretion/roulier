@@ -32,12 +32,13 @@ class Carrier(ABC):
     def api(self):
         pass
 
-    ws_test_url = ''
+    ws_test_url = ""
 
 
 class CarrierGetLabel(Carrier, ABC):
 
     is_test = False
+    roulier_input = None
 
     @property
     @abstractmethod
@@ -52,6 +53,7 @@ class CarrierGetLabel(Carrier, ABC):
         encoder = self.encoder(self)
         decoder = self.decoder(self)
         transport = self.transport(self)
+        self.roulier_input = data
 
         parcels = data.get("parcels", []).copy()
         # one call to carrier webservice is enough

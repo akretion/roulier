@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
 
@@ -13,14 +12,15 @@ setup(
     version=version,
     packages=find_packages(),
     install_requires=[
-        'lxml', 'Jinja2', 'requests', 'cerberus', 'zplgrf',
-        'unidecode', 'pycountry'],
-    extras_requires={
-        'dev': [
-            'ptpython',
-            'pytest'
-        ],
-    },
+        "lxml",
+        "Jinja2",
+        "requests",
+        "cerberus",
+        "zplgrf",
+        "unidecode",
+        "pycountry",
+    ],
+    extras_requires={"dev": ["ptpython", "pytest"],},
     author="Hparfr <https://github.com/hparfr>",
     author_email="roulier@hpar.fr",
     description="Label parcels without pain",
@@ -31,4 +31,11 @@ setup(
     url="https://github.com/akretion/roulier",
     download_url=download_url,
     keywords=["carrier", "logistics", "delivery"],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: comunicate with carriers api",
+        "License :: OSI Approved :: GNU Affero General Public License v3",
+        "Programming Language :: Python :: 3.6",
+    ],
 )

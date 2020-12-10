@@ -17,15 +17,15 @@ ZPL_FILE_PATH = os.path.join(os.path.dirname(__file__), "templates/zpl.zpl")
 class GlsDecoder(DecoderGetLabel):
     """Gls weird string -> Python."""
 
-    def decode(self, response, inpyt_payload):
+    def decode(self, response, input_payload):
         """Gls -> Python."""
         data = self.exotic_serialization_to_dict(response.get("body"))
-        self.search_exception(data, inpyt_payload)
+        self.search_exception(data, input_payload)
         data_file = BytesIO(self.populate_label(data).encode())
         self.result["parcels"].append(
             {
                 "id": 1,  # no multi parcel management for now.
-                "reference": "",
+                "reference": self._get_parcel_number(input_payload),
                 "tracking": {"number": data.get("T8913"), "url": ""},
                 "label": {
                     "data": base64.b64encode(data_file.read()),
@@ -90,7 +90,7 @@ class GlsDecoder(DecoderGetLabel):
             log.warning("Exception according these data:")
             detail = """Tag "%s" (%s), value %s""" % (tag, info.get(tag), value)
             log.warning(detail)
-            exception = ("wrong or absent information : %s" % detail)
+            exception = "wrong or absent information : %s" % detail
         if exception:
             self.create_exception(result, exception, ctx_except, data_request)
         return False

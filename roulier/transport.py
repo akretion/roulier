@@ -36,9 +36,9 @@ class RequestsTransport(ABC):
 
     @abstractmethod
     def handle_200(self, response):
-        """ 
-            Handle response type 200 (success).
-            But it still may contain errors from the carrier webservice.
+        """
+        Handle response type 200 (success).
+        But it still may contain errors from the carrier webservice.
         """
         pass
 

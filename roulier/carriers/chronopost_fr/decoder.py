@@ -18,7 +18,7 @@ class ChronopostFrDecoder(DecoderGetLabel):
         output_format = input_payload["output_format"]
         parcel = {
             "id": 1,  # no multi parcel management for now.
-            "reference": "",
+            "reference": self._get_parcel_number(input_payload),
             "tracking": {"number": tracking_ref, "url": ""},
             "label": {
                 "data": data,

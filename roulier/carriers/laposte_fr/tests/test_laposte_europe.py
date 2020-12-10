@@ -46,7 +46,7 @@ def test_DOM_product():
     vals["service"]["product"] = "DOM"
     result = roulier.get("laposte_fr", "get_label", vals)
     label = assert_label(result)
-    assert("data" in label)
+    assert "data" in label
 
 
 def test_DOS_product():
@@ -57,7 +57,7 @@ def test_DOS_product():
     vals["service"]["product"] = "DOS"
     result = roulier.get("laposte_fr", "get_label", vals)
     label = assert_label(result)
-    assert("data" in label)
+    assert "data" in label
 
 
 def test_DOM_product_raise():

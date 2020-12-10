@@ -1,6 +1,6 @@
 import logging
 from datetime import date
-from roulier.carriers.gls_fr.gls import Gls
+from roulier import roulier
 
 logger = logging.getLogger(__name__)
 
@@ -17,8 +17,9 @@ except ImportError:
 
 
 def test_connexion():
-    gls = Gls()
-    gls.get_label(
+    roulier.get(
+        "gls_fr",
+        "get_label",
         {
             "auth": {"login": credentials["login"], "isTest": credentials["isTest"]},
             "service": {
@@ -27,6 +28,7 @@ def test_connexion():
                 "shippingDate": date.today(),
                 "shippingId": "125874",
                 "intructions": "Sent from automatic test",
+                "parcel_total_number": 1,
             },
             "from_address": {
                 "company": "my company",
@@ -45,7 +47,7 @@ def test_connexion():
                 "city": "Paris",
                 "phone": "01 99 99 99 99",
                 "email": "contact@mycustomer.fr",
-                "country_code": "FR",
+                "country": "FR",
             },
             "parcels": [
                 {
@@ -55,5 +57,5 @@ def test_connexion():
                     "custom_sequence": "1234567899",
                 }
             ],
-        }
+        },
     )

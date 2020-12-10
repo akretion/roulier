@@ -16,15 +16,13 @@ Roulier will get a label + tracking number to your carrier for you.
 ### Installation
 
 This is not compatible with python 2.7.
-Please use the python 2 branch in that case.
-This is work in progress.
+Please use version < 1.0.0 (python2 branch) in that case.
 
 ### Usage
 
 ```python
 from roulier import roulier
 
-response = laposte.get_label(
 payload= {
 	"auth": { 
 		"login": "12345",

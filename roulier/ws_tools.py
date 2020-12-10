@@ -46,19 +46,18 @@ def get_parts(response):
     head_lines = ""
     for k, v in response.raw.getheaders().items():
         head_lines += str(k) + ":" + str(v) + "\n"
-    full = head_lines + response.text
-
-    parser = email.parser.Parser()
-    decoded_reply = parser.parsestr(full)
+    full = head_lines.encode() + response.content
+    parser = email.parser.BytesParser()
+    decoded_reply = parser.parsebytes(full)
     parts = {}
     start = decoded_reply.get_param("start").lstrip("<").rstrip(">")
     i = 0
     for part in decoded_reply.get_payload():
         cid = part.get("content-Id", "").lstrip("<").rstrip(">")
         if (not start or start == cid) and "start" not in parts:
-            parts["start"] = part.get_payload()
+            parts["start"] = part.get_payload(decode=True)
         else:
-            parts[cid or "Attachment%d" % i] = part.get_payload()
+            parts[cid or "Attachment%d" % i] = part.get_payload(decode=True)
         i += 1
     return parts
 

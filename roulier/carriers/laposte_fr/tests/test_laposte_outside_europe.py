@@ -40,4 +40,4 @@ def test_COM_product():
     vals["parcels"][0]["totalAmount"] = 123  # Frais de transport
     result = roulier.get("laposte_fr", "get_label", vals)
     label = assert_label(result)
-    assert("data" in label)
+    assert "data" in label
