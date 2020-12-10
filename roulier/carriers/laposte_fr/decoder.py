@@ -33,7 +33,10 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
         annexes = []
 
         if cn23_cid:
-            annexes.append({"name": "cn23", "data": parts.get(cn23_cid), "type": "pdf"})
+            data = parts.get(cn23_cid)
+            annexes.append(
+                {"name": "cn23", "data": base64.b64encode(data), "type": "pdf"}
+            )
 
         if rep.find("pdfUrl"):
             annexes.append({"name": "label", "data": rep.find("pdfUrl"), "type": "url"})
@@ -47,7 +50,7 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
                 "partner": rep.find("parcelNumberPartner"),
             },
             "label": {
-                "data": base64.b64encode(parts.get(label_cid).encode()),
+                "data": base64.b64encode(parts.get(label_cid)),
                 "name": "label_1",
                 "type": output_format,
             },
