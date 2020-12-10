@@ -34,7 +34,7 @@ setup(
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
-        "Topic :: Software Development :: comunicate with carriers api",
+        "Topic :: Software Development :: Build Tools",
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Programming Language :: Python :: 3.6",
     ],
