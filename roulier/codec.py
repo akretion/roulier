@@ -70,3 +70,12 @@ class DecoderGetLabel(ABC):
         anything
         """
         pass
+
+    # helper to get the reference in case of mono_parcel
+    def _get_parcel_number(self, payload):
+        parcel_ref = ""
+        roulier_input = self.config.roulier_input or {}
+        parcels = roulier_input.get("parcels", [])
+        if len(parcels) == 1:
+            parcel_ref = parcels[0].get("reference", "")
+        return parcel_ref

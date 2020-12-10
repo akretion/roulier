@@ -52,7 +52,7 @@ class ChronopostFrApiParcel(ApiParcel):
 
     def _parcel(self):
         schema = super(ChronopostFrApiParcel, self)._parcel()
-        schema["reference"] = {"type": "string", "maxlength": 15}
+        schema["reference"].update({"maxlength": 15})
         schema["objectType"] = {
             "type": "string",
             "allowed": ["DOC", "MAR"],

@@ -116,6 +116,11 @@ class ApiParcel(object):
                 "required": True,
                 "empty": False,
             },
+            # reference of parcel in external app
+            # This ref should be attached to the label in roulier response so the
+            # external app is able to link a label file/tracking ref to the corresponding
+            # parcel.
+            "reference": {"type": "string"},
         }
         # 'description': 'Weight in kg',
 

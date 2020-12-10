@@ -40,7 +40,7 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
 
         parcel = {
             "id": 1,  # no multi parcel management for now.
-            "reference": rep.parcelNumber,
+            "reference": self._get_parcel_number(input_payload),
             "tracking": {
                 "number": rep.parcelNumber,
                 "url": "",
