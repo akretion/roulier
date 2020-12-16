@@ -67,12 +67,7 @@ class MyValidator(Validator):
         return sanitized
 
 
-class ApiParcel(object):
-    """Define expected fields of carriers.
-
-    This class should be overriden by each carrier.
-    """
-
+class BaseApi(object):
     def __init__(self, config_object):
         self.config = config_object
 
@@ -82,92 +77,11 @@ class ApiParcel(object):
         # v.purge_unknown = True
         return v
 
-    def _address(self):
-        return {
-            "company": {"type": "string", "default": ""},
-            "name": {"type": "string", "default": "", "required": True, "empty": False},
-            "street1": {"type": "string", "default": ""},
-            "street2": {"type": "string", "default": ""},
-            "country": {"type": "string", "default": ""},
-            # , 'description': 'ISO 3166-1 alpha-2 '},
-            "city": {"type": "string", "default": ""},
-            "zip": {"type": "string", "default": ""},
-            "phone": {"type": "string", "default": ""},
-            "email": {"type": "string", "default": ""},
-        }
-
-    def _from_address(self):
-        address = self._address()
-        return address
-
-    def _to_address(self):
-        address = self._address()
-        address["street1"].update({"required": True, "empty": False})
-        address["country"].update({"required": True, "empty": False})
-        address["city"].update({"required": True, "empty": False})
-        address["zip"].update({"required": True, "empty": False})
-        return address
-
-    def _parcel(self):
-        return {
-            "weight": {
-                "type": "float",
-                "default": "",
-                "required": True,
-                "empty": False,
-            },
-            # reference of parcel in external app
-            # This ref should be attached to the label in roulier response so the
-            # external app is able to link a label file/tracking ref to the corresponding
-            # parcel.
-            "reference": {"type": "string"},
-        }
-        # 'description': 'Weight in kg',
-
-    def _parcels(self):
-        v = MyValidator()
-        return {
-            "type": "list",
-            "schema": {"schema": self._parcel(), "type": "dict"},
-        }
-
-    def _service(self):
-        return {
-            "product": {"default": ""},
-            "agencyId": {"default": ""},
-            "customerId": {"default": ""},
-            "shippingId": {"default": ""},
-            # 'description': 'When the carrier has the package. Format: YYYY/MM/DD'
-            "shippingDate": {
-                "default": "",
-                "type": "string",
-                "required": True,
-                "empty": False,
-            },
-            # 'description': 'Additionnal info visible by the client. Example : order number'
-            "reference1": {"type": "string", "default": ""},
-            "reference2": {"type": "string", "default": ""},
-            "reference3": {"type": "string", "default": ""},
-            # 'description': 'Format of output (usually pdf or zpl)'
-            "labelFormat": {"default": ""},
-            # 'description': 'Additionnal instructions for delivery',
-            "instructions": {"default": ""},
-        }
-
     def _auth(self):
         return {
             "login": {"type": "string", "default": ""},
             "password": {"type": "string", "default": ""},
             "isTest": {"type": "boolean", "default": False},
-        }
-
-    def _schemas(self):
-        return {
-            "service": self._service(),
-            "auth": self._auth(),
-            "parcels": self._parcels(),
-            "from_address": self._from_address(),
-            "to_address": self._to_address(),
         }
 
     def api_schema(self):
@@ -226,3 +140,124 @@ class ApiParcel(object):
         See http://docs.python-cerberus.org/en/stable/usage.html
         """
         return self._validator().normalized(data, self.api_schema())
+
+
+class ApiParcel(BaseApi):
+    """Define expected fields of carriers.
+
+    This class should be overriden by each carrier.
+    """
+
+    def _address(self):
+        return {
+            "company": {"type": "string", "default": ""},
+            "name": {"type": "string", "default": "", "required": True, "empty": False},
+            "street1": {"type": "string", "default": ""},
+            "street2": {"type": "string", "default": ""},
+            "country": {"type": "string", "default": ""},
+            # , 'description': 'ISO 3166-1 alpha-2 '},
+            "city": {"type": "string", "default": ""},
+            "zip": {"type": "string", "default": ""},
+            "phone": {"type": "string", "default": ""},
+            "email": {"type": "string", "default": ""},
+        }
+
+    def _from_address(self):
+        address = self._address()
+        return address
+
+    def _to_address(self):
+        address = self._address()
+        address["street1"].update({"required": True, "empty": False})
+        address["country"].update({"required": True, "empty": False})
+        address["city"].update({"required": True, "empty": False})
+        address["zip"].update({"required": True, "empty": False})
+        return address
+
+    def _parcel(self):
+        return {
+            "weight": {
+                "type": "float",
+                "default": "",
+                "required": True,
+                "empty": False,
+            },
+            # reference of parcel in external app
+            # This ref should be attached to the label in roulier response so the
+            # external app is able to link a label file/tracking ref to the corresponding
+            # parcel.
+            "reference": {"type": "string"},
+        }
+        # 'description': 'Weight in kg',
+
+    def _parcels(self):
+        return {
+            "type": "list",
+            "schema": {"schema": self._parcel(), "type": "dict"},
+        }
+
+    def _service(self):
+        return {
+            "product": {"default": ""},
+            "agencyId": {"default": ""},
+            "customerId": {"default": ""},
+            "shippingId": {"default": ""},
+            # 'description': 'When the carrier has the package. Format: YYYY/MM/DD'
+            "shippingDate": {
+                "default": "",
+                "type": "string",
+                "required": True,
+                "empty": False,
+            },
+            # 'description': 'Additionnal info visible by the client. Example : order number'
+            "reference1": {"type": "string", "default": ""},
+            "reference2": {"type": "string", "default": ""},
+            "reference3": {"type": "string", "default": ""},
+            # 'description': 'Format of output (usually pdf or zpl)'
+            "labelFormat": {"default": ""},
+            # 'description': 'Additionnal instructions for delivery',
+            "instructions": {"default": ""},
+        }
+
+    def _schemas(self):
+        return {
+            "service": self._service(),
+            "auth": self._auth(),
+            "parcels": self._parcels(),
+            "from_address": self._from_address(),
+            "to_address": self._to_address(),
+        }
+
+
+class ApiPackingSlip(BaseApi):
+    def _packing_slip_number(self):
+        return {
+            "schema": {"type": "string", "empty": False,},
+            "required": True,
+            "excludes": "parcels_numbers",
+        }
+
+    def _parcels_numbers(self):
+        return {
+            "type": "list",
+            "schema": {"type": "string", "empty": False,},
+            "empty": False,
+            "required": True,
+            "excludes": "packing_slip_number",
+        }
+
+    def _schemas(self):
+        return {
+            "packing_slip_number": self._packing_slip_number(),
+            "parcels_numbers": self._parcels_numbers(),
+            "auth": self._auth(),
+        }
+
+    def validate(self, data):
+        """Ensure the data are valid.
+
+        returns: bool
+
+        See also errors()
+        """
+        return self._validator().validate(data, self.api_schema())

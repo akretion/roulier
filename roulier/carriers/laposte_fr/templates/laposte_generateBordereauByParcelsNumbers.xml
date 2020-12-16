@@ -1,0 +1,9 @@
+<sls:generateBordereauByParcelsNumbers xmlns:sls="http://sls.ws.coliposte.fr">
+    <contractNumber>{{ auth.login }}</contractNumber>
+    <password>{{ auth.password }}</password>
+    <generateBordereauParcelNumberList>
+    {% for parcel_number in parcels_numbers %}
+        <parcelsNumbers>{{ parcel_number }}</parcelsNumbers>
+    {% endfor %}
+    </generateBordereauParcelNumberList>
+</sls:generateBordereauByParcelsNumbers>
