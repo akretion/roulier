@@ -24,18 +24,18 @@ def test_COM_product():
     vals["service"]["totalAmount"] = 123
     vals["to_address"]["country"] = "GP"  # Guadeloupe
     vals["to_address"]["zip"] = "97100"  # Basse-Terre
-    vals["customs"] = {
+    vals["parcels"][0]["customs"] = {
         "articles": [
             {
                 "quantity": "2",
                 "weight": 0.5,
                 "originCountry": "FR",
                 "description": "Printed circuits",
-                "hs": "853400",
+                "hsCode": "853400",
                 "value": 1.0,
             }
         ],
-        "category": 3,
+        "category": {"value": 3},
     }
     vals["parcels"][0]["totalAmount"] = 123  # Frais de transport
     result = roulier.get("laposte_fr", "get_label", vals)

@@ -35,7 +35,7 @@ def test_label_basic_checks():
     vals = copy.deepcopy(DATA)
 
     vals["service"]["product"] = "whatisitproduct"
-    with pytest.raises(CarrierError, match="Le code produit est incorrect"):
+    with pytest.raises(CarrierError, match="30109"):
         roulier.get("laposte_fr", "get_label", vals)
 
     vals["service"]["product"] = "COL"

@@ -1,6 +1,6 @@
 <customsDeclarations>
 	<includeCustomsDeclarations>{{ (customs and customs.category != '') | lower }}</includeCustomsDeclarations>
-	{% if customs and customs.category != '' %}
+	{% if customs and customs.category.value != '' %}
 	<contents>
 		{% for article in customs.articles %}
 		<article>
@@ -8,13 +8,27 @@
 			<quantity>{{article.quantity}}</quantity>
 			<weight>{{article.weight}}</weight>
 			<value>{{article.value}}</value>
-			<hsCode>{{article.hs}}</hsCode>
+			<hsCode>{{article.hsCode}}</hsCode>
 			<originCountry>{{article.originCountry}}</originCountry>
+			<currency>{{article.currency}}</currency>
+			<artref>{{article.artref}}</artref>
+			<originalIdent>{{article.originalIdent}}</originalIdent>
+			<vatAmount>{{article.vatAmount}}</vatAmount>
+			<customsFees>{{article.customsFees}}</customsFees>
 		</article>
 		{% endfor %}
 		<category>
-			<value>{{ customs.category }}</value>
+			<value>{{ customs.category.value }}</value>
 		</category>
+		<explanations>{{customs.explanations}}</explanations>
+		{% if customs.original %}
+			<original>
+				<originalIdent>{{customs.original.originalIdent}}</originalIdent>
+				<originalInvoiceNumber>{{customs.original.originalInvoiceNumber}}</originalInvoiceNumber>
+				<originalInvoiceDate>{{customs.original.originalInvoiceDate}}</originalInvoiceDate>
+				<originalParcelNumber>{{customs.original.originalParcelNumber}}</originalParcelNumber>
+			</original>
+		{% endif %}
 	</contents>
 	{% endif %}
 </customsDeclarations>
