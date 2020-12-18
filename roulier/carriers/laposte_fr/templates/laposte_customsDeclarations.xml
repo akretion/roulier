@@ -1,6 +1,6 @@
 <customsDeclarations>
 	<includeCustomsDeclarations>{{ (customs and customs.category != '') | lower }}</includeCustomsDeclarations>
-	{% if customs and customs.category.value != '' %}
+	{% if customs and customs.category != '' %}
 	<contents>
 		{% for article in customs.articles %}
 		<article>
@@ -18,7 +18,7 @@
 		</article>
 		{% endfor %}
 		<category>
-			<value>{{ customs.category.value }}</value>
+			<value>{{ customs.category }}</value>
 		</category>
 		<explanations>{{customs.explanations}}</explanations>
 		{% if customs.original %}

@@ -35,7 +35,7 @@ def test_COM_product():
                 "value": 1.0,
             }
         ],
-        "category": {"value": 3},
+        "category": 3,
     }
     vals["parcels"][0]["totalAmount"] = 123  # Frais de transport
     result = roulier.get("laposte_fr", "get_label", vals)

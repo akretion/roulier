@@ -181,19 +181,13 @@ class LaposteFrApiParcel(ApiParcel):
                         "value": {"default": ""},
                         "hsCode": {
                             "regex": "^(\\d{6}|\\d{8}|\\d{10})$",
-                            'oneof': [
-                                {"dependencies": {"category": 3}},
-                                {'required': False}
-                            ],
+                            "required": False,
                         },
                         "originCountry": {
                             "type": "string",
-                            'oneof': [
-                                {"dependencies": {"category": 3}},
-                                {'required': False}
-                            ],
+                            "required": False,
                             "default": "",
-                            "regex": "^[a-zA-Z]{2}$"
+                            "regex": "^[a-zA-Z]{2}$",
                         },
                         "currency": {"default": "EUR", "regex": "^\\w{3}$"},
                         "artref": {"regex": "^\\w{1,44}$"},
@@ -202,24 +196,21 @@ class LaposteFrApiParcel(ApiParcel):
                         "customsFees": {"type": "float", "required": False},
                     },
                 },
-                "default": []
+                "default": [],
             },
-            "category": {
-                "required": True,
-                "type": "dict",
-                "schema": {
-                    "value": {"type": "integer", "required": True, "regex": "^\\d{1}$" }
-                }
-            },
+            "category": {"required": True, "type": "integer", "maxlength": 1,},
             "explanations": {"required": False, "type": "string", "regex": "^.{1,35}$"},
             "original": {
                 "type": "dict",
                 "schema": {
                     "originalIdent": {"type": "string", "regex": "^[a-zA-Z]]{1}$"},
                     "originalInvoiceNumber": {"type": "string", "regex": "^.{1,35}$"},
-                    "originalInvoiceDate": {"type": "string", "regex": "^\\d{4}-\\d{2}-\\d{2}$"},
+                    "originalInvoiceDate": {
+                        "type": "string",
+                        "regex": "^\\d{4}-\\d{2}-\\d{2}$",
+                    },
                     "originalParcelNumber": {"type": "string", "regex": "^.{1,35}$"},
-                }
+                },
             },
         }
         return schema
