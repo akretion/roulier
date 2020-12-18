@@ -70,7 +70,7 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
                 # and cerberus won't accept an ElementString insteadof a string.
                 "number": _get_text(rep, "parcelNumber"),
                 "url": "",
-                "partner": _get_text(rep, "parcelNumberPartner"),
+                "partner": _get_text(rep, "parcelNumberPartner", ""),
             },
             "label": {
                 "data": base64.b64encode(parts.get(label_cid)),
@@ -122,7 +122,7 @@ class LaposteFrDecoderGetPackingSlip(DecoderGetPackingSlip):
             self.result["annexes"].append(
                 {
                     "name": "packing_slip",
-                    "data": parts.get(packing_slip_cid),
+                    "data": base64.b64encode(parts.get(packing_slip_cid)),
                     "type": "pdf",
                 }
             )

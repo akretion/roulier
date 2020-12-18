@@ -252,12 +252,3 @@ class ApiPackingSlip(BaseApi):
             "parcels_numbers": self._parcels_numbers(),
             "auth": self._auth(),
         }
-
-    def validate(self, data):
-        """Ensure the data are valid.
-
-        returns: bool
-
-        See also errors()
-        """
-        return self._validator().validate(data, self.api_schema())
