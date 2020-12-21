@@ -41,3 +41,68 @@ def test_COM_product():
     result = roulier.get("laposte_fr", "get_label", vals)
     label = assert_label(result)
     assert "data" in label
+
+
+def test_full_customs_declarations():
+    """Complete customsDeclarations"""
+    if _do_not_execute_test_on_remote():
+        return
+    vals = copy.deepcopy(DATA)
+    vals["service"]["product"] = "COM"
+    vals["to_address"]["country"] = "GP"  # Guadeloupe
+    vals["to_address"]["zip"] = "97100"  # Basse-Terre
+    vals["parcels"][0]["customs"] = {
+        "articles": [
+            {
+                "description": "Printed circuits",
+                "quantity": "2",
+                "weight": 0.5,
+                "value": 1.0,
+                "hsCode": "853400",
+                "originCountry": "FR",
+                "currency": "EUR",
+                "artref": "artref",
+                "originalIdent": "A",
+                "vatAmount": 0,
+                "customsFees": 0,
+            }
+        ],
+        "category": 3,
+        "original": {
+            "originalIdent": "A",
+            "originalInvoiceNumber": "111141111",
+            "originalInvoiceDate": "2016-11-02",
+            "originalParcelNumber": "7Q06270508932",
+        },
+        "importersReference": "",
+        "importersContact": "",
+        "officeOrigin": "",
+        "comments": "comments",
+        "description": "Fake description",
+        "invoiceNumber": "111141111",
+        "licenceNumber": "",
+        "certificatNumber": "",
+        "importerAddress": {
+            "companyName": "company name",
+            "lastName": "Lastname",
+            "firstName": "Firstname",
+            "line0": "line0",
+            "line1": "line1",
+            "line2": "line2",
+            "line3": "line3",
+            "countryCode": "FR",
+            "city": "city",
+            "zipCode": "75007",
+            "phoneNumber": "+12089145766",
+            "mobileNumber": "0600000007",
+            "doorCode1": "",
+            "doorCode2": "",
+            "email": "email@email.fr",
+            "intercom": "intercom",
+            "language": "FR",
+        },
+    }
+    vals["parcels"][0]["totalAmount"] = 123  # Frais de transport
+    result = roulier.get("laposte_fr", "get_label", vals)
+    label = assert_label(result)
+    assert "data" in label

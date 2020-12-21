@@ -191,7 +191,7 @@ class LaposteFrApiParcel(ApiParcel):
                         },
                         "currency": {"default": "EUR", "regex": "^\\w{3}$"},
                         "artref": {"regex": "^\\w{1,44}$"},
-                        "originalIdent": {"regex": "^[a-zA-Z]]{1}$"},
+                        "originalIdent": {"type": "string", "regex": "^[a-zA-Z]{1}$"},
                         "vatAmount": {"type": "float", "required": False},
                         "customsFees": {"type": "float", "required": False},
                     },
@@ -199,17 +199,121 @@ class LaposteFrApiParcel(ApiParcel):
                 "default": [],
             },
             "category": {"required": True, "type": "integer", "maxlength": 1,},
-            "explanations": {"required": False, "type": "string", "regex": "^.{1,35}$"},
+            "explanations": {"required": False, "type": "string", "regex": "^.{0,35}$"},
             "original": {
                 "type": "dict",
                 "schema": {
-                    "originalIdent": {"type": "string", "regex": "^[a-zA-Z]]{1}$"},
+                    "originalIdent": {"type": "string", "regex": "^[a-zA-Z]{1}$"},
                     "originalInvoiceNumber": {"type": "string", "regex": "^.{1,35}$"},
                     "originalInvoiceDate": {
                         "type": "string",
                         "regex": "^\\d{4}-\\d{2}-\\d{2}$",
                     },
                     "originalParcelNumber": {"type": "string", "regex": "^.{1,35}$"},
+                },
+            },
+            "importersReference": {"type": "string", "regex": "^.{0,35}$"},
+            "importersContact": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "officeOrigin": {"type": "string", "regex": "^.{0,35}$", "required": False},
+            "comments": {"type": "string", "regex": "^.{0,35}$", "required": False},
+            "description": {"type": "string", "regex": "^.{1,}$",},
+            "invoiceNumber": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "licenceNumber": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "certificatNumber": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "importerAddress": {
+                "type": "dict",
+                "schema": {
+                    "companyName": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "lastName": {"regex": "^[a-zA-Z]{0,35}$", "required": False},
+                    "fistName": {"regex": "^[a-zA-Z]{0,29}$", "required": False},
+                    "line0": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "line1": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "line2": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "line3": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "countryCode": {
+                        "type": "string",
+                        "regex": "^[a-zA-Z]{2}$",
+                        "required": False,
+                    },
+                    "city": {"type": "string", "regex": "^.{0,35}$", "required": False},
+                    "zipCode": {
+                        "type": "string",
+                        "regex": "^[a-z-A-Z0-9]{5}$",
+                        "required": False,
+                    },
+                    "phoneNumber": {
+                        "type": "string",
+                        "regex": "^.{0,15}$",
+                        "required": False,
+                    },
+                    "mobileNumber": {
+                        "type": "string",
+                        "regex": "^(.{0}|.{10})$",
+                        "required": False,
+                    },
+                    "doorCode1": {
+                        "type": "string",
+                        "regex": "^.{0,8}$",
+                        "required": False,
+                    },
+                    "doorCode2": {
+                        "type": "string",
+                        "regex": "^.{0,8}$",
+                        "required": False,
+                    },
+                    "email": {
+                        "type": "string",
+                        "regex": "^\\w*@\\w*\.\\w*$",
+                        "required": False,
+                        "maxlength": 80,
+                    },
+                    "intercom": {
+                        "type": "string",
+                        "regex": "^.{0,30}$",
+                        "required": False,
+                    },
+                    "language": {
+                        "type": "string",
+                        "regex": "^[a-zA-Z]{2}$",
+                        "required": False,
+                        "default": "FR",
+                    },
                 },
             },
         }
