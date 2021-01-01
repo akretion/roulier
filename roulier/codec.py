@@ -1,8 +1,8 @@
 """Transform to/from a carrier specific format."""
-from abc import ABC, abstractmethod
-from .exception import InvalidApiInput
-from .api import ApiParcel
 import logging
+from abc import ABC, abstractmethod
+
+from .exception import InvalidApiInput
 
 _logger = logging.getLogger(__name__)
 
@@ -79,3 +79,36 @@ class DecoderGetLabel(ABC):
         if len(parcels) == 1:
             parcel_ref = parcels[0].get("reference", "")
         return parcel_ref
+
+
+class DecoderGetPackingSlip(ABC):
+    def __init__(self, config_object):
+        """
+        packing_slip should be a dict of this form
+        {
+            "number": "string" or None,
+            "published_datetime": aware_datetime or None,
+            "number_of_parcels": int or None,
+            "client": {
+                "number": "string" or None,
+                "adress": "string" or None,
+                "company": "string" or None,
+            }
+        }
+        """
+        self.config = config_object
+        self.result = {
+            "packing_slip": {},
+            "annexes": [],
+        }
+
+    @abstractmethod
+    def decode(self, response, payload):
+        """Transform a specific representation to python dict.
+        Args:
+            response : answer from the webservice
+            payload : data sent initially to the webservice
+        Need to increment the result attribute of the object, it does not need to return
+        anything
+        """
+        pass

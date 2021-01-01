@@ -1,0 +1,5 @@
+<sls:getBordereauByNumber xmlns:sls="http://sls.ws.coliposte.fr">
+    <contractNumber>{{ auth.login }}</contractNumber>
+    <password>{{ auth.password }}</password>
+    <bordereauNumber>{{ packing_slip_number }}</bordereauNumber>
+</sls:getBordereauByNumber>

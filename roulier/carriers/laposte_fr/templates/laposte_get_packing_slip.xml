@@ -1,0 +1,1 @@
+{% include 'laposte_getBordereauByNumber.xml' if packing_slip_number else 'laposte_generateBordereauByParcelsNumbers.xml' %}
