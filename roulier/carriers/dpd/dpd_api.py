@@ -92,4 +92,5 @@ class DpdApi(Api):
         schema = super(DpdApi, self)._auth()
         schema['login'].update({'required': True, 'empty': False})
         schema['password']['required'] = False
+        schema['isTest'] = {'type': 'boolean', 'default': False}
         return schema
