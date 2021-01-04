@@ -14,7 +14,7 @@ from .api import LaposteFrApiParcel
 class LaposteFrGetabel(CarrierGetLabel):
     """Implementation for Laposte."""
 
-    ws_url = "https://ws.colissimo.fr/sls-ws/SlsServiceWS"
+    ws_url = "https://ws.colissimo.fr/sls-ws/SlsServiceWS/2.0?wsdl"
     encoder = LaposteFrEncoder
     decoder = LaposteFrDecoderGetLabel
     transport = LaposteFrTransport
