@@ -69,3 +69,29 @@ class CarrierGetLabel(Carrier, ABC):
                 response = transport.send(payload)
                 decoder.decode(response, payload)
         return decoder.result
+
+
+class CarrierGetPackingSlip(Carrier, ABC):
+    """
+    Manages the "packing slip" to give to the carrier who should sign it before taking
+    the packages he will deliver
+    """
+
+    is_test = False
+    roulier_input = None
+
+    def get_packing_slip(self, carrier_type, action, data):
+        """
+        Retrieves the packing slip if the webservice handles it.
+        If the webservice does not handle packing slip, we can generate out own printable html
+        packing slip to give to the carrier.
+        """
+        encoder = self.encoder(self)
+        decoder = self.decoder(self)
+        transport = self.transport(self)
+        self.roulier_input = data
+
+        payload = encoder.encode(data)
+        response = transport.send(payload)
+        decoder.decode(response, payload)
+        return decoder.result

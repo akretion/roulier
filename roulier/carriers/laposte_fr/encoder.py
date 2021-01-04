@@ -9,8 +9,38 @@ from roulier.codec import Encoder
 from .api import LAPOSTE_LABEL_FORMAT
 
 
-class LaposteFrEncoder(Encoder):
+class LaposteFrEncoderBase(Encoder):
+    def _render_template(self, data):
+        env = Environment(
+            loader=PackageLoader("roulier", "/carriers/laposte_fr/templates"),
+            extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
+            autoescape=True,
+        )
+        template = env.get_template("laposte_%s.xml" % self.config.action)
+        return template.render(**self._get_template_context(data))
+
+    def _get_template_context(self, data):
+        return {}
+
+    def transform_input_to_carrier_webservice(self, data):
+        return {
+            "body": self._render_template(data),
+            "headers": data["auth"],
+        }
+
+
+class LaposteFrEncoder(LaposteFrEncoderBase):
     """Transform input to laposte compatible xml."""
+
+    def _get_template_context(self, data):
+        return {
+            "service": data["service"],
+            "parcel": data["parcels"][0],
+            "auth": data["auth"],
+            "sender_address": data["from_address"],
+            "receiver_address": data["to_address"],
+            "customs": data["parcels"][0].get("customs", False),
+        }
 
     def _extra_input_data_processing(self, input_payload, data):
         data["service"]["labelFormat"] = self.lookup_label_format(
@@ -24,26 +54,9 @@ class LaposteFrEncoder(Encoder):
         return data
 
     def transform_input_to_carrier_webservice(self, data):
-        env = Environment(
-            loader=PackageLoader("roulier", "/carriers/laposte_fr/templates"),
-            extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
-            autoescape=True,
-        )
-        action = self.config.action
-
-        template = env.get_template("laposte_%s.xml" % action)
-        return {
-            "body": template.render(
-                service=data["service"],
-                parcel=data["parcels"][0],
-                auth=data["auth"],
-                sender_address=data["from_address"],
-                receiver_address=data["to_address"],
-                customs=data["parcels"][0].get("customs", False),
-            ),
-            "headers": data["auth"],
-            "output_format": data["service"]["labelFormat"],
-        }
+        transformed_input = super().transform_input_to_carrier_webservice(data)
+        transformed_input["output_format"] = data["service"]["labelFormat"]
+        return transformed_input
 
     def lookup_label_format(self, label_format="ZPL"):
         """Get a Laposte compatible format of label.
@@ -61,3 +74,12 @@ class LaposteFrEncoder(Encoder):
         if label_format in LAPOSTE_LABEL_FORMAT:
             return label_format
         return lookup.get(label_format, "PDF_10x15_300dpi")
+
+
+class LaposteFrEncoderGetPackingSlip(LaposteFrEncoderBase):
+    def _get_template_context(self, data):
+        return {
+            "auth": data["auth"],
+            "parcels_numbers": data.get("parcels_numbers", []),
+            "packing_slip_number": data.get("packing_slip_number", None),
+        }

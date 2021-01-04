@@ -41,3 +41,11 @@ DATA = {
         "zip": "75001",
     },
 }
+
+PACKING_SLIP_DATA = {
+    "auth": {
+        "login": credentials["login"],
+        "password": credentials["password"],
+        "isTest'": credentials["isTest"],
+    },
+}

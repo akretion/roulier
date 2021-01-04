@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Implementation of Laposte Api."""
+from roulier.api import ApiPackingSlip
 from roulier.api import ApiParcel
 
 LAPOSTE_LABEL_FORMAT = (
@@ -322,3 +323,11 @@ class LaposteFrApiParcel(ApiParcel):
     def _schemas(self):
         schemas = super()._schemas()
         return schemas
+
+
+class LaposteFrApiPackingSlip(ApiPackingSlip):
+    def _auth(self):
+        schema = super()._auth()
+        schema["login"].update({"required": True, "empty": False})
+        schema["password"]["required"] = False
+        return schema
