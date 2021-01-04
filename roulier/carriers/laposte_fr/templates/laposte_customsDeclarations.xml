@@ -23,99 +23,41 @@
 		<explanations>{{customs.explanations}}</explanations>
 		{% if customs.original %}
 			<original>
-				{% if customs.original.originalIdent %}
 				<originalIdent>{{customs.original.originalIdent}}</originalIdent>
-				{% endif %}
-				{% if customs.original.originalInvoiceNumber %}
 				<originalInvoiceNumber>{{customs.original.originalInvoiceNumber}}</originalInvoiceNumber>
-				{% endif %}
-				{% if customs.original.originalInvoiceDate %}
 				<originalInvoiceDate>{{customs.original.originalInvoiceDate}}</originalInvoiceDate>
-				{% endif %}
-				{% if customs.original.originalParcelNumber %}
 				<originalParcelNumber>{{customs.original.originalParcelNumber}}</originalParcelNumber>
-				{% endif %}
 			</original>
 		{% endif %}
 	</contents>
 	{% endif %}
-	{% if customs.importersReference %}
 	<importersReference>{{customs.importersReference}}</importersReference>
-	{% endif %}
-	{% if customs.importersContact %}
 	<importersContact>{{customs.importersContact}}</importersContact>
-	{% endif %}
-	{% if customs.officeOrigin %}
 	<officeOrigin>{{customs.officeOrigin}}</officeOrigin>
-	{% endif %}
-	{% if customs.comments %}
 	<comments>{{customs.comments}}</comments>
-	{% endif %}
-	{% if customs.description %}
 	<description>{{customs.description}}</description>
-	{% endif %}
-	{% if customs.invoiceNumber %}
 	<invoiceNumber>{{customs.invoiceNumber}}</invoiceNumber>
-	{% endif %}
-	{% if customs.licenceNumber %}
 	<licenceNumber>{{customs.licenceNumber}}</licenceNumber>
-	{% endif %}
-	{% if customs.certificatNumber %}
 	<certificatNumber>{{customs.certificatNumber}}</certificatNumber>
-	{% endif %}
 	{% if customs.importerAddress %}
 	<importerAddress>
-		{% if customs.importerAddress.companyName %}
-		<companyName>{{customs.importerAddress.companyName}}</companyName>
-		{% endif %}
-		{% if customs.importerAddress.lastName %}
+		<companyName>{{customs.importerAddress.company}}</companyName>
 		<lastName>{{customs.importerAddress.lastName}}</lastName>
-		{% endif %}
-		{% if customs.importerAddress.firstName %}
 		<firstName>{{customs.importerAddress.firstName}}</firstName>
-		{% endif %}
-		{% if customs.importerAddress.line0 %}
-		<line0>{{customs.importerAddress.line0}}</line0>
-		{% endif %}
-		{% if customs.importerAddress.line1 %}
-		<line1>{{customs.importerAddress.line1}}</line1>
-		{% endif %}
-		{% if customs.importerAddress.line2 %}
-		<line2>{{customs.importerAddress.line2}}</line2>
-		{% endif %}
-		{% if customs.importerAddress.line3 %}
-		<line3>{{customs.importerAddress.line3}}</line3>
-		{% endif %}
-		{% if customs.importerAddress.countryCode %}
-		<countryCode>{{customs.importerAddress.countryCode}}</countryCode>
-		{% endif %}
-		{% if customs.importerAddress.city %}
+		<line0>{{customs.importerAddress.street0}}</line0>
+		<line1>{{customs.importerAddress.street1}}</line1>
+		<line2>{{customs.importerAddress.street2}}</line2>
+		<line3>{{customs.importerAddress.street3}}</line3>
+		<countryCode>{{customs.importerAddress.country}}</countryCode>
 		<city>{{customs.importerAddress.city}}</city>
-		{% endif %}
-		{% if customs.importerAddress.zipCode %}
-		<zipCode>{{customs.importerAddress.zipCode}}</zipCode>
-		{% endif %}
-		{% if customs.importerAddress.phoneNumber %}
-		<phoneNumber>{{customs.importerAddress.phoneNumber}}</phoneNumber>
-		{% endif %}
-		{% if customs.importerAddress.mobileNumber %}
-		<mobileNumber>{{customs.importerAddress.mobileNumber}}</mobileNumber>
-		{% endif %}
-		{% if customs.importerAddress.doorCode1 %}
-		<doorCode1>{{customs.importerAddress.doorCode1}}</doorCode1>
-		{% endif %}
-		{% if customs.importerAddress.doorCode2 %}
-		<doorCode2>{{customs.importerAddress.doorCode2}}</doorCode2>
-		{% endif %}
-		{% if customs.importerAddress.email %}
+		<zipCode>{{customs.importerAddress.zip}}</zipCode>
+		<phoneNumber>{{customs.importerAddress.phone}}</phoneNumber>
+		<mobileNumber>{{customs.importerAddress.mobile}}</mobileNumber>
+		<doorCode1>{{customs.importerAddress.door1}}</doorCode1>
+		<doorCode2>{{customs.importerAddress.door2}}</doorCode2>
 		<email>{{customs.importerAddress.email}}</email>
-		{% endif %}
-		{% if customs.importerAddress.intercom %}
 		<intercom>{{customs.importerAddress.intercom}}</intercom>
-		{% endif %}
-		{% if customs.importerAddress.language %}
 		<language>{{customs.importerAddress.language}}</language>
-		{% endif %}
 	</importerAddress>
 	{% endif %}
 </customsDeclarations>

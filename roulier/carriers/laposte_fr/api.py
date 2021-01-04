@@ -239,60 +239,60 @@ class LaposteFrApiParcel(ApiParcel):
             "importerAddress": {
                 "type": "dict",
                 "schema": {
-                    "companyName": {
+                    "company": {
                         "type": "string",
                         "regex": "^.{0,35}$",
                         "required": False,
                     },
                     "lastName": {"regex": "^[a-zA-Z]{0,35}$", "required": False},
                     "fistName": {"regex": "^[a-zA-Z]{0,29}$", "required": False},
-                    "line0": {
+                    "street0": {
                         "type": "string",
                         "regex": "^.{0,35}$",
                         "required": False,
                     },
-                    "line1": {
+                    "street1": {
                         "type": "string",
                         "regex": "^.{0,35}$",
                         "required": False,
                     },
-                    "line2": {
+                    "street2": {
                         "type": "string",
                         "regex": "^.{0,35}$",
                         "required": False,
                     },
-                    "line3": {
+                    "street3": {
                         "type": "string",
                         "regex": "^.{0,35}$",
                         "required": False,
                     },
-                    "countryCode": {
+                    "country": {
                         "type": "string",
                         "regex": "^[a-zA-Z]{2}$",
                         "required": False,
                     },
                     "city": {"type": "string", "regex": "^.{0,35}$", "required": False},
-                    "zipCode": {
+                    "zip": {
                         "type": "string",
                         "regex": "^[a-z-A-Z0-9]{5}$",
                         "required": False,
                     },
-                    "phoneNumber": {
+                    "phone": {
                         "type": "string",
                         "regex": "^.{0,15}$",
                         "required": False,
                     },
-                    "mobileNumber": {
+                    "mobile": {
                         "type": "string",
                         "regex": "^(.{0}|.{10})$",
                         "required": False,
                     },
-                    "doorCode1": {
+                    "door1": {
                         "type": "string",
                         "regex": "^.{0,8}$",
                         "required": False,
                     },
-                    "doorCode2": {
+                    "door2": {
                         "type": "string",
                         "regex": "^.{0,8}$",
                         "required": False,
