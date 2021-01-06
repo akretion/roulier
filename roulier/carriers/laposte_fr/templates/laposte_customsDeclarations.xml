@@ -8,13 +8,56 @@
 			<quantity>{{article.quantity}}</quantity>
 			<weight>{{article.weight}}</weight>
 			<value>{{article.value}}</value>
-			<hsCode>{{article.hs}}</hsCode>
+			<hsCode>{{article.hsCode}}</hsCode>
 			<originCountry>{{article.originCountry}}</originCountry>
+			<currency>{{article.currency}}</currency>
+			<artref>{{article.artref}}</artref>
+			<originalIdent>{{article.originalIdent}}</originalIdent>
+			<vatAmount>{{article.vatAmount}}</vatAmount>
+			<customsFees>{{article.customsFees}}</customsFees>
 		</article>
 		{% endfor %}
 		<category>
 			<value>{{ customs.category }}</value>
 		</category>
+		<explanations>{{customs.explanations}}</explanations>
+		{% if customs.original %}
+			<original>
+				<originalIdent>{{customs.original.originalIdent}}</originalIdent>
+				<originalInvoiceNumber>{{customs.original.originalInvoiceNumber}}</originalInvoiceNumber>
+				<originalInvoiceDate>{{customs.original.originalInvoiceDate}}</originalInvoiceDate>
+				<originalParcelNumber>{{customs.original.originalParcelNumber}}</originalParcelNumber>
+			</original>
+		{% endif %}
 	</contents>
+	{% endif %}
+	<importersReference>{{customs.importersReference}}</importersReference>
+	<importersContact>{{customs.importersContact}}</importersContact>
+	<officeOrigin>{{customs.officeOrigin}}</officeOrigin>
+	<comments>{{customs.comments}}</comments>
+	<description>{{customs.description}}</description>
+	<invoiceNumber>{{customs.invoiceNumber}}</invoiceNumber>
+	<licenceNumber>{{customs.licenceNumber}}</licenceNumber>
+	<certificatNumber>{{customs.certificatNumber}}</certificatNumber>
+	{% if customs.importerAddress %}
+	<importerAddress>
+		<companyName>{{customs.importerAddress.company}}</companyName>
+		<lastName>{{customs.importerAddress.lastName}}</lastName>
+		<firstName>{{customs.importerAddress.firstName}}</firstName>
+		<line0>{{customs.importerAddress.street0}}</line0>
+		<line1>{{customs.importerAddress.street1}}</line1>
+		<line2>{{customs.importerAddress.street2}}</line2>
+		<line3>{{customs.importerAddress.street3}}</line3>
+		<countryCode>{{customs.importerAddress.country}}</countryCode>
+		<city>{{customs.importerAddress.city}}</city>
+		<zipCode>{{customs.importerAddress.zip}}</zipCode>
+		<phoneNumber>{{customs.importerAddress.phone}}</phoneNumber>
+		<mobileNumber>{{customs.importerAddress.mobile}}</mobileNumber>
+		<doorCode1>{{customs.importerAddress.door1}}</doorCode1>
+		<doorCode2>{{customs.importerAddress.door2}}</doorCode2>
+		<email>{{customs.importerAddress.email}}</email>
+		<intercom>{{customs.importerAddress.intercom}}</intercom>
+		<language>{{customs.importerAddress.language}}</language>
+	</importerAddress>
 	{% endif %}
 </customsDeclarations>

@@ -171,20 +171,150 @@ class LaposteFrApiParcel(ApiParcel):
 
     def _customs(self):
         schema = {
-            "category": {"default": ""},
             "articles": {
                 "type": "list",
                 "schema": {
                     "type": "dict",
                     "schema": {
+                        "description": {"default": "", "maxlength": 64},
                         "quantity": {"default": ""},
                         "weight": {"type": "float", "default": 0.0},
-                        "description": {"default": ""},
-                        "hs": {"default": ""},
                         "value": {"default": ""},
-                        "originCountry": {"default": ""},
+                        "hsCode": {
+                            "regex": "^(\\d{6}|\\d{8}|\\d{10})$",
+                            "required": False,
+                        },
+                        "originCountry": {
+                            "type": "string",
+                            "required": False,
+                            "default": "",
+                            "regex": "^[a-zA-Z]{2}$",
+                        },
+                        "currency": {"default": "EUR", "regex": "^\\w{3}$"},
+                        "artref": {"regex": "^\\w{1,44}$"},
+                        "originalIdent": {"type": "string", "regex": "^[a-zA-Z]{1}$"},
+                        "vatAmount": {"type": "float", "required": False},
+                        "customsFees": {"type": "float", "required": False},
                     },
-                    "default": [],
+                },
+                "default": [],
+            },
+            "category": {"required": True, "type": "integer", "maxlength": 1,},
+            "explanations": {"required": False, "type": "string", "regex": "^.{0,35}$"},
+            "original": {
+                "type": "dict",
+                "schema": {
+                    "originalIdent": {"type": "string", "regex": "^[a-zA-Z]{1}$"},
+                    "originalInvoiceNumber": {"type": "string", "regex": "^.{1,35}$"},
+                    "originalInvoiceDate": {
+                        "type": "string",
+                        "regex": "^\\d{4}-\\d{2}-\\d{2}$",
+                    },
+                    "originalParcelNumber": {"type": "string", "regex": "^.{1,35}$"},
+                },
+            },
+            "importersReference": {"type": "string", "regex": "^.{0,35}$"},
+            "importersContact": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "officeOrigin": {"type": "string", "regex": "^.{0,35}$", "required": False},
+            "comments": {"type": "string", "regex": "^.{0,35}$", "required": False},
+            "description": {"type": "string", "regex": "^.{1,}$",},
+            "invoiceNumber": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "licenceNumber": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "certificatNumber": {
+                "type": "string",
+                "regex": "^.{0,35}$",
+                "required": False,
+            },
+            "importerAddress": {
+                "type": "dict",
+                "schema": {
+                    "company": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "lastName": {"regex": "^[a-zA-Z]{0,35}$", "required": False},
+                    "fistName": {"regex": "^[a-zA-Z]{0,29}$", "required": False},
+                    "street0": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "street1": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "street2": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "street3": {
+                        "type": "string",
+                        "regex": "^.{0,35}$",
+                        "required": False,
+                    },
+                    "country": {
+                        "type": "string",
+                        "regex": "^[a-zA-Z]{2}$",
+                        "required": False,
+                    },
+                    "city": {"type": "string", "regex": "^.{0,35}$", "required": False},
+                    "zip": {
+                        "type": "string",
+                        "regex": "^[a-z-A-Z0-9]{5}$",
+                        "required": False,
+                    },
+                    "phone": {
+                        "type": "string",
+                        "regex": "^.{0,15}$",
+                        "required": False,
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "regex": "^(.{0}|.{10})$",
+                        "required": False,
+                    },
+                    "door1": {
+                        "type": "string",
+                        "regex": "^.{0,8}$",
+                        "required": False,
+                    },
+                    "door2": {
+                        "type": "string",
+                        "regex": "^.{0,8}$",
+                        "required": False,
+                    },
+                    "email": {
+                        "type": "string",
+                        "regex": "^\\w*@\\w*\.\\w*$",
+                        "required": False,
+                        "maxlength": 80,
+                    },
+                    "intercom": {
+                        "type": "string",
+                        "regex": "^.{0,30}$",
+                        "required": False,
+                    },
+                    "language": {
+                        "type": "string",
+                        "regex": "^[a-zA-Z]{2}$",
+                        "required": False,
+                        "default": "FR",
+                    },
                 },
             },
         }
