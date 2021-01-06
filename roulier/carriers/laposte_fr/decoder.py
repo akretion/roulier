@@ -47,7 +47,7 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
         xml = objectify.fromstring(body)
         msg = xml.xpath("//return")[0]
 
-        rep = msg.labelResponse
+        rep = msg.labelV2Response
         cn23_cid = _get_cid("cn23", rep)
         label_cid = _get_cid("label", rep)
 
@@ -78,6 +78,9 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
                 "type": output_format,
             },
         }
+        if hasattr(rep, "fields") and hasattr(rep.fields, "field"):
+            for field in rep.fields.field:
+                parcel["tracking"][_get_text(field, "key")] = _get_text(field, "value")
         self.result["parcels"].append(parcel)
         self.result["annexes"] += annexes
 
