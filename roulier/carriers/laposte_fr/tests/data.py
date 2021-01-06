@@ -22,7 +22,7 @@ DATA = {
         "password": credentials["password"],
         "isTest'": credentials["isTest"],
     },
-    "service": {"shippingDate": date.today().isoformat()},
+    "service": {"shippingDate": date.today()},
     "parcels": [{"weight": 1.2, "instructions": "Fake instructions"}],
     "to_address": {
         "name": "Fr",

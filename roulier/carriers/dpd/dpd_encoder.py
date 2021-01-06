@@ -50,9 +50,10 @@ class DpdEncoder(Encoder):
             if data["service"]["notifications"] == "Predict":
                 raise InvalidApiInput("Predict notifications can't be used with Relais")
 
-        data["service"]["shippingDate"] = datetime.strptime(
-            data["service"]["shippingDate"], "%Y/%M/%d"
-        ).strftime("%d/%M/%Y")
+        if data["service"].get("shippingDate"):
+            data["service"]["shippingDate"] = data["service"]["shippingDate"].strftime(
+                "%d/%M/%Y"
+            )
 
         def reduce_address(address):
             """Concat some fields.

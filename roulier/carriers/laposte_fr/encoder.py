@@ -46,6 +46,7 @@ class LaposteFrEncoder(LaposteFrEncoderBase):
         data["service"]["labelFormat"] = self.lookup_label_format(
             data["service"]["labelFormat"]
         )
+        data["service"]["shippingDate"] = data["service"]["shippingDate"].isoformat()
         # Since multi parcels is not managed for la poste, some informations are expected
         # in service by laposte but are in parcel in roulier.
         parcel = data["parcels"][0]
