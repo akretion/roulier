@@ -15,7 +15,7 @@ URL = "http://www.gls-france.com/cgi-bin/glsboxGI%s.cgi"
 class GlsTransport(RequestsTransport):
     """Implement Gls WS communication."""
 
-    def _get_requests_headers(self):
+    def _get_requests_headers(self, payload=None):
         return {
             "content-type": "text/plain;charset=%s" % self.config.web_service_coding
         }

@@ -32,7 +32,7 @@ class LaposteFrTransport(RequestsTransport):
         data = template.render(body=body_stripped)
         return data.encode("utf8")
 
-    def _get_requests_headers(self):
+    def _get_requests_headers(self, payload=None):
         return {"content-type": "text/xml;charset=UTF-8"}
 
     def handle_500(self, response):

@@ -22,8 +22,12 @@ DATA = {
         "password": credentials["password"],
         "isTest": credentials["isTest"],
     },
-    "service": {"shippingDate": date.today()},
-    "parcels": [{"weight": 1.2, "instructions": "Fake instructions"}],
+    "service": {
+        "shippingDate": date.today(),
+        "customerId": credentials["customerId"],
+        "agencyId": credentials["agencyId"],
+    },
+    "parcels": [{"weight": 1.2, "comment": "Fake comment"}],
     "to_address": {
         "name": "Fr",
         "firstName": "Hpar",
@@ -31,21 +35,15 @@ DATA = {
         "city": "Villeurbanne",
         "country": "FR",
         "zip": "69100",
-    },
-    "from_address": {
-        "name": "TEST",
-        "firstName": "AUTOMATIC",
-        "street1": "72 rue Cécile Honxa",
-        "city": "Paris",
-        "country": "FR",
-        "zip": "75001",
+        "email": "test@example.com",
     },
 }
 
-PACKING_SLIP_DATA = {
-    "auth": {
-        "login": credentials["login"],
-        "password": credentials["password"],
-        "isTest": credentials["isTest"],
-    },
+DATA_FROM_ADDR = {
+    "name": "TEST",
+    "firstName": "AUTOMATIC",
+    "street1": "72 rue Cécile Honxa",
+    "city": "Paris",
+    "country": "FR",
+    "zip": "75001",
 }
