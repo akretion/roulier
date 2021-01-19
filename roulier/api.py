@@ -12,7 +12,7 @@ class MyValidator(Validator):
         Remove ZPL ctrl caraters
         Remove accents
         """
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             return value
 
         ctrl_cars = [
@@ -28,41 +28,43 @@ class MyValidator(Validator):
 
     def _normalize_coerce_accents(self, value):
         """Sanitize accents for some WS."""
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             return value
         sanitized = (
-            value
-            # quick and dirty replacement
-            # of common accentued chars in french
-            # because some ws don't handle well utf8
-            .replace(u"é", "e")
-            .replace(u"è", "e")
-            .replace(u"ë", "e")
-            .replace(u"ê", "e")
-            .replace(u"ô", "o")
-            .replace(u"ï", "i")
-            .replace(u"ö", "o")
-            .replace(u"à", "a")
-            .replace(u"â", "a")
-            .replace(u"ç", "c")
-            .replace(u"û", "u")
-            .replace(u"ù", "u")
-            .replace(u"É", "E")
-            .replace(u"È", "E")
-            .replace(u"Ë", "E")
-            .replace(u"Ê", "E")
-            .replace(u"Ô", "O")
-            .replace(u"Ï", "I")
-            .replace(u"Ö", "O")
-            .replace(u"À", "A")
-            .replace(u"Â", "A")
-            .replace(u"Ç", "C")
-            .replace(u"Û", "U")
-            .replace(u"Ù", "U")
-            .replace(u"œ", "oe")
-            .replace(u"Œ", "OE")
-        ).encode(
-            "ascii", "ignore"
+            (
+                value
+                # quick and dirty replacement
+                # of common accentued chars in french
+                # because some ws don't handle well utf8
+                .replace("é", "e")
+                .replace("è", "e")
+                .replace("ë", "e")
+                .replace("ê", "e")
+                .replace("ô", "o")
+                .replace("ï", "i")
+                .replace("ö", "o")
+                .replace("à", "a")
+                .replace("â", "a")
+                .replace("ç", "c")
+                .replace("û", "u")
+                .replace("ù", "u")
+                .replace("É", "E")
+                .replace("È", "E")
+                .replace("Ë", "E")
+                .replace("Ê", "E")
+                .replace("Ô", "O")
+                .replace("Ï", "I")
+                .replace("Ö", "O")
+                .replace("À", "A")
+                .replace("Â", "A")
+                .replace("Ç", "C")
+                .replace("Û", "U")
+                .replace("Ù", "U")
+                .replace("œ", "oe")
+                .replace("Œ", "OE")
+            )
+            .encode("ascii", "ignore")
+            .decode("ascii")
         )  # cut remaining chars
         return sanitized
 

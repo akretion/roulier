@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Implementation of Dpd Api."""
-from roulier.api import Api
+from roulier.api import ApiParcel
+from roulier.api import MyValidator
 
 DPD_LABEL_FORMAT = (
     "PDF",
@@ -22,7 +23,45 @@ DPD_PRODUCTS = (
 )
 
 
-class DpdApi(Api):
+class DpdValidator(MyValidator):
+    def _validate_product(self, _, field, value):
+        """
+        Tests some complex constraints relate to the product type and other fields values
+
+        The rule's arguments are validated against this schema:
+        {'type': 'boolean'}
+        """
+        product = self.document.get("product")
+        pickup_id = self.document.get("pickupLocationId", "").strip()
+        notifications = self.document.get("notifications")
+        if pickup_id and product in ("DPD_Predict", "DPD_Classic"):
+            self._error(
+                "pickupLocationId", "pickupLocationId can't be used with %s" % product
+            )
+        if product == "DPD_Predict":
+            if notifications and "notifications" != "Predict":
+                self._error(
+                    "notifications", "must be set to Predict when using Predict"
+                )
+        else:
+            if notifications == "Predict":
+                self._error(
+                    "notifications",
+                    "Predict notifications can't be used with %s" % product,
+                )
+            if product == "DPD_Relais" and not pickup_id:
+                self._error(
+                    "pickupLocationId", "pickupLocationId is mandatory for Relais"
+                )
+
+
+class DpdApi(ApiParcel):
+    def _validator(self):
+        v = DpdValidator()
+        v.allow_unknown = True
+        # v.purge_unknown = True
+        return v
+
     def _service(self):
         schema = super(DpdApi, self)._service()
         schema["labelFormat"]["allowed"] = DPD_LABEL_FORMAT
@@ -61,10 +100,11 @@ class DpdApi(Api):
                 "default": DPD_PRODUCTS[0],
                 # 'description': 'Type de produit',
                 "allowed": DPD_PRODUCTS,
+                "product": True,
             }
         )
 
-        schema["dropOffLocation"] = {
+        schema["pickupLocationId"] = {
             "default": "",
             "empty": True,
             "required": False,
