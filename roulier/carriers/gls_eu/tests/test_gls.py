@@ -101,13 +101,14 @@ def test_FDS():
     assert_result(vals, result, 1, 0)
 
 
-# TODO: find a valid pickupLocationId, else Server Exception from GLS
-# def test_SHD():
-#     vals = copy.deepcopy(DATA)
-#     vals["to_address"]["contact"] = "Dylann"
-#     vals["parcels"][0]["services"] = [{"product": SERVICE_SHD, "pickupLocationId": "2501234567"}]
-#     result = roulier.get("gls_eu", "get_label", vals)
-#     assert_result(vals, result, 1, 0)
+def test_SHD():
+    vals = copy.deepcopy(DATA)
+    vals["to_address"]["contact"] = "Dylann"
+    vals["parcels"][0]["services"] = [
+        {"product": SERVICE_SHD, "pickupLocationId": "2500389381"}
+    ]
+    result = roulier.get("gls_eu", "get_label", vals)
+    assert_result(vals, result, 1, 0)
 
 
 def test_SHD_auto():
