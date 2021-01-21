@@ -47,3 +47,5 @@ DATA = {
         "email": "test@example.com",
     },
 }
+
+MY_IP_IS_ALLOWED = credentials.get("my_IP_is_allowed", False)

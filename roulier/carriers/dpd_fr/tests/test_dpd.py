@@ -1,21 +1,31 @@
 # -*- coding: utf-8 -*-
 import logging
 import copy
-import base64
-import requests
-import shutil
-import pytest
 import re
 
 from roulier import roulier
 from roulier.exception import InvalidApiInput, CarrierError
 
-from .data import DATA
+from .data import DATA, MY_IP_IS_ALLOWED
 
 logger = logging.getLogger(__name__)
 
 
 EXCEPTION_MESSAGE = "Failed call with parameters %s"
+
+
+def _test_ip_allowed(REQUIRE_ALLOWED=True):
+    def canceled_test():
+        if REQUIRE_ALLOWED:
+            msg = "%s canceled because your IP is not allowed by DPD"
+        else:
+            msg = "%s canceled because your IP is allowed by DPD"
+        logger.info(msg)
+
+    def decorator(test):
+        return test if MY_IP_IS_ALLOWED == REQUIRE_ALLOWED else canceled_test
+
+    return decorator
 
 
 def test_methods():
@@ -29,39 +39,19 @@ def test_methods():
 
 def test_label_basic_checks():
     vals = copy.deepcopy(DATA)
-    vals["service"]["product"] = "whatisitproduct"
 
+    vals["service"]["product"] = "whatisitproduct"
     with assert_raises(InvalidApiInput, {"service": [{"product": "unallowed"}]}):
         roulier.get("dpd_fr", "get_label", vals)
-
     del vals["service"]["product"]
-    result = roulier.get("dpd_fr", "get_label", vals)
-    assert_result(vals, result, 1, 1)
 
-
-def test_common_failed_get_label():
-    vals = copy.deepcopy(DATA)
-    # Weight
-    orig_weight = vals["parcels"][0].pop("weight")
+    vals["parcels"][0].pop("weight")
     with assert_raises(InvalidApiInput, {"parcels": [{0: [{"weight": "float"}]}]}):
         roulier.get("dpd_fr", "get_label", vals)
+    vals["parcels"][0]["weight"] = DATA["parcels"][0]["weight"]
 
-    vals["parcels"][0]["weight"] = 999.99
-    with assert_raises(CarrierError, "Invalid weight"):
-        roulier.get("dpd_fr", "get_label", vals)
-
-    vals["parcels"][0]["weight"] = 0
-    with assert_raises(CarrierError, "Invalid weight"):
-        roulier.get("dpd_fr", "get_label", vals)
-    vals["parcels"][0]["weight"] = orig_weight
-
-    # Country
     vals["to_address"].pop("country")
     with assert_raises(InvalidApiInput, {"to_address": [{"country": "empty"}]}):
-        roulier.get("dpd_fr", "get_label", vals)
-
-    vals["to_address"]["country"] = "ZZ"
-    with assert_raises(CarrierError, [{"id": "InvalidCountryPrefix"}]):
         roulier.get("dpd_fr", "get_label", vals)
 
     # no address
@@ -70,6 +60,40 @@ def test_common_failed_get_label():
         roulier.get("dpd_fr", "get_label", vals)
 
 
+@_test_ip_allowed(False)
+def test_dpd_invalid_ip():
+    vals = copy.deepcopy(DATA)
+    with assert_raises(CarrierError, [{"id": "IpPermissionDenied"}]):
+        roulier.get("dpd_fr", "get_label", vals)
+
+
+@_test_ip_allowed(True)
+def test_dpd_classic():
+    vals = copy.deepcopy(DATA)
+    result = roulier.get("dpd_fr", "get_label", vals)
+    assert_result(vals, result, 1, 1)
+
+
+@_test_ip_allowed(True)
+def test_common_failed_get_label():
+    vals = copy.deepcopy(DATA)
+    # Weight
+    vals["parcels"][0]["weight"] = 999.99
+    with assert_raises(CarrierError, [{"id": "InvalidWeight"}]):
+        roulier.get("dpd_fr", "get_label", vals)
+
+    vals["parcels"][0]["weight"] = 0
+    with assert_raises(CarrierError, [{"id": "InvalidWeight"}]):
+        roulier.get("dpd_fr", "get_label", vals)
+    vals["parcels"][0]["weight"] = DATA["parcels"][0]["weight"]
+
+    # Country
+    vals["to_address"]["country"] = "ZZ"
+    with assert_raises(CarrierError, [{"id": "InvalidCountryPrefix"}]):
+        roulier.get("dpd_fr", "get_label", vals)
+
+
+@_test_ip_allowed(True)
 def test_auth():
     vals = copy.deepcopy(DATA)
     vals["auth"]["login"] = "test"
@@ -77,6 +101,7 @@ def test_auth():
         roulier.get("dpd_fr", "get_label", vals)
 
 
+@_test_ip_allowed(True)
 def test_relai():
     vals = copy.deepcopy(DATA)
     vals["service"]["product"] = "DPD_Relais"
