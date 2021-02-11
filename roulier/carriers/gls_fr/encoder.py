@@ -15,8 +15,8 @@ _logger = logging.getLogger(__name__)
 DELIVERY_MAPPING = {
     # 'address': ADDRESS_MODEL,
     "T859": "consignee_ref",
-    "T854": "reference1",  # additional_ref
-    "T8907": "reference1",
+    "T854": "shippingId",  # additional_ref
+    "T8907": "shippingId",
     "T8908": "reference2",
     "T540": "shippingDate",
     "T8318": "instructions",  # commentary
@@ -79,21 +79,24 @@ class GlsEncoder(Encoder):
         for key, val in ADDRESS_MAPPING.items():
             to_address[key] = raw_data["to_address"].get(val)
         del raw_data["to_address"]
+        flat_dict.update(raw_data['parcels'][0])
         del raw_data["parcels"]
         for key in raw_data:
             flat_dict.update(raw_data[key])
-        data.update(to_address)
+        
         merge_dict(data)
         for key, val in data.items():
-            data[key] = flat_dict.get(val, data[key])
+            data[key] = flat_dict.get(val)
             if isinstance(data[key], date):
                 data[key] = data[key].strftime("%Y%m%d")
+        # add already mapped to_address
+        data.update(to_address)
         return data
 
     def dict_to_exotic_serialization(self, data):
         res = r"\\\\\GLS\\\\\|"
         for key, val in data.items():
-            if val not in ("", False):
+            if val:
                 res += "%s:%s|" % (key, val)
         res += r"/////GLS/////"
         print(res)

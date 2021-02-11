@@ -17,7 +17,6 @@ class GlsApiParcel(ApiParcel):
         # warehouse
         schema["agencyId"] = {"maxlength": 6, "minlength": 6, "required": True}
         schema["product"] = {"default": "France", "required": True}
-        schema["reference1"] = {"maxlength": 20}
         schema["reference2"] = {"maxlength": 20}
         schema["instructions"] = {"maxlength": 35}
         schema["shippingDate"] = {"required": True}
