@@ -79,11 +79,11 @@ class GlsEncoder(Encoder):
         for key, val in ADDRESS_MAPPING.items():
             to_address[key] = raw_data["to_address"].get(val)
         del raw_data["to_address"]
-        flat_dict.update(raw_data['parcels'][0])
+        flat_dict.update(raw_data["parcels"][0])
         del raw_data["parcels"]
         for key in raw_data:
             flat_dict.update(raw_data[key])
-        
+
         merge_dict(data)
         for key, val in data.items():
             data[key] = flat_dict.get(val)
