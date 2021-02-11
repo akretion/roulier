@@ -4,6 +4,12 @@ from roulier.codec import Encoder
 
 
 class ChronopostFrEncoder(Encoder):
+    def _extra_input_data_processing(self, input_payload, data):
+        data["service"]["shippingDate"] = data["service"]["shippingDate"].strftime(
+            "%Y/%M/%d"
+        )
+        return data
+
     def transform_input_to_carrier_webservice(self, data):
         env = Environment(
             loader=PackageLoader("roulier", "/carriers/chronopost_fr/templates"),

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from datetime import date
 import json
 from collections import OrderedDict
 
@@ -22,8 +22,8 @@ def test_encode_api():
     encoder = GeodisEncoderRestWs()
     data = encoder.api("trackingList")
 
-    data["service"]["shippingDateStart"] = "2019-07-02"
-    data["service"]["shippingDateEnd"] = "2019-07-02"
+    data["service"]["shippingDateStart"] = date(2019, 7, 2)
+    data["service"]["shippingDateEnd"] = date(2019, 7, 2)
     data["auth"]["login"] = "Akretion"
     data["auth"]["password"] = "121221789271"
 

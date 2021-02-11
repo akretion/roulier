@@ -51,8 +51,8 @@ class GeodisEncoderWs(Encoder):
             data["service"]["labelFormat"] = self.lookup_label_format(
                 data["service"]["labelFormat"]
             )
-            data["service"]["shippingDate"] = data["service"]["shippingDate"].replace(
-                "/", ""
+            data["service"]["shippingDate"] = data["service"]["shippingDate"].strftime(
+                "%Y%M%d"
             )
             data["from_address"]["departement"] = data["from_address"]["zip"][:2]
             return {

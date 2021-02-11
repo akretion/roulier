@@ -19,8 +19,6 @@ class GlsApiParcel(ApiParcel):
         schema["product"] = {"default": "France", "required": True}
         schema["reference2"] = {"maxlength": 20}
         schema["instructions"] = {"maxlength": 35}
-        schema["shippingDate"] = {"required": True}
-        # schema["shippingDate"] = {"date": "%Y%m%d", "required": True}
         schema["consignee_ref"] = {"maxlength": 20}
         schema["parcel_total_number"] = {
             "max": 999,
