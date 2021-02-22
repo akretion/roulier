@@ -20,7 +20,7 @@ class DpdEncoder(Encoder):
         if "pickupLocationId" in data["service"]:
             data["service"]["dropOffLocation"] = data["service"].pop("pickupLocationId")
         data["service"]["shippingDate"] = data["service"]["shippingDate"].strftime(
-            "%d/%M/%Y"
+            "%d/%m/%Y"
         )
 
         def reduce_address(address):
