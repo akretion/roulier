@@ -1,11 +1,12 @@
-# -*- coding: utf-8 -*-
 """Implement dpdWS."""
-import requests
-from lxml import objectify, etree
+
 from jinja2 import Environment, PackageLoader
+from lxml import objectify, etree
+import requests
+
+from roulier.exception import CarrierError
 from roulier.transport import RequestsTransport
 from roulier.ws_tools import remove_empty_tags
-from roulier.exception import CarrierError
 
 import logging
 
@@ -38,7 +39,7 @@ class DpdTransport(RequestsTransport):
     def soap_wrap(self, body, auth):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader("roulier", "/carriers/dpd_fr/templates"),
+            loader=PackageLoader("roulier", "/carriers/dpd_fr_soap/templates"),
             extensions=["jinja2.ext.with_"],
         )
 

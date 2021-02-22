@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 """Dpd XML -> Python."""
-from lxml import objectify
-from roulier.codec import DecoderGetLabel
-from roulier import ws_tools as tools
 import base64
+from lxml import objectify
+
+from roulier import ws_tools as tools
+from roulier.codec import DecoderGetLabel
 
 
 class DpdDecoder(DecoderGetLabel):

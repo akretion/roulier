@@ -1,12 +1,13 @@
 """Transform input to dpd compatible xml."""
-from jinja2 import Environment, PackageLoader
-from roulier.codec import Encoder
+
 from datetime import datetime
+
+from jinja2 import Environment, PackageLoader
+
+from roulier.codec import Encoder
 from roulier.exception import InvalidApiInput
-import logging
 
 DPD_ACTIONS = "createShipmentWithLabels"
-log = logging.getLogger(__name__)
 
 
 class DpdEncoder(Encoder):
@@ -46,7 +47,7 @@ class DpdEncoder(Encoder):
             data["service"]["labelFormat"] = "Default"
 
         env = Environment(
-            loader=PackageLoader("roulier", "/carriers/dpd_fr/templates"),
+            loader=PackageLoader("roulier", "/carriers/dpd_fr_soap/templates"),
             extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )

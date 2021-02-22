@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*-
 """Implementation for Dpd."""
+
+from roulier.roulier import factory
+from roulier.carrier_action import CarrierGetLabel
 
 from .api import DpdApi
 from .decoder import DpdDecoder
 from .encoder import DpdEncoder
 from .transport import DpdTransport
-from ...roulier import factory
-from ...carrier_action import CarrierGetLabel
 
 
 class DpdGetabel(CarrierGetLabel):
@@ -25,4 +25,4 @@ class DpdGetabel(CarrierGetLabel):
     manage_multi_label = False
 
 
-factory.register_builder("dpd_fr", "get_label", DpdGetabel)
+factory.register_builder("dpd_fr_soap", "get_label", DpdGetabel)
