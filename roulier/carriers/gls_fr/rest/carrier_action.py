@@ -1,10 +1,12 @@
 """Implementation for Laposte."""
-from ...carrier_action import CarrierGetLabel
-from ...roulier import factory
+
+from roulier.carrier_action import CarrierGetLabel
+from roulier.roulier import factory
+
+from .api import GlsEuApiParcel
 from .encoder import GlsEuEncoder
 from .decoder import GlsEuDecoderGetLabel
 from .transport import GlsEuTransport
-from .api import GlsEuApiParcel
 
 
 class GlsEuGetabel(CarrierGetLabel):
@@ -19,4 +21,4 @@ class GlsEuGetabel(CarrierGetLabel):
     manage_multi_label = True
 
 
-factory.register_builder("gls_eu", "get_label", GlsEuGetabel)
+factory.register_builder("gls_fr_rest", "get_label", GlsEuGetabel)

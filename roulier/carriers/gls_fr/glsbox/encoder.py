@@ -1,6 +1,5 @@
 """Transform input to gls compatible format"""
 
-import logging
 from datetime import date
 
 from roulier.codec import Encoder
@@ -8,9 +7,6 @@ from roulier.exception import InvalidApiInput
 
 
 GLS_ACTIONS = ("label",)
-
-_logger = logging.getLogger(__name__)
-
 
 DELIVERY_MAPPING = {
     # 'address': ADDRESS_MODEL,
@@ -99,5 +95,4 @@ class GlsEncoder(Encoder):
             if val:
                 res += "%s:%s|" % (key, val)
         res += r"/////GLS/////"
-        print(res)
         return res

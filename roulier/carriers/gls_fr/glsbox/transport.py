@@ -1,10 +1,11 @@
 """ Implement Gls WS transport"""
 
+import logging
 import requests
+
 from roulier.exception import CarrierError
 from roulier.transport import RequestsTransport
 
-import logging
 
 log = logging.getLogger(__name__)
 

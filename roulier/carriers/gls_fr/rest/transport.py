@@ -1,12 +1,14 @@
-# -*- coding: utf-8 -*-
-from lxml import objectify, etree
-from jinja2 import Environment, PackageLoader
-from roulier.ws_tools import remove_empty_tags, get_parts
-from roulier.exception import CarrierError
-import logging
-import json
+""" Implement GLS WS transport via REST solution"""
 
+from jinja2 import Environment, PackageLoader
+import json
+import logging
+from lxml import objectify, etree
+
+from roulier.exception import CarrierError
 from roulier.transport import RequestsTransport
+from roulier.ws_tools import remove_empty_tags
+from roulier.ws_tools import get_parts
 
 log = logging.getLogger(__name__)
 

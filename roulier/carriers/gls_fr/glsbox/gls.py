@@ -1,12 +1,10 @@
 """ Implementation for GLS """
 
-import logging
 from roulier.carrier import Carrier
+
 from .encoder import GlsEncoder
 from .decoder import GlsDecoder
 from .transport import GlsTransport
-
-log = logging.getLogger(__name__)
 
 
 class Gls(Carrier):

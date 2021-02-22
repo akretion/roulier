@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-import logging
-import copy
 import base64
+import copy
+import logging
+import pytest
 import requests
 import shutil
-import pytest
 
 from roulier import roulier
 from roulier.exception import InvalidApiInput, CarrierError
@@ -21,9 +20,9 @@ EXCEPTION_MESSAGE = "Failed call with parameters %s"
 
 def test_methods():
     assert (
-        "gls_eu" in roulier.get_carriers_action_available().keys()
+        "gls_fr_rest" in roulier.get_carriers_action_available().keys()
     ), "GLS EU carrier unavailable"
-    assert roulier.get_carriers_action_available()["gls_eu"] == [
+    assert roulier.get_carriers_action_available()["gls_fr_rest"] == [
         "get_label",
     ], "get_label() method unavailable"
 
@@ -33,10 +32,10 @@ def test_label_basic_checks():
     vals["service"]["product"] = "whatisitproduct"
 
     with pytest.raises(InvalidApiInput, match="unallowed value whatisitproduct"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
     del vals["service"]["product"]
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
 
@@ -45,11 +44,11 @@ def test_language_get_label():
     # Weight
     vals["parcels"][0]["weight"] = 99.99
     with pytest.raises(CarrierError, match="weight exceeds"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
     vals["service"]["language"] = "fr"
     with pytest.raises(CarrierError, match="poids dépasse"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
 
 def test_common_failed_get_label():
@@ -57,47 +56,47 @@ def test_common_failed_get_label():
     # Weight
     vals["parcels"][0]["weight"] = 99.99
     with pytest.raises(CarrierError, match="weight exceeds"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
     vals["parcels"][0]["weight"] = 0
     with pytest.raises(CarrierError, match="define a weight"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
         vals["parcels"][0]["weight"] = DATA["parcels"][0]["weight"]
 
     # Country
     vals["parcels"][0]["weight"] = 1
     vals["to_address"].pop("country")
     with pytest.raises(InvalidApiInput, match="empty values not allowed"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
     vals["to_address"]["country"] = "42"
     with pytest.raises(CarrierError, match="'Country' in Delivery is not valid"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
     # no address
     del vals["to_address"]
     with pytest.raises(CarrierError, match="at least a delivery or pickup address"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
 
 def test_auth():
     vals = copy.deepcopy(DATA)
     vals["auth"]["login"] = "test"
     with pytest.raises(CarrierError, match="0009"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
 
 
 def test_eu_country():
     vals = copy.deepcopy(DATA)
     vals["to_address"]["country"] = "DE"
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
 
 def test_FDS():
     vals = copy.deepcopy(DATA)
     vals["parcels"][0]["services"] = [{"product": SERVICE_FDS}]
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
 
@@ -107,7 +106,7 @@ def test_SHD():
     vals["parcels"][0]["services"] = [
         {"product": SERVICE_SHD, "pickupLocationId": "2500389381"}
     ]
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
 
@@ -115,7 +114,7 @@ def test_SHD_auto():
     vals = copy.deepcopy(DATA)
     vals["to_address"]["contact"] = "Dylann"
     vals["parcels"][0]["services"] = [{"product": SERVICE_SHD}]
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
 
@@ -123,12 +122,12 @@ def test_SRS():
     vals = copy.deepcopy(DATA)
     vals["parcels"][0]["services"] = [{"product": SERVICE_SRS}]
     with pytest.raises(CarrierError, match="is missing: Return Address"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
     vals["return_address"] = copy.deepcopy(vals["to_address"])
     with pytest.raises(CarrierError, match="is missing: Return parcel weight"):
-        roulier.get("gls_eu", "get_label", vals)
+        roulier.get("gls_fr_rest", "get_label", vals)
     vals["returns"] = [{"weight": 1}]
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
 
@@ -137,7 +136,7 @@ def test_SRS_return_only():
     vals["parcels"][0]["services"] = [{"product": SERVICE_SRS}]
     vals["pickup_address"] = copy.deepcopy(vals["to_address"])
     vals["returns"] = [{"weight": 1}]
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(
         vals, result, 1, 0, False
     )  # no label: GLS will generate it inside the agency
@@ -146,7 +145,7 @@ def test_SRS_return_only():
 def test_PandR():
     vals = copy.deepcopy(DATA)
     vals["pickup_address"] = vals.pop("to_address")
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(
         vals, result, 1, 0, False
     )  # no label: GLS will generate it inside the agency
@@ -155,7 +154,7 @@ def test_PandR():
 def test_PandS():
     vals = copy.deepcopy(DATA)
     vals["pickup_address"] = copy.deepcopy(vals["to_address"])
-    result = roulier.get("gls_eu", "get_label", vals)
+    result = roulier.get("gls_fr_rest", "get_label", vals)
     assert_result(
         vals, result, 1, 0, False
     )  # no label: GLS will generate it inside the agency

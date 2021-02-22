@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 """Transform input to laposte compatible xml."""
-import logging
+
 from jinja2 import Environment, PackageLoader
+import logging
+
+from roulier.codec import Encoder
 from roulier.exception import InvalidApiInput
 
-_logger = logging.getLogger(__name__)
-from roulier.codec import Encoder
 from .constants import SERVICE_FDS
 from .constants import SERVICE_SHD
 from .constants import SERVICE_SRS
+
+_logger = logging.getLogger(__name__)
 
 
 class GlsEuEncoderBase(Encoder):

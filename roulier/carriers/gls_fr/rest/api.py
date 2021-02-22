@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """Implementation of Laposte Api."""
+
 from roulier.api import ApiParcel
-from .constants import SERVICE_STANDARD
+
 from .constants import SERVICE_CHOICES
+from .constants import SERVICE_STANDARD
 
 
 class GlsEuApiParcel(ApiParcel):

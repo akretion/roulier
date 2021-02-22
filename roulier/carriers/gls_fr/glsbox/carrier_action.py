@@ -1,6 +1,8 @@
 """Implementation for Laposte."""
-from ...carrier_action import CarrierGetLabel
-from ...roulier import factory
+
+from roulier.carrier_action import CarrierGetLabel
+from roulier.roulier import factory
+
 from .encoder import GlsEncoder
 from .decoder import GlsDecoder
 from .transport import GlsTransport
@@ -20,4 +22,4 @@ class GlsFrGetabel(CarrierGetLabel):
     web_service_coding = "ISO-8859-1"
 
 
-factory.register_builder("gls_fr", "get_label", GlsFrGetabel)
+factory.register_builder("gls_fr_glsbox", "get_label", GlsFrGetabel)

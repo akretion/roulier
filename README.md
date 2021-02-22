@@ -24,7 +24,7 @@ Please use version < 1.0.0 (python2 branch) in that case.
 from roulier import roulier
 
 payload= {
-	"auth": { 
+	"auth": {
 		"login": "12345",
 		"password": "password",
 	},
@@ -72,6 +72,7 @@ print(roulier.get_carriers_action_available())
 * [@hparfr](https://github.com/hparfr) ([Akretion.com](https://akretion.com))
 * [@damdam-s](https://github.com/damdam-s) ([Camp2Camp.com](http://camptocamp.com))
 * [@bealdav](https://github.com/bealdav) ([Akretion.com](https://akretion.com))
+* [@DylannCordel](https://github.com/DylannCordel) ([Webu.coop](https://www.webu.coop))
 
 
 ### Dependencies

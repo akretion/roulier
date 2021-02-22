@@ -1,5 +1,6 @@
-import logging
 from datetime import date
+import logging
+
 from roulier import roulier
 
 logger = logging.getLogger(__name__)
@@ -18,7 +19,7 @@ except ImportError:
 
 def test_connexion():
     roulier.get(
-        "gls_fr",
+        "gls_fr_glsbox",
         "get_label",
         {
             "auth": {"login": credentials["login"], "isTest": credentials["isTest"]},

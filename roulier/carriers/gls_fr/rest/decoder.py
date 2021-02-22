@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """Laposte XML -> Python."""
+
+import base64
 from datetime import datetime
 from lxml import objectify
 
-from ...codec import DecoderGetLabel
+from roulier.codec import DecoderGetLabel
+
 from .constants import SERVICE_PandR
 from .constants import SERVICE_PandS
-import base64
 
 
 class GlsEuDecoderGetLabel(DecoderGetLabel):
