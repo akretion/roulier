@@ -54,7 +54,8 @@ class GlsEuApiParcel(ApiParcel):
                 "mobile": schema["phone"],
                 "incoterm": {
                     "type": "string",
-                    "allowed": ["DDP", "20", "DAP", "40", "50"],
+                    # "regex": r"^\d{2}$",
+                    # "allowed": ["10", "13", 18", "20", "23", "30", "40", "43", "50", "60"],
                 },
             }
         )

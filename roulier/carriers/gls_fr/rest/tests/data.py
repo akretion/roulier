@@ -27,8 +27,7 @@ DATA = {
     },
     "parcels": [{"weight": 1.2, "comment": "Fake comment"}],
     "to_address": {
-        "name": "Fr",
-        "firstName": "Hpar",
+        "name": "Anne O'nyme",
         "street1": "27 rue Léon CAMET",
         "city": "Villeurbanne",
         "country": "FR",
@@ -39,7 +38,6 @@ DATA = {
 
 DATA_FROM_ADDR = {
     "name": "TEST",
-    "firstName": "AUTOMATIC",
     "street1": "72 rue Cécile Honxa",
     "city": "Paris",
     "country": "FR",
