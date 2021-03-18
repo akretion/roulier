@@ -1,13 +1,16 @@
 """Gls weird string -> Python"""
 
+import base64
+from io import BytesIO
 import logging
 import os
-from io import BytesIO
+import re
 from string import Template
+
 from roulier.codec import DecoderGetLabel
 from roulier.exception import CarrierError
+
 from .encoder import merge_dict
-import base64
 
 log = logging.getLogger(__name__)
 
@@ -103,8 +106,6 @@ class GlsDecoder(DecoderGetLabel):
         raise CarrierError(result, exc)
 
     def validate_template(self, template_string, available_keys):
-        import re
-
         keys2match = []
         for match in re.findall(r"\$(T[0-9].*) ", template_string):
             keys2match.append(match)

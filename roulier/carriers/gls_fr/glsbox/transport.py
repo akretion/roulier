@@ -1,10 +1,11 @@
 """ Implement Gls WS transport"""
 
+import logging
 import requests
+
 from roulier.exception import CarrierError
 from roulier.transport import RequestsTransport
 
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ URL = "http://www.gls-france.com/cgi-bin/glsboxGI%s.cgi"
 class GlsTransport(RequestsTransport):
     """Implement Gls WS communication."""
 
-    def _get_requests_headers(self):
+    def _get_requests_headers(self, payload=None):
         return {
             "content-type": "text/plain;charset=%s" % self.config.web_service_coding
         }

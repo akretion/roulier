@@ -12,27 +12,38 @@ class RequestsTransport(ABC):
     def __init__(self, config_object):
         self.config = config_object
 
+    def before_ws_call_prepare_request_kwargs(self, payload):
+        return {
+            "body": self.before_ws_call_transform_payload(payload),
+            "headers": self._get_requests_headers(payload),
+            "auth": self._get_requests_auth(payload),
+            "url": self._get_requests_url(payload),
+        }
+
     def before_ws_call_transform_payload(self, payload):
         return payload
 
     def send(self, payload):
-        data = self.before_ws_call_transform_payload(payload)
-        log.debug(data)
-        response = self.send_request(data)
+        request_kwargs = self.before_ws_call_prepare_request_kwargs(payload)
+        log.debug(request_kwargs["body"])
+        response = self.send_request(**request_kwargs)
         log.info("WS response time %s" % response.elapsed.total_seconds())
         return self.handle_response(response)
 
-    @abstractmethod
-    def _get_requests_headers(self):
-        return {}
+    def _get_requests_headers(self, payload=None):
+        return None
 
-    def send_request(self, body):
-        headers = self._get_requests_headers()
+    def _get_requests_auth(self, payload=None):
+        return None
+
+    def _get_requests_url(self, payload=None):
         if self.config.is_test and self.config.ws_test_url:
-            ws_url = self.config.ws_test_url
-        else:
-            ws_url = self.config.ws_url
-        return requests.post(ws_url, headers=headers, data=body)
+            return self.config.ws_test_url
+        return self.config.ws_url
+
+    def send_request(self, body, url, auth=None, headers=None, method="post", **kwargs):
+        send = getattr(requests, method)
+        return send(url, headers=headers, auth=auth, data=body, **kwargs)
 
     @abstractmethod
     def handle_200(self, response):
@@ -47,22 +58,26 @@ class RequestsTransport(ABC):
         """Handle reponse in case of ERROR 500 type."""
         pass
 
-    #    @abstractmethod
-    #    def handle_400(self, response):
-    #        """Handle reponse in case of ERROR 500 type."""
-    #        pass
-
     def handle_response(self, response):
         """Handle response of webservice."""
-        if response.status_code == 200:
-            return self.handle_200(response)
-        elif response.status_code == 500:
-            log.warning("%s error 500" % self.config.carrier_type)
-            return self.handle_500(response)
-        #        elif response.status_code == 400:
-        #            return self.handle_400(response)
+        str_status_code = "%s" % response.status_code
+        if hasattr(self, "handle_%d" % response.status_code):
+            handle = getattr(self, "handle_%d" % response.status_code)
+        elif hasattr(self, "handle_%sXX" % str_status_code[0]):
+            handle = getattr(self, "handle_%sXX" % str_status_code[0])
         else:
             raise CarrierError(
                 response,
-                [{"id": None, "message": "Unexpected status code from server",}],
+                [
+                    {
+                        "id": None,
+                        "message": ("Unexpected status code from server. " "%s: %s")
+                        % (response.status_code, response.reason),
+                    }
+                ],
             )
+        if response.status_code < 200 or response.status_code >= 300:
+            log.warning(
+                "%s error %d" % (self.config.carrier_type, response.status_code)
+            )
+        return handle(response)
