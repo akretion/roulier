@@ -66,11 +66,11 @@ class GlsEncoder(Encoder):
 
     def _extra_input_data_processing(self, input_payload, data):
         # Manage origin_reference from Destination and custom_sequence
-        country_code = data.get('to_address', {}).get('country')
-        seq = data.get('parcels') and data['parcels'][0].get('custom_sequence')
+        country_code = data.get("to_address", {}).get("country")
+        seq = data.get("parcels") and data["parcels"][0].get("custom_sequence")
         if country_code and seq:
             product_code = country_code == "FR" and "02" or "01"
-            origin_ref = "%s%s%s%s" % (product_code, seq, '0000', country_code)
+            origin_ref = "%s%s%s%s" % (product_code, seq, "0000", country_code)
             data["service"]["gls_origin_reference"] = origin_ref
         return data
 
