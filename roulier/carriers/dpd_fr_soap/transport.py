@@ -2,7 +2,6 @@
 
 from jinja2 import Environment, PackageLoader
 from lxml import objectify, etree
-import requests
 
 from roulier.exception import CarrierError
 from roulier.transport import RequestsTransport
@@ -16,25 +15,12 @@ log = logging.getLogger(__name__)
 class DpdTransport(RequestsTransport):
     """Implement Dpd WS communication."""
 
-    def send(self, payload):
-        """Call this function.
-
-        Args:
-            payload.body: XML in a string
-            payload.header : auth
-        Return:
-            {
-                response: (Requests.response)
-                body: XML response (without soap)
-            }
-        """
+    def before_ws_call_transform_payload(self, payload):
         body = payload["body"]
         headers = payload["headers"]
         soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
-        response = self.send_request(soap_message)
-        log.info("WS response time %s" % response.elapsed.total_seconds())
-        return self.handle_response(response)
+        return soap_message
 
     def soap_wrap(self, body, auth):
         """Wrap body in a soap:Enveloppe."""
@@ -50,7 +36,7 @@ class DpdTransport(RequestsTransport):
         data = template.render(body=body_stripped, header=header_xml)
         return data.encode("utf8")
 
-    def _get_requests_headers(self):
+    def _get_requests_headers(self, payload=None):
         """Send body to dpd WS."""
         return {"content-type": "text/xml"}
 
