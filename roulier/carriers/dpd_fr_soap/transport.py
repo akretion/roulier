@@ -1,23 +1,20 @@
-# -*- coding: utf-8 -*-
 """Implement dpdWS."""
-import requests
-from lxml import objectify, etree
+
 from jinja2 import Environment, PackageLoader
-from roulier.transport import Transport
-from roulier.ws_tools import remove_empty_tags
+from lxml import objectify, etree
+import requests
+
 from roulier.exception import CarrierError
+from roulier.transport import RequestsTransport
+from roulier.ws_tools import remove_empty_tags
 
 import logging
 
 log = logging.getLogger(__name__)
 
 
-class DpdTransport(Transport):
+class DpdTransport(RequestsTransport):
     """Implement Dpd WS communication."""
-
-    DPD_WS = (
-        "https://e-station.cargonet.software/dpd-eprintwebservice/eprintwebservice.asmx"
-    )
 
     def send(self, payload):
         """Call this function.
@@ -42,7 +39,7 @@ class DpdTransport(Transport):
     def soap_wrap(self, body, auth):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader("roulier", "/carriers/dpd/templates"),
+            loader=PackageLoader("roulier", "/carriers/dpd_fr_soap/templates"),
             extensions=["jinja2.ext.with_"],
         )
 
@@ -53,23 +50,17 @@ class DpdTransport(Transport):
         data = template.render(body=body_stripped, header=header_xml)
         return data.encode("utf8")
 
-    def send_request(self, body):
+    def _get_requests_headers(self):
         """Send body to dpd WS."""
-        return requests.post(
-            self.DPD_WS, headers={"content-type": "text/xml"}, data=body
-        )
+        return {"content-type": "text/xml"}
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
         log.warning("Dpd error 500")
         obj = objectify.fromstring(response.content)
-        errors = [
-            {
-                "id": obj.xpath("//faultcode")[0],
-                "message": obj.xpath("//faultstring")[0],
-            }
-        ]
-        raise CarrierError(response, errors)
+        error_id = (obj.xpath("//ErrorId") or obj.xpath("//faultcode"))[0]
+        error_message = (obj.xpath("//ErrorMessage") or obj.xpath("//faultstring"))[0]
+        raise CarrierError(response, [{"id": error_id, "message": error_message,}])
 
     def handle_200(self, response):
         """Handle response type 200 (success)."""
@@ -84,15 +75,3 @@ class DpdTransport(Transport):
             "body": body_xml,
             "response": response,
         }
-
-    def handle_response(self, response):
-        """Handle response of webservice."""
-        if response.status_code == 200:
-            return self.handle_200(response)
-        elif response.status_code == 500:
-            return self.handle_500(response)
-        else:
-            raise CarrierError(
-                response,
-                [{"id": None, "message": "Unexpected status code from server",}],
-            )
