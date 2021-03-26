@@ -64,8 +64,23 @@ def merge_dict(mydict):
 class GlsEncoder(Encoder):
     """Transform input to gls compatible format."""
 
+    def _extra_input_data_processing(self, input_payload, data):
+        # Manage origin_reference from Destination and custom_sequence
+        country_code = data.get("to_address", {}).get("country")
+        seq = data.get("parcels") and data["parcels"][0].get("custom_sequence")
+        if country_code and seq:
+            product_code = country_code == "FR" and "02" or "01"
+            origin_ref = "%s%s%s%s" % (product_code, seq, "0000", country_code)
+            data["service"]["gls_origin_reference"] = origin_ref
+        return data
+
     def transform_input_to_carrier_webservice(self, data):
         merged_data = self.merge_data(data)
+        # Manage some mandatory constants...
+        merged_data["T090"] = "NOSAVE"
+        # not in documentation but comes from GLS support...
+        # T100 is destination country
+        merged_data["T082"] = merged_data["T100"] == "FR" and "UNIQUENO" or "GPDEL"
         exotic_data = self.dict_to_exotic_serialization(merged_data)
         return exotic_data
 

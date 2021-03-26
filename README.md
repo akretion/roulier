@@ -11,7 +11,11 @@ Roulier will get a label + tracking number to your carrier for you.
 * Roulier runs on your server and call each carrier API directly.
 * You have to use your own credentials provided by each carriers.
 * Roulier is Open Source software, AGPL-3
-* Roulier integrate a multitude of carriers : Laposte, Geodis, DPD, K&N... more to come.
+* Roulier integrate a multitude of carriers
+    * French La Poste
+    * French DPD
+    * French Geodis
+    * French Chronopost
 
 ### Installation
 
@@ -65,6 +69,11 @@ from roulier import roulier
 print(roulier.get_carriers_action_available())
 ```
 
+### Known Issues
+#### French GLS carrier :
+* The glsbox webservice only manage Basic products : BP, EBP, GBP
+* In the rest webservice, the incoterms don't work
+
 
 ### Contributors
 
@@ -73,6 +82,7 @@ print(roulier.get_carriers_action_available())
 * [@damdam-s](https://github.com/damdam-s) ([Camp2Camp.com](http://camptocamp.com))
 * [@bealdav](https://github.com/bealdav) ([Akretion.com](https://akretion.com))
 * [@DylannCordel](https://github.com/DylannCordel) ([Webu.coop](https://www.webu.coop))
+* [@florian-dacosta](https://github.com/florian-dacosta) ([Webu.coop](https://akretion.com))
 
 
 ### Dependencies

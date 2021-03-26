@@ -40,7 +40,9 @@ class GlsDecoder(DecoderGetLabel):
 
     def exotic_serialization_to_dict(self, data):
         res = {}
-        for val in data.split("|")[1:-1]:
+        # remove start of string
+        data = re.sub(r"\\*GLS\\*", "", data)
+        for val in data.split("|")[0:-1]:
             key, value = val.split(":", 1)
             res[key] = value
         return res
@@ -107,7 +109,7 @@ class GlsDecoder(DecoderGetLabel):
 
     def validate_template(self, template_string, available_keys):
         keys2match = []
-        for match in re.findall(r"\$(T[0-9].*) ", template_string):
+        for match in re.findall(r"\$\{(T[0-9].*)\}", template_string):
             keys2match.append(match)
         unmatch = list(set(keys2match) - set(available_keys))
         not_in_tmpl_but_known_case = ["T8900", "T8901", "T8717", "T8911"]
