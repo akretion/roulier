@@ -26,6 +26,8 @@ class GlsEuEncoderBase(Encoder):
             "labelFormat": data["service"]["labelFormat"],
             "labelSize": data["service"]["labelSize"],
         }
+        if data["service"].get("incoterm"):
+            body["incoterm"] = data["service"]["incoterm"]
         body["addresses"] = self._transforms_addresses(data, body)
         if "return" in body["addresses"] and data.get("return_weight"):
             body["returns"] = {"weight": "%.2f" % data["return_weight"]}
@@ -100,10 +102,6 @@ class GlsEuEncoderBase(Encoder):
                 "mobile",
             ),  # Numéro de téléphone mobile : obligatoire si pas de fixe
             ("email", "email"),  # Adresse E-mail - /!\Obligatoire en BtoC
-            (
-                "incoterm",
-                "incoterm",
-            ),  # code incoterm international selon destination et formalités douanières.
         )
         for from_addr, to_addr in available_addr:
             addr = data.get(from_addr)
