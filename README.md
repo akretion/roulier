@@ -14,8 +14,9 @@ Roulier will get a label + tracking number to your carrier for you.
 * Roulier integrate a multitude of carriers
     * French La Poste
     * French DPD
-    * French Geodis
+    * French GLS
     * French Chronopost
+    * more to come... (geodis, kuehne...)
 
 ### Installation
 

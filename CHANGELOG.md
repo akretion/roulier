@@ -4,12 +4,18 @@ Roadmap / TODO:
 	- Add Kuehne & Nagel carrier
 	- Add UPS carrier
 	- Add geodis carrier
-	- Add dpd carrier
-	- Support test_mode for some carriers
+	- Add dpd rest api
 	- Improve documentation
 	- Support additionnal methods of api
-	- Write tests
+	- Write more tests
 	- generate api documentation
+
+# 1.1.0 2021-04-02
+    - Add GLS rest api
+    - Fix GLS glsbox api and manage expedition outside France
+    - Add DPD soap api for python 3
+    - Improve/complete Laposte Soap api for CN23
+    - Unify/refactore the way to manage shippingDate (same input format for all carriers)
 
 # 1.0.0 2020-12-08
     - Refactore library design to be able to re-use some logic between carriers
