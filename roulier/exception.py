@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Exception classes"""
 import logging
 

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Laposte XML -> Python."""
 
 import base64

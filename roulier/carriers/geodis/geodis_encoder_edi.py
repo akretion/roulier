@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Implementation of Geodis Api."""
 from datetime import datetime
 from roulier.codec import Encoder

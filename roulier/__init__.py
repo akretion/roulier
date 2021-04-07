@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from . import roulier
 from . import exception
 from . import api

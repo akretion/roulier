@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Implement geodisWS."""
 import requests
 from lxml import objectify

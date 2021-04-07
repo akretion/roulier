@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Implementation of Geodis Api."""
 from roulier.codec import Encoder
 from roulier.exception import InvalidApiInput

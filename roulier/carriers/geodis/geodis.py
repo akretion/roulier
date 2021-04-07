@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Implementation for Geodis."""
 
 from .geodis_encoder_edi import GeodisEncoderEdi

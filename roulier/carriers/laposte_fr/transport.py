@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Implement laposteWS."""
 from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader

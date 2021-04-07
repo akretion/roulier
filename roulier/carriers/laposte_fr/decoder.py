@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """Laposte XML -> Python."""
 from datetime import datetime
 from lxml import objectify
