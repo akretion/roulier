@@ -6,6 +6,7 @@ from roulier.api import MyValidator
 
 DPD_LABEL_FORMAT = (
     "PDF",
+    "PDF_A6",
     "PNG",
     "ZPL",
 )
