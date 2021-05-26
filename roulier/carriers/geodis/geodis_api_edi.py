@@ -1,4 +1,3 @@
-
 """Implementation of Geodis Api."""
 from roulier.api import Api, MyValidator
 from .geodis_api_ws import GeodisApiWs, GEODIS_ALLOWED_NOTIFICATIONS

@@ -1,4 +1,3 @@
-
 """Implementation for Geodis."""
 
 from .geodis_encoder_edi import GeodisEncoderEdi

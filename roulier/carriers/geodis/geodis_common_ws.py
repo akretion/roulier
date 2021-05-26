@@ -1,4 +1,3 @@
-
 """Store infos about ws"""
 from .geodis_api_ws import GeodisApiWs
 from .geodis_api_rest_ws import (

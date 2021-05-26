@@ -1,4 +1,3 @@
-
 """Transform input to laposte compatible xml."""
 import logging
 from jinja2 import Environment, PackageLoader

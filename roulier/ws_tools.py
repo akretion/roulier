@@ -1,4 +1,3 @@
-
 """Utilities for WS."""
 from lxml import etree
 from jinja2 import Environment, PackageLoader

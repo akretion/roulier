@@ -1,4 +1,3 @@
-
 """Laposte XML -> Python."""
 from datetime import datetime
 from lxml import objectify

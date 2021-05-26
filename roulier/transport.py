@@ -1,4 +1,3 @@
-
 """Send a request to a carrier and get the result."""
 from abc import ABC, abstractmethod
 import requests

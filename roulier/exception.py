@@ -1,4 +1,3 @@
-
 """Exception classes"""
 import logging
 

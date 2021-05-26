@@ -1,4 +1,3 @@
-
 """Implement geodisWS."""
 import requests
 from lxml import objectify

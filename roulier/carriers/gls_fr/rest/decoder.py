@@ -1,4 +1,3 @@
-
 """Laposte XML -> Python."""
 
 import base64

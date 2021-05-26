@@ -1,4 +1,3 @@
-
 """Implement geodisWS."""
 from roulier.transport import Transport
 from datetime import datetime

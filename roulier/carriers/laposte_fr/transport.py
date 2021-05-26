@@ -1,4 +1,3 @@
-
 """Implement laposteWS."""
 from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader
