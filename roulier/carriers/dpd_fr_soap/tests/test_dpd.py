@@ -75,6 +75,31 @@ def test_dpd_classic():
 
 
 @_test_ip_allowed(True)
+def test_predict():
+    vals = copy.deepcopy(DATA)
+    vals["service"]["product"] = "DPD_Predict"
+    with assert_raises(
+        InvalidApiInput, {"service": [{"notifications": "must be set to Predict"}]}
+    ):
+        roulier.get("dpd_fr_soap", "get_label", vals)
+    vals["service"]["notifications"] = "wrong"
+    with assert_raises(
+        InvalidApiInput, {"service": [{"notifications": "must be set to Predict"}]}
+    ):
+        roulier.get("dpd_fr_soap", "get_label", vals)
+    vals["service"]["notifications"] = "Predict"
+
+    # no mobile number
+    with assert_raises(
+        CarrierError, [{"id": "InvalidInput", "message": "no sms number given"}]
+    ):
+        roulier.get("dpd_fr_soap", "get_label", vals)
+    vals["to_address"]["phone"] = "+330623456789"
+    result = roulier.get("dpd_fr_soap", "get_label", vals)
+    assert_result(vals, result, 1, 1)
+
+
+@_test_ip_allowed(True)
 def test_common_failed_get_label():
     vals = copy.deepcopy(DATA)
     # Weight

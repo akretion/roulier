@@ -40,7 +40,7 @@ class DpdValidator(MyValidator):
                 "pickupLocationId", "pickupLocationId can't be used with %s" % product
             )
         if product == "DPD_Predict":
-            if notifications and "notifications" != "Predict":
+            if notifications and notifications != "Predict":
                 self._error(
                     "notifications", "must be set to Predict when using Predict"
                 )
