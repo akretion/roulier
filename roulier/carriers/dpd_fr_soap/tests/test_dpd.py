@@ -99,6 +99,46 @@ def test_predict():
 
 
 @_test_ip_allowed(True)
+def test_dpd_format_pdf():
+    vals = copy.deepcopy(DATA)
+    vals["service"]["labelFormat"] = "PDF"
+    result = roulier.get("dpd_fr_soap", "get_label", vals)
+    assert_result(vals, result, 1, 1, "PDF")
+
+
+@_test_ip_allowed(True)
+def test_dpd_format_pdf_a6():
+    vals = copy.deepcopy(DATA)
+    vals["service"]["labelFormat"] = "PDF_A6"
+    result = roulier.get("dpd_fr_soap", "get_label", vals)
+    assert_result(vals, result, 1, 1, "PDF_A6")
+
+
+@_test_ip_allowed(True)
+def test_dpd_format_png():
+    vals = copy.deepcopy(DATA)
+    vals["service"]["labelFormat"] = "PNG"
+    result = roulier.get("dpd_fr_soap", "get_label", vals)
+    assert_result(vals, result, 1, 1, "PNG")
+
+
+@_test_ip_allowed(True)
+def test_dpd_format_zpl():
+    vals = copy.deepcopy(DATA)
+    vals["service"]["labelFormat"] = "ZPL"
+    result = roulier.get("dpd_fr_soap", "get_label", vals)
+    assert_result(vals, result, 1, 1, "ZPL")
+
+
+@_test_ip_allowed(True)
+def test_dpd_format_invalid():
+    vals = copy.deepcopy(DATA)
+    vals["service"]["labelFormat"] = "invalid"
+    with assert_raises(InvalidApiInput, {"service": [{"labelFormat": "unallowed"}]}):
+        result = roulier.get("dpd_fr_soap", "get_label", vals)
+
+
+@_test_ip_allowed(True)
 def test_common_failed_get_label():
     vals = copy.deepcopy(DATA)
     # Weight
