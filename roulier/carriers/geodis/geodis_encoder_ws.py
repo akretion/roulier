@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Transform input to geodis compatible xml."""
 from jinja2 import Environment, PackageLoader
 from roulier.codec import Encoder

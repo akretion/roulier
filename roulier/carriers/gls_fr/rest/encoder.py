@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Transform input to laposte compatible xml."""
 
 from jinja2 import Environment, PackageLoader

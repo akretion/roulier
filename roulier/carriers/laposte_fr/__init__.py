@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from . import encoder
 from . import decoder
 from . import transport

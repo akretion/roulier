@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Implementation of Geodis Ws Api."""
 from roulier.api import Api
 

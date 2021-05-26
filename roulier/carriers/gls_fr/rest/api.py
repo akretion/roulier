@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Implementation of Laposte Api."""
 
 from roulier.api import ApiParcel

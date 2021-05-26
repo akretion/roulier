@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Geodis XML -> Python."""
 from roulier.codec import Decoder
 from .geodis_api_rest_ws import GeodisApiTrackingListOut
