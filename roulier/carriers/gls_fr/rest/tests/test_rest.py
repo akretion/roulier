@@ -93,64 +93,62 @@ def test_eu_country():
     assert_result(vals, result, 1, 0)
 
 
-# Test currently disabled because it seems impossible to have a valid incoterm with this API
-# and documentation given. GLS-EU France support contacted. Waiting for an answer to fix it
-# def test_vat_country_valid():
-#     """
-#     Test using incoterm for VAT countries
-#     From https://gls-group.eu/IE/media/downloads/Customer_information_Brexit~1.pdf
-#     When exporting with GLS to the UK, dispatchers can choosebetween these Incoterms for
-#     commercial customs clearance:
-#     •Incoterm 10 (DDP):
-#         Freight costs, customs clearance costs, customs duties and taxes paid –
-#         the sender pays all costsincurred, the importer bears no costs.
-#     •Incoterm 20 (DAP):
-#         Freight costs paid, customs clearance costs, customs duties and taxes unpaid –
-#         the sender pays for freight only, the importer bears all other costs.
-#     •Incoterm 30 (DDP, VAT unpaid):
-#         Freight costs, customs clearance costs and customs duties paid, taxes unpaid –
-#         the sender pays for freight, customs clearance costs and customs duties,
-#         the importer pays for the taxes incurred.
-#     •Incoterm 40 (DAP, cleared):
-#         Freight costs and customs  clearance costs paid, customs duties and taxes unpaid –
-#         the sender pays for freight and customs clearance costs, the importer pays customs
-#         duties and taxes.
-#     •Incoterm 60 (Pick&ShipService, Pick&ReturnService):
-#         Freight costs, customs clearance costs, customs duties and taxes paid –
-#         the customer pays all costs incurred, the importer bears no costs.
+def test_vat_country_valid():
+    """
+    Test using incoterm for VAT countries
+    From https://gls-group.eu/IE/media/downloads/Customer_information_Brexit~1.pdf
+    When exporting with GLS to the UK, dispatchers can choosebetween these Incoterms for
+    commercial customs clearance:
+    •Incoterm 10 (DDP):
+        Freight costs, customs clearance costs, customs duties and taxes paid –
+        the sender pays all costsincurred, the importer bears no costs.
+    •Incoterm 20 (DAP):
+        Freight costs paid, customs clearance costs, customs duties and taxes unpaid –
+        the sender pays for freight only, the importer bears all other costs.
+    •Incoterm 30 (DDP, VAT unpaid):
+        Freight costs, customs clearance costs and customs duties paid, taxes unpaid –
+        the sender pays for freight, customs clearance costs and customs duties,
+        the importer pays for the taxes incurred.
+    •Incoterm 40 (DAP, cleared):
+        Freight costs and customs  clearance costs paid, customs duties and taxes unpaid –
+        the sender pays for freight and customs clearance costs, the importer pays customs
+        duties and taxes.
+    •Incoterm 60 (Pick&ShipService, Pick&ReturnService):
+        Freight costs, customs clearance costs, customs duties and taxes paid –
+        the customer pays all costs incurred, the importer bears no costs.
 
-#     In future, we will be able to offer additional, cost-effective inco-terms for customs
-#     clearance of single parcels to the UK.
-#     •Incoterm 13 (DDP):
-#         Freight costs, customs clearance costs, customs duties and taxes paid –
-#         the sender pays all costs incurred, the importer bears no costs.
-#     •Incoterm 23 (DAP):
-#         Freight costs paid, customs clearance costs, customs duties and taxes unpaid –
-#         the sender paysfor freight only, the importer bears all other costs.
-#     •Incoterm 43 (DAP, cleared):
-#         Freight costs and customs clear-ance costs paid, customs duties and taxes unpaid –
-#         the sender pays for freight and customs clearance costs, the  importer pays customs
-#         duties and taxes.
-#     •Incoterm 18 (DDP, VAT pre-registration):
-#         Freight costs, cus-toms clearance costs and taxes paid –
-#         the sender pays all costs incurred, the importer bears no costs.
-#         For single or various parcels with a goods value of less than GBP 135.
-#         Here, the import VAT can be paid directly to the British tax authorities.
+    In future, we will be able to offer additional, cost-effective inco-terms for customs
+    clearance of single parcels to the UK.
+    •Incoterm 13 (DDP):
+        Freight costs, customs clearance costs, customs duties and taxes paid –
+        the sender pays all costs incurred, the importer bears no costs.
+    •Incoterm 23 (DAP):
+        Freight costs paid, customs clearance costs, customs duties and taxes unpaid –
+        the sender paysfor freight only, the importer bears all other costs.
+    •Incoterm 43 (DAP, cleared):
+        Freight costs and customs clear-ance costs paid, customs duties and taxes unpaid –
+        the sender pays for freight and customs clearance costs, the  importer pays customs
+        duties and taxes.
+    •Incoterm 18 (DDP, VAT pre-registration):
+        Freight costs, cus-toms clearance costs and taxes paid –
+        the sender pays all costs incurred, the importer bears no costs.
+        For single or various parcels with a goods value of less than GBP 135.
+        Here, the import VAT can be paid directly to the British tax authorities.
 
-#     From GLS-Web-API_FR_V01-03.pdf
-#     •Incoterm 50:
-#         Marchandise livrée, dédouanement export & import payés, exemption de faible valeur
-#         autorisation libre.
-#     """
-#     vals = copy.deepcopy(DATA)
-#     vals["to_address"]["name"] = "Prince"
-#     vals["to_address"]["street1"] = "Place de Bel-Air"
-#     vals["to_address"]["zip"] = "1204"
-#     vals["to_address"]["city"] = "Geneve"
-#     vals["to_address"]["country"] = "CH"
-#     vals["to_address"]["incoterm"] = "20"
-#     result = roulier.get("gls_fr_rest", "get_label", vals)
-#     assert_result(vals, result, 1, 0)
+    From GLS-Web-API_FR_V01-03.pdf
+    •Incoterm 50:
+        Marchandise livrée, dédouanement export & import payés, exemption de faible valeur
+        autorisation libre.
+    """
+    vals = copy.deepcopy(DATA)
+    vals["to_address"]["name"] = "Prince"
+    vals["to_address"]["street1"] = "Place de Bel-Air"
+    vals["to_address"]["zip"] = "1204"
+    vals["to_address"]["city"] = "Geneve"
+    vals["to_address"]["country"] = "CH"
+    vals["service"]["incoterm"] = "20"
+    result = roulier.get("gls_fr_rest", "get_label", vals)
+    assert_result(vals, result, 1, 0)
 
 
 def test_vat_country_missing_icoterm():
@@ -171,8 +169,8 @@ def test_vat_country_wrong_icoterm():
     vals["to_address"]["zip"] = "1204"
     vals["to_address"]["city"] = "Geneve"
     vals["to_address"]["country"] = "CH"
-    vals["to_address"]["incoterm"] = "00"
-    with pytest.raises(CarrierError, match="Field 'incoterm' not valid"):
+    vals["service"]["incoterm"] = "00"
+    with pytest.raises(CarrierError, match="Incoterm is invalid"):
         result = roulier.get("gls_fr_rest", "get_label", vals)
 
 

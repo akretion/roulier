@@ -26,6 +26,11 @@ class GlsEuApiParcel(ApiParcel):
         schema["labelFormat"].update(
             {"type": "string", "default": "PDF", "allowed": ["PDF", "PNG"],}
         )
+        schema["incoterm"] = {
+            "type": "string",
+            # "regex": r"^\d{2}$",
+            # "allowed": ["10", "13", 18", "20", "23", "30", "40", "43", "50", "60"],
+        }
         return schema
 
     def _address(self):
@@ -51,11 +56,6 @@ class GlsEuApiParcel(ApiParcel):
                 "province": string_2_35,
                 "contact": string_2_35,
                 "mobile": schema["phone"],
-                "incoterm": {
-                    "type": "string",
-                    # "regex": r"^\d{2}$",
-                    # "allowed": ["10", "13", 18", "20", "23", "30", "40", "43", "50", "60"],
-                },
             }
         )
         return schema
