@@ -16,6 +16,8 @@ class DpdTransport(Transport):
     """Implement Dpd WS communication."""
 
     DPD_WS = "https://e-station.cargonet.software/dpd-eprintwebservice/eprintwebservice.asmx"
+    # Dpd is only able to send an ip address
+    DPD_TEST_WS = "http://92.103.148.116/exa-eprintwebservice/eprintwebservice.asmx"
 
     def send(self, payload):
         """Call this function.
@@ -33,7 +35,7 @@ class DpdTransport(Transport):
         headers = payload['headers']
         soap_message = self.soap_wrap(body, headers)
         log.debug(soap_message)
-        response = self.send_request(soap_message)
+        response = self.send_request(soap_message, headers)
         log.info('WS response time %s' % response.elapsed.total_seconds())
         return self.handle_response(response)
 
@@ -50,10 +52,15 @@ class DpdTransport(Transport):
         data = template.render(body=body_stripped, header=header_xml)
         return data.encode('utf8')
 
-    def send_request(self, body):
+    def send_request(self, body, headers):
+
         """Send body to dpd WS."""
+        if headers.get('isTest'):
+            url = self.DPD_TEST_WS
+        else:
+            url = self.DPD_WS
         return requests.post(
-            self.DPD_WS,
+            url,
             headers={'content-type': 'text/xml'},
             data=body)
 
