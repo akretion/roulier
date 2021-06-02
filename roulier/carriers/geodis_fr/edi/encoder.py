@@ -1,21 +1,10 @@
 """Implementation of Geodis Api."""
 from datetime import datetime
 from roulier.codec import Encoder
-from roulier.exception import InvalidApiInput
-from .geodis_api_edi import GeodisApiEdi
 
 
-class GeodisEncoderEdi(Encoder):
-    def api(self):
-        api = GeodisApiEdi()
-        return api.api_values()
-
-    def encode(self, api_input):
-        api = GeodisApiEdi()
-        if not api.validate(api_input):
-            raise InvalidApiInput("Input error : %s" % api.errors(api_input))
-        data = api.normalize(api_input)
-
+class GeodisFrEncoderEdi(Encoder):
+    def transform_input_to_carrier_webservice(self, data):
         return {
             "body": self.encode_agency(
                 agency_address=data["agency_address"],

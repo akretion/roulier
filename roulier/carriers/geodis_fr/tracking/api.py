@@ -1,62 +1,37 @@
 """Implementation of Geodis Api."""
-from roulier.api import Api
-
-
-class GeodisApiRestWs(Api):
-    def _schemas(self):
-        return {
-            "service": self._service(),
-            "auth": self._auth(),
-        }
-
-    def normalize(self, data):
-        externalApi = super(GeodisApiRestWs, self)
-        internalApi = self._interal_api()
-        step1 = externalApi.normalize(data)
-        step2 = internalApi.normalize(step1)
-        return step2
-
-    def api_values(self):
-        """Return a dict containing expected keys.
-
-        It's a normalized version of the schema.
-        only internal api
-        """
-        return self._validator().normalized({}, self.api_schema())
-
-    def _interal_api(self):
-        pass
-
-
-class GeodisMappingIn(Api):
-    """Internal API"""
-
-    def flatten(self, data, out):
-        for (key, val) in data.items():
-            if isinstance(val, dict):
-                self.flatten(val, out)
-            else:
-                out[key] = val
-
-    def normalize(self, data):
-        without_auth = {key: val for (key, val) in data.items() if key != "auth"}
-        flat = {"auth": data["auth"], "service": {}}
-        self.flatten(without_auth, flat["service"])
-        normalized = super(GeodisMappingIn, self).normalize(flat)
-        return normalized
+from ..geodis_rest_api import GeodisMappingIn, GeodisApiRestWs, GeodisMappingOut
 
 
 class GeodisApiTrackingListMapping(GeodisMappingIn):
     """Internal API
 
-    Used to rename fields."""
+    Used to rename and coerce fields"""
 
     def _schemas(self):
+        def dt_to_string(dt):
+            return dt.strftime("%Y-%m-%d")
+
         return {
             "service": {
-                "shippingDate": {"rename": "dateDepart"},
-                "shippingDateStart": {"rename": "dateDepartDebut"},
-                "shippingDateEnd": {"rename": "dateDepartFin"},
+                "shippingDate": {
+                    "type": "string",
+                    "rename": "dateDepart",
+                    "coerce": dt_to_string,
+                },
+                "shippingDateStart": {
+                    "type": "string",
+                    "rename": "dateDepartDebut",
+                    "coerce": dt_to_string,
+                },
+                "shippingDateEnd": {
+                    "type": "string",
+                    "rename": "dateDepartFin",
+                    "coerce": dt_to_string,
+                },
+                # make date as string
+                "dateDepart": {"type": "string", "coerce": dt_to_string},
+                "dateDepartDebut": {"type": "string", "coerce": dt_to_string},
+                "dateDepartFin": {"type": "string", "coerce": dt_to_string},
                 "agencyId": {"rename": "codeSa"},
                 "customerId": {"rename": "codeClient"},
                 "reference1": {"rename": "reference1"},
@@ -89,15 +64,15 @@ class GeodisApiTracking(GeodisApiRestWs):
         return schema
 
     def _interal_api(self):
-        return GeodisApiTrackingMapping()
+        return GeodisApiTrackingMapping(self.config)
 
 
 class GeodisApiTrackingList(GeodisApiRestWs):
     def _service(self):
         return {
-            "shippingDate": {"type": "string", "default": "", "empty": True},
-            "shippingDateStart": {"type": "string", "default": "", "empty": True},
-            "shippingDateEnd": {"type": "string", "default": "", "empty": True},
+            "shippingDate": {"type": "date", "empty": True},
+            "shippingDateStart": {"type": "date", "empty": True},
+            "shippingDateEnd": {"type": "date", "empty": True},
             "agencyId": {"type": "string", "default": "", "empty": True},
             "customerId": {"type": "string", "default": "", "empty": True},
             "reference1": {"type": "string", "default": "", "empty": True},
@@ -119,29 +94,13 @@ class GeodisApiTrackingList(GeodisApiRestWs):
         }
 
     def _schemas(self):
-        schema = super(GeodisApiTrackingList, self)._schemas()
+        schema = super()._schemas()
         schema["tracking"] = self._tracking()
         schema["to_address"] = self._to_address()
         return schema
 
     def _interal_api(self):
-        return GeodisApiTrackingListMapping()
-
-
-class GeodisMappingOut(Api):
-    def normalize(self, data):
-        schema = self.schema()
-        # self.add_tracking_code(data)
-        return self.visit(data, schema)
-
-    def visit(self, data, schema):
-        out = {}
-        for (key, val) in schema.items():
-            if isinstance(val, dict):
-                out[key] = self.visit(data, val)
-            else:
-                out[key] = data[val]
-        return out
+        return GeodisApiTrackingListMapping(self.config)
 
 
 class GeodisApiTrackingListOut(GeodisMappingOut):

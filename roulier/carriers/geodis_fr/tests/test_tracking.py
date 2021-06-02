@@ -2,31 +2,26 @@ from datetime import date
 import json
 from collections import OrderedDict
 
-from ..geodis_decoder_rest_ws import GeodisDecoderRestWs
-from ..geodis_encoder_rest_ws import GeodisEncoderRestWs
-from ..geodis_transport_rest_ws import GeodisTransportRestWs
-from ..geodis_api_rest_ws import GeodisApiTrackingListOut
+from ..tracking.decoder import GeodisFrTrackingListDecoder
+from ..tracking.encoder import GeodisEncoderRestWs
+from ..geodis_transport_rest import GeodisTransportRestWs
+from ..tracking.api import GeodisApiTrackingListOut, GeodisApiTrackingList
+from ..tracking.carrier_action import GeodisFrTrackingList
 
-
-def test_encode():
-    encoder = GeodisEncoderRestWs()
-    api = encoder.api("trackingList")
-    payload = encoder.encode(api, "trackingList")
-    infos = payload["infos"]
-    assert infos["action"] == "trackingList"
-    assert infos["service"] in infos["url"]
+action = GeodisFrTrackingList("geodis_fr", "get_tracking_list")
 
 
 def test_encode_api():
-    encoder = GeodisEncoderRestWs()
-    data = encoder.api("trackingList")
+    encoder = GeodisEncoderRestWs(action)
+    api = GeodisApiTrackingList(action)
+    data = api.api_values()
 
     data["service"]["shippingDateStart"] = date(2019, 7, 2)
     data["service"]["shippingDateEnd"] = date(2019, 7, 2)
     data["auth"]["login"] = "Akretion"
     data["auth"]["password"] = "121221789271"
 
-    payload = encoder.encode(data, "trackingList")
+    payload = encoder.encode(data)
     body = payload["body"]
     assert body["dateDepartFin"] == "2019-07-02"
 
@@ -62,7 +57,7 @@ def test_transport_hash():
         ]
     )
     body = json.dumps(params, separators=(",", ":"))
-    transport = GeodisTransportRestWs()
+    transport = GeodisTransportRestWs(action)
     hash = transport.get_hash(api_key, login, timestamp, lang, service, body)
     token = transport.get_token(login, timestamp, lang, hash)
     expected = (
@@ -73,7 +68,7 @@ def test_transport_hash():
 
 
 def test_decoder_visit():
-    api = GeodisApiTrackingListOut()
+    api = GeodisApiTrackingListOut(action)
     schema = {
         "str": "simple_string",
         "int": "simple_integer",
@@ -256,7 +251,8 @@ def test_decode():
         "parts": [],
         "response": None,
     }
-    decode = GeodisDecoderRestWs()
-    ret = decode.decode(rep, "trackingList")
+    decode = GeodisFrTrackingListDecoder(action)
+    decode.decode(rep, False)
+    ret = decode.result
 
     assert ret == ret_val

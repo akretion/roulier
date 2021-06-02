@@ -204,7 +204,6 @@ class ApiParcel(BaseApi):
             "agencyId": {"default": ""},
             "customerId": {"default": ""},
             "shippingId": {"default": ""},
-            # 'description': 'When the carrier has the package. Format: YYYY/MM/DD'
             "shippingDate": {"type": "date", "required": True, "empty": False,},
             # 'description': 'Additionnal info visible by the client. Example : order number'
             "reference1": {"type": "string", "default": ""},

@@ -1,0 +1,50 @@
+interactions:
+- request:
+    body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"
+      xmlns:imp=\"http://localite.service.web.etiquette.geodis.com\">\n\t<soap:Header>\n\t\t<imp:authenticationInfo
+      xmlns:imp=\"http://localite.service.web.etiquette.geodis.com\">\n\t<imp:userName>account_test_number</imp:userName>\n\t<imp:password>123456789101</imp:password>
+      \n</imp:authenticationInfo>\n\t</soap:Header>\n\t<soap:Body>\n\t\t<imp:findLocalite
+      xmlns:imp=\"http://localite.service.web.etiquette.geodis.com\">\n  <imp:codePays>BE</imp:codePays>\n
+      \ <imp:codePostal>1490</imp:codePostal>\n  <imp:libelle>COURT SAINT ETIENNE</imp:libelle>\n</imp:findLocalite>\n\n\t</soap:Body>\n</soap:Envelope>"
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '684'
+      SOAPAction:
+      - <SOAP Action>
+      User-Agent:
+      - python-requests/2.20.0
+      content-type:
+      - text/xml
+    method: POST
+    uri: https://espace-rct.geodis.com/geolabel/services/RechercherLocalite
+  response:
+    body:
+      string: "--MIMEBoundary_773599f2fbb7c3a45717c9fa180b26ffe04943f006c90664\r\nContent-Type:
+        text/xml; charset=UTF-8\r\nContent-Transfer-Encoding: binary\r\nContent-ID:
+        <0.673599f2fbb7c3a45717c9fa180b26ffe04943f006c90664@apache.org>\r\n\r\n<?xml
+        version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header/><soapenv:Body><ns1:findLocaliteResponse
+        xmlns:ns1=\"http://localite.service.web.etiquette.geodis.com\"><ns1:infoLocalite><ns1:numOrdre>163</ns1:numOrdre><ns1:codeRegion>14</ns1:codeRegion><ns1:codePostal>1490</ns1:codePostal><ns1:libelle>COURT
+        SAINT ETIENNE</ns1:libelle></ns1:infoLocalite></ns1:findLocaliteResponse></soapenv:Body></soapenv:Envelope>\r\n--MIMEBoundary_773599f2fbb7c3a45717c9fa180b26ffe04943f006c90664--\r\n"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - multipart/related; boundary="MIMEBoundary_773599f2fbb7c3a45717c9fa180b26ffe04943f006c90664";
+        type="text/xml"; start="<0.673599f2fbb7c3a45717c9fa180b26ffe04943f006c90664@apache.org>"
+      Date:
+      - Tue, 01 Jun 2021 17:30:15 GMT
+      Set-Cookie:
+      - NSC_JOaej3fgcb2frlldhm34a0bv1wqbpdp=ffffffff0949c64645525d5f4f58455e445a4a4229f2;expires=Tue,
+        01-Jun-2021 17:32:15 GMT;path=/;secure;httponly
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+version: 1

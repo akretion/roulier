@@ -2,10 +2,17 @@
 from abc import ABC, abstractmethod
 
 
-class Carrier(ABC):
+class CarrierBase(ABC):
     def __init__(self, carrier_type, action, **kwargs):
         self.carrier_type = carrier_type
         self.action = action
+
+
+class CarrierWebservice(CarrierBase, ABC):
+
+    is_test = False
+    ws_test_url = ""
+    roulier_input = None
 
     @property
     @abstractmethod
@@ -32,14 +39,19 @@ class Carrier(ABC):
     def api(self):
         pass
 
-    ws_test_url = ""
+    def _get_data_from_webservice(self, data):
+        encoder = self.encoder(self)
+        decoder = self.decoder(self)
+        transport = self.transport(self)
+        self.roulier_input = data
+
+        payload = encoder.encode(data)
+        response = transport.send(payload)
+        decoder.decode(response, payload)
+        return decoder.result
 
 
-class CarrierGetLabel(Carrier, ABC):
-
-    is_test = False
-    roulier_input = None
-
+class CarrierGetLabel(CarrierWebservice, ABC):
     @property
     @abstractmethod
     def manage_multi_label(self):
@@ -71,14 +83,11 @@ class CarrierGetLabel(Carrier, ABC):
         return decoder.result
 
 
-class CarrierGetPackingSlip(Carrier, ABC):
+class CarrierGetPackingSlip(CarrierWebservice, ABC):
     """
     Manages the "packing slip" to give to the carrier who should sign it before taking
     the packages he will deliver
     """
-
-    is_test = False
-    roulier_input = None
 
     def get_packing_slip(self, carrier_type, action, data):
         """
@@ -86,15 +95,49 @@ class CarrierGetPackingSlip(Carrier, ABC):
         If the webservice does not handle packing slip, we can generate out own printable html
         packing slip to give to the carrier.
         """
+        return self._get_data_from_webservice(data)
+
+
+class CarrierAddressValidation(CarrierWebservice, ABC):
+    """
+        Check if address is valid/known from the carrier and eventually get proposal
+        if addresses that could match the input
+    """
+
+    def validate_address(self, carrier_type, action, data):
+        return self._get_data_from_webservice(data)
+
+
+class CarrierGetEdi(CarrierBase, ABC):
+    """
+        Generate an EDI file.
+    """
+
+    @property
+    @abstractmethod
+    def transport(self):
+        pass
+
+    @property
+    @abstractmethod
+    def encoder(self):
+        pass
+
+    @property
+    @abstractmethod
+    def api(self):
+        pass
+
+    def get_edi(self, carrier_type, action, data):
+        """
+        Generate EDI file
+        """
         encoder = self.encoder(self)
-        decoder = self.decoder(self)
         transport = self.transport(self)
         self.roulier_input = data
 
         payload = encoder.encode(data)
-        response = transport.send(payload)
-        decoder.decode(response, payload)
-        return decoder.result
+        return transport.send(payload)
 
 
 class CarrierParcelDocument(Carrier, ABC):

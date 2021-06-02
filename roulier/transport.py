@@ -7,10 +7,12 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class RequestsTransport(ABC):
+class TransportBase(ABC):
     def __init__(self, config_object):
         self.config = config_object
 
+
+class RequestsTransport(TransportBase, ABC):
     def before_ws_call_prepare_request_kwargs(self, payload):
         return {
             "body": self.before_ws_call_transform_payload(payload),
