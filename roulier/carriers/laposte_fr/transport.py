@@ -22,7 +22,7 @@ class LaposteFrTransport(RequestsTransport):
     def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader("roulier", "/carriers/laposte_fr/templates"),
+            loader=PackageLoader("roulier", "carriers/laposte_fr/templates"),
             extensions=["jinja2.ext.with_"],
         )
 
