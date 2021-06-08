@@ -11,7 +11,7 @@ from .api import LAPOSTE_LABEL_FORMAT
 class LaposteFrEncoderBase(Encoder):
     def _render_template(self, data):
         env = Environment(
-            loader=PackageLoader("roulier", "/carriers/laposte_fr/templates"),
+            loader=PackageLoader("roulier", "carriers/laposte_fr/templates"),
             extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )

@@ -28,7 +28,7 @@ class GeodisEncoderWs(Encoder):
         if not api.validate(api_input):
             raise InvalidApiInput("Input error : %s" % api.errors(api_input))
         env = Environment(
-            loader=PackageLoader("roulier", "/carriers/geodis/templates"),
+            loader=PackageLoader("roulier", "carriers/geodis/templates"),
             extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )
