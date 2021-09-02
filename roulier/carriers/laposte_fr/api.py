@@ -160,6 +160,12 @@ class LaposteFrApiParcel(ApiParcel):
             # 'description': 'Needed for cn23'
         }
         schema["customs"] = {"type": "dict", "schema": self._customs()}
+        schema["pickupLocationId"] = {
+            "default": "",
+            # 'description': """Si productCode = A2P, BPR, ACP, CDI, CMT, BDP. "
+            # "Identifiant du point de retrait "
+            # "(dans le cas d’une livraison Colissimo hors domicile)"""
+        }
         return schema
 
     def _auth(self):

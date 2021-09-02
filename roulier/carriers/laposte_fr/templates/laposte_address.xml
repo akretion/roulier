@@ -9,7 +9,17 @@
 	<countryCode>{{ address.country }}</countryCode>
 	<city>{{ address.city }}</city>
 	<zipCode>{{ address.zip }}</zipCode>
-	<mobileNumber>{{ address.phone }}</mobileNumber>
+	{% if address.mobilePhone or address.homeNumber %}
+		{% if address.homeNumber %}
+			<phoneNumber>{{ address.homeNumber }}</phoneNumber>
+		{% endif %}
+		{% if address.mobilePhone %}
+			<mobileNumber>{{ address.mobilePhone }}</mobileNumber>
+		{% endif %}
+	{% else %}
+		{# backward compatibility but should be removed in next major version #}
+		<mobileNumber>{{ address.phone }}</mobileNumber>
+	{% endif %}
 	<doorCode1>{{ address.doorCode1 }}</doorCode1>
 	<doorCode2>{{ address.doorCode2 }}</doorCode2>
 	<email>{{ address.email | default('') }}</email>

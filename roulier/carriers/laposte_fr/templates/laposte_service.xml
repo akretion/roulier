@@ -5,6 +5,6 @@
 	<transportationAmount>{{ service.transportationAmount }}</transportationAmount>
 	<totalAmount>{{ service.totalAmount }}</totalAmount>
 	<orderNumber>{{ service.reference1 }}</orderNumber>
-	<commercialName>{{ sender_address.companyName }}</commercialName>
+	<commercialName>{{ service.commercialName }}</commercialName>
 	<returnTypeChoice>{{ service.returnTypeChoice }}</returnTypeChoice>
 </service>
