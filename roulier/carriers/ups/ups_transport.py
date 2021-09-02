@@ -32,4 +32,6 @@ class UpsTransport(Transport):
         resp = response.json()
         if resp.get("response", {}).get("errors"):
             raise CarrierError(response, resp.get("response", {}).get("errors"))
+        if response.status_code != 200:
+            raise CarrierError(response, response.text)
         return resp
