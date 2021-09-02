@@ -18,13 +18,17 @@ class UpsDecoder(Decoder):
             all_labels_data = [all_labels_data]
         i = 1
         for label_data in all_labels_data:
+            file_type = label_data.get('ShippingLabel').get("ImageFormat").get("Code")
+            if file_type == "ZPL":
+                zpl = base64.b64decode(label_data.get("ShippingLabel").get("GraphicImage"))
+                zpl = zpl.replace("^CI27", "^CI28")
             result["parcels"].append({
                 "id": i,
                 "number": label_data.get("TrackingNumber"),
                 "reference": "",
                 "label": {  # same as main label
                     "name": label_data.get("TrackingNumber"),
-                    "data": base64.b64decode(label_data.get("ShippingLabel").get("GraphicImage")),
+                    "data": zpl,
                     "type": label_data.get('ShippingLabel').get("ImageFormat").get("Code").lower(),
                 }
             })
