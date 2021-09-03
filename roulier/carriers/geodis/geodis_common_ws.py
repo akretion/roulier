@@ -10,8 +10,8 @@ from .geodis_api_find_localite_ws import GeodisApiFindLocaliteWs
 GEODIS_INFOS = {
     'demandeImpressionEtiquette': {
         'xmlns': 'http://impression.service.web.etiquette.geodis.com',
-        'endpoint': "http://espace.geodis.com/geolabel/services/ImpressionEtiquette",  # nopep8
-        'endpoint_test': "http://espace-rct.geodis.com/geolabel/services/ImpressionEtiquette",  # nopep8
+        'endpoint': "https://espace.geodis.com/geolabel/services/ImpressionEtiquette",  # nopep8
+        'endpoint_test': "https://espace-rct.geodis.com/geolabel/services/ImpressionEtiquette",  # nopep8
         'api': GeodisApiWs,
     },
     'findLocalite': {
