@@ -12,7 +12,8 @@ class GeodisFrParcelDecoder(DecoderGetLabel):
         parts = response["parts"].decode()
         output_format = self.config.roulier_input.get("service", {}).get("labelFormat")
         extension = self.config.label_formats.get(output_format)[1]
-        labels = "^XZ•^XA".join(parts.split("^XZ\r\n^XA")).split("•")
+        labels = parts.replace("\r\n", "\n")
+        labels = "^XZ•^XA".join(labels.split("^XZ\n^XA")).split("•")
         labels_idx = iter(range(len(labels)))
         labels_data = iter(labels)
         for colis in body.infoColis:
