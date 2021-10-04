@@ -12,7 +12,8 @@ class GeodisDecoderWs(Decoder):
 
         def reponse_impression_etiquette(msg, parts):
             output_format = infos["output_format"]
-            labels = '^XZ•^XA'.join(parts.split('^XZ\r\n^XA')).split('•')
+            labels = parts.replace("\r\n", "\n")
+            labels = '^XZ•^XA'.join(labels.split('^XZ\n^XA')).split('•')
             labels_idx = iter(range(len(labels)))
             labels_data = iter(labels)
             return {
