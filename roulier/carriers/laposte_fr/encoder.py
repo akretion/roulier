@@ -40,8 +40,8 @@ class LaposteFrEncoder(LaposteFrEncoderBase):
             data["parcels"][0]["pickupLocationId"] = data["service"].pop(
                 "pickupLocationId"
             )
-        if data["from_address"].get("commercialName") and not data["service"].get(
-            "companyName"
+        if data["from_address"].get("companyName") and not data["service"].get(
+            "commercialName"
         ):
             data["service"]["commercialName"] = data["from_address"]["companyName"]
         return {
