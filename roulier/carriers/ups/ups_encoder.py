@@ -119,6 +119,10 @@ class UpsEncoder(Encoder):
                 ),
             )
         )
+        shipment_service_options = self._get_service_options(data)
+        if shipment_service_options:
+            payload["ShipmentRequest"]["Shipment"].update(shipment_service_options)
+        import pdb; pdb.set_trace();
         header = {
             "AccessLicenseNumber": data.get("auth").get("license_number"),
             "Username": data.get("auth").get("login"),
@@ -127,6 +131,33 @@ class UpsEncoder(Encoder):
             "is_test": data.get("auth").get("isTest"),
         }
         return payload, header
+
+    def _get_service_options(self, data):
+        # only manage notifications for now, feel free to manage more options here
+        result = {"ShipmentServiceOptions": {}}
+        notifications = data['service'].get("notifications")
+        if notifications:
+            result["ShipmentServiceOptions"].update({
+                "Notification": [],
+            })
+            for i, notif in enumerate(notifications):
+                notif = {
+                    "NotificationCode": notif['code'],
+                    "EMail": {
+                        "EMailAddress": notif.get("email_to") or data['to_address'].get("email"),
+                    }
+                }
+                # only one UndeliverableEMailAddress allowed..
+                if i == 0:
+                    notif["EMail"]["UndeliverableEMailAddress"] = notif.get("undeliverable_email") or data["from_address"].get("email")
+                result["ShipmentServiceOptions"]["Notification"].append(notif)
+
+        if result["ShipmentServiceOptions"]:
+            return result
+        else:
+            return {}
+
+
 
     def api(self):
         """Return API we are expecting."""

@@ -3,6 +3,9 @@
 from roulier.api import Api
 
 
+NOTIFICATION_CODES = ["2", "5", "6", "7", "8", "012", "013"]
+
+
 class UpsApi(Api):
 
     def _auth(self):
@@ -23,7 +26,25 @@ class UpsApi(Api):
         schema = super(UpsApi, self)._service()
         schema["labelFormat"]["allowed"] = ["EPL", "PNG", "SPL", "ZPL", "GIF"]
         schema["labelFormat"]["default"] = "GIF"
+        schema["notifications"] = {
+            'type': 'list',
+            'schema': {'schema': self._notification(), 'type': 'dict'}
+        }
         return schema
+
+    def _notification(self):
+        return {
+            "code": {
+                "type": "string",
+                "allowed": NOTIFICATION_CODES,
+            },
+            "email_to": {
+                "type": "string",
+            },
+            "undeliverable_email": {
+                "type": "string",
+            },
+        }
 
     def _parcels(self):
         """Allow multiple parcels."""
