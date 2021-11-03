@@ -1,0 +1,7 @@
+<{{ action }} xmlns="http://www.mondialrelay.fr/webservice/">
+  {% for key, value in parameters.items() %}
+    {% if value is not none and value != "" %}
+      <{{ key }}>{{ value }}</{{ key }}>
+    {% endif %}
+  {% endfor %}
+</{{ action }}>
