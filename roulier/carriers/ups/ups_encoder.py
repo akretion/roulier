@@ -122,7 +122,6 @@ class UpsEncoder(Encoder):
         shipment_service_options = self._get_service_options(data)
         if shipment_service_options:
             payload["ShipmentRequest"]["Shipment"].update(shipment_service_options)
-        import pdb; pdb.set_trace();
         header = {
             "AccessLicenseNumber": data.get("auth").get("license_number"),
             "Username": data.get("auth").get("login"),
