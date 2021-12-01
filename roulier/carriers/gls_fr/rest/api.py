@@ -24,7 +24,7 @@ class GlsEuApiParcel(ApiParcel):
             "allowed": ["A6", "A5", "A4"],
         }
         schema["labelFormat"].update(
-            {"type": "string", "default": "PDF", "allowed": ["PDF", "PNG"],}
+            {"type": "string", "default": "PDF", "allowed": ["PDF", "PNG", "ZPL"],}
         )
         schema["incoterm"] = {
             "type": "string",
