@@ -4,12 +4,10 @@ from ...roulier import factory
 from .encoder import (
     MondialRelayEncoderFindPickupSite,
     MondialRelayEncoderGetLabel,
-    MondialRelayEncoderGetLabelUrl,
 )
 from .decoder import (
     MondialRelayDecoderFindPickupSite,
     MondialRelayDecoderGetLabel,
-    MondialRelayDecoderGetLabelUrl,
 )
 from .transport import MondialRelayTransport
 from .api import MondialRelayApiParcel, MondialRelayApiFindPickUpSite
@@ -24,20 +22,6 @@ class MondialRelayGetLabel(CarrierGetLabel):
     transport = MondialRelayTransport
     api = MondialRelayApiParcel
     manage_multi_label = False
-
-
-class MondialRelayGetLabelUrl(CarrierGetLabel):
-    """Implementation for MondialRelay."""
-
-    ws_url = "https://api.mondialrelay.com/Web_Services.asmx"
-    encoder = MondialRelayEncoderGetLabelUrl
-    decoder = MondialRelayDecoderGetLabelUrl
-    transport = MondialRelayTransport
-    api = MondialRelayApiParcel
-    manage_multi_label = False
-
-    def get_label_url(self, carrier_type, action, data):
-        return super().get_label(carrier_type, action, data)
 
 
 class MondialRelayFindPickUpSite(Carrier):
@@ -64,8 +48,5 @@ class MondialRelayFindPickUpSite(Carrier):
         return decoder.result
 
 
-factory.register_builder("mondial_relay", "get_label", MondialRelayGetLabel)
-factory.register_builder("mondial_relay", "get_label_url", MondialRelayGetLabelUrl)
-factory.register_builder(
-    "mondial_relay", "find_pickup_site", MondialRelayFindPickUpSite
-)
+factory.register_builder("mondialrelay", "get_label", MondialRelayGetLabel)
+factory.register_builder("mondialrelay", "find_pickup_site", MondialRelayFindPickUpSite)

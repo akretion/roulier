@@ -4,6 +4,6 @@ from .gls_fr import glsbox as gls_fr_glsbox
 from . import chronopost_fr
 from . import dpd_fr_soap
 from . import geodis_fr
-from . import mondial_relay
+from . import mondialrelay
 
 # from . import geodis

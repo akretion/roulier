@@ -11,7 +11,7 @@ from roulier.codec import Encoder
 class MondialRelayEncoderBase(Encoder):
     def _render_template(self, data):
         env = Environment(
-            loader=PackageLoader("roulier", "carriers/mondial_relay/templates"),
+            loader=PackageLoader("roulier", "carriers/mondialrelay/templates"),
             extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )
@@ -21,7 +21,10 @@ class MondialRelayEncoderBase(Encoder):
     def transform_input_to_carrier_webservice(self, data):
         return {
             "body": self._render_template(data),
-            "headers": {"accept": "application-xml", "content-type": "text/xml",},
+            "headers": {
+                "accept": "application-xml",
+                "content-type": "text/xml",
+            },
         }
 
     def securize_parameters(self, data, parameters):
@@ -50,8 +53,13 @@ class MondialRelayEncoderBase(Encoder):
     def _get_template_context(self, data):
         parameters = self._get_action_parameters(data)
         parameters = self.securize_parameters(data, parameters)
+
+        action = self.SOAP_ACTION
+        if isinstance(action, dict):
+            action = action[data["service"]["labelFormat"]]
+
         return {
-            "action": self.SOAP_ACTION,
+            "action": action,
             "parameters": parameters,
         }
 
@@ -62,7 +70,7 @@ class MondialRelayEncoderBase(Encoder):
 class MondialRelayEncoderGetLabel(MondialRelayEncoderBase):
     """Transform input to mondialrelay compatible xml."""
 
-    SOAP_ACTION = "WSI2_CreationExpedition"
+    SOAP_ACTION = {"JSON": "WSI2_CreationExpedition", "PDF": "WSI2_CreationEtiquette"}
 
     def _serialize_address(self, address, prefix):
         return {
@@ -111,20 +119,8 @@ class MondialRelayEncoderGetLabel(MondialRelayEncoderBase):
             # "TRDV": s["TRDV"], Unused
             "Assurance": s["insurance"],
             "Instructions": s["instructions"],
+            "Texte": s["text"],
         }
-
-
-class MondialRelayEncoderGetLabelUrl(MondialRelayEncoderGetLabel):
-    """Transform input to mondialrelay compatible xml."""
-
-    SOAP_ACTION = "WSI2_CreationEtiquette"
-
-    def _get_action_parameters(self, data):
-        params = super()._get_action_parameters(data)
-        s = data["service"]
-
-        params["Texte"] = s["text"]
-        return params
 
 
 class MondialRelayEncoderFindPickupSite(MondialRelayEncoderBase):

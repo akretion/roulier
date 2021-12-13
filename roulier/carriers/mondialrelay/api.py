@@ -24,10 +24,14 @@ class MondialRelayApiParcel(ApiParcel):
             "reference1",
             "reference2",
             "reference3",
-            "labelFormat",
         ]:
             del schema[field]
 
+        schema["labelFormat"]["allowed"] = [
+            "PDF",
+            "JSON",
+        ]
+        schema["labelFormat"]["default"] = "PDF"
         return {
             **schema,
             "shippingMode": {
@@ -38,7 +42,7 @@ class MondialRelayApiParcel(ApiParcel):
             },
             "cashOnDelivery": {
                 "type": "integer",
-                "default": "",
+                "default": 0,
                 "required": True,
                 "empty": False,
             },
@@ -134,14 +138,32 @@ class MondialRelayApiFindPickUpSite(BaseApi):
                 "empty": False,
             },
             "id": {"type": "integer", "default": None, "nullable": True},
-            "zip": {"type": "string", "default": "",},
-            "lat": {"type": "string", "default": "",},
-            "lng": {"type": "string", "default": "",},
+            "zip": {
+                "type": "string",
+                "default": "",
+            },
+            "lat": {
+                "type": "string",
+                "default": "",
+            },
+            "lng": {
+                "type": "string",
+                "default": "",
+            },
             "weight": {"type": "float", "default": None, "nullable": True},
-            "action": {"type": "string", "default": "",},
+            "action": {
+                "type": "string",
+                "default": "",
+            },
             "delay": {"type": "integer", "default": 0},
-            "searchRadius": {"type": "integer", "default": 10,},
-            "actionType": {"type": "string", "default": "",},
+            "searchRadius": {
+                "type": "integer",
+                "default": 10,
+            },
+            "actionType": {
+                "type": "string",
+                "default": "",
+            },
             "resultsCount": {
                 "type": "integer",
                 "default": 20,

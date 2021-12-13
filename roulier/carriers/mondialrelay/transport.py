@@ -1,7 +1,7 @@
 """Implement mondialRelayWS."""
 from lxml import objectify, etree
 from jinja2 import Environment, PackageLoader
-from roulier.carriers.mondial_relay.statuses import STATUSES
+from roulier.carriers.mondialrelay.statuses import STATUSES
 from roulier.ws_tools import remove_empty_tags, get_parts
 from roulier.exception import CarrierError
 import logging
@@ -23,14 +23,13 @@ class MondialRelayTransport(RequestsTransport):
     def soap_wrap(self, body, headers):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader("roulier", "carriers/mondial_relay/templates"),
+            loader=PackageLoader("roulier", "carriers/mondialrelay/templates"),
             extensions=["jinja2.ext.with_"],
         )
 
         template = env.get_template("mondial_relay_soap.xml")
         body_stripped = remove_empty_tags(body)
         data = template.render(body=body_stripped)
-        print(data)
         return data.encode("utf8")
 
     def _get_requests_headers(self, payload=None):
@@ -39,10 +38,14 @@ class MondialRelayTransport(RequestsTransport):
     def _extract_errors(self, content):
         xml = objectify.fromstring(content)
         statuses = xml.xpath(
-            "//mr:STAT", namespaces={"mr": "http://www.mondialrelay.fr/webservice/"},
+            "//mr:STAT",
+            namespaces={"mr": "http://www.mondialrelay.fr/webservice/"},
         )
         return [
-            {"id": status, "message": STATUSES[status],}
+            {
+                "id": status,
+                "message": STATUSES[status],
+            }
             for status in statuses
             if status
         ]
@@ -60,7 +63,6 @@ class MondialRelayTransport(RequestsTransport):
 
         It still can be a success or a failure.
         """
-        print(response.text)
 
         def extract_body(response_xml):
             """Remove soap wrapper."""

@@ -124,17 +124,34 @@ class MondialRelayDecoderGetLabel(DecoderGetLabel):
 
     def decode(self, response, input_payload):
         """MondialRelay XML -> Python."""
+        is_pdf = "WSI2_CreationEtiquette" in input_payload["body"]
+        xpath = (
+            "WSI2_CreationEtiquetteResult"
+            if is_pdf
+            else "WSI2_CreationExpeditionResult"
+        )
 
         body = response["body"]
         xml = objectify.fromstring(body)
         expeditions = xml.xpath(
-            "//mr:WSI2_CreationExpeditionResult",
+            "//mr:%s" % xpath,
             namespaces={"mr": "http://www.mondialrelay.fr/webservice/"},
         )
         for expedition in expeditions:
-            self.result["parcels"].append(
-                {
-                    "id": expedition.ExpeditionNum,
+            if is_pdf:
+                self.result["annexes"].append(
+                    {
+                        "id": expedition.ExpeditionNum,
+                        "name": "label_url",
+                        "data": "http://www.mondialrelay.com"
+                        + expedition.URL_Etiquette,
+                        "type": "url",
+                    }
+                )
+
+            extra = {}
+            if not is_pdf:
+                extra = {
                     "barCodes": [
                         str(t)
                         for t in expedition.CodesBarres.xpath(
@@ -154,25 +171,5 @@ class MondialRelayDecoderGetLabel(DecoderGetLabel):
                         "tourId": expedition.TRI_TourneeCode,
                     },
                 }
-            )
 
-
-class MondialRelayDecoderGetLabelUrl(DecoderGetLabel):
-    """MondialRelay XML -> Python."""
-
-    def decode(self, response, input_payload):
-        """MondialRelay XML -> Python."""
-
-        body = response["body"]
-        xml = objectify.fromstring(body)
-        stickers = xml.xpath(
-            "//mr:WSI2_CreationEtiquetteResult",
-            namespaces={"mr": "http://www.mondialrelay.fr/webservice/"},
-        )
-        for sticker in stickers:
-            self.result["parcels"].append(
-                {
-                    "id": sticker.ExpeditionNum,
-                    "url": "http://www.mondialrelay.com" + sticker.URL_Etiquette,
-                }
-            )
+            self.result["parcels"].append({"id": expedition.ExpeditionNum, **extra})
