@@ -138,20 +138,18 @@ class MondialRelayDecoderGetLabel(DecoderGetLabel):
             namespaces={"mr": "http://www.mondialrelay.fr/webservice/"},
         )
         for expedition in expeditions:
+            parcel = {}
             if is_pdf:
-                self.result["annexes"].append(
-                    {
-                        "id": expedition.ExpeditionNum,
-                        "name": "label_url",
+                parcel = {
+                    "label": {
                         "data": "http://www.mondialrelay.com"
                         + expedition.URL_Etiquette,
+                        "name": "label_url",
                         "type": "url",
                     }
-                )
-
-            extra = {}
-            if not is_pdf:
-                extra = {
+                }
+            else:
+                parcel = {
                     "barCodes": [
                         str(t)
                         for t in expedition.CodesBarres.xpath(
@@ -172,4 +170,4 @@ class MondialRelayDecoderGetLabel(DecoderGetLabel):
                     },
                 }
 
-            self.result["parcels"].append({"id": expedition.ExpeditionNum, **extra})
+            self.result["parcels"].append({"id": expedition.ExpeditionNum, **parcel})
