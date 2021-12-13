@@ -34,7 +34,7 @@ class MondialRelayApiParcel(ApiParcel):
         schema["labelFormat"]["default"] = "PDF"
         return {
             **schema,
-            "shippingMode": {
+            "pickupMode": {
                 "type": "string",
                 "default": "",
                 "required": True,

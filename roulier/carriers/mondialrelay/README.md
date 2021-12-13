@@ -10,10 +10,10 @@ payload = {
         "password": "PrivateK",
     },
     "service": {
-        "product": "REL",
+        "product": "LCC",
+        "pickupMode": "REL",
         "pickupSite": "AUTO",
         "pickupCountry": "FR",
-        "shippingMode": "LCC",
     },
     "parcels": [
         {

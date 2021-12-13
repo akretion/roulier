@@ -42,7 +42,9 @@ class MondialRelayEncoderBase(Encoder):
         m.update(
             "".join(
                 [str(v) for v in parameters.values() if v is not None] + [password]
-            ).encode("utf-8")
+            ).encode(
+                "iso-8859-1"
+            )  # And not utf-8, yes the doc says otherwise
         )
 
         parameters["Security"] = m.hexdigest().upper()
@@ -95,8 +97,8 @@ class MondialRelayEncoderGetLabel(MondialRelayEncoderBase):
         p = data["parcels"][0]
 
         return {
-            "ModeCol": s["product"],
-            "ModeLiv": s["shippingMode"],
+            "ModeCol": s["pickupMode"],
+            "ModeLiv": s["product"],
             "NDossier": s["shippingId"],
             "NClient": s["customerId"],
             **self._serialize_address(data["from_address"], prefix="Expe"),
