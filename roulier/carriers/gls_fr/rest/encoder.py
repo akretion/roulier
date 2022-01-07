@@ -106,6 +106,10 @@ class GlsEuEncoderBase(Encoder):
             addr = data.get(from_addr)
             if not addr:
                 continue
+            # if the company address field is set, then the name is actually the contact
+            if addr["company"] and addr["name"]:
+                addr["contact"] = addr["name"]
+                addr["name"] = addr["company"]
             addresses[to_addr] = dict(
                 (to_field, addr[from_field]) for from_field, to_field in addr_req_fields
             )
