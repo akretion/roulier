@@ -37,7 +37,7 @@ class UpsEncoder(Encoder):
                 Shipment=dict(
                     Description=data.get('service').get('reference1', ""),
                     Shipper=dict(
-                        Name=from_address.get('company') or "-",
+                        Name=from_address.get('company') or from_address.get("name"),
                         AttentionName=from_address.get("name"),
                         TaxIdentificationNumber=from_address.get("vat"),
                         Phone=dict(Number=from_address.get("phone")),
@@ -52,9 +52,7 @@ class UpsEncoder(Encoder):
                         ShipperNumber=data.get("auth").get("shipper_number"),
                     ),
                     ShipTo=dict(
-                        # Name (company name) is mandatory... white space if empty
-                        # as the receiver may actually not be a company
-                        Name=to_address.get('company') or "-",
+                        Name=to_address.get('company') or to_address.get("name"),
                         AttentionName=to_address.get("name"),
                         TaxIdentificationNumber=to_address.get("vat"),
                         Phone=dict(Number=to_address.get("phone")),
@@ -68,7 +66,7 @@ class UpsEncoder(Encoder):
                         ),
                     ),
                     ShipFrom=dict(
-                        Name=from_address.get('company') or "-",
+                        Name=from_address.get('company') or from_address.get("name"),
                         AttentionName=from_address.get("name"),
                         TaxIdentificationNumber=from_address.get("vat"),
                         Phone=dict(Number=from_address.get("phone")),
