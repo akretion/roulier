@@ -62,17 +62,50 @@ def test_common_failed_get_label():
     vals["parcels"][0]["weight"] = 0
     with pytest.raises(CarrierError, match="Le poids du colis n'a pas été transmis"):
         roulier.get("laposte_fr", "get_label", vals)
-        vals["parcels"][0]["weight"] = DATA["parcels"][0]["weight"]
+    vals["parcels"][0]["weight"] = DATA["parcels"][0]["weight"]
     # country
-    old = "FR"
+    old = vals["from_address"]["country"]
+    del vals["from_address"]["country"]
     with pytest.raises(InvalidApiInput, match="empty values not allowed"):
-        del vals["from_address"]["country"]
         roulier.get("laposte_fr", "get_label", vals)
+    vals["from_address"]["country"] = old
+    old = vals["to_address"]["country"]
+    del vals["to_address"]["country"]
     with pytest.raises(InvalidApiInput, match="empty values not allowed"):
-        vals["from_address"]["country"] = old
-        del vals["to_address"]["country"]
         roulier.get("laposte_fr", "get_label", vals)
-        vals["to_address"]["country"] = old
+    vals["to_address"]["country"] = old
+
+
+def test_pickup():
+    if _do_not_execute_test_on_remote():
+        return
+    vals = copy.deepcopy(DATA)
+    vals["service"]["product"] = "BPR"
+    vals["to_address"]["email"] = "no-reply@webu.coop"
+    vals["service"]["pickupLocationId"] = "929750"
+    vals["service"]["commercialName"] = "Webu"
+
+    # no mobile phone
+    with pytest.raises(CarrierError, match="'id': 30220,"):
+        roulier.get("laposte_fr", "get_label", vals)
+    with pytest.raises(CarrierError, match="'id': 30220,"):
+        vals["to_address"]["homePhone"] = "0123456789"
+        roulier.get("laposte_fr", "get_label", vals)
+        del vals["to_address"]["homePhone"]
+
+    # backward compatibility : mobile phone in standard phone arg
+    # invalid mobile phone
+    with pytest.raises(CarrierError, match="'id': 30221,"):
+        vals["to_address"]["phone"] = "0123456789"
+        roulier.get("laposte_fr", "get_label", vals)
+    vals["to_address"]["phone"] = "0623456789"
+    roulier.get("laposte_fr", "get_label", vals)
+    del vals["to_address"]["phone"]
+
+    # better way : home and mobile phone in two fields
+    vals["to_address"]["mobilePhone"] = "0623456789"
+    vals["to_address"]["homePhone"] = "0123456789"
+    roulier.get("laposte_fr", "get_label", vals)
 
 
 def test_auth():

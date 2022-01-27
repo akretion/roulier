@@ -1,4 +1,5 @@
 """Transform input to laposte compatible xml."""
+from copy import deepcopy
 import logging
 from jinja2 import Environment, PackageLoader
 from roulier.exception import InvalidApiInput
@@ -22,6 +23,7 @@ class LaposteFrEncoderBase(Encoder):
         return {}
 
     def transform_input_to_carrier_webservice(self, data):
+        data = deepcopy(data)  # avoid updating user data
         return {
             "body": self._render_template(data),
             "headers": data["auth"],
@@ -32,6 +34,16 @@ class LaposteFrEncoder(LaposteFrEncoderBase):
     """Transform input to laposte compatible xml."""
 
     def _get_template_context(self, data):
+        if data["service"].get("pickupLocationId") and not data["parcels"][0].get(
+            "pickupLocationId"
+        ):
+            data["parcels"][0]["pickupLocationId"] = data["service"].pop(
+                "pickupLocationId"
+            )
+        if data["from_address"].get("companyName") and not data["service"].get(
+            "commercialName"
+        ):
+            data["service"]["commercialName"] = data["from_address"]["companyName"]
         return {
             "service": data["service"],
             "parcel": data["parcels"][0],
