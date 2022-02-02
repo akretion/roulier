@@ -51,6 +51,7 @@ PARCEL_MAPPING = {
     "T530": "weight",
     "T8973": "parcel_number_barcode",
     "T8904": "parcel_number_label",
+    "T400": "parcel_sequence",
 }
 
 
