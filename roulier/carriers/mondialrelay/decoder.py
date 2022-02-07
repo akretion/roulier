@@ -142,7 +142,7 @@ class MondialRelayDecoderGetLabel(DecoderGetLabel):
             if is_pdf:
                 parcel = {
                     "label": {
-                        "data": "http://www.mondialrelay.com"
+                        "data": "https://www.mondialrelay.com"
                         + expedition.URL_Etiquette,
                         "name": "label_url",
                         "type": "url",
