@@ -93,6 +93,7 @@ class Api(object):
             'zip': {'type': 'string', 'default': ''},
             'phone': {'type': 'string', 'default': ''},
             'email': {'type': 'string', 'default': ''},
+            'delivery_instruction': {'type': 'string', 'default': ''},
         }
 
     def _from_address(self):
@@ -105,6 +106,7 @@ class Api(object):
         address['country'].update({'required': True, 'empty': False})
         address['city'].update({'required': True, 'empty': False})
         address['zip'].update({'required': True, 'empty': False})
+        address['delivery_instruction'].update({'required': False, 'empty': True})
         return address
 
     def _parcel(self):
@@ -137,6 +139,7 @@ class Api(object):
             "labelFormat": {'default': ''},
             # 'description': 'Additionnal instructions for delivery',
             "instructions": {'default': ''},
+            
         }
 
     def _auth(self):

@@ -1,6 +1,9 @@
 <car:CreateShipmentWithLabels xmlns:car="http://www.cargonet.software">
 	<car:request>
 		{% with address = receiver_address %}
+		<car:customLabelText>
+			{{ address.customLabelText }}
+		</car:customLabelText>
 		<car:receiveraddress>
 			{% include "dpd_address.xml" %}
 		</car:receiveraddress>

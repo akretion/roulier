@@ -80,6 +80,11 @@ class DpdEncoder(Encoder):
             # WS doesn't handle zpl yet, we convert it later
             # png is named Default, WTF DPD?
             data['service']['labelFormat'] = 'Default'
+        
+        if data['to_address'].get('delivery_instruction', False):
+            data['to_address']['customLabelText'] = data['to_address']['delivery_instruction']
+            data['to_address']['vinfo1'] = data['to_address']['delivery_instruction'][0:34]
+            data['to_address']['vinfo2'] = data['to_address']['delivery_instruction'][35:69]
 
         env = Environment(
             loader=PackageLoader('roulier', '/carriers/dpd/templates'),
