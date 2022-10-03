@@ -1,5 +1,7 @@
 """Implementation of Laposte Api."""
+from roulier.api import BaseApi
 from roulier.api import ApiPackingSlip
+from roulier.api import ApiParcelDocument
 from roulier.api import ApiParcel
 
 LAPOSTE_LABEL_FORMAT = (
@@ -336,3 +338,53 @@ class LaposteFrApiPackingSlip(ApiPackingSlip):
         schema["login"].update({"required": True, "empty": False})
         schema["password"]["required"] = False
         return schema
+
+
+class LaposteFrApiParcelDocument(ApiParcelDocument):
+    def _auth(self):
+        schema = super()._auth()
+        schema["app_key"] = {
+            "type": "string",
+            "regex": "^.{0,8}$",
+            "required": False,
+        }
+        schema["password"]["required"] = False
+        return schema
+
+    def _document_type(self):
+        schema = super()._document_type()
+        schema["allowed"] = [
+            # for creation:
+            "CERTIFICATE_OF_ORIGIN",  # Certificat d'origine
+            "EXPORT_LICENSE",  # Licence d'exportation
+            "COMMERCIAL_INVOICE",  # Facture du colis
+            "OTHER",  # Autre
+            # existing documents can have those types below too, but encoder is only for creation
+            # "C50",  # C50
+            # "COMPENSATION",  # Bilan d’indemnisation
+            # "DAU",  # Facture de droits et taxes
+            # "DELIVERY_CERTIFICATE",  # Attestation de livraison
+            # "SIGNATURE",  # Preuve de livraison
+        ]
+        return schema
+
+    def _schemas(self):
+        schemas = super()._schemas()
+        schemas["service"]["language"] = {
+            "default": "fr_FR",
+            "type": "string",
+            "allowed": ["fr_FR", "en_GB", "es_ES", "de_DE", "it_IT",],
+            "required": False,
+        }
+        if self.current_action in ("create_document", "update_document"):
+            schemas["service"]["account_number"] = {
+                "schema": {"type": "string", "empty": False, "default": ""},
+                "required": True,
+            }
+            # Liste des colis suiveurs du colis maître dans le cas des expéditions
+            # multi colis. les colis sont séparés par une virgule
+            schemas["service"]["parcelNumberList"] = {
+                "schema": {"type": "string", "empty": True, "default": ""},
+                "required": False,
+            }
+        return schemas

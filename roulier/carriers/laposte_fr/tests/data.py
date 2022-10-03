@@ -47,3 +47,12 @@ PACKING_SLIP_DATA = {
         "isTest": credentials["isTest"],
     },
 }
+
+PARCEL_DOCUMENT_DATA = {
+    "auth": {
+        "login": credentials["login"],
+        "password": credentials["password"],
+        "isTest": credentials["isTest"],
+    },
+    "service": {},
+}

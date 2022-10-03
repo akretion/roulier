@@ -249,3 +249,57 @@ class ApiPackingSlip(BaseApi):
             "parcels_numbers": self._parcels_numbers(),
             "auth": self._auth(),
         }
+
+
+class ApiParcelDocument(BaseApi):
+    # https://www.colissimo.entreprise.laposte.fr/sites/default/files/2021-11/DocTechnique-WS-Documents_FR.pdf
+    def __init__(self, config_object):
+        self.config = config_object
+        self.current_action = config_object.current_action
+
+    def _parcel_number(self):
+        return {
+            "schema": {"type": "string", "empty": False, "default": "",},
+            "required": True,
+        }
+
+    def _document_id(self):
+        return {
+            "schema": {"type": "string", "empty": False, "default": "",},
+            "required": True,
+        }
+
+    def _document_type(self):
+        return {
+            "schema": {"type": "string", "empty": False, "default": "",},
+            "required": True,
+        }
+
+    def _document_path(self):
+        return {
+            "schema": {"type": "string", "empty": False, "default": "",},
+            "required": True,
+        }
+
+    def _schemas(self):
+        schema = {"auth": self._auth(), "service": {}}
+        if self.current_action == "get_documents":
+            schema["service"].update(
+                {"parcel_number": self._parcel_number(),}
+            )
+        elif self.current_action == "get_document":
+            schema["service"].update(
+                {
+                    "parcel_number": self._parcel_number(),
+                    "document_id": self._document_id(),
+                }
+            )
+        elif self.current_action in ("create_document", "update_document"):
+            schema["service"].update(
+                {
+                    "parcel_number": self._parcel_number(),
+                    "document_type": self._document_type(),
+                    "document_path": self._document_path(),
+                }
+            )
+        return schema

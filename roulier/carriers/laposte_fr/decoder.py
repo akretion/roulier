@@ -4,6 +4,7 @@ from lxml import objectify
 
 from ...codec import DecoderGetLabel
 from ...codec import DecoderGetPackingSlip
+from ...codec import DecoderParcelDocument
 import base64
 
 
@@ -60,7 +61,6 @@ class LaposteFrDecoderGetLabel(DecoderGetLabel):
 
         if rep.find("pdfUrl"):
             annexes.append({"name": "label", "data": rep.find("pdfUrl"), "type": "url"})
-
         parcel = {
             "id": 1,  # no multi parcel management for now.
             "reference": self._get_parcel_number(input_payload),
@@ -129,3 +129,30 @@ class LaposteFrDecoderGetPackingSlip(DecoderGetPackingSlip):
                 }
             )
         return self.result
+
+
+class LaposteFrDecoderParcelDocument(DecoderParcelDocument):
+    """Laposte Document Response JSON -> Python."""
+
+    def decode(self, response, input_payload):
+        error_code = response.get("errorCode") or "000"
+        error_label = response.get("errorLabel") or ""
+        if error_code != "000":
+            self.result = None
+            return self.result
+        self.result = getattr(self, "_decode_%s" % self.current_action)(
+            response, input_payload
+        )
+        return self.result
+
+    def _decode_get_document(self, response, input_payload):
+        return {"file": response["body"]}
+
+    def _decode_get_documents(self, response, input_payload):
+        return {d["uuid"]: {**d} for d in response["body"]["documents"]}
+
+    def _decode_create_document(self, response, input_payload):
+        return response["body"]["documentId"]
+
+    def _decode_update_document(self, response, input_payload):
+        return response["body"]["documentId"]

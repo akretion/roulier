@@ -95,3 +95,36 @@ class CarrierGetPackingSlip(Carrier, ABC):
         response = transport.send(payload)
         decoder.decode(response, payload)
         return decoder.result
+
+
+class CarrierParcelDocument(Carrier, ABC):
+    """
+    Retrieve (or generate) a document for a specific parcel
+    """
+
+    is_test = False
+    roulier_input = None
+    current_action = None
+
+    def _action(self, current_action, carrier_type, action, data):
+        self.current_action = current_action
+        encoder = self.encoder(self)
+        decoder = self.decoder(self)
+        transport = self.transport(self)
+        self.roulier_input = data
+        payload = encoder.encode(data)
+        response = transport.send(payload)
+        decoder.decode(response, payload)
+        return decoder.result
+
+    def get_documents(self, carrier_type, action, data):
+        return self._action("get_documents", carrier_type, action, data)
+
+    def get_document(self, carrier_type, action, data):
+        return self._action("get_document", carrier_type, action, data)
+
+    def create_document(self, carrier_type, action, data):
+        return self._action("create_document", carrier_type, action, data)
+
+    def update_document(self, carrier_type, action, data):
+        return self._action("update_document", carrier_type, action, data)
