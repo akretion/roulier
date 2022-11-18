@@ -21,10 +21,19 @@ def test_methods():
     assert (
         "laposte_fr" in roulier.get_carriers_action_available().keys()
     ), "Laposte carrier unavailable"
-    assert roulier.get_carriers_action_available()["laposte_fr"] == [
-        "get_label",
-        "get_packing_slip",
-    ], "get_label() or get_packing_slip() methods unavailable"
+    available = set(roulier.get_carriers_action_available()["laposte_fr"])
+    expected = set(
+        (
+            "get_label",
+            "get_packing_slip",
+            "get_documents",
+            "get_document",
+            "create_document",
+            "update_document",
+        )
+    )
+    diff = expected - available
+    assert not diff, "%s methods unavailable" % ", ".join(diff)
 
 
 def test_label_basic_checks():
@@ -42,7 +51,8 @@ def test_label_basic_checks():
     vals["parcels"][0]["nonMachinable"] = True
     result = roulier.get("laposte_fr", "get_label", vals)
     assert sorted(result.keys()) == ["annexes", "parcels"], EXCEPTION_MESSAGE % vals
-    print(_print_label_with_labelary_dot_com(result))
+    output, errors = _print_label_with_labelary_dot_com(result)
+    assert not errors, "\n".join(errors)
 
     parcel = result["parcels"][0]
     assert sorted(parcel.keys()) == ["id", "label", "reference", "tracking"], (
@@ -191,9 +201,11 @@ def _do_not_execute_test_on_remote():
 def _print_label_with_labelary_dot_com(result):
     """This method convert zpl data in pdf file"""
     if not DOWNLOAD_PDF_FILE:
-        return
+        return [], []
     url = "http://api.labelary.com/v1/printers/8dpmm/labels/4x6/%s"
     headers = {"Accept": "application/pdf"}
+    output = []
+    errors = []
     for parcel in result.get("parcels"):
         if parcel.get("label") and parcel["label"].get("data"):
             zpl = base64.b64decode(parcel["label"]["data"]).decode("utf8")
@@ -207,9 +219,10 @@ def _print_label_with_labelary_dot_com(result):
                 response.raw.decode_content = True
                 with open("label%s.png" % parcel.get("id"), "wb") as out_file:
                     shutil.copyfileobj(response.raw, out_file)
-                    print("label %s downloaded" % parcel.get("id"))
+                    output.append("label %s downloaded" % parcel.get("id"))
             else:
-                print("Error: " + response.text)
+                errors.append("Error: " + response.text)
+    return output, errors
 
 
 def assert_label(result):

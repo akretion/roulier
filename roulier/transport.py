@@ -17,6 +17,7 @@ class RequestsTransport(ABC):
             "headers": self._get_requests_headers(payload),
             "auth": self._get_requests_auth(payload),
             "url": self._get_requests_url(payload),
+            "files": self._get_requests_files(payload),
         }
 
     def before_ws_call_transform_payload(self, payload):
@@ -26,10 +27,13 @@ class RequestsTransport(ABC):
         request_kwargs = self.before_ws_call_prepare_request_kwargs(payload)
         log.debug(request_kwargs["body"])
         response = self.send_request(**request_kwargs)
-        log.info("WS response time %s" % response.elapsed.total_seconds())
+        log.debug("WS response time %s" % response.elapsed.total_seconds())
         return self.handle_response(response)
 
     def _get_requests_headers(self, payload=None):
+        return None
+
+    def _get_requests_files(self, payload=None):
         return None
 
     def _get_requests_auth(self, payload=None):

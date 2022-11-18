@@ -112,3 +112,58 @@ class DecoderGetPackingSlip(ABC):
         anything
         """
         pass
+
+
+class DecoderParcelDocument(ABC):
+    def __init__(self, config_object):
+        """
+        packing_slip should be a dict of this form
+        {
+            "number": "string" or None,
+            "published_datetime": aware_datetime or None,
+            "number_of_parcels": int or None,
+            "client": {
+                "number": "string" or None,
+                "adress": "string" or None,
+                "company": "string" or None,
+            }
+        }
+        """
+        self.config = config_object
+        self.current_action = self.config.current_action
+        if self.current_action == "get_documents":
+            self.result = {
+                # "<file_id>": {
+                #     # required:
+                #     "url": "",  # L’url d’appel de l’api documents pour récupérer le document
+                #     "documentType": "",  # Le type de document
+                #     # optional:
+                #     "eventCode": "",  # Le code de l’évènement
+                #     "eventDate": "",  # La date de l’évènement
+                #     "eventSiteCode": "",  # Le code du site de l’évènement
+                #     "eventSiteName": "",  # Le nom du site de l’évènement
+                #     "eventSiteType": "",  # Le nom de l’agence émettrice de l’évènement
+                #     "uuid": "",  # Identifiant technique du colis
+                #     "cab": "",  # Numéro de colis
+                #     "path": "",  # path du document
+                # }
+            }
+        elif self.current_action == "get_document":
+            self.result = {
+                "file": b"",  # binary content of the file
+            }
+        elif self.current_action == "create_document":
+            self.result = ""  # document id
+        elif self.current_action == "update_document":
+            self.result = ""  # document id
+
+    @abstractmethod
+    def decode(self, response, payload):
+        """Transform a specific representation to python dict.
+        Args:
+            response : answer from the webservice
+            payload : data sent initially to the webservice
+        Need to increment the result attribute of the object, it does not need to return
+        anything
+        """
+        pass

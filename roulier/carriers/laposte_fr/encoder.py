@@ -1,11 +1,14 @@
 """Transform input to laposte compatible xml."""
-from copy import deepcopy
 import logging
+import os
+from copy import deepcopy
+
 from jinja2 import Environment, PackageLoader
 from roulier.exception import InvalidApiInput
 
 _logger = logging.getLogger(__name__)
 from roulier.codec import Encoder
+
 from .api import LAPOSTE_LABEL_FORMAT
 
 
@@ -94,4 +97,54 @@ class LaposteFrEncoderGetPackingSlip(LaposteFrEncoderBase):
             "auth": data["auth"],
             "parcels_numbers": data.get("parcels_numbers", []),
             "packing_slip_number": data.get("packing_slip_number", None),
+        }
+
+
+class LaposteFrEncoderParcelDocument(Encoder):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.current_action = self.config.current_action
+
+    def transform_input_to_carrier_webservice(self, data):
+        data = deepcopy(data)  # avoid updating user data
+
+        files = {}
+        headers = {}
+        body = {}
+        if data["auth"].get("app_key"):
+            body["credential"] = {
+                "apiKey": data["auth"]["app_key"],
+            }
+        else:
+            body["credential"] = {
+                "login": data["auth"]["login"],
+                "password": data["auth"]["password"],
+            }
+        if data.get("language"):
+            body["lang"] = data["service"]["language"]
+
+        if self.current_action in ("create_document", "update_document"):
+            body.update(
+                {
+                    "accountNumber": data["service"]["account_number"],
+                    "parcelNumber": data["service"]["parcel_number"],
+                    "documentType": data["service"]["document_type"],
+                }
+            )
+            filename = os.path.basename(data["service"]["document_path"])
+            with open(data["service"]["document_path"], mode="rb") as file:
+                files = {"file": (filename, file.read(),)}
+                body["filename"] = filename
+            if data.get("parcelNumberList"):
+                body["parcelNumberList"] = data["service"]["parcelNumberList"]
+            headers = body.pop("credential")
+        elif self.current_action == "get_documents":
+            body["cab"] = data["service"]["parcel_number"]
+        elif self.current_action == "get_document":
+            body["cab"] = data["service"]["parcel_number"]
+            body["path"] = data["service"]["document_id"]
+        return {
+            "body": body,
+            "headers": headers,
+            "files": files,
         }
