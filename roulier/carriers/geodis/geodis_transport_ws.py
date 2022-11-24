@@ -39,7 +39,6 @@ class GeodisTransportWs(Transport):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
             loader=PackageLoader("roulier", "carriers/geodis/templates"),
-            extensions=["jinja2.ext.with_"],
         )
 
         template = env.get_template("geodis_soap.xml")
