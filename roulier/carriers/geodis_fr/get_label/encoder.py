@@ -20,7 +20,6 @@ class GeodisFrParcelEncoder(Encoder):
     def transform_input_to_carrier_webservice(self, data):
         env = Environment(
             loader=PackageLoader("roulier", "carriers/geodis_fr/templates"),
-            extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )
         action = self.config.action
