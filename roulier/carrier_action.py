@@ -140,7 +140,7 @@ class CarrierGetEdi(CarrierBase, ABC):
         return transport.send(payload)
 
 
-class CarrierParcelDocument(Carrier, ABC):
+class CarrierParcelDocument(CarrierWebservice, ABC):
     """
     Retrieve (or generate) a document for a specific parcel
     """
