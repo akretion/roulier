@@ -1,13 +1,6 @@
-"""Implementation of Geodis Ws Api."""
-from roulier.api import Api
+"""Implementation of Geodis get parcel ws Api."""
+from roulier.api import ApiParcel
 
-GEODIS_LABEL_FORMAT = (
-    "PDF",
-    "HTML",
-    "EPL",
-    "ZPL",
-    "XML",
-)
 GEODIS_ALLOWED_NOTIFICATIONS = (
     "M",  # Mail
     "S",  # SMS
@@ -15,10 +8,10 @@ GEODIS_ALLOWED_NOTIFICATIONS = (
 )
 
 
-class GeodisApiWs(Api):
+class GeodisFrParcelApi(ApiParcel):
     def _service(self):
-        schema = super(GeodisApiWs, self)._service()
-        schema["labelFormat"]["allowed"] = GEODIS_LABEL_FORMAT
+        schema = super()._service()
+        schema["labelFormat"]["allowed"] = list(self.config.label_formats)
         schema["labelFormat"]["default"] = "ZPL"
         schema["labelFormat"].update({"required": True, "empty": False})
         schema["product"].update({"required": True, "empty": False})
@@ -47,26 +40,26 @@ class GeodisApiWs(Api):
         return schema
 
     def _address(self):
-        schema = super(GeodisApiWs, self)._address()
+        schema = super()._address()
         schema["country"].update({"required": True, "empty": False})
         schema["zip"].update({"required": True, "empty": False})
         schema["city"].update({"required": True, "empty": False})
         return schema
 
     def _from_address(self):
-        schema = super(GeodisApiWs, self)._from_address()
+        schema = super()._from_address()
         schema["phone"].update({"required": True, "empty": False})
         schema["street1"]["required"] = False
         return schema
 
     def _auth(self):
-        schema = super(GeodisApiWs, self)._auth()
+        schema = super()._auth()
         schema["login"].update({"required": True, "empty": False})
         schema["password"]["required"] = False
         return schema
 
     def _parcel(self):
-        schema = super(GeodisApiWs, self)._parcel()
+        schema = super()._parcel()
         schema["volume"] = {
             "type": "float",
             "required": False,
@@ -80,11 +73,4 @@ class GeodisApiWs(Api):
             "default": "",
             # 'description': 'Description of this parcel'
         }
-        return schema
-
-    def _parcels(self):
-        """Allow multiple parcels."""
-        schema = super(GeodisApiWs, self)._parcels()
-        del schema["items"]
-        schema["schema"] = self._parcel()
         return schema

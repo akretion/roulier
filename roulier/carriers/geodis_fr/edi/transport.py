@@ -1,12 +1,12 @@
 """Implement geodisWS."""
-from roulier.transport import Transport
+from roulier.transport import TransportBase
 from datetime import datetime
 import logging
 
 log = logging.getLogger(__name__)
 
 
-class GeodisTransportEdi(Transport):
+class GeodisTransportEdi(TransportBase):
     """Implement Geodis EDI"""
 
     def send(self, payload):
@@ -62,13 +62,17 @@ class GeodisTransportEdi(Transport):
             # because, replacing "'" by "?'"
             # increase length of the token
             # which is limited by 35
+            if not token:
+                return ""
             sanitized = (
-                token.replace("?", " ")
-                .replace("'", " ")
-                .replace("+", " ")
-                .replace(":", " ")
-            ).encode(
-                "ascii", "ignore"
+                (
+                    token.replace("?", " ")
+                    .replace("'", " ")
+                    .replace("+", " ")
+                    .replace(":", " ")
+                )
+                .encode("ascii", "ignore")
+                .decode()
             )  # cut remaining chars
             return sanitized
 

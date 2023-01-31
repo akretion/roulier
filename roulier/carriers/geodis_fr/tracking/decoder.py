@@ -1,27 +1,22 @@
 """Geodis XML -> Python."""
-from roulier.codec import Decoder
-from .geodis_api_rest_ws import GeodisApiTrackingListOut
+from roulier.codec import DecoderBase
+from .api import GeodisApiTrackingListOut
 
 
-class GeodisDecoderRestWs(Decoder):
+class GeodisFrTrackingListDecoder(DecoderBase):
     """Geodis XML -> Python."""
 
-    def decode(self, payload, action):
+    def decode(self, response, input_payload):
         """Geodis JSON -> Python.
         payload[body] : dict
         payload[request] : Requests obj
         """
-        body = payload["body"]
-        if action == "trackingList":
-            mapping = GeodisApiTrackingListOut()
-            formatted = []
-            for line in body:
-                self.add_tracking_code(line)
-                formatted.append(mapping.normalize(line))
-        else:
-            # NOT implemented
-            formatted = body
-        return formatted
+        body = response["body"]
+        mapping = GeodisApiTrackingListOut(self.config)
+        self.result = []
+        for line in body:
+            self.add_tracking_code(line)
+            self.result.append(mapping.normalize(line))
 
     def add_tracking_code(self, data):
         # MVL: mise en livraison
@@ -46,3 +41,16 @@ class GeodisDecoderRestWs(Decoder):
 # 'TRANSIT',
 # 'FAILURE',
 # 'RETURNED'
+
+
+class GeodisFrTrackingDecoder(DecoderBase):
+    """Geodis XML -> Python."""
+
+    def decode(self, response, input_payload):
+        """Geodis JSON -> Python.
+        payload[body] : dict
+        payload[request] : Requests obj
+        """
+        body = response["body"]
+        # NOT implemented
+        self.result = body

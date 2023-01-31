@@ -1,9 +1,9 @@
 """Implementation of Geodis Api."""
-from roulier.api import Api, MyValidator
-from .geodis_api_ws import GeodisApiWs, GEODIS_ALLOWED_NOTIFICATIONS
+from roulier.api import MyValidator
+from ..get_label.api import GeodisFrParcelApi, GEODIS_ALLOWED_NOTIFICATIONS
 
 
-class GeodisApiEdi(Api):
+class GeodisFrApiEdi(GeodisFrParcelApi):
     def _service(self):
         schema = {
             "depositId": {
@@ -45,32 +45,21 @@ class GeodisApiEdi(Api):
         return schema
 
     def _address(self):
-        schema = super(GeodisApiEdi, self)._address()
-        schema["country"].update({"required": True, "empty": False, "maxlength": 2})
-        schema["zip"].update({"required": True, "empty": False})
-        schema["city"].update({"required": True, "empty": False})
+        schema = super()._address()
         for key in schema:
             if schema[key].get("type", "") == "string":
                 schema[key].update({"coerce": "accents"})
         return schema
 
     def _from_address(self):
-        schema = super(GeodisApiEdi, self)._from_address()
-        schema["phone"].update({"required": True, "empty": False})
-        schema["street1"]["required"] = True
-        schema["siret"] = {
-            "type": "string",
-            "required": True,
-            "default": "",
-            "empty": False,
-        }
+        schema = super()._from_address()
         for key in schema:
             if schema[key].get("type", "") == "string":
                 schema[key].update({"coerce": "accents"})
         return schema
 
     def _parcel(self):
-        weight = GeodisApiWs()._parcel()["weight"]
+        weight = super()._parcel()["weight"]
         return {
             "weight": weight,
             # 'description': 'Barcode of the parcel'
@@ -84,7 +73,7 @@ class GeodisApiEdi(Api):
         }
 
     def _to_address(self):
-        schema = GeodisApiWs()._to_address()
+        schema = super()._to_address()
         for key in schema:
             if schema[key].get("type", "") == "string":
                 schema[key].update({"coerce": "accents"})
@@ -100,7 +89,7 @@ class GeodisApiEdi(Api):
             },
             "parcels": {
                 "type": "list",
-                "schema": self._parcel(),
+                "schema": {"schema": self._parcel(), "type": "dict"},
                 "default": [v.normalized({}, self._parcel())],
             },
             "product": {

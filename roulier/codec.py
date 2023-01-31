@@ -22,7 +22,7 @@ class Encoder(ABC):
         """Transform input from external app to compatible input for carrier webservice."""
         validator = self.config.api(self.config)
         if not validator.validate(input_payload):
-            _logger.warning("Laposte api call exception:")
+            _logger.warning("api call exception:")
             raise InvalidApiInput(
                 {"api_call_exception": validator.errors(input_payload)}
             )
@@ -35,8 +35,25 @@ class Encoder(ABC):
         return self.transform_input_to_carrier_webservice(data)
 
 
-class DecoderGetLabel(ABC):
+class DecoderBase(ABC):
     def __init__(self, config_object):
+        self.config = config_object
+
+    @abstractmethod
+    def decode(self, response, payload):
+        """Transform a specific representation to python dict.
+        Args:
+            response : answer from the webservice
+            payload : data sent initially to the webservice
+        Need to increment the result attribute of the object, it does not need to return
+        anything
+        """
+        pass
+
+
+class DecoderGetLabel(DecoderBase, ABC):
+    def __init__(self, config_object):
+        super().__init__(config_object)
         """
         items in parcels list should be a dict of this form
         label = {
@@ -54,22 +71,10 @@ class DecoderGetLabel(ABC):
             },
         }
         """
-        self.config = config_object
         self.result = {
             "parcels": [],
             "annexes": [],
         }
-
-    @abstractmethod
-    def decode(self, response, payload):
-        """Transform a specific representation to python dict.
-        Args:
-            response : answer from the webservice
-            payload : data sent initially to the webservice
-        Need to increment the result attribute of the object, it does not need to return
-        anything
-        """
-        pass
 
     # helper to get the reference in case of mono_parcel
     def _get_parcel_number(self, payload):
@@ -81,7 +86,7 @@ class DecoderGetLabel(ABC):
         return parcel_ref
 
 
-class DecoderGetPackingSlip(ABC):
+class DecoderGetPackingSlip(DecoderBase, ABC):
     def __init__(self, config_object):
         """
         packing_slip should be a dict of this form
@@ -96,7 +101,7 @@ class DecoderGetPackingSlip(ABC):
             }
         }
         """
-        self.config = config_object
+        super().__init__(config_object)
         self.result = {
             "packing_slip": {},
             "annexes": [],

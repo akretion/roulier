@@ -1,7 +1,7 @@
 """Implement geodisWS."""
 import requests
 
-from roulier.transport import Transport
+from roulier.transport import RequestsTransport
 from roulier.exception import CarrierError
 import json
 import logging
@@ -11,7 +11,7 @@ import time
 log = logging.getLogger(__name__)
 
 
-class GeodisTransportRestWs(Transport):
+class GeodisTransportRestWs(RequestsTransport):
     """Implement Geodis Rest WS communication."""
 
     def get_token(self, id, timestamp, lang, hash):
@@ -23,10 +23,11 @@ class GeodisTransportRestWs(Transport):
             ";".join([api_key, id, timestamp, lang, service, json_data]).encode("utf-8")
         ).hexdigest()
 
-    def prepare_data(self, data, login, api_key, service):
+    def prepare_data(self, data, login, api_key):
         timestamp = "%d" % (time.time() * 1000)
         lang = "fr"
         body = json.dumps(data)
+        service = self.config.service
         hash = self.get_hash(api_key, login, timestamp, lang, service, body)
         token = self.get_token(login, timestamp, lang, hash)
         return body, token
@@ -49,21 +50,16 @@ class GeodisTransportRestWs(Transport):
             payload["body"],
             payload["headers"]["login"],
             payload["headers"]["password"],
-            payload["infos"]["service"],
         )
 
-        infos = payload["infos"]
-        infos["token"] = token
-
-        response = self.send_request(body, infos)
+        response = self.send_request(body, token)
         log.info("WS response time %s" % response.elapsed.total_seconds())
         return self.handle_response(response)
 
-    def send_request(self, body, infos):
+    def send_request(self, body, token):
         """Send body to geodis WS."""
-        ws_url = infos["url"]
-        token = infos["token"]
-        return requests.post(ws_url, headers={"X-GEODIS-Service": token,}, data=body,)
+        ws_url = self.config.ws_url
+        return requests.post(ws_url, headers={"X-GEODIS-Service": token}, data=body,)
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""

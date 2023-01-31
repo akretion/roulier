@@ -1,63 +1,40 @@
 """Implement geodisWS."""
-import requests
 from lxml import objectify
 from jinja2 import Environment, PackageLoader
-from roulier.transport import Transport
 from roulier.ws_tools import remove_empty_tags, get_parts
 from roulier.exception import CarrierError
 import logging
 
+from roulier.transport import RequestsTransport
+
 log = logging.getLogger(__name__)
 
 
-class GeodisTransportWs(Transport):
+class GeodisFrSoapTransport(RequestsTransport):
     """Implement Geodis WS communication."""
 
-    def send(self, payload):
-        """Call this function.
+    def before_ws_call_transform_payload(self, payload):
+        soap_message = self.soap_wrap(payload)
+        return soap_message
 
-        Args:
-            payload.body: XML in a string
-            payload.header : auth
-            payload.infos: { url: string, xmlns: string}
-        Return:
-            {
-                response: (Requests.response)
-                body: XML response (without soap)
-                parts: dict of attachments
-            }
-        """
-        body = payload["body"]
-        headers = payload["headers"]
-        infos = payload["infos"]
-        soap_message = self.soap_wrap(body, headers, infos)
-        response = self.send_request(soap_message, infos)
-        log.info("WS response time %s" % response.elapsed.total_seconds())
-        return self.handle_response(response)
-
-    def soap_wrap(self, body, auth, infos):
+    def soap_wrap(self, payload):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
-            loader=PackageLoader("roulier", "carriers/geodis/templates"),
+            loader=PackageLoader("roulier", "carriers/geodis_fr/templates"),
         )
-
+        body = payload["body"]
+        headers = payload["headers"]
         template = env.get_template("geodis_soap.xml")
         body_stripped = remove_empty_tags(body)
         header_template = env.get_template("geodis_header.xml")
-        header_xml = header_template.render(auth=auth, xmlns=infos["xmlns"])
-        data = template.render(
-            body=body_stripped, header=header_xml, xmlns=infos["xmlns"]
-        )
+        xmlns = self.config.xmlns
+        header_xml = header_template.render(auth=headers, xmlns=xmlns)
+        data = template.render(body=body_stripped, header=header_xml, xmlns=xmlns)
+
         return data.encode("utf8")
 
-    def send_request(self, body, infos):
-        """Send body to geodis WS."""
-        ws_url = infos["url"]
-        return requests.post(
-            ws_url,
-            headers={"content-type": "text/xml", "SOAPAction": "<SOAP Action>"},
-            data=body,
-        )
+    def _get_requests_headers(self, payload=None):
+        return {"content-type": "text/xml", "SOAPAction": "<SOAP Action>"}
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
@@ -66,6 +43,8 @@ class GeodisTransportWs(Transport):
         xml = get_parts(response)["start"]
         obj = objectify.fromstring(xml)
         message = obj.xpath("//*[local-name() = 'message']")
+        if not message:
+            message = obj.xpath("//*[local-name() = 'faultstring']")
         id_message = None
         if len(message) > 0:
             message = message[0] or obj.xpath("//faultstring")[0]
