@@ -16,7 +16,6 @@ class LaposteFrEncoderBase(Encoder):
     def _render_template(self, data):
         env = Environment(
             loader=PackageLoader("roulier", "carriers/laposte_fr/templates"),
-            extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )
         template = env.get_template("laposte_%s.xml" % self.config.action)

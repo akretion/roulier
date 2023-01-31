@@ -48,7 +48,6 @@ class DpdEncoder(Encoder):
 
         env = Environment(
             loader=PackageLoader("roulier", "carriers/dpd_fr_soap/templates"),
-            extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )
 

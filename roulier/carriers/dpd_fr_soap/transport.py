@@ -26,7 +26,6 @@ class DpdTransport(RequestsTransport):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
             loader=PackageLoader("roulier", "carriers/dpd_fr_soap/templates"),
-            extensions=["jinja2.ext.with_"],
         )
 
         template = env.get_template("dpd_soap.xml")

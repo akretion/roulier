@@ -19,7 +19,7 @@ def remove_empty_tags(xml, ouput_as_string=True):
     # pkg_resouces may be an alternative, but we already
     # have Jinja
     env = Environment(
-        loader=PackageLoader("roulier", "templates"), extensions=["jinja2.ext.with_"]
+        loader=PackageLoader("roulier", "templates")
     )
     template = env.get_template("remove_empty_tags.xsl")
     xsl = etree.parse(open(template.filename))
