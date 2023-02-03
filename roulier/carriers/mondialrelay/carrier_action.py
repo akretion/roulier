@@ -1,5 +1,5 @@
 """Implementation for MondialRelay."""
-from ...carrier_action import CarrierGetLabel, Carrier
+from ...carrier_action import CarrierGetLabel, CarrierBase
 from ...roulier import factory
 from .encoder import (
     MondialRelayEncoderFindPickupSite,
@@ -24,7 +24,7 @@ class MondialRelayGetLabel(CarrierGetLabel):
     manage_multi_label = False
 
 
-class MondialRelayFindPickUpSite(Carrier):
+class MondialRelayFindPickUpSite(CarrierBase):
     """Implementation for MondialRelay."""
 
     is_test = False

@@ -5,5 +5,3 @@ from . import chronopost_fr
 from . import dpd_fr_soap
 from . import geodis_fr
 from . import mondialrelay
-
-# from . import geodis
