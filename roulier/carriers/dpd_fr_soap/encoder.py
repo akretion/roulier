@@ -40,6 +40,7 @@ class DpdEncoder(Encoder):
         reduce_address(data["from_address"])
 
         output_format = data["service"]["labelFormat"]
+        is_legacy = data["service"]["legacy"]
         # if data["service"]["labelFormat"] in ("PNG", "ZPL"):
         if data["service"]["labelFormat"] == "PNG":
             # WS doesn't handle zpl yet, we convert it later
@@ -58,7 +59,9 @@ class DpdEncoder(Encoder):
                 parcel=data["parcels"][0],
                 sender_address=data["from_address"],
                 receiver_address=data["to_address"],
+                legacy=is_legacy,
             ),
             "headers": data["auth"],
             "output_format": output_format,
+            "is_legacy": is_legacy,
         }

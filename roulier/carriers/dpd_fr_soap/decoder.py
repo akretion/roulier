@@ -12,15 +12,34 @@ class DpdDecoder(DecoderGetLabel):
     def decode(self, response, input_payload):
         """Understand a CreateShipmentWithLabelsResponse."""
         output_format = input_payload["output_format"]
+        is_legacy = input_payload["is_legacy"]
         xml = objectify.fromstring(response["body"])
-        shipments, files = xml.CreateShipmentWithLabelsResult.getchildren()
-        shipment = shipments.getchildren()[0]
+
+        shipments, files = getattr(
+            xml, "CreateShipmentWithLabels%sResult" % ("" if is_legacy else "Bc")
+        ).getchildren()
+
         label_file, summary_file = files.getchildren()
+
+        if is_legacy:
+            shipment = shipments.getchildren()[0]
+            parcel_field = "parcelnumber"
+            barcode_field = "barcode"
+        else:
+            shipmentbc = shipments.getchildren()[0]
+            shipment = shipmentbc.getchildren()[0]
+            parcel_field = "BarcodeId"
+            barcode_field = "BarCode"
+
         parcel = {
             "id": 1,
             "reference": self._get_parcel_number(input_payload)
-            or shipment.parcelnumber.text,
-            "tracking": {"number": shipment.barcode.text, "url": "", "partner": "",},
+            or getattr(shipment, parcel_field).text,
+            "tracking": {
+                "number": getattr(shipment, barcode_field).text,
+                "url": "",
+                "partner": "",
+            },
             "label": {  # same as main label
                 "data": label_file.label.text,
                 "name": "label 1",
