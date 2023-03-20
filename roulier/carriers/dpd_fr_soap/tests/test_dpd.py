@@ -1,6 +1,7 @@
 import logging
 import copy
 import re
+import pytest
 
 from roulier import roulier
 from roulier.exception import InvalidApiInput, CarrierError
@@ -11,6 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 EXCEPTION_MESSAGE = "Failed call with parameters %s"
+
+
+@pytest.fixture(params=[False, True])
+def legacy(request):
+    return request.param
 
 
 def _test_ip_allowed(REQUIRE_ALLOWED=True):
@@ -67,15 +73,17 @@ def test_dpd_invalid_ip():
 
 
 @_test_ip_allowed(True)
-def test_dpd_classic():
+def test_dpd_classic(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     result = roulier.get("dpd_fr_soap", "get_label", vals)
     assert_result(vals, result, 1, 1)
 
 
 @_test_ip_allowed(True)
-def test_predict():
+def test_predict(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["service"]["product"] = "DPD_Predict"
     with assert_raises(
         InvalidApiInput, {"service": [{"notifications": "must be set to Predict"}]}
@@ -99,48 +107,54 @@ def test_predict():
 
 
 @_test_ip_allowed(True)
-def test_dpd_format_pdf():
+def test_dpd_format_pdf(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["service"]["labelFormat"] = "PDF"
     result = roulier.get("dpd_fr_soap", "get_label", vals)
     assert_result(vals, result, 1, 1, "PDF")
 
 
 @_test_ip_allowed(True)
-def test_dpd_format_pdf_a6():
+def test_dpd_format_pdf_a6(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["service"]["labelFormat"] = "PDF_A6"
     result = roulier.get("dpd_fr_soap", "get_label", vals)
     assert_result(vals, result, 1, 1, "PDF_A6")
 
 
 @_test_ip_allowed(True)
-def test_dpd_format_png():
+def test_dpd_format_png(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["service"]["labelFormat"] = "PNG"
     result = roulier.get("dpd_fr_soap", "get_label", vals)
     assert_result(vals, result, 1, 1, "PNG")
 
 
 @_test_ip_allowed(True)
-def test_dpd_format_zpl():
+def test_dpd_format_zpl(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["service"]["labelFormat"] = "ZPL"
     result = roulier.get("dpd_fr_soap", "get_label", vals)
     assert_result(vals, result, 1, 1, "ZPL")
 
 
 @_test_ip_allowed(True)
-def test_dpd_format_invalid():
+def test_dpd_format_invalid(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["service"]["labelFormat"] = "invalid"
     with assert_raises(InvalidApiInput, {"service": [{"labelFormat": "unallowed"}]}):
         result = roulier.get("dpd_fr_soap", "get_label", vals)
 
 
 @_test_ip_allowed(True)
-def test_common_failed_get_label():
+def test_common_failed_get_label(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     # Weight
     vals["parcels"][0]["weight"] = 999.99
     with assert_raises(CarrierError, [{"id": "InvalidWeight"}]):
@@ -158,16 +172,18 @@ def test_common_failed_get_label():
 
 
 @_test_ip_allowed(True)
-def test_auth():
+def test_auth(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["auth"]["login"] = "test"
     with assert_raises(CarrierError, [{"id": "PermissionDenied"}]):
         roulier.get("dpd_fr_soap", "get_label", vals)
 
 
 @_test_ip_allowed(True)
-def test_relai():
+def test_relai(legacy):
     vals = copy.deepcopy(DATA)
+    vals["service"]["legacy"] = legacy
     vals["service"]["product"] = "DPD_Relais"
     with assert_raises(
         InvalidApiInput, {"service": [{"pickupLocationId": "mandatory"}]}
