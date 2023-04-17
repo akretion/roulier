@@ -15,6 +15,12 @@ class GeodisFrParcelEncoder(Encoder):
         data["service"]["labelFormat"] = self.config.label_formats.get(
             data["service"]["labelFormat"]
         )[0]
+        # Hopefully temporary patch : Geodis does not accept dash  : "-" in the name
+        # of belgium cities like Braine-le-Chateau
+        if data["to_address"].get("country", "") == "BE" and "-" in data[
+            "to_address"
+        ].get("city", ""):
+            data["to_address"]["city"] = data["to_address"]["city"].replace("-", " ")
         return data
 
     def transform_input_to_carrier_webservice(self, data):
