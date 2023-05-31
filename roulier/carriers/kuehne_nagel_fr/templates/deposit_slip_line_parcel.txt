@@ -1,0 +1,1 @@
+GIN+BN+{{ parcel.barcode }}:{{ parcel.number }}'

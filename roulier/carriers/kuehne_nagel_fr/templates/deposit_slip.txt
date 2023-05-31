@@ -1,0 +1,18 @@
+UNA:+.? '
+UNB+UNOC:1+{{ sender_info.number }}:22+{{ recipient_info.number }}:22+{{ service.date }}:{{ service.hour }}+{{ service.depositNumber }}'
+UNH+{{ service.depositNumber }}+DISPOR:3:2:GT:GTF110'
+BGM++{{ service.depositNumber }}'
+TSR+{{ service.deliveryContract }}++{{ service.serviceSystem }}'
+CAG+{{ service.shippingConfig }}+{{ service.vatConfig }}+++++{{ service.invoicingContract }}'
+NAD+CO+{{ sender_info.siret }}:05++{{ sender_info.name }}'
+DTM+DEP+{{ service.date }}+{{ service.hour }}'
+NAD+FW+{{ recipient_info.siret }}:05++{{ recipient_info.name}}'
+GDS+G+{{ service.goodsName }}'
+TDT++++3'
+DOC+730+++ACG+{{ service.depositNumber }}'
+UNS+D'{% for line in service.lines %}
+{{ line }}
+{%- endfor %}
+UNS+S'
+UNT+{{ service.lineNumber }}+{{ service.depositNumber }}'
+UNZ+1+{{ service.depositNumber }}'
