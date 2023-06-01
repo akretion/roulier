@@ -27,7 +27,7 @@ setup(
     include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    package_data={"roulier": ["*.xml", "*.xsl", "*.zpl"]},
+    package_data={"roulier": ["*.xml", "*.xsl", "*.zpl", "*.txt", "*.epl"]},
     url="https://github.com/akretion/roulier",
     download_url=download_url,
     keywords=["carrier", "logistics", "delivery"],

@@ -3,3 +3,5 @@ include VERSION
 recursive-include roulier *.xml
 recursive-include roulier *.xsl
 recursive-include roulier *.zpl
+recursive-include roulier *.txt
+recursive-include roulier *.epl

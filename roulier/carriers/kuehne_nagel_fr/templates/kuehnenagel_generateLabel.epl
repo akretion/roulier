@@ -60,6 +60,6 @@ A560,1070,0,4,2,3,N,"{{ service.deliveryContract }}"
 FE
 FR"FKNR"
 A450,590,0,4,1,1,N,"{{ parcel.number }}"
-B70,830,0,1,2,2,160,B,"{{ parcel.barcode }}"
-B785,440,1,1,2,2,140,B,"{{ parcel.barcode }}"
+B70,830,0,1,2,2,160,B,"{{ parcel.reference }}"
+B785,440,1,1,2,2,140,B,"{{ parcel.reference }}"
 P1,1
