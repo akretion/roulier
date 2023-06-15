@@ -18,9 +18,7 @@ def remove_empty_tags(xml, ouput_as_string=True):
     # use Jinja env for getting the path of template file
     # pkg_resouces may be an alternative, but we already
     # have Jinja
-    env = Environment(
-        loader=PackageLoader("roulier", "templates")
-    )
+    env = Environment(loader=PackageLoader("roulier", "templates"))
     template = env.get_template("remove_empty_tags.xsl")
     xsl = etree.parse(open(template.filename))
     transform = etree.XSLT(xsl)
@@ -43,7 +41,7 @@ def get_parts(response):
         an array of content-ids
     """
     head_lines = ""
-    for k, v in response.raw.getheaders().items():
+    for k, v in response.raw.headers.items():
         head_lines += str(k) + ":" + str(v) + "\n"
     full = head_lines.encode() + response.content
     parser = email.parser.BytesParser()
