@@ -16,7 +16,7 @@ class DpdGetabel(CarrierGetLabel):
         "https://e-station.cargonet.software/dpd-eprintwebservice/eprintwebservice.asmx"
     )
     ws_test_url = (
-        "http://92.103.148.116/exa-eprintwebservice/eprintwebservice.asmx?WSDL"
+        "https://e-station-testenv.cargonet.software/exa-eprintwebservice/eprintwebservice.asmx?WSDL"
     )
     encoder = DpdEncoder
     decoder = DpdDecoder
