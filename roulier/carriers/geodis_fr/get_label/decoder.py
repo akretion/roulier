@@ -27,7 +27,7 @@ class GeodisFrParcelDecoder(DecoderGetLabel):
                 "id": numero,
                 "reference": cabclt,
                 "number": cab,
-                "tracking": {"number": tracking, "url": ""},
+                "tracking": {"number": "", "url": ""},
                 "label": {
                     "data": base64.b64encode(next(labels_data).encode()),
                     "name": cabclt or cab or numero or "label_%s" % next(labels_idx),
