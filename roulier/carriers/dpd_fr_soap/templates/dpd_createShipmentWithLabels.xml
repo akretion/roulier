@@ -1,4 +1,4 @@
-<car:CreateShipmentWithLabels xmlns:car="http://www.cargonet.software">
+<car:CreateShipmentWithLabels{{ '' if legacy else 'Bc'}} xmlns:car="http://www.cargonet.software">
 	<car:request>
 		{% with address = receiver_address %}
 		<car:receiveraddress>
@@ -33,7 +33,7 @@
 		</car:services>
 
 		<car:labelType>
-		   <car:type>{{ service.labelFormat }}</car:type>
+      <car:type>{{ service.labelFormat }}</car:type>
 		</car:labelType>
 		<car:customer_countrycode>{{ service.customerCountry }}</car:customer_countrycode>
 		<car:customer_centernumber>{{ service.agencyId }}</car:customer_centernumber>
@@ -44,4 +44,4 @@
 		<car:reference2>{{ service.reference2 }}</car:reference2>
 		<car:reference3>{{ service.reference3 }}</car:reference3>
 	</car:request>
-</car:CreateShipmentWithLabels>
+</car:CreateShipmentWithLabels{{ '' if legacy else 'Bc'}}>

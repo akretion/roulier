@@ -112,6 +112,12 @@ class DpdApi(ApiParcel):
             # 'description': 'Drop-off Location id (Relais Colis)'
         }
 
+        # Whether to use the legacy DPD API or the new GeoLabel compatible one
+        schema["legacy"] = {
+            "required": False,
+            "default": False,
+        }
+
         return schema
 
     def _address(self):

@@ -1,8 +1,9 @@
 """Send a request to a carrier and get the result."""
-from abc import ABC, abstractmethod
-import requests
-from .exception import CarrierError
 import logging
+import os
+import requests
+from abc import ABC, abstractmethod
+from .exception import CarrierError
 
 log = logging.getLogger(__name__)
 
@@ -28,6 +29,13 @@ class RequestsTransport(TransportBase, ABC):
     def send(self, payload):
         request_kwargs = self.before_ws_call_prepare_request_kwargs(payload)
         log.debug(request_kwargs["body"])
+
+        if os.environ.get("ROULIER_PROXY"):
+            request_kwargs["proxies"] = {
+                "http": os.environ["ROULIER_PROXY"],
+                "https": os.environ["ROULIER_PROXY"],
+            }
+
         response = self.send_request(**request_kwargs)
         log.debug("WS response time %s" % response.elapsed.total_seconds())
         return self.handle_response(response)
