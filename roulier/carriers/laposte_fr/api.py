@@ -206,7 +206,11 @@ class LaposteFrApiParcel(ApiParcel):
                 },
                 "default": [],
             },
-            "category": {"required": True, "type": "integer", "maxlength": 1,},
+            "category": {
+                "required": True,
+                "type": "integer",
+                "maxlength": 1,
+            },
             "explanations": {"required": False, "type": "string", "regex": "^.{0,35}$"},
             "original": {
                 "type": "dict",
@@ -228,7 +232,10 @@ class LaposteFrApiParcel(ApiParcel):
             },
             "officeOrigin": {"type": "string", "regex": "^.{0,35}$", "required": False},
             "comments": {"type": "string", "regex": "^.{0,35}$", "required": False},
-            "description": {"type": "string", "regex": "^.{1,}$",},
+            "description": {
+                "type": "string",
+                "regex": "^.{1,}$",
+            },
             "invoiceNumber": {
                 "type": "string",
                 "regex": "^.{0,35}$",
@@ -373,7 +380,13 @@ class LaposteFrApiParcelDocument(ApiParcelDocument):
         schemas["service"]["language"] = {
             "default": "fr_FR",
             "type": "string",
-            "allowed": ["fr_FR", "en_GB", "es_ES", "de_DE", "it_IT",],
+            "allowed": [
+                "fr_FR",
+                "en_GB",
+                "es_ES",
+                "de_DE",
+                "it_IT",
+            ],
             "required": False,
         }
         if self.current_action in ("create_document", "update_document"):

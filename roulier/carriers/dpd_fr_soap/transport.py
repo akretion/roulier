@@ -45,7 +45,15 @@ class DpdTransport(RequestsTransport):
         obj = objectify.fromstring(response.content)
         error_id = (obj.xpath("//ErrorId") or obj.xpath("//faultcode"))[0]
         error_message = (obj.xpath("//ErrorMessage") or obj.xpath("//faultstring"))[0]
-        raise CarrierError(response, [{"id": error_id, "message": error_message,}])
+        raise CarrierError(
+            response,
+            [
+                {
+                    "id": error_id,
+                    "message": error_message,
+                }
+            ],
+        )
 
     def handle_200(self, response):
         """Handle response type 200 (success)."""

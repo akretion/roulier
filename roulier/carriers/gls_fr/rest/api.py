@@ -24,7 +24,11 @@ class GlsEuApiParcel(ApiParcel):
             "allowed": ["A6", "A5", "A4"],
         }
         schema["labelFormat"].update(
-            {"type": "string", "default": "PDF", "allowed": ["PDF", "PNG", "ZPL"],}
+            {
+                "type": "string",
+                "default": "PDF",
+                "allowed": ["PDF", "PNG", "ZPL"],
+            }
         )
         schema["incoterm"] = {
             "type": "string",
@@ -44,7 +48,11 @@ class GlsEuApiParcel(ApiParcel):
         schema["zip"].update(string_1_10)
         schema["phone"].update({"maxlength": 20})
         schema["email"].update(
-            {"required": True, "minlength": 3, "maxlength": 100,}
+            {
+                "required": True,
+                "minlength": 3,
+                "maxlength": 100,
+            }
         )
         schema["city"].update(string_2_35)
         schema.update(

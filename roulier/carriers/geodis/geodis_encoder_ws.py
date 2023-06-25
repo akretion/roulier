@@ -68,7 +68,8 @@ class GeodisEncoderWs(Encoder):
         def request_find_localite():
             return {
                 "body": template.render(
-                    receiver_address=data["to_address"], xmlns=infos["xmlns"],
+                    receiver_address=data["to_address"],
+                    xmlns=infos["xmlns"],
                 ),
                 "headers": data["auth"],
                 "infos": infos,

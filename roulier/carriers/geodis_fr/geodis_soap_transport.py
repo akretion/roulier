@@ -53,7 +53,12 @@ class GeodisFrSoapTransport(RequestsTransport):
                 and obj.xpath("//*[local-name() = 'code']")[0]
                 or ""
             )
-        errors = [{"id": id_message, "message": message,}]
+        errors = [
+            {
+                "id": id_message,
+                "message": message,
+            }
+        ]
         raise CarrierError(response, errors)
 
     def handle_200(self, response):
@@ -89,5 +94,10 @@ class GeodisFrSoapTransport(RequestsTransport):
         else:
             raise CarrierError(
                 response,
-                [{"id": None, "message": "Unexpected status code from server",}],
+                [
+                    {
+                        "id": None,
+                        "message": "Unexpected status code from server",
+                    }
+                ],
             )

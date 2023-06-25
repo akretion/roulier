@@ -132,7 +132,12 @@ class LaposteFrEncoderParcelDocument(Encoder):
             )
             filename = os.path.basename(data["service"]["document_path"])
             with open(data["service"]["document_path"], mode="rb") as file:
-                files = {"file": (filename, file.read(),)}
+                files = {
+                    "file": (
+                        filename,
+                        file.read(),
+                    )
+                }
                 body["filename"] = filename
             if data.get("parcelNumberList"):
                 body["parcelNumberList"] = data["service"]["parcelNumberList"]

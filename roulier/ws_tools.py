@@ -60,7 +60,7 @@ def get_parts(response):
 
 
 def png_to_zpl(png, rotate):
-    u"""Transform a PNG in a suitable format for ZPL.
+    """Transform a PNG in a suitable format for ZPL.
 
     .png is converted to GRF format.
     Printing a Portable Network Graphics (PNG) with zpl instructions (like DY)
@@ -78,7 +78,7 @@ def png_to_zpl(png, rotate):
         return BytesIO(base64.b64decode(data))
 
     def get_grf(png, rotate):
-        u"""Get a GRF from a png.
+        """Get a GRF from a png.
 
         params:
             png: BytesIO stream

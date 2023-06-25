@@ -16,7 +16,8 @@ class GeodisFrFindLocaliteEncoder(Encoder):
         template = env.get_template("geodis_%s.xml" % action)
         return {
             "body": template.render(
-                receiver_address=data["to_address"], xmlns=self.config.xmlns,
+                receiver_address=data["to_address"],
+                xmlns=self.config.xmlns,
             ),
             "headers": data["auth"],
         }

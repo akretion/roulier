@@ -57,7 +57,10 @@ class LaposteFrTransport(RequestsTransport):
             xml = objectify.fromstring(response_xml)
             messages = xml.xpath("//messages")
             errors = [
-                {"id": message.id, "message": str(message.messageContent),}
+                {
+                    "id": message.id,
+                    "message": str(message.messageContent),
+                }
                 for message in messages
                 if message.type == "ERROR"
             ]

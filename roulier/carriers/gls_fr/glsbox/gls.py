@@ -15,11 +15,11 @@ class Gls(Carrier):
     ws = GlsTransport()
 
     def api(self):
-        """ Expose how to communicate with GLS """
+        """Expose how to communicate with GLS"""
         return self.encoder.api()
 
     def get(self, data, action=None):
-        """ Run an action with data against Gls WS """
+        """Run an action with data against Gls WS"""
         if not action:
             action = "label"
         request = self.encoder.encode(data, action)
@@ -38,5 +38,5 @@ class Gls(Carrier):
 
     # shortcuts
     def get_label(self, data):
-        """ Generate a label """
+        """Generate a label"""
         return self.get(data, "label")
