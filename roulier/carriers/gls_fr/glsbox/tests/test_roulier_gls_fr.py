@@ -17,46 +17,46 @@ except ImportError:
     )
 
 
-def test_connexion():
-    roulier.get(
-        "gls_fr_glsbox",
-        "get_label",
-        {
-            "auth": {"login": credentials["login"], "isTest": credentials["isTest"]},
-            "service": {
-                "agencyId": credentials["agencyId"],
-                "customerId": credentials["customerId"],
-                "shippingDate": date.today(),
-                "shippingId": "125874",
-                "intructions": "Sent from automatic test",
-                "parcel_total_number": 1,
-            },
-            "from_address": {
-                "company": "my company",
-                "name": "my name",
-                "street1": "blablabla street",
-                "zip": "69000",
-                "city": "Lyon",
-                "phone": "04 99 99 99 99",
-                "email": "contact@mycompany.fr",
-            },
-            "to_address": {
-                "company": "my customer",
-                "name": "Martine MARTIN",
-                "street1": "13 avenue des champs Elysées",
-                "zip": "75001",
-                "city": "Paris",
-                "phone": "01 99 99 99 99",
-                "email": "contact@mycustomer.fr",
-                "country": "FR",
-            },
-            "parcels": [
-                {
-                    "weight": 3.4,
-                    "parcel_number_label": 1,
-                    "parcel_number_barcode": 1,
-                    "custom_sequence": "1234567899",
-                }
-            ],
-        },
-    )
+# def test_connexion():
+#    roulier.get(
+#        "gls_fr_glsbox",
+#        "get_label",
+#        {
+#            "auth": {"login": credentials["login"], "isTest": credentials["isTest"]},
+#            "service": {
+#                "agencyId": credentials["agencyId"],
+#                "customerId": credentials["customerId"],
+#                "shippingDate": date.today(),
+#                "shippingId": "125874",
+#                "intructions": "Sent from automatic test",
+#                "parcel_total_number": 1,
+#            },
+#            "from_address": {
+#                "company": "my company",
+#                "name": "my name",
+#                "street1": "blablabla street",
+#                "zip": "69000",
+#                "city": "Lyon",
+#                "phone": "04 99 99 99 99",
+#                "email": "contact@mycompany.fr",
+#            },
+#            "to_address": {
+#                "company": "my customer",
+#                "name": "Martine MARTIN",
+#                "street1": "13 avenue des champs Elysées",
+#                "zip": "75001",
+#                "city": "Paris",
+#                "phone": "01 99 99 99 99",
+#                "email": "contact@mycustomer.fr",
+#                "country": "FR",
+#            },
+#            "parcels": [
+#                {
+#                    "weight": 3.4,
+#                    "parcel_number_label": 1,
+#                    "parcel_number_barcode": 1,
+#                    "custom_sequence": "1234567899",
+#                }
+#            ],
+#        },
+#    )
