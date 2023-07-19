@@ -52,7 +52,11 @@ class GeodisApiTrackingMapping(GeodisMappingIn):
     Used to rename fields."""
 
     def _schemas(self):
-        return {"service": {"trackingId": {"rename": "noSuivi"},}}
+        return {
+            "service": {
+                "trackingId": {"rename": "noSuivi"},
+            }
+        }
 
 
 class GeodisApiTracking(GeodisApiRestWs):

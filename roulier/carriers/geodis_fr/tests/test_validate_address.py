@@ -19,10 +19,10 @@ class GeodisFrValidateAddressCase(GeodisVcrCommon):
 
     def test_geodis_wrong_city(self):
         payload = {
-            "to_address": {"city": u"Villeurbanne", "zip": u"59100", "country": u"FR"},
+            "to_address": {"city": "Villeurbanne", "zip": "59100", "country": "FR"},
             "auth": {
-                "login": u"45393e38323033372b3c3334",
-                "password": u"2d5a44584356",
+                "login": "45393e38323033372b3c3334",
+                "password": "2d5a44584356",
                 "isTest": True,
             },
         }
@@ -33,10 +33,10 @@ class GeodisFrValidateAddressCase(GeodisVcrCommon):
 
     def test_geodis_wrong_zip(self):
         payload = {
-            "to_address": {"city": u"ROUBAIX", "zip": u"59199", "country": u"FR"},
+            "to_address": {"city": "ROUBAIX", "zip": "59199", "country": "FR"},
             "auth": {
-                "login": u"45393e38323033372b3c3334",
-                "password": u"2d5a44584356",
+                "login": "45393e38323033372b3c3334",
+                "password": "2d5a44584356",
                 "isTest": True,
             },
         }

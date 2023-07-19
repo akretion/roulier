@@ -20,7 +20,9 @@ setup(
         "unidecode",
         "pycountry",
     ],
-    extras_requires={"dev": ["ptpython", "pytest"],},
+    extras_requires={
+        "dev": ["ptpython", "pytest"],
+    },
     author="Hparfr <https://github.com/hparfr>",
     author_email="roulier@hpar.fr",
     description="Label parcels without pain",

@@ -59,13 +59,22 @@ class GeodisTransportRestWs(RequestsTransport):
     def send_request(self, body, token):
         """Send body to geodis WS."""
         ws_url = self.config.ws_url
-        return requests.post(ws_url, headers={"X-GEODIS-Service": token}, data=body,)
+        return requests.post(
+            ws_url,
+            headers={"X-GEODIS-Service": token},
+            data=body,
+        )
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
         # TODO : put a try catch (like wrong server)
         log.warning("Geodis error 500")
-        errors = [{"id": "", "message": "",}]
+        errors = [
+            {
+                "id": "",
+                "message": "",
+            }
+        ]
         raise CarrierError(response, errors)
 
     def handle_true_negative_error(self, response, payload):
@@ -98,5 +107,10 @@ class GeodisTransportRestWs(RequestsTransport):
         else:
             raise CarrierError(
                 response,
-                [{"id": None, "message": "Unexpected status code from server",}],
+                [
+                    {
+                        "id": None,
+                        "message": "Unexpected status code from server",
+                    }
+                ],
             )

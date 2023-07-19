@@ -100,8 +100,8 @@ class CarrierGetPackingSlip(CarrierWebservice, ABC):
 
 class CarrierAddressValidation(CarrierWebservice, ABC):
     """
-        Check if address is valid/known from the carrier and eventually get proposal
-        if addresses that could match the input
+    Check if address is valid/known from the carrier and eventually get proposal
+    if addresses that could match the input
     """
 
     def validate_address(self, carrier_type, action, data):
@@ -110,7 +110,7 @@ class CarrierAddressValidation(CarrierWebservice, ABC):
 
 class CarrierGetEdi(CarrierBase, ABC):
     """
-        Generate an EDI file.
+    Generate an EDI file.
     """
 
     @property

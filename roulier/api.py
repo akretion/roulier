@@ -204,7 +204,11 @@ class ApiParcel(BaseApi):
             "agencyId": {"default": ""},
             "customerId": {"default": ""},
             "shippingId": {"default": ""},
-            "shippingDate": {"type": "date", "required": True, "empty": False,},
+            "shippingDate": {
+                "type": "date",
+                "required": True,
+                "empty": False,
+            },
             # 'description': 'Additionnal info visible by the client. Example : order number'
             "reference1": {"type": "string", "default": ""},
             "reference2": {"type": "string", "default": ""},
@@ -228,7 +232,10 @@ class ApiParcel(BaseApi):
 class ApiPackingSlip(BaseApi):
     def _packing_slip_number(self):
         return {
-            "schema": {"type": "string", "empty": False,},
+            "schema": {
+                "type": "string",
+                "empty": False,
+            },
             "required": True,
             "excludes": "parcels_numbers",
         }
@@ -236,7 +243,10 @@ class ApiPackingSlip(BaseApi):
     def _parcels_numbers(self):
         return {
             "type": "list",
-            "schema": {"type": "string", "empty": False,},
+            "schema": {
+                "type": "string",
+                "empty": False,
+            },
             "empty": False,
             "required": True,
             "excludes": "packing_slip_number",
@@ -258,25 +268,41 @@ class ApiParcelDocument(BaseApi):
 
     def _parcel_number(self):
         return {
-            "schema": {"type": "string", "empty": False, "default": "",},
+            "schema": {
+                "type": "string",
+                "empty": False,
+                "default": "",
+            },
             "required": True,
         }
 
     def _document_id(self):
         return {
-            "schema": {"type": "string", "empty": False, "default": "",},
+            "schema": {
+                "type": "string",
+                "empty": False,
+                "default": "",
+            },
             "required": True,
         }
 
     def _document_type(self):
         return {
-            "schema": {"type": "string", "empty": False, "default": "",},
+            "schema": {
+                "type": "string",
+                "empty": False,
+                "default": "",
+            },
             "required": True,
         }
 
     def _document_path(self):
         return {
-            "schema": {"type": "string", "empty": False, "default": "",},
+            "schema": {
+                "type": "string",
+                "empty": False,
+                "default": "",
+            },
             "required": True,
         }
 
@@ -284,7 +310,9 @@ class ApiParcelDocument(BaseApi):
         schema = {"auth": self._auth(), "service": {}}
         if self.current_action == "get_documents":
             schema["service"].update(
-                {"parcel_number": self._parcel_number(),}
+                {
+                    "parcel_number": self._parcel_number(),
+                }
             )
         elif self.current_action == "get_document":
             schema["service"].update(
