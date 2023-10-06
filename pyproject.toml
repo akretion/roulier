@@ -1,0 +1,67 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "extendable"
+authors = [{name = "Laurent Mignon", email = "laurent.mignon@acsone.eu"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+]
+dynamic = ["version", "description"]
+dependencies = [
+    "contextvars;python_version<'3.7'",
+    "types-contextvars;python_version<'3.7'",
+    "typing_extensions;python_version<'3.7'",
+]
+requires-python = ">=3.6"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-mock",
+    "coverage[toml]",
+]
+mypy = [
+    "mypy",
+]
+release = [
+    "towncrier",
+    "bumpversion",
+]
+
+[project.urls]
+Source = "https://github.com/lmignon/extendable"
+Changelog = "https://github.com/lmignon/extendable/blob/master/HISTORY.rst"
+
+[tool.flit.sdist]
+exclude = [".github"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["extendable"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/*/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+]
+
+[tool.towncrier]
+package = "extendable"
+package_dir = "src"
+filename = "HISTORY.rst"
+directory = "news"
+issue_format = "`#{issue} <https://github.com/lmignon/extendable/issues/{issue}>`_"
+title_format = "{version} ({project_date})"

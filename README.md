@@ -94,3 +94,31 @@ print(roulier.get_carriers_action_available())
 * [Requests](http://docs.python-requests.org/) - HTTP requests
 * [zplgrf](https://github.com/kylemacfarlane/zplgrf) - PNG to ZPL conversion
 * [unidecode](https://pypi.python.org/pypi/Unidecode) - Remove accents from ZPL
+
+
+
+
+
+### Development
+
+To run tests, use `tox`. You will get a test coverage report in `htmlcov/index.html`.
+An easy way to install tox is `pipx install tox`.
+
+This project uses pre-commit to enforce linting (among which black for code formating,
+isort for sorting imports, and mypy for type checking).
+
+To make sure linters run locally on each of your commits, install pre-commit
+(`pipx install pre-commit` is recommended), and run `pre-commit install` in your
+local clone of the extendable repository.
+
+To release:
+
+ * run ``bumpversion patch|minor|major` --list`
+ * Check the `new_version` value returned by the previous command
+ * run `towncrier build`.
+ * Inspect and commit the updated HISTORY.rst.
+ * `git tag {new_version} ; git push --tags`.
+
+### Contributing
+
+All kind of contributions are welcome.
