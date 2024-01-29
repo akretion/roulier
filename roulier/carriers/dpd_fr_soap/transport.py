@@ -41,7 +41,6 @@ class DpdTransport(RequestsTransport):
 
     def handle_500(self, response):
         """Handle reponse in case of ERROR 500 type."""
-        log.warning("Dpd error 500")
         obj = objectify.fromstring(response.content)
         error_id = (obj.xpath("//ErrorId") or obj.xpath("//faultcode"))[0]
         error_message = (obj.xpath("//ErrorMessage") or obj.xpath("//faultstring"))[0]
