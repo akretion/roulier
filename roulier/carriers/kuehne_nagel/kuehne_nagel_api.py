@@ -18,7 +18,7 @@ class KuehneNagelApi(Api):
             'weight': {'default': 0},
             'volume': {'default': 0},
             'deliveryContract': {'default': '', 'type': 'string'},
-            'labelDeliveryContract': {'default': 'C', 'type': 'string'},
+            'labelDeliveryContract': {'default': 'S', 'type': 'string'},
             'exportHub': {'default': ''},
             'orderName': {'default': ''},
             'shippingConfig': {'default': 'P'},
