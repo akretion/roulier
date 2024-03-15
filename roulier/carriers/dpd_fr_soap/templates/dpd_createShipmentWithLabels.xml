@@ -1,6 +1,9 @@
 <car:CreateShipmentWithLabels{{ '' if legacy else 'Bc'}} xmlns:car="http://www.cargonet.software">
 	<car:request>
 		{% with address = receiver_address %}
+		<car:customLabelText>
+			{{ address.delivery_instruction }}
+		</car:customLabelText>
 		<car:receiveraddress>
 			{% include "dpd_address.xml" %}
 		</car:receiveraddress>

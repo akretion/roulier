@@ -174,6 +174,12 @@ class ApiParcel(BaseApi):
         address["country"].update({"required": True, "empty": False})
         address["city"].update({"required": True, "empty": False})
         address["zip"].update({"required": True, "empty": False})
+        address["delivery_instruction"] = {
+            "type": "string",
+            "default": "",
+            "required": False,
+            "empty": True,
+        }
         return address
 
     def _parcel(self):

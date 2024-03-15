@@ -22,7 +22,6 @@ class Encoder(ABC):
         """Transform input from external app to compatible input for carrier webservice."""
         validator = self.config.api(self.config)
         if not validator.validate(input_payload):
-            _logger.warning("api call exception:")
             raise InvalidApiInput(
                 {"api_call_exception": validator.errors(input_payload)}
             )
