@@ -23,6 +23,13 @@ class DpdEncoder(Encoder):
         data["service"]["shippingDate"] = data["service"]["shippingDate"].strftime(
             "%d/%m/%Y"
         )
+        # dpd is configure with manage_multi_label = False, so always only 1 pack
+        if (
+            data["parcels"]
+            and data["parcels"][0]["reference"]
+            and not data["service"]["reference2"]
+        ):
+            data["service"]["reference2"] = data["parcels"][0]["reference"]
 
         def reduce_address(address):
             """Concat some fields.
