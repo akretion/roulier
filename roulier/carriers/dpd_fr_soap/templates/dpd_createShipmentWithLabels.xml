@@ -46,5 +46,9 @@
 		<car:referencenumber>{{ service.reference1 }}</car:referencenumber>
 		<car:reference2>{{ service.reference2 }}</car:reference2>
 		<car:reference3>{{ service.reference3 }}</car:reference3>
+        <car:refnrasbarcode>{{ 'true' if service.reference2 else 'false'}}</car:refnrasbarcode>
+        <car:referenceInBarcode>
+            <car:type>Reference2</car:type>
+        </car:referenceInBarcode>
 	</car:request>
 </car:CreateShipmentWithLabels{{ '' if legacy else 'Bc'}}>
