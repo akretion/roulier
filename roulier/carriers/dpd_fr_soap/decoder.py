@@ -22,12 +22,12 @@ class DpdDecoder(DecoderGetLabel):
         if is_legacy:
             shipment = shipments.getchildren()[0]
             parcel_field = "parcelnumber"
-            barcode_field = "barcode"
+            tracking_field = "barcode"
         else:
             shipmentbc = shipments.getchildren()[0]
             shipment = shipmentbc.getchildren()[0]
-            parcel_field = "BarcodeId"
-            barcode_field = "BarCode"
+            parcel_field = "Barcode"
+            tracking_field = "BarcodeId"
 
         annexes = []
         for dpdfile in files.getchildren():
@@ -38,7 +38,7 @@ class DpdDecoder(DecoderGetLabel):
                     "reference": self._get_parcel_number(input_payload)
                     or getattr(shipment, parcel_field).text,
                     "tracking": {
-                        "number": getattr(shipment, barcode_field).text,
+                        "number": getattr(shipment, tracking_field).text,
                         "url": "",
                         "partner": "",
                     },
