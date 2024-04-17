@@ -133,6 +133,8 @@ class DpdApi(ApiParcel):
         schema = super(DpdApi, self)._to_address()
         # , 'description': """First name""",
         schema["firstName"] = {"default": "", "coerce": "accents"}
+        schema["name3"] = {"default": ""}
+        schema["name4"] = {"default": ""}
         schema["door1"] = {"default": ""}  # 'description': """Door code 1"""
         schema["door2"] = {"default": ""}  # 'description': """Door code 2"""}
         schema["intercom"] = {"default": ""}  # 'description': """Intercom"""}

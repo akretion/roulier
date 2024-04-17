@@ -1,5 +1,7 @@
 <car:contact>{{ address.companyName }}</car:contact>
 <car:name2>{{ address.firstName }}</car:name2>
+<car:name3>{{ address.name3 }}</car:name3>
+<car:name4>{{ address.name4 }}</car:name4>
 <car:digicode1>{{ address.digicode1 }}</car:digicode1>
 <car:digicode2>{{ address.digicode2 }}</car:digicode2>
 <car:intercomid>{{ address.intercom }}</car:intercomid>
