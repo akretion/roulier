@@ -76,6 +76,10 @@ print(roulier.get_carriers_action_available())
 * In the rest webservice, the incoterms don't work
 
 
+### Development
+To release, increase the version number (in VERSION file) and create a tagged release on GitHub, with the same number. This will trigger publishing to PyPI.
+
+
 ### Contributors
 
 
