@@ -25,9 +25,9 @@ class DpdEncoder(Encoder):
         )
         # dpd is configure with manage_multi_label = False, so always only 1 pack
         if (
-            data["parcels"]
-            and data["parcels"][0]["reference"]
-            and not data["service"]["reference2"]
+            data.get("parcels")
+            and data["parcels"][0].get("reference")
+            and not data["service"].get("reference2")
         ):
             data["service"]["reference2"] = data["parcels"][0]["reference"]
 
