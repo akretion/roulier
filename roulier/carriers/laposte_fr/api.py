@@ -314,7 +314,8 @@ class LaposteFrApiParcel(ApiParcel):
                     },
                     "email": {
                         "type": "string",
-                        "regex": "^\\w*@\\w*\.\\w*$",
+                        # according to https://emailregex.com/
+                        "regex": r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",
                         "required": False,
                         "maxlength": 80,
                     },
