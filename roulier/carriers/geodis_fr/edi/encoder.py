@@ -63,6 +63,10 @@ class GeodisFrEncoderEdi(Encoder):
             lines += [
                 ["GID", "%s" % j, ["1", "PC", "21", "6"]],
                 ["MEA", "AAE", "AAD", ["KGM", "%s" % pack["weight"]]],
+            ]
+            if pack.get("volume"):
+                lines.append(["MEA", "AAE", "AAW", ["MTQ", "%s" % pack["volume"]]])
+            lines += [
                 ["PCI", "18"],
                 ["GIN", "BN", pack["barcode"]],
             ]

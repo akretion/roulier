@@ -70,6 +70,12 @@ class GeodisFrApiEdi(GeodisFrParcelApi):
                 "required": True,
                 "coerce": "accents",
             },
+            "volume": {
+                "type": "float",
+                "required": False,
+                "empty": True,
+                "default": 0,
+            },
         }
 
     def _to_address(self):
