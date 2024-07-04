@@ -28,7 +28,7 @@ class GeodisFrEncoderEdi(Encoder):
             ["CNI", "%s" % idx, shipment["shippingId"]],
             [
                 "TSR",
-                "2",  # 4065
+                shipment.get("contractCondition", ""),
                 [shipment["product"], "", "", shipment["productOption"]],  # 7273
                 shipment["productPriority"],  # 4219
                 shipment["notifications"],  # 7085 : M, S, P
