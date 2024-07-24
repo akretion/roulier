@@ -63,6 +63,7 @@ class GeodisTransportRestWs(RequestsTransport):
             ws_url,
             headers={"X-GEODIS-Service": token},
             data=body,
+            timeout=30,
         )
 
     def handle_500(self, response):

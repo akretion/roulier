@@ -54,9 +54,13 @@ class RequestsTransport(TransportBase, ABC):
             return self.config.ws_test_url
         return self.config.ws_url
 
-    def send_request(self, body, url, auth=None, headers=None, method="post", **kwargs):
+    def send_request(
+        self, body, url, auth=None, headers=None, method="post", timeout=30, **kwargs
+    ):
         send = getattr(requests, method)
-        return send(url, headers=headers, auth=auth, data=body, **kwargs)
+        return send(
+            url, headers=headers, auth=auth, data=body, timeout=timeout, **kwargs
+        )
 
     @abstractmethod
     def handle_200(self, response):
