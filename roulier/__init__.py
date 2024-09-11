@@ -5,6 +5,7 @@ from . import codec
 from . import transport
 from . import carrier_action
 from . import carriers
+from . import carriersv2
 import logging
 
 __all__ = [roulier]
