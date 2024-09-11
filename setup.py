@@ -19,6 +19,9 @@ setup(
         "zplgrf",
         "unidecode",
         "pycountry",
+        # v2
+        "pydantic",
+        "zeep",
     ],
     extras_requires={
         "dev": ["ptpython", "pytest"],
