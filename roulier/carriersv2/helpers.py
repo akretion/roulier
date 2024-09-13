@@ -21,3 +21,18 @@ def clean_empty(data):
 
 def none_as_empty(data):
     return {k: v if v is not None else "" for k, v in data.items()}
+
+
+def merge(*dicts):
+    # Recursively merge dictionaries
+    result = {}
+    for d in dicts:
+        for k, v in d.items():
+            if isinstance(v, dict):
+                result[k] = merge(result.get(k, {}), v)
+            else:
+                if not v and result.get(k):
+                    # Do not override value with empty value
+                    continue
+                result[k] = v
+    return result

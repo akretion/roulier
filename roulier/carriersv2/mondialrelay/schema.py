@@ -3,14 +3,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from ..helpers import prefix, clean_empty, REMOVED
 from ..schema import (
-    LabelInput,
     Address,
-    LabelOutput,
     Auth,
-    Service,
+    Label,
+    LabelInput,
+    LabelOutput,
     Parcel,
     ParcelLabel,
-    Label,
+    PickupSite,
+    PickupSiteInput,
+    PickupSiteOutput,
+    PickupSiteSearch,
+    Service,
 )
 from .constants import SORTED_KEYS
 from hashlib import md5
@@ -154,6 +158,48 @@ class MondialRelayLabelInput(LabelInput):
         )
 
 
+class MondialRelayPickupSiteSearch(PickupSiteSearch):
+    id: int | None = None
+    weight: float | None = None
+    action: str | None = None
+    delay: int | None = None
+    searchRadius: int | None = None
+    actionType: str | None = None
+    resultsCount: int | None = None
+
+    def soap(self):
+        return clean_empty(
+            {
+                "Pays": self.country,
+                "NumPointRelais": self.id,
+                "CP": self.zip,
+                "Latitude": self.lat,
+                "Longitude": self.lng,
+                "Poids": self.weight,
+                "Action": self.action,
+                "DelaiEnvoi": self.delay,
+                "RayonRecherche": self.searchRadius,
+                "TypeActivite": self.actionType,
+                "NombreResultats": self.resultsCount,
+            }
+        )
+
+
+class MondialRelayPickupSiteInput(PickupSiteInput):
+    auth: MondialRelayAuth
+    search: MondialRelayPickupSiteSearch
+
+    def soap(self):
+        return self.auth.sign(
+            clean_empty(
+                {
+                    **self.auth.soap(),
+                    **self.search.soap(),
+                }
+            )
+        )
+
+
 class MondialRelayLabel(Label):
     @classmethod
     def from_soap(cls, result):
@@ -181,3 +227,52 @@ class MondialRelayLabelOutput(LabelOutput):
     @classmethod
     def from_soap(cls, result):
         return cls.model_construct(parcels=[MondialRelayParcelLabel.from_soap(result)])
+
+
+class MondialRelayPickupSite(PickupSite):
+    actionType: str
+    hours: dict
+    url_pic: str
+    url_map: str
+
+    @classmethod
+    def from_soap(cls, result):
+        return cls.model_construct(
+            id=result["Num"],
+            name="\n".join(
+                [part for part in [result["LgAdr1"], result["LgAdr2"]] if part]
+            ),
+            street="\n".join(
+                [part for part in [result["LgAdr3"], result["LgAdr4"]] if part]
+            ),
+            zip=result["CP"],
+            city=result["Ville"],
+            country=result["Pays"],
+            lat=result["Latitude"],
+            lng=result["Longitude"],
+            actionType=result["TypeActivite"],
+            hours={
+                "monday": result["Horaires_Lundi"],
+                "tuesday": result["Horaires_Mardi"],
+                "wednesday": result["Horaires_Mercredi"],
+                "thursday": result["Horaires_Jeudi"],
+                "friday": result["Horaires_Vendredi"],
+                "saturday": result["Horaires_Samedi"],
+                "sunday": result["Horaires_Dimanche"],
+            },
+            url_pic=result["URL_Photo"],
+            url_map=result["URL_Plan"],
+        )
+
+
+class MondialRelayPickupSiteOutput(PickupSiteOutput):
+    sites: list[MondialRelayPickupSite]
+
+    @classmethod
+    def from_soap(cls, result):
+        return cls.model_construct(
+            sites=[
+                MondialRelayPickupSite.from_soap(site)
+                for site in result["PointsRelais"]["PointRelais_Details"]
+            ]
+        )

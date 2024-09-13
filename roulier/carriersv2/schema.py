@@ -57,6 +57,19 @@ class LabelInput(BaseModel):
     to_address: ToAddress
 
 
+class PickupSiteSearch(BaseModel):
+    country: str
+    city: str | None = None
+    zip: str
+    lat: float | None = None
+    lng: float | None = None
+
+
+class PickupSiteInput(BaseModel):
+    auth: Auth
+    search: PickupSiteSearch
+
+
 class Tracking(BaseModel):
     number: str
     url: str | None = None
@@ -79,3 +92,18 @@ class ParcelLabel(BaseModel):
 class LabelOutput(BaseModel):
     parcels: list[ParcelLabel]
     annexes: list[Label] = []
+
+
+class PickupSite(BaseModel):
+    id: int
+    name: str
+    street: str
+    zip: str
+    city: str
+    country: str
+    lat: str
+    lng: str
+
+
+class PickupSiteOutput(BaseModel):
+    sites: list[PickupSite]

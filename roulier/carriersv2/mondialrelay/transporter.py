@@ -5,7 +5,12 @@ import zeep
 
 from ..api import Transporter, action
 from ...exception import CarrierError
-from .schema import MondialRelayLabelInput, MondialRelayLabelOutput
+from .schema import (
+    MondialRelayLabelInput,
+    MondialRelayLabelOutput,
+    MondialRelayPickupSiteInput,
+    MondialRelayPickupSiteOutput,
+)
 from .constants import STATUSES
 
 
@@ -31,3 +36,11 @@ class MondialRelay(Transporter):
         result = self.client.WSI2_CreationEtiquette(**input.soap())
         self.raise_for_status(result)
         return MondialRelayLabelOutput.from_soap(result)
+
+    @action
+    def find_pickup_site(
+        self, input: MondialRelayPickupSiteInput
+    ) -> MondialRelayPickupSiteOutput:
+        result = self.client.WSI4_PointRelais_Recherche(**input.soap())
+        self.raise_for_status(result)
+        return MondialRelayPickupSiteOutput.from_soap(result)
