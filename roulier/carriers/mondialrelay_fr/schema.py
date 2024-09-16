@@ -1,8 +1,8 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from ..helpers import prefix, clean_empty, REMOVED
-from ..schema import (
+from ...helpers import prefix, filter_empty, unaccent, REMOVED
+from ...schema import (
     Address,
     Auth,
     Label,
@@ -30,13 +30,19 @@ class MondialRelayAuth(Auth):
         }
 
     def sign(self, parameters):
+        parameters = unaccent(filter_empty(parameters))
         m = md5()
+
         m.update(
             "".join(
                 [
                     str(v)
-                    for k in SORTED_KEYS
-                    for v in [parameters.get(k)]
+                    for _, v in sorted(
+                        parameters.items(),
+                        key=lambda item: SORTED_KEYS.index(
+                            item[0],
+                        ),
+                    )
                     if v is not None
                 ]
                 + [self.password]
@@ -110,7 +116,7 @@ class MondialRelayParcel(Parcel):
 
 
 class MondialRelayAddress(Address):
-    lang: str
+    lang: str = "FR"
     country: str
     zip: str
     city: str
@@ -146,15 +152,13 @@ class MondialRelayLabelInput(LabelInput):
 
     def soap(self):
         return self.auth.sign(
-            clean_empty(
-                {
-                    **self.auth.soap(),
-                    **self.service.soap(),
-                    **self.parcels[0].soap(),
-                    **prefix(self.from_address.soap(), "Expe_"),
-                    **prefix(self.to_address.soap(), "Dest_"),
-                }
-            )
+            {
+                **self.auth.soap(),
+                **self.service.soap(),
+                **self.parcels[0].soap(),
+                **prefix(self.from_address.soap(), "Expe_"),
+                **prefix(self.to_address.soap(), "Dest_"),
+            }
         )
 
 
@@ -168,21 +172,19 @@ class MondialRelayPickupSiteSearch(PickupSiteSearch):
     resultsCount: int | None = None
 
     def soap(self):
-        return clean_empty(
-            {
-                "Pays": self.country,
-                "NumPointRelais": self.id,
-                "CP": self.zip,
-                "Latitude": self.lat,
-                "Longitude": self.lng,
-                "Poids": self.weight,
-                "Action": self.action,
-                "DelaiEnvoi": self.delay,
-                "RayonRecherche": self.searchRadius,
-                "TypeActivite": self.actionType,
-                "NombreResultats": self.resultsCount,
-            }
-        )
+        return {
+            "Pays": self.country,
+            "NumPointRelais": self.id,
+            "CP": self.zip,
+            "Latitude": self.lat,
+            "Longitude": self.lng,
+            "Poids": self.weight,
+            "Action": self.action,
+            "DelaiEnvoi": self.delay,
+            "RayonRecherche": self.searchRadius,
+            "TypeActivite": self.actionType,
+            "NombreResultats": self.resultsCount,
+        }
 
 
 class MondialRelayPickupSiteInput(PickupSiteInput):
@@ -191,12 +193,10 @@ class MondialRelayPickupSiteInput(PickupSiteInput):
 
     def soap(self):
         return self.auth.sign(
-            clean_empty(
-                {
-                    **self.auth.soap(),
-                    **self.search.soap(),
-                }
-            )
+            {
+                **self.auth.soap(),
+                **self.search.soap(),
+            }
         )
 
 
