@@ -5,36 +5,39 @@
 from functools import wraps
 import logging
 import typing
-from ..roulier import factory
-from ..exception import InvalidApiInput
+from .roulier import factory
+from .exception import CarrierError, InvalidApiInput
 
 
 log = logging.getLogger(__name__)
 
 
-class MetaTransporter(type):
+class MetaCarrier(type):
     """
-    Metaclass for Transporter classes.
+    Metaclass for Carrier classes.
 
-    Used to register transporter actions in the roulier factory.
+    Used to register carrier actions in the roulier factory.
     """
 
     def __new__(cls, name, bases, dct):
-        transporter = super().__new__(cls, name, bases, dct)
+        carrier = super().__new__(cls, name, bases, dct)
 
-        name = getattr(transporter, "__key__", transporter.__name__.lower())
+        if not hasattr(carrier, "__key__"):
+            carrier.__key__ = carrier.__name__.lower()
+
+        name = getattr(carrier, "__key__")
 
         for key, value in dct.items():
             if getattr(value, "__action__", False):
                 log.debug(f"Registering {key} for {name}")
-                factory.register_builder(name, key, transporter)
+                factory.register_builder(name, key, carrier)
 
-        return transporter
+        return carrier
 
 
-class Transporter(metaclass=MetaTransporter):
+class Carrier(metaclass=MetaCarrier):
     """
-    Base class for pydantic transporters.
+    Base class for pydantic carriers.
     """
 
     def __init__(self, carrier_type, action, **kwargs):
@@ -45,7 +48,7 @@ class Transporter(metaclass=MetaTransporter):
 
 def action(f):
     """
-    Decorator for transporter actions. Use it to register an action in the
+    Decorator for carrier actions. Use it to register an action in the
     factory and to validate input and output data.
 
     The decorated method must have an `input` argument decorated with a type hint
@@ -54,8 +57,8 @@ def action(f):
     Example:
     ```python
     @action
-    def get_label(self, input: TransporterLabelInput) -> TransporterLabelOutput:
-        return TransporterLabelOutput.from_response(
+    def get_label(self, input: CarrierLabelInput) -> CarrierLabelOutput:
+        return CarrierLabelOutput.from_response(
             self.fetch(input.to_request())
         )
     ```
@@ -74,10 +77,15 @@ def action(f):
         except Exception as e:
             raise InvalidApiInput(f"Invalid input data {data!r}\n\n{e!s}") from e
 
-        rv = f(self, input)
+        try:
+            rv = f(self, input)
+        except CarrierError as e:
+            raise e
+        except Exception as e:
+            raise CarrierError(None, f"Action failed {data!r}\n\n{e!s}") from e
 
         if isinstance(rv, hints["return"]):
-            return rv.dict()
+            return rv.model_dump()
 
         return rv
 

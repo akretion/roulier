@@ -95,7 +95,7 @@ class LabelOutput(BaseModel):
 
 
 class PickupSite(BaseModel):
-    id: int
+    id: str
     name: str
     street: str
     zip: str

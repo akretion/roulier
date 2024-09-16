@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import zeep
 
-from ..api import Transporter, action
+from ...carrier import Carrier, action
 from ...exception import CarrierError
 from .schema import (
     MondialRelayLabelInput,
@@ -14,9 +14,11 @@ from .schema import (
 from .constants import STATUSES
 
 
-class MondialRelay(Transporter):
-    __key__ = "mondialrelay2"
+class MondialRelay(Carrier):
+    __key__ = "mondialrelay_fr"
+
     __url__ = "https://api.mondialrelay.com/Web_Services.asmx?WSDL"
+    __ref__ = "https://www.mondialrelay.fr/media/122867/solution-web-service-v57.pdf"
     __ns_prefix__ = "http://www.mondialrelay.fr/webservice/"
 
     @property

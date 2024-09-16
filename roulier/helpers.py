@@ -1,8 +1,8 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
 from typing import ClassVar
+import unicodedata
 
 REMOVED = ClassVar[None]  # Hack to remove a field from inherited class
 
@@ -15,12 +15,33 @@ def suffix(data, suffix):
     return {f"{k}{suffix}": v for k, v in data.items()}
 
 
-def clean_empty(data):
-    return {k: v for k, v in data.items() if v is not None and v != ""}
+def walk_data(data, filter=lambda x: True, transform=lambda x: x):
+    if isinstance(data, dict):
+        return {
+            k: walk_data(v, filter, transform) for k, v in data.items() if filter(v)
+        }
+    elif isinstance(data, list):
+        return [walk_data(v, filter, transform) for v in data]
+    else:
+        return transform(data)
+
+
+def filter_empty(data):
+    return walk_data(data, filter=lambda x: x is not None and x != "")
 
 
 def none_as_empty(data):
-    return {k: v if v is not None else "" for k, v in data.items()}
+    return walk_data(data, transform=lambda x: "" if x is None else x)
+
+
+def unaccent(s):
+    if isinstance(s, dict):
+        return walk_data(s, transform=unaccent)
+    if not isinstance(s, str):
+        return s
+    return "".join(
+        c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn"
+    )
 
 
 def merge(*dicts):
