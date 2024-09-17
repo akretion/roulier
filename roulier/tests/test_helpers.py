@@ -22,15 +22,7 @@ def test_suffix():
 
 
 def test_walk_data():
-    assert walk_data(
-        {
-            "a": 1,
-            "b": {
-                "c": 3,
-                "d": {"a": 5, "f": 6},
-            },
-        }
-    ) == {
+    assert walk_data({"a": 1, "b": {"c": 3, "d": {"a": 5, "f": 6},},}) == {
         "a": 1,
         "b": {
             "c": 3,
@@ -73,12 +65,7 @@ def test_filter_empty():
             "c": "",
         }
     ) == {"a": 1}
-    assert filter_empty(
-        {
-            "a": 1,
-            "b": {"c": None, "d": {"a": 5, "f": ""}},
-        }
-    ) == {
+    assert filter_empty({"a": 1, "b": {"c": None, "d": {"a": 5, "f": ""}},}) == {
         "a": 1,
         "b": {"d": {"a": 5}},
     }
@@ -103,14 +90,7 @@ def test_merge():
     assert merge({"a": None}, {"a": 1}) == {"a": 1}
     assert merge({"a": ""}, {"a": 1}) == {"a": 1}
     assert merge({"a": 1}, {"a": 2}, {"a": 3}) == {"a": 3}
-    assert merge(
-        {
-            "a": {"b": 1},
-        },
-        {
-            "a": {"c": 2},
-        },
-    ) == {
+    assert merge({"a": {"b": 1},}, {"a": {"c": 2},},) == {
         "a": {"b": 1, "c": 2},
     }
     assert merge({"a": {"b": 1}}, {"a": {"b": 2}}) == {"a": {"b": 2}}

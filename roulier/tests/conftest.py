@@ -1,8 +1,8 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from datetime import date
 import pytest
+from collections import defaultdict
 
 try:
     from .credentials import CREDENTIALS
@@ -12,20 +12,28 @@ except ImportError:
 
 @pytest.fixture(scope="session")
 def credentials():
-    return {
-        **CREDENTIALS,
-        "isTest": True,
-    }
+    for cred in CREDENTIALS.values():
+        if "auth" in cred:
+            cred["auth"]["isTest"] = True
+    return defaultdict(
+        lambda: {
+            "auth": {
+                "login": "login",
+                "password": "password",
+                "isTest": True,
+            }
+        },
+        CREDENTIALS,
+    )
 
 
 @pytest.fixture
 def base_get_label_data():
     return {
         "service": {
-            "shippingDate": date(2024, 1, 1),
             "labelFormat": "PDF",
         },
-        "parcels": [{"weight": 1.2, "comment": "Fake comment"}],
+        "parcels": [{"weight": 1.2, "reference": "Parcel 1"}],
         "from_address": {
             "name": "Akrétion",
             "street1": "27 rue Henri Rolland",

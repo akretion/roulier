@@ -75,6 +75,11 @@ def action(f):
         try:
             input = hints["input"](**data)
         except Exception as e:
+            if "auth" in data:
+                if "login" in data["auth"]:
+                    data["auth"]["login"] = "xxx"
+                if "password" in data["auth"]:
+                    data["auth"]["password"] = "xxx"
             raise InvalidApiInput(f"Invalid input data {data!r}\n\n{e!s}") from e
 
         try:
