@@ -80,7 +80,6 @@ def test_carrier_api_unexposed():
 
 
 def test_carrier_api_bad_input_signature():
-
     class DummyOut(BaseModel):
         pass
 

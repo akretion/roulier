@@ -5,8 +5,10 @@
 """Copy this file to credentials.py and fill in your test credentials"""
 
 CREDENTIALS = {
-    "mondialrelay_fr": {  # These are public test credentials
-        "login": "BDTEST13",
-        "password": "PrivateK",
+    "mondialrelay_fr": {
+        "auth": {  # These are public test credentials
+            "login": "BDTEST13",
+            "password": "PrivateK",
+        }
     },
 }
