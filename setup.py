@@ -22,6 +22,7 @@ setup(
         # v2
         "pydantic",
         "zeep",
+        "requests-toolbelt",
     ],
     extras_requires={
         "dev": ["pytest", "pytest-recording"],
