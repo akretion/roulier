@@ -1,0 +1,46 @@
+interactions:
+- request:
+    body: '{"generateBordereauParcelNumberList": {"parcelsNumbers": ["unknown", "missing"]}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '81'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://ws.colissimo.fr/sls-ws/SlsServiceWSRest/2.0/generateBordereauByParcelsNumbers
+  response:
+    body:
+      string: "\r\n--uuid:f61aa9cd-7c3a-4dc2-9d6d-bc262e56d445\r\nContent-Type: application/json;charset=UTF-8\r\nContent-Transfer-Encoding:
+        binary\r\nContent-ID: <jsonInfos>\r\n\r\n{\"messages\":[{\"id\":\"50031\",\"type\":\"ERROR\",\"messageContent\":\"Num\xE9ro
+        de colis invalide unknown\"}],\"bordereauHeader\":null}\r\n--uuid:f61aa9cd-7c3a-4dc2-9d6d-bc262e56d445--"
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - close
+      Content-Type:
+      - multipart/mixed;boundary="uuid:f61aa9cd-7c3a-4dc2-9d6d-bc262e56d445";charset=UTF-8
+      Date:
+      - Tue, 17 Sep 2024 15:15:31 GMT
+      P3P:
+      - policyref="/w3c/p3p.xml", CP="NOI DSP COR NID CUR ADM DEV OUR BUS"
+      Server:
+      - Apache
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - User-Agent
+      X-Robots-Tag:
+      - noindex
+    status:
+      code: 400
+      message: ''
+version: 1
