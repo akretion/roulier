@@ -131,6 +131,13 @@ class GeodisFrApiEdi(GeodisFrParcelApi):
                 "required": False,
                 # 'description': """7085 : Notify recipient by M(ail), S(ms), P(=M+S)"""
             },
+            # Contract and condition : particular/pro
+            # when empty it is kind of computed by geodis sytem depending on option
+            "contractCondition": {
+                "type": "string",
+                "required": False,
+                "allowed": ["P", "E"],
+            },
             "shippingId": {
                 "type": "string",
                 "default": "",
