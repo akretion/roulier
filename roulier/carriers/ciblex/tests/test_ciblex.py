@@ -5,6 +5,7 @@
 import pytest
 from datetime import date
 from roulier import roulier
+from base64 import b64decode
 from ....helpers import merge
 from ....tests.helpers import assert_pdf
 
@@ -24,7 +25,7 @@ def get_label_data(credentials, base_get_label_data):
             "service": {
                 "product": "01002",
                 "shippingDate": date(
-                    2024, 12, 1
+                    2024, 12, 5
                 ),  # Update the date when launching the tests with the credentials
             }
         },
@@ -45,7 +46,7 @@ def before_record_response(response):
     filter_headers=["Cookie"],
     before_record_response=before_record_response,
 )
-def test_ciblex_label(get_label_data):
+def test_ciblex_label_pdf(get_label_data):
     rv = roulier.get("ciblex", "get_label", get_label_data)
     assert "parcels" in rv
     assert rv["parcels"][0]["id"]
@@ -55,6 +56,33 @@ def test_ciblex_label(get_label_data):
     assert label["name"] == "label"
     assert label["type"] == "PDF"
     assert_pdf(label["data"])
+
+    assert "tracking" in rv["parcels"][0]
+    tracking = rv["parcels"][0]["tracking"]
+    assert tracking["number"]
+    assert tracking["url"].startswith("https://secure.extranet.ciblex.fr")
+
+
+@pytest.mark.vcr(
+    filter_post_data_parameters=["USER_COMPTE", "USER_PASSWORD"],
+    filter_query_parameters=["expediteur", "liste_cmd"],
+    filter_headers=["Cookie"],
+    before_record_response=before_record_response,
+)
+def test_ciblex_label_epl(get_label_data):
+    data = get_label_data
+    data["service"]["labelFormat"] = "EPL"
+    rv = roulier.get("ciblex", "get_label", data)
+    assert "parcels" in rv
+    assert rv["parcels"][0]["id"]
+
+    assert "label" in rv["parcels"][0]
+    label = rv["parcels"][0]["label"]
+    assert label["name"] == "label"
+    assert label["type"] == "EPL"
+    # EPL: No magic bytes, just test a part of it
+    assert label["data"]
+    assert b"--- CB_2D ----" in b64decode(label["data"])
 
     assert "tracking" in rv["parcels"][0]
     tracking = rv["parcels"][0]["tracking"]
