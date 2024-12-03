@@ -60,9 +60,7 @@ class Ciblex(Carrier):
         response = requests.get(
             f"{self.__url__}/corps.php",
             params={
-                "action": (
-                    "Imprimer(PDF)" if format == "PDF" else "Imprimer(Thermique)"
-                ),
+                "action": "Imprimer(PDF)",  # This is only to get the liste_cmd
                 **params,
             },
             cookies=auth,
@@ -80,21 +78,29 @@ class Ciblex(Carrier):
             "format": format,
         }
 
-    def _download(self, auth, order):
+    def _download(self, auth, order, format="PDF"):
         # 3) Get label
         response = requests.get(
             f"{self.__url__}/label_ool.php",
             params={
                 "origine": "OOL",
-                "output": order["format"],
+                "output": order["format"] if format == "PDF" else "PRINTER",
                 "url_retour": f"{self.__url__}/corps.php?module=cmdjou",
                 "liste_cmd": order["order"],
             },
             cookies=auth,
         )
+        if format == "EPL":
+            # We need to get the file name
+            button = self._xpath(response, '//input[@id="btn_imp"]')
+            if not button:
+                raise CarrierError(response, "No generated EPL found")
+            epl_fn = button[0].attrib["onclick"].split("'")[3]
+            response = requests.get(f"{self.__url__}/tmp/{epl_fn}", cookies=auth)
+
         return base64.b64encode(response.content)
 
-    def _get_tracking(self, auth, order, label, input):
+    def _get_tracking(self, auth, order, label, input, format="PDF"):
         # 4) Get tracking
         response = requests.get(
             f"{self.__url__}/corps.php",
@@ -128,7 +134,7 @@ class Ciblex(Carrier):
             {
                 "id": f"{order_ref}_{i+1}",
                 "reference": input.parcels[i].reference,
-                "format": "PDF",
+                "format": format,
                 "label": label,  # TODO: Label contain all parcels, split it?
                 "tracking": trackings[i],
             }
@@ -139,15 +145,15 @@ class Ciblex(Carrier):
     def get_label(self, input: CiblexLabelInput) -> CiblexLabelOutput:
         auth = self._auth(input.auth)
         format = input.service.labelFormat or "PDF"
-        if format != "PDF":
+        if format not in ["PDF", "EPL"]:
             # Website also use "PRINTER" but this can't work here
-            raise CarrierError(None, "Only PDF format is supported")
+            raise CarrierError(None, "Only PDF and EPL format are supported")
 
         # requests send all params as utf-8, but Ciblex expect latin-1
         params = input.params()
         self._validate(auth, params)
         order = self._print(auth, params, format)
-        label = self._download(auth, order)
-        results = self._get_tracking(auth, order, label, input)
+        label = self._download(auth, order, format)
+        results = self._get_tracking(auth, order, label, input, format)
 
         return CiblexLabelOutput.from_params(results)
