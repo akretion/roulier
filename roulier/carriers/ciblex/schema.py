@@ -1,6 +1,7 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from pydantic import Field
 from ...helpers import prefix, suffix, none_as_empty, unaccent
 from ...schema import (
     LabelInput,
@@ -72,8 +73,10 @@ class CiblexAddress(Address):
     zip: str
     city: str
     country: str  # FR ou MC, enum?
-    street3: str | None = None
-    street4: str | None = None
+    street1: str | None = Field(max_length=40, default=None)
+    street2: str | None = Field(max_length=40, default=None)
+    street3: str | None = Field(max_length=40, default=None)
+    street4: str | None = Field(max_length=40, default=None)
 
     def params(self):
         return {
