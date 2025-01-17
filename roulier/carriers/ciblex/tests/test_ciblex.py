@@ -5,6 +5,7 @@
 import pytest
 from datetime import date
 from roulier import roulier
+from roulier.exception import InvalidApiInput
 from base64 import b64decode
 from ....helpers import merge
 from ....tests.helpers import assert_pdf
@@ -88,3 +89,15 @@ def test_ciblex_label_epl(get_label_data):
     tracking = rv["parcels"][0]["tracking"]
     assert tracking["number"]
     assert tracking["url"].startswith("https://secure.extranet.ciblex.fr")
+
+
+@pytest.mark.block_network
+def test_ciblex_label_bad_street(get_label_data):
+    data = get_label_data
+    data["to_address"]["street1"] = "23 rue de la République 75001 Paris CEDEX 129832Z"
+
+    with pytest.raises(
+        InvalidApiInput,
+        match="to_address.street1\n  String should have at most 40 characters",
+    ):
+        roulier.get("ciblex", "get_label", data)
