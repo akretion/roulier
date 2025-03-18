@@ -18,6 +18,15 @@ from ...schema import (
     ParcelLabel,
     Label,
     Tracking,
+    PickupSite,
+    PickupSiteSearchInput,
+    PickupSiteSearch,
+    PickupSiteGetInput,
+    PickupSiteGet,
+    PickupSiteOpeningSlot,
+    PickupSiteOpeningHours,
+    PickupSiteSearchOutput,
+    PickupSiteGetOutput,
     PackingSlipInput,
     PackingSlipOutput,
     PackingSlip,
@@ -450,6 +459,214 @@ class ColissimoFrLabelOutput(LabelOutput):
         )
 
 
+class ColissimoFrPickingSiteAuth(ColissimoFrAuth):
+    def params(self):
+        rv = super().params()
+        if "contractNumber" in rv:
+            del rv["contractNumber"]
+
+        return rv
+
+
+class ColissimoFrPickupSiteService(Service):
+    def params(self):
+        return {
+            "shippingDate": self.shippingDate.strftime("%d/%m/%Y")
+            if self.shippingDate
+            else None,
+            "accountNumber": self.customerId,
+        }
+
+
+class ColissimoFrPickupSiteGetService(ColissimoFrPickupSiteService):
+    def params(self):
+        rv = super().params()
+        rv["date"] = rv.pop("shippingDate")
+        return rv
+
+
+class ColissimoFrPickupSiteSearch(PickupSiteSearch):
+    filter: str = "0"
+    inter: str = "0"
+    language: str = "FR"
+
+    def params(self):
+        return {
+            "address": self.street,
+            "zipCode": self.zip,
+            "city": self.city,
+            "countryCode": self.country,
+            "weight": self.weight,
+            "filterRelay": self.filter,
+            "lang": self.language,
+            "optionInter": self.inter,
+        }
+
+
+class ColissimoFrPickupSiteSearchInput(PickupSiteSearchInput):
+    auth: ColissimoFrPickingSiteAuth
+    search: ColissimoFrPickupSiteSearch
+    service: ColissimoFrPickupSiteService
+
+    def params(self):
+        return unaccent(
+            merge(
+                self.auth.params(),
+                self.search.params(),
+                self.service.params(),
+            )
+        )
+
+
+class ColissimoFrPickupSiteGet(PickupSiteGet):
+    weight: float | None = None
+    filter: str = "0"
+    language: str = "FR"
+
+    def params(self):
+        return {
+            "id": self.id,
+            "weight": self.weight,
+            "filterRelay": self.filter,
+            "reseau": self.zone,
+            "langue": self.language,
+        }
+
+
+class ColissimoFrPickupSiteGetInput(PickupSiteGetInput):
+    auth: ColissimoFrPickingSiteAuth
+    get: ColissimoFrPickupSiteGet
+    service: ColissimoFrPickupSiteGetService
+
+    def params(self):
+        return unaccent(
+            merge(
+                self.auth.params(),
+                self.get.params(),
+                self.service.params(),
+            )
+        )
+
+
+class ColissimoFrPickupSiteOpeningSlot(PickupSiteOpeningSlot):
+    @classmethod
+    def from_params(cls, start, end):
+        return cls.model_construct(
+            start=datetime.strptime(start, "%H:%M").time(),
+            end=datetime.strptime(end, "%H:%M").time(),
+        )
+
+
+class ColissimoFrPickupSiteOpeningHours(PickupSiteOpeningHours):
+    @classmethod
+    def from_params(cls, result):
+        return cls.model_construct(
+            **{
+                day: [
+                    ColissimoFrPickupSiteOpeningSlot.from_params(slot_start, slot_end)
+                    for slot in result[f"horairesOuverture{day_label}"].split(" ")
+                    if slot
+                    for slot_start, slot_end in [slot.split("-")]
+                    if slot_start != "00:00" and slot_end != "00:00"
+                ]
+                for day, day_label in [
+                    ("monday", "Lundi"),
+                    ("tuesday", "Mardi"),
+                    ("wednesday", "Mercredi"),
+                    ("thursday", "Jeudi"),
+                    ("friday", "Vendredi"),
+                    ("saturday", "Samedi"),
+                    ("sunday", "Dimanche"),
+                ]
+            }
+        )
+
+
+class ColissimoFrPickupSiteVacation(BaseModel):
+    start: datetime
+    end: datetime
+
+    @classmethod
+    def from_params(cls, result):
+        return cls.model_construct(
+            start=datetime.fromtimestamp(result["calendarDeDebut"] / 1000),
+            end=datetime.fromtimestamp(result["calendarDeFin"] / 1000),
+        )
+
+
+class ColissimoFrPickupSite(PickupSite):
+    details: str | None = None
+    zone: str | None = None
+    type: str | None = None
+    max_weight: float | None = None
+    distance: int | None = None
+    parking: bool = False
+    disabled_access: bool = False
+    vacations: list[ColissimoFrPickupSiteVacation] = []
+
+    @classmethod
+    def from_params(cls, result):
+        return cls.model_construct(
+            id=result["identifiant"],
+            name=result["nom"],
+            street="\n".join(
+                [
+                    part.strip()
+                    for part in [
+                        result["adresse1"],
+                        result["adresse2"],
+                        result["adresse3"],
+                    ]
+                    if part
+                ]
+            ),
+            zip=result["codePostal"],
+            city=result["localite"],
+            details=result["indiceDeLocalisation"],
+            country=result["codePays"],
+            zone=result["reseau"],
+            lat=result["coordGeolocalisationLatitude"],
+            lng=result["coordGeolocalisationLongitude"],
+            type=result["typeDePoint"],
+            max_weight=result["poidsMaxi"],
+            distance=result["distanceEnMetre"],
+            hours=ColissimoFrPickupSiteOpeningHours.from_params(result),
+            vacations=[
+                ColissimoFrPickupSiteVacation.from_params(vacation)
+                for vacation in result["listeConges"]
+            ],
+            parking=result["parking"],
+            disabled_access=result["accesPersonneMobiliteReduite"],
+        )
+
+
+class ColissimoFrPickupSiteSearchOutput(PickupSiteSearchOutput):
+    quality: int
+    sites: list[ColissimoFrPickupSite]
+
+    @classmethod
+    def from_params(cls, results):
+        return cls.model_construct(
+            quality=results["qualiteReponse"],
+            sites=[
+                ColissimoFrPickupSite.from_params(site)
+                for site in results["listePointRetraitAcheminement"]
+            ],
+        )
+
+
+class ColissimoFrPickupSiteGetOutput(PickupSiteGetOutput):
+    site: ColissimoFrPickupSite
+
+    @classmethod
+    def from_params(cls, result):
+        return cls.model_construct(
+            site=ColissimoFrPickupSite.from_params(result["pointRetraitAcheminement"])
+            if result["pointRetraitAcheminement"]
+            else None
+        )
+
+
 class ColissimoFrPackingSlipInput(PackingSlipInput):
     auth: ColissimoFrAuth
 
@@ -581,7 +798,7 @@ class ColissimoFrCreateUpdateDocumentService(
     CreateUpdateDocumentService, ColissimoFrDocumentService
 ):
     document_type: DocumentType
-    account_number: str
+    customerId: str
     parcel_number: str
     parcel_number_list: str | None = None
 
@@ -589,7 +806,7 @@ class ColissimoFrCreateUpdateDocumentService(
         return {
             **super().params(),
             "documentType": self.document_type.value,
-            "accountNumber": self.account_number,
+            "accountNumber": self.customerId,
             "parcelNumber": self.parcel_number,
             "parcelNumberList": self.parcel_number_list,
             "filename": Path(self.document_path).name,
