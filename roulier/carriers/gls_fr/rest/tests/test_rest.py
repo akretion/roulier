@@ -181,6 +181,7 @@ def test_FDS():
     assert_result(vals, result, 1, 0)
 
 
+@pytest.mark.skip(reason="FIXME: GLS API is not working")
 def test_SHD():
     vals = copy.deepcopy(DATA)
     vals["to_address"]["contact"] = "Dylann"
