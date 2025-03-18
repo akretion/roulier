@@ -19,6 +19,10 @@ from .schema import (
     ColissimoFrDocumentOutput,
     ColissimoFrDocumentsOutput,
     ColissimoFrCreateUpdateDocumentOutput,
+    ColissimoFrPickupSiteGetInput,
+    ColissimoFrPickupSiteSearchInput,
+    ColissimoFrPickupSiteGetOutput,
+    ColissimoFrPickupSiteSearchOutput,
 )
 
 
@@ -37,7 +41,9 @@ class ColissimoFr(Carrier):
     __url__ = "https://ws.colissimo.fr/sls-ws/SlsServiceWSRest/2.0"
     __doc_url__ = "https://ws.colissimo.fr/api-document/rest"
     __auth_url__ = "https://ws.colissimo.fr/widget-colissimo/rest"
+    __pickup_url__ = "https://ws.colissimo.fr/pointretrait-ws-cxf/rest/v2/pointretrait"
     __ref__ = "https://www.colissimo.fr/doc-colissimo/redoc-sls/en"
+    __pickup_ref__ = "https://www.colissimo.entreprise.laposte.fr/media/271/download"
 
     def _raise_for_status(self, response):
         try:
@@ -81,13 +87,15 @@ class ColissimoFr(Carrier):
         return response
 
     def _raise_for_error_code(self, response):
-        if "errorCode" in response and response["errorCode"] != "000":
+        if "errorCode" in response and int_maybe(response["errorCode"]):
             raise CarrierError(
                 response,
                 [
                     {
                         "id": int_maybe(response["errorCode"]),
-                        "message": response["errorLabel"],
+                        "message": response.get(
+                            "errorLabel", response.get("errorMessage")
+                        ),
                     }
                 ],
             )
@@ -114,6 +122,11 @@ class ColissimoFr(Carrier):
             kwargs["json"] = json
 
         response = requests.post(f"{self.__doc_url__}/{method}", **kwargs)
+        self._raise_for_status(response)
+        return response
+
+    def pickup_request(self, method, json):
+        response = requests.post(f"{self.__pickup_url__}/{method}", json=json)
         self._raise_for_status(response)
         return response
 
@@ -155,10 +168,29 @@ class ColissimoFr(Carrier):
         return ColissimoFrLabelOutput.from_params(result, input)
 
     @action
+    def search_pickup_sites(
+        self, input: ColissimoFrPickupSiteSearchInput
+    ) -> ColissimoFrPickupSiteSearchOutput:
+        params = input.params()
+        response = self.pickup_request("findRDVPointRetraitAcheminement", params)
+        result = response.json()
+        self._raise_for_error_code(result)
+        return ColissimoFrPickupSiteSearchOutput.from_params(result)
+
+    @action
+    def get_pickup_site(
+        self, input: ColissimoFrPickupSiteGetInput
+    ) -> ColissimoFrPickupSiteGetOutput:
+        params = input.params()
+        response = self.pickup_request("findPointRetraitAcheminementByID", params)
+        result = response.json()
+        self._raise_for_error_code(result)
+        return ColissimoFrPickupSiteGetOutput.from_params(result)
+
+    @action
     def get_packing_slip(
         self, input: ColissimoFrPackingSlipInput
     ) -> ColissimoFrPackingSlipOutput:
-
         params = input.params()
 
         if input.packing_slip_number:

@@ -2,7 +2,7 @@ interactions:
 - request:
     body: '{"outputFormat": {"x": 0, "y": 0, "outputPrintingType": "ZPL_10x15_300dpi",
       "dematerialized": false, "returnType": null, "printCoDDocument": false}, "letter":
-      {"service": {"productCode": "COL", "depositDate": "2025-01-01", "mailBoxPicking":
+      {"service": {"productCode": "COL", "depositDate": "2025-04-01", "mailBoxPicking":
       false, "mailBoxPickingDate": null, "vatCode": null, "vatPercentage": null, "vatAmount":
       null, "transportationAmount": null, "totalAmount": null, "orderNumber": null,
       "commercialName": null, "returnTypeChoice": null, "reseauPostal": null}, "parcel":
@@ -50,7 +50,7 @@ interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 17 Sep 2024 15:15:30 GMT
+      - Tue, 18 Mar 2025 11:10:49 GMT
       Keep-Alive:
       - timeout=15, max=200
       P3P:
@@ -69,7 +69,7 @@ interactions:
 - request:
     body: '{"outputFormat": {"x": 0, "y": 0, "outputPrintingType": "ZPL_10x15_300dpi",
       "dematerialized": false, "returnType": null, "printCoDDocument": false}, "letter":
-      {"service": {"productCode": "COL", "depositDate": "2025-01-01", "mailBoxPicking":
+      {"service": {"productCode": "COL", "depositDate": "2025-04-01", "mailBoxPicking":
       false, "mailBoxPickingDate": null, "vatCode": null, "vatPercentage": null, "vatAmount":
       null, "transportationAmount": null, "totalAmount": null, "orderNumber": null,
       "commercialName": null, "returnTypeChoice": null, "reseauPostal": null}, "parcel":
@@ -107,41 +107,41 @@ interactions:
     uri: https://ws.colissimo.fr/sls-ws/SlsServiceWSRest/2.0/generateLabel
   response:
     body:
-      string: "\r\n--uuid:d39553bc-add0-4ab7-90a3-29966d9b8f60\r\nContent-Type: application/json;charset=UTF-8\r\nContent-Transfer-Encoding:
+      string: "\r\n--uuid:1319cc1c-95c7-4233-ad64-0d0bba481500\r\nContent-Type: application/json;charset=UTF-8\r\nContent-Transfer-Encoding:
         binary\r\nContent-ID: <jsonInfos>\r\n\r\n{\"messages\":[{\"id\":\"0\",\"type\":\"INFOS\",\"messageContent\":\"La
-        requ\xEAte a \xE9t\xE9 trait\xE9e avec succ\xE8s\",\"replacementValues\":[]}],\"labelXmlV2Reponse\":null,\"labelV2Response\":{\"parcelNumber\":\"9V34574221844\",\"parcelNumberPartner\":\"0075004119V3457422184802250P\",\"pdfUrl\":null,\"fields\":{\"field\":[{\"key\":\"NETWORK_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_CAB\",\"value\":\"\"},{\"key\":\"CN23_THERMIQUE\",\"value\":\"\"}],\"customField\":[{\"key\":\"NETWORK_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_CAB\",\"value\":\"\"},{\"key\":\"CN23_THERMIQUE\",\"value\":\"\"}]}}}\r\n--uuid:d39553bc-add0-4ab7-90a3-29966d9b8f60\r\nContent-Type:
+        requ\xEAte a \xE9t\xE9 trait\xE9e avec succ\xE8s\",\"replacementValues\":[]}],\"labelXmlV2Reponse\":null,\"labelV2Response\":{\"parcelNumber\":\"9V34929818521\",\"parcelNumberPartner\":\"0075004119V3492981852802250G\",\"pdfUrl\":null,\"fields\":{\"field\":[{\"key\":\"NETWORK_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_CAB\",\"value\":\"\"},{\"key\":\"CN23_THERMIQUE\",\"value\":\"\"}],\"customField\":[{\"key\":\"NETWORK_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_NAME\",\"value\":\"\"},{\"key\":\"PARTNER_CAB\",\"value\":\"\"},{\"key\":\"CN23_THERMIQUE\",\"value\":\"\"}]}}}\r\n--uuid:1319cc1c-95c7-4233-ad64-0d0bba481500\r\nContent-Type:
         application/octet-stream\r\nContent-Transfer-Encoding: binary\r\nContent-ID:
-        <label>\r\n\r\n\uFEFF\x10CT~~CD,~CC^~CT~\n^XA\n^PW1181\n^LS0000\n^LT0000\n^FO1056,0^GFA,06656,06656,00016,:Z64:\neJztl02SpCAQhSFcuOQIHIW+GXbMYq7FUTiCSxeEtAIi+fCnLbuqZyIqd190F+bLl5kiY+/436PxU4wrtzP7fRbw/zLyx8JqZsfswjow7wkPK4fj+2bYYR7Yto6yWDik740Ydzim3ym/wyLK074r5MxsCjnjlFXJbmJb8MAz64V7IqfmgcgDFvMzSjnAcrEgycksFnnJsizHR4HIWV4SmOUlTu6FpIi8xFlOEgjM4ykhyyFwl7McgpyVXeA16y3mRdYF6/V8k7MIBQ1ZxiKt+fmV9cp2i9XKZovlyt0WRz/6+djCH6sWv6KfVtbsNvsB+yUVHHntt1gaXrONnEqZ+zsIGCvWhIt5SesB50vuzePCMM843+3ePlh4d58kQRbYLJwE5cB9lhZCDtx/4cSevePXQo8EuV96MUabezuGALtknpXMrmRF2iE2WMnYDr4XJAFvm5KnlcQpd4zy9AhkU/B4zuqEq993Bwz5sIk9Miu544S1oXwa0lHW9Oc876IYV/1FP8/91eBvS/Vf9HOr3obymX+X/Nzop6N+ZPPbhPCoqJ/1+jusJ86TAD/Qvwb8Rf+ZuLltTxY6LnwJrIA1sL/KlmTHQT0OzxnfjvC+tpT/DMCO8t+bjOd9kg756RCmJGU0eZo2tH99B8xhPzT0hQPMx7ZmQ3ik89s6Ot/tQFlULCn35O9eEZ7qe5Ut2f8aWHlD6iGngpUs6OuZtbDez0PYkmq/NDnx+X655/olgV/tF70+PeDXceB8v2Kf4P76fOGF3cP7sLovPsDdDWZwn/sOm2NWJ38/Y8ivuayPHfPl+h89jz1QP2Cs1+36lXy3Px6o5wDcU765QARcBuA+iPfFFp7/498DTlLG+/I/+D1QcvU90LGj/PH7lfmB6sf6nNUT64/+oH/V9wCOo3zqZfEd348vNLZIQA==:2D02\n^BY4,0^FT793,789^BON,4,N,23,N,1,\n^FH\\^FD[)>\\1E01\\1D02\\1D0075004\\1D250\\1D802\\1D119V3457422184\\1DGEOP\\1D565007\\1D261\\1D\\1D001/001\\1D01.20KG\\1DN\\1D6
+        <label>\r\n\r\n\uFEFF\uFEFF\x10CT~~CD,~CC^~CT~\n^XA\n^PW1181\n^LS0000\n^LT0000\n^FO1056,0^GFA,06656,06656,00016,:Z64:\neJztl02SpCAQhSFcuOQIHIW+GXbMYq7FUTiCSxeEtAIi+fCnLbuqZyIqd190F+bLl5kiY+/436PxU4wrtzP7fRbw/zLyx8JqZsfswjow7wkPK4fj+2bYYR7Yto6yWDik740Ydzim3ym/wyLK074r5MxsCjnjlFXJbmJb8MAz64V7IqfmgcgDFvMzSjnAcrEgycksFnnJsizHR4HIWV4SmOUlTu6FpIi8xFlOEgjM4ykhyyFwl7McgpyVXeA16y3mRdYF6/V8k7MIBQ1ZxiKt+fmV9cp2i9XKZovlyt0WRz/6+djCH6sWv6KfVtbsNvsB+yUVHHntt1gaXrONnEqZ+zsIGCvWhIt5SesB50vuzePCMM843+3ePlh4d58kQRbYLJwE5cB9lhZCDtx/4cSevePXQo8EuV96MUabezuGALtknpXMrmRF2iE2WMnYDr4XJAFvm5KnlcQpd4zy9AhkU/B4zuqEq993Bwz5sIk9Miu544S1oXwa0lHW9Oc876IYV/1FP8/91eBvS/Vf9HOr3obymX+X/Nzop6N+ZPPbhPCoqJ/1+jusJ86TAD/Qvwb8Rf+ZuLltTxY6LnwJrIA1sL/KlmTHQT0OzxnfjvC+tpT/DMCO8t+bjOd9kg756RCmJGU0eZo2tH99B8xhPzT0hQPMx7ZmQ3ik89s6Ot/tQFlULCn35O9eEZ7qe5Ut2f8aWHlD6iGngpUs6OuZtbDez0PYkmq/NDnx+X655/olgV/tF70+PeDXceB8v2Kf4P76fOGF3cP7sLovPsDdDWZwn/sOm2NWJ38/Y8ivuayPHfPl+h89jz1QP2Cs1+36lXy3Px6o5wDcU765QARcBuA+iPfFFp7/498DTlLG+/I/+D1QcvU90LGj/PH7lfmB6sf6nNUT64/+oH/V9wCOo3zqZfEd348vNLZIQA==:2D02\n^BY4,0^FT793,789^BON,4,N,23,N,1,\n^FH\\^FD[)>\\1E01\\1D02\\1D0075004\\1D250\\1D802\\1D119V3492981852\\1DGEOP\\1D565007\\1D077\\1D\\1D001/001\\1D01.20KG\\1DN\\1D6
         Place des Vosges\\1DParis\\1D\\1D\\1D\\1E07\\1DG03\\1D0\\1D0\\1D1\\1D\\1FHugo
         Victor\\1FHugo Victor\\1F\\1F\\1F+3360000000\\1Fhugo.victor@example.com\\1F\\1F\\1F\\1DB\\1D01.20KG\\1D\\1DAkretion
-        \\1D\\1D\\1D\\1D\\1D\\1D0\\1D\\1D\\1E07\\1DS010\\1D\\1F334825384\\1FAkretion
-        \\1F\\1F27 rue Henri Rolland\\1FBatiment B\\1FVilleurbanne\\1F69100\\1F250\\1D\\1E\\04\r^FS\n^FT39,1075^A0N,100,98^FH\\^FD^FS\n^BY4,3,182^FT82,1676^BCN,,N,N\n\n^BY4,3,277^FT130,1383^BCN,,N,N\n^FD>:%>50075004119>6V>53457422184802250^FS\n^FO1,4^GB1180,0,1^FS\n^FO785,398^GB390,0,2^FS\n^FO0,800^GB1181,0,2^FS\n^FO780,4^GB0,795,1^FS\n^FO1056,8^GB0,390,2^FS\n^FT276,1426^A0N,33,36^FB630,1,0,C^FH\\^FD0075
-        0041 19V3 4574 2218 4802 250P                 ^FS\n^FT50,1592^ADN,108,60^FB1152,1,0,C^FH\\^FD^FS\n^FT265,1716^A0N,33,36^FB253,1,0,C^FH\\^FD^FS\n^FT732,20^A0R,21,21^FH\\^FDR\\82f
-        desti. : ^FS\n^FT757,20^A0R,21,21^FH\\^FDDestinataire / Destinee^FS\n^FT1099,877^A0N,25,24^FH\\^FDService^FS\n^FT396,1071^A0N,25,24^FB596,1,0,C^FH\\^FD17/09/24
-        17:15 WS_SLS 24090202 2.0                                                              ^FS\n^FT518,870^A0N,58,57^FH\\^FDB^FS\n^FT359,1074^A0N,100,98^FB802,1,0,R^FH\\^FD^FS\n^FO587,608^GB195,0,2^FS\n^FT36,996^A0N,163,103^FH\\^FDFR-COL-1175-75MOU^FS\n^FO66,1099^GB1029,0,5^FS\n^FT856,20^A0R,25,24^FH\\^FDFR
-        FRANCE^FS\n^FT200,870^A0N,67,62^FH\\^FD3457422184^FS\n^FO1,451^GB779,0,2^FS\n^FT19,867^A0N,83,81^FH\\^FD119V^FS\n^FT394,859^A0N,67,60^FB770,1,0,R^FH\\^FD
+        \\1D\\1D\\1D\\1D\\1D\\1D0\\1D\\1D\\1E07\\1DS010\\1D\\1F33482538457\\1FAkretion
+        \\1F\\1F27 rue Henri Rolland\\1FBatiment B\\1FVilleurbanne\\1F69100\\1F250\\1D\\1E\\04\r^FS\n^FT39,1075^A0N,100,98^FH\\^FD^FS\n^BY4,3,182^FT82,1676^BCN,,N,N\n\n^BY4,3,277^FT130,1383^BCN,,N,N\n^FD>:%>50075004119>6V>53492981852802250^FS\n^FO1,4^GB1180,0,1^FS\n^FO785,398^GB390,0,2^FS\n^FO0,800^GB1181,0,2^FS\n^FO780,4^GB0,795,1^FS\n^FO1056,8^GB0,390,2^FS\n^FO0,1442^GB1181,0,5^FS\n^FT276,1426^A0N,33,36^FB630,1,0,C^FH\\^FD0075
+        0041 19V3 4929 8185 2802 250G                 ^FS\n^FT50,1592^ADN,108,60^FB1152,1,0,C^FH\\^FD^FS\n^FT265,1716^A0N,33,36^FB630,1,0,C^FH\\^FD^FS\n^FT732,20^A0R,21,21^FH\\^FDR\\82f
+        desti. : ^FS\n^FT757,20^A0R,21,21^FH\\^FDDestinataire / Destinee^FS\n^FT1099,877^A0N,25,24^FH\\^FDService^FS\n^FT396,1071^A0N,25,24^FB596,1,0,C^FH\\^FD18/03/25
+        12:10 WS_SLS 25030303 2.0                                                              ^FS\n^FT518,870^A0N,58,57^FH\\^FDI^FS\n^FT359,1074^A0N,100,98^FB802,1,0,R^FH\\^FD^FS\n^FO587,608^GB195,0,2^FS\n^FT36,996^A0N,163,103^FH\\^FDFR-COL-1175-75MOU^FS\n^FO66,1099^GB1029,0,5^FS\n^FT856,20^A0R,25,24^FH\\^FDFR
+        FRANCE^FS\n^FT200,870^A0N,67,62^FH\\^FD3492981852^FS\n^FO1,451^GB779,0,2^FS\n^FT19,867^A0N,83,81^FH\\^FD119V^FS\n^FT394,859^A0N,67,60^FB770,1,0,R^FH\\^FD
         \           J+2_Dom_Sign^FS\n^FT884,20^A0R,25,24^FH\\^FD69100 Villeurbanne^FS\n^FT790,111^A0R,42,40^FH\\^FD565007^FS\n^FT791,20^A0R,25,24^FH\\^FDCompte
         :^FS\n^FT828,21^A0R,25,24^FH\\^FD^FS\n^FT14,308^A0N,33,36^FH\\^FD^FS\n^FT14,184^A0N,33,36^FH\\^FD^FS\n^FT15,144^A0N,33,36^FH\\^FD^FS\n^FT908,20^A0R,25,24^FH\\^FD^FS\n^FT931,20^A0R,25,24^FH\\^FDBatiment
         B^FS\n^FT342,1040^A0N,42,43^FB499,1,0,C^FH\\^FD802-FR-75004^FS\n^FT15,274^A0N,50,50^FH\\^FD^FS\n^FT15,231^A0N,50,50^FH\\^FD6
         Place des Vosges^FS\n^FT1004,21^A0R,25,24^FH\\^FDAkretion ^FS\n^FT954,20^A0R,25,24^FH\\^FD^FS\n^FT13,104^A0N,42,43^FH\\^FDHugo
         Victor^FS\n^FT977,20^A0R,25,24^FH\\^FD27 rue Henri Rolland^FS\n^FT13,66^A0N,42,43^FH\\^FD^FS\n^FT21,446^A0N,67,67^FH\\^FD^FS\n^FT1033,22^A0R,21,21^FH\\^FDExp\\82diteur
         / Sender^FS\n^FT248,387^A0N,67,67^FH\\^FDPARIS^FS\n^FT13,387^A0N,92,91^FH\\^FD75004^FS\n^FT591,583^A0N,33,36^FB186,1,0,C^FH\\^FD1.2
-        Kg ^FS\n^FT650,530^A0N,33,36^FH\\^FDPoids^FS\n^FT599,493^A0N,29,28^FH\\^FDLivraison
-        : 1/1^FS\n^FT149,700^A0N,37,36^FH\\^FD^FS\n^FT149,667^A0N,37,36^FH\\^FD^FS\n^FT179,630^A0N,29,28^FH\\^FD^FS\n^FT14,606^A0N,29,28^FH\\^FDInstructions
+        Kg ^FS\n^FT635,540^A0N,33,36^FH\\^FDPoids^FS\n^FT635,480^A0N,29,28^FH\\^FDColis^FS\n^FT640,506^A0N,29,28^FH\\^FD1/1^FS\n^FT149,700^A0N,37,36^FH\\^FD^FS\n^FT149,667^A0N,37,36^FH\\^FD^FS\n^FT179,630^A0N,29,28^FH\\^FD^FS\n^FT14,606^A0N,29,28^FH\\^FDInstructions
         : ^FS\n^FT14,485^A0N,29,28^FH\\^FDNum. colis :^FS\n^FT13,518^A0N,29,28^FH\\^FDSite
-        d\\82p\\93t : CAVAILLON PFC^FS\n^FT162,487^A0N,42,43^FH\\^FD9V 34574 22184
-        4^FS\n^FT12,667^A0N,29,28^FH\\^FDR\\82f client :^FS\n^FT13,577^A0N,29,28^FH\\^FDCode
+        d\\82p\\93t : CAVAILLON PFC^FS\n^FT162,487^A0N,42,43^FH\\^FD9V 34929 81852
+        1^FS\n^FT12,667^A0N,29,28^FH\\^FDR\\82f client :^FS\n^FT13,577^A0N,29,28^FH\\^FDCode
         porte :  /  Interphone : ^FS\n^FT12,547^A0N,29,28^FH\\^FDT\\82l\\82phone :
-        +33600000000 / ^FS\n^FO585,451^GB0,133,1^FS\n^FO585,585^GB0,214,1^FS\n^FO391,706^GB0,94,2^FS\n^FO190,707^GB0,93,2^FS\n^FO1,704^GB779,0,2^FS\n^FT0,791^A0N,100,98^FH\\^FD^FS\n^FT586,791^A0N,100,98^FH\\^FDSign^FS\n^FT587,693^A0N,100,98^FH\\^FD^FS\n^FT394,791^A0N,100,98^FH\\^FDDom^FS\n^FT193,791^A0N,100,98^FH\\^FDJ+2^FS\n^FO1,3^GB781,450,4^FS\n^PQ1,0,1,Y^XZ\n\r\n--uuid:d39553bc-add0-4ab7-90a3-29966d9b8f60--"
+        +33600000000 / ^FS\n^FO585,451^GB0,133,1^FS\n^FO585,585^GB0,214,1^FS\n^FO391,706^GB0,94,2^FS\n^FO190,707^GB0,93,2^FS\n^FO1,704^GB779,0,2^FS\n^FT0,791^A0N,100,98^FH\\^FD^FS\n^FT586,791^A0N,100,98^FH\\^FDSign^FS\n^FT587,693^A0N,100,98^FH\\^FD^FS\n^FT394,791^A0N,100,98^FH\\^FDDom^FS\n^FT193,791^A0N,100,98^FH\\^FDJ+2^FS\n^FO1,3^GB781,450,4^FS\n^PQ1,0,1,Y^XZ\n\r\n--uuid:1319cc1c-95c7-4233-ad64-0d0bba481500--"
     headers:
       Access-Control-Allow-Origin:
       - '*'
       Connection:
       - Keep-Alive
       Content-Type:
-      - multipart/mixed;boundary="uuid:d39553bc-add0-4ab7-90a3-29966d9b8f60";charset=UTF-8
+      - multipart/related; type="application/json"; boundary="uuid:1319cc1c-95c7-4233-ad64-0d0bba481500";
+        start="<jsonInfos>"
       Date:
-      - Tue, 17 Sep 2024 15:15:30 GMT
+      - Tue, 18 Mar 2025 11:10:49 GMT
       Keep-Alive:
       - timeout=15, max=200
       P3P:
