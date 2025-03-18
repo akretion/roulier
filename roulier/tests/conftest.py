@@ -57,10 +57,22 @@ def base_get_label_data():
 
 
 @pytest.fixture
-def base_find_pickup_site_data():
+def base_search_pickup_site_data():
     return {
         "search": {
             "country": "FR",
+            "street": "27 rue Henri Rolland",
+            "city": "Villeurbanne",
             "zip": "69100",
+        },
+    }
+
+
+@pytest.fixture
+def base_get_pickup_site_data():
+    return {
+        "get": {
+            "zone": "FR",
+            "id": "",
         },
     }

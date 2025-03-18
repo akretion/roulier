@@ -1,7 +1,7 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from datetime import date
+from datetime import date, time
 from pydantic import BaseModel
 
 
@@ -58,16 +58,27 @@ class LabelInput(BaseModel):
 
 
 class PickupSiteSearch(BaseModel):
+    street: str | None = None
     country: str
     city: str | None = None
     zip: str
-    lat: float | None = None
-    lng: float | None = None
+    weight: float | None = None
+    shippingDate: date | None = None
 
 
-class PickupSiteInput(BaseModel):
+class PickupSiteSearchInput(BaseModel):
     auth: Auth
     search: PickupSiteSearch
+
+
+class PickupSiteGet(BaseModel):
+    id: str
+    zone: str | None = None
+
+
+class PickupSiteGetInput(BaseModel):
+    auth: Auth
+    get: PickupSiteGet
 
 
 class Tracking(BaseModel):
@@ -94,6 +105,21 @@ class LabelOutput(BaseModel):
     annexes: list[Label] = []
 
 
+class PickupSiteOpeningSlot(BaseModel):
+    start: time
+    end: time
+
+
+class PickupSiteOpeningHours(BaseModel):
+    monday: list[PickupSiteOpeningSlot] = []
+    tuesday: list[PickupSiteOpeningSlot] = []
+    wednesday: list[PickupSiteOpeningSlot] = []
+    thursday: list[PickupSiteOpeningSlot] = []
+    friday: list[PickupSiteOpeningSlot] = []
+    saturday: list[PickupSiteOpeningSlot] = []
+    sunday: list[PickupSiteOpeningSlot] = []
+
+
 class PickupSite(BaseModel):
     id: str
     name: str
@@ -103,7 +129,12 @@ class PickupSite(BaseModel):
     country: str
     lat: str
     lng: str
+    hours: PickupSiteOpeningHours
 
 
-class PickupSiteOutput(BaseModel):
+class PickupSiteSearchOutput(BaseModel):
     sites: list[PickupSite]
+
+
+class PickupSiteGetOutput(BaseModel):
+    site: PickupSite | None = None

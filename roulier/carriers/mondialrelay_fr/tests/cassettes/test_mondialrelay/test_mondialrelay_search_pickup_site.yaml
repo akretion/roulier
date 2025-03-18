@@ -809,7 +809,7 @@ interactions:
         />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
     headers:
       CF-RAY:
-      - 921dec0dac8c02b3-CDG
+      - 921e0db22cc82280-CDG
       Cache-Control:
       - private, max-age=0
       Connection:
@@ -819,14 +819,14 @@ interactions:
       Content-Type:
       - text/xml; charset=utf-8
       Date:
-      - Mon, 17 Mar 2025 16:38:41 GMT
+      - Mon, 17 Mar 2025 17:01:39 GMT
       Server:
       - cloudflare
       Set-Cookie:
-      - dtCookie=v_4_srv_6_sn_5935D4C229E1A5F483E26BFE46E2DA57_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
+      - dtCookie=v_4_srv_3_sn_1E0E9FEA720D7EFFC5A31B54DC42552A_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
         Path=/; Domain=.mondialrelay.com
-      - __cf_bm=5XpQ.6aF2LBhSS6mCEI7g2Jw5BG4fORswIJ6ZKFpyWk-1742229521-1.0.1.1-yWDZ_ZqMQkAKyr48XTffwyMTSM.y_64rFfXdIDaxWgf9kZBz3zjnw5IfXpPOENiEkIGFJZXK4xfVcKpB3ZvUTMIp9nraTgVoKzddYiLnxzA;
-        path=/; expires=Mon, 17-Mar-25 17:08:41 GMT; domain=.mondialrelay.com; HttpOnly;
+      - __cf_bm=HtaWv6jrMvcc6yf7edBKShWC5k2HNhW_YYepQ9glcJo-1742230899-1.0.1.1-.o3hNGk8sTNgkUKMMLMpH74YxHgf6gxfjvRMD_ckvPPgOsUhAieEhWAXXjQCnXbmp3a7hUV4hJt.Hyo89xlCvVA4pz3B7tLrEEUtUOqqXw4;
+        path=/; expires=Mon, 17-Mar-25 17:31:39 GMT; domain=.mondialrelay.com; HttpOnly;
         Secure; SameSite=None
       Transfer-Encoding:
       - chunked
@@ -861,8 +861,8 @@ interactions:
       Content-Type:
       - text/xml; charset=utf-8
       Cookie:
-      - dtCookie=v_4_srv_6_sn_5935D4C229E1A5F483E26BFE46E2DA57_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
-        __cf_bm=5XpQ.6aF2LBhSS6mCEI7g2Jw5BG4fORswIJ6ZKFpyWk-1742229521-1.0.1.1-yWDZ_ZqMQkAKyr48XTffwyMTSM.y_64rFfXdIDaxWgf9kZBz3zjnw5IfXpPOENiEkIGFJZXK4xfVcKpB3ZvUTMIp9nraTgVoKzddYiLnxzA
+      - dtCookie=v_4_srv_3_sn_1E0E9FEA720D7EFFC5A31B54DC42552A_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
+        __cf_bm=HtaWv6jrMvcc6yf7edBKShWC5k2HNhW_YYepQ9glcJo-1742230899-1.0.1.1-.o3hNGk8sTNgkUKMMLMpH74YxHgf6gxfjvRMD_ckvPPgOsUhAieEhWAXXjQCnXbmp3a7hUV4hJt.Hyo89xlCvVA4pz3B7tLrEEUtUOqqXw4
       SOAPAction:
       - '"http://www.mondialrelay.fr/webservice/WSI4_PointRelais_Recherche"'
       User-Agent:
@@ -896,11 +896,6 @@ interactions:
         /><LgAdr3>16 PLACE GUY MOQUET            </LgAdr3><LgAdr4 /><CP>69120</CP><Ville>VAULX
         EN VELIN            </Ville><Pays>FR</Pays><Localisation1 /><Localisation2
         /><Latitude>45,7854207</Latitude><Longitude>04,9111756</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0830</string><string>1215</string><string>1430</string><string>2100</string></Horaires_Vendredi><Horaires_Samedi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0000</string><string>0000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo><Periode><Debut>2025-03-13T00:00:00</Debut><Fin>2025-03-18T00:00:00</Fin></Periode></Informations_Dispo><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=026485&amp;pays=FR&amp;crc=5F8B1DBBE5AC5BE1BB6999A38201B275</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=026485&amp;pays=FR&amp;crc=05A0547FCE2029469F494DFA202A3384</URL_Plan><Distance>3615</Distance></PointRelais_Details><PointRelais_Details><STAT
-        /><Num>029723</Num><LgAdr1>SUPERETTE ANI                  </LgAdr1><LgAdr2
-        /><LgAdr3>27, BIS COURS D HERBOUVILLE    </LgAdr3><LgAdr4 /><CP>69004</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
-        /><Localisation2 /><Latitude>45,7775030</Latitude><Longitude>04,8400770</Longitude><TypeActivite>000</TypeActivite><Information
-        /><Horaires_Lundi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>1230</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>1400</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
-        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=029723&amp;pays=FR&amp;crc=2D9093BED539DDA7AF64E13EEDA0230D</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=029723&amp;pays=FR&amp;crc=DB688BCC72F68CD60BA4AB215137696E</URL_Plan><Distance>3997</Distance></PointRelais_Details><PointRelais_Details><STAT
         /><Num>021487</Num><LgAdr1>LOCKER 24/7 HOPITAL PRIVE NATEC</LgAdr1><LgAdr2
         /><LgAdr3>20 AVENUE ROCKEFELLER          </LgAdr3><LgAdr4 /><CP>69008</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
         /><Localisation2 /><Latitude>45,7414105</Latitude><Longitude>04,8833917</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
@@ -958,7 +953,7 @@ interactions:
         /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=021101&amp;pays=FR&amp;crc=4431C7E4F22959859E8D8BD9DA2B36A2</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=021101&amp;pays=FR&amp;crc=FC0B3C05E62D434D71772D0E5255FE84</URL_Plan><Distance>5525</Distance></PointRelais_Details></PointsRelais></WSI4_PointRelais_RechercheResult></WSI4_PointRelais_RechercheResponse></soap:Body></soap:Envelope>
     headers:
       CF-RAY:
-      - 921dec0e2b12d0a7-CDG
+      - 921e0db2c893b6bc-CDG
       Cache-Control:
       - private, max-age=0
       Connection:
@@ -968,7 +963,7 @@ interactions:
       Content-Type:
       - text/xml; charset=utf-8
       Date:
-      - Mon, 17 Mar 2025 16:38:41 GMT
+      - Mon, 17 Mar 2025 17:01:39 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -986,34 +981,4 @@ interactions:
     status:
       code: 200
       message: OK
-- request:
-    body: null
-    headers:
-      Connection:
-      - Upgrade
-      Sec-WebSocket-Key:
-      - 7YsvEH+ogiaxwmq+sc7BWA==
-      Sec-WebSocket-Version:
-      - '13'
-      Upgrade:
-      - websocket
-    method: GET
-    uri: http://localhost:59999/back/arkt14s__39581--140239800653632
-  response:
-    body:
-      string: ''
-    headers:
-      Connection:
-      - upgrade
-      Date:
-      - Mon, 17 Mar 2025 16:38:42 GMT
-      Sec-WebSocket-Accept:
-      - WmPHmtOHxWZiucxniglwOnkYvsI=
-      Server:
-      - Python/3.12 aiohttp/3.11.12
-      Upgrade:
-      - websocket
-    status:
-      code: 101
-      message: Switching Protocols
 version: 1

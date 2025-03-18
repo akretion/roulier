@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - Zeep/4.2.1 (www.python-zeep.org)
+      - Zeep/4.3.1 (www.python-zeep.org)
     method: GET
     uri: https://api.mondialrelay.com/Web_Services.asmx?WSDL
   response:
@@ -808,10 +808,8 @@ interactions:
         \     <soap12:address location=\"http://api.mondialrelay.com/Web_Services.asmx\"
         />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
     headers:
-      CF-Cache-Status:
-      - DYNAMIC
       CF-RAY:
-      - 8c402757cfda9ed9-CDG
+      - 921e0daee96fbb1b-CDG
       Cache-Control:
       - private, max-age=0
       Connection:
@@ -821,25 +819,27 @@ interactions:
       Content-Type:
       - text/xml; charset=utf-8
       Date:
-      - Mon, 16 Sep 2024 10:25:38 GMT
+      - Mon, 17 Mar 2025 17:01:39 GMT
       Server:
       - cloudflare
-      Server-Timing:
-      - dtSInfo;desc="1"
       Set-Cookie:
-      - dtCookie=v_4_srv_1_sn_80DC1F4C5FAB1B1740269C6B5E801004_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
+      - dtCookie=v_4_srv_5_sn_AE8AB316D24B9637671AF9C0092F248A_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
         Path=/; Domain=.mondialrelay.com
-      - __cf_bm=GVANO.RFwteG9NypgugTmsMWPCuuImueOt4YxwYpYg4-1726482338-1.0.1.1-8CTsw7DmJVjoxGLotwxvQhCLGFOsDsM5WpD2vrFpwIcmCw.v9JDWIxf2nSmtlZDyX_fB_c5FZO16VHUHLOvPug;
-        path=/; expires=Mon, 16-Sep-24 10:55:38 GMT; domain=.mondialrelay.com; HttpOnly;
+      - __cf_bm=NZTsAXOCGy5W32Wa.bv8emLiWSjs1HDfe1RtgN7ZKfw-1742230899-1.0.1.1-lC9ROmLdxIaMWhBNao7wwxKB9bQNio2lgH8z9wdPhf6c8_dJZ8OyzvcB03Qcj4ItCTQYbt36AIw9IO7bc4jiQCBLa6yDckNcBOmlPlMMgIg;
+        path=/; expires=Mon, 17-Mar-25 17:31:39 GMT; domain=.mondialrelay.com; HttpOnly;
         Secure; SameSite=None
       Transfer-Encoding:
       - chunked
-      X-AspNet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
       alt-svc:
       - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      server-timing:
+      - dtSInfo;desc="1"
+      x-aspnet-version:
+      - 4.0.30319
+      x-powered-by:
+      - ASP.NET
     status:
       code: 200
       message: OK
@@ -849,7 +849,7 @@ interactions:
       <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"
       xmlns="http://www.mondialrelay.fr/webservice/"><soap-env:Body><WSI2_CreationEtiquette><Enseigne>BDTEST13</Enseigne><ModeCol>REL</ModeCol><ModeLiv>HOM</ModeLiv><Expe_Langage>FR</Expe_Langage><Expe_Ad1>Akretion</Expe_Ad1><Expe_Ad3>27
       rue Henri Rolland</Expe_Ad3><Expe_Ad4>Batiment B</Expe_Ad4><Expe_Ville>Villeurbanne</Expe_Ville><Expe_CP>69100</Expe_CP><Expe_Pays>FR</Expe_Pays><Expe_Tel1>+33482538457</Expe_Tel1><Dest_Langage>FR</Dest_Langage><Dest_Ad1>Hugo</Dest_Ad1><Dest_Ad3>6
-      Place des Vosges</Dest_Ad3><Dest_Ville>Paris</Dest_Ville><Dest_CP>75004</Dest_CP><Dest_Pays>FR</Dest_Pays><Dest_Tel1>+33600000000</Dest_Tel1><Dest_Mail>hugo.victor@example.com</Dest_Mail><Poids>1200</Poids><NbColis>1</NbColis><CRT_Valeur>0</CRT_Valeur><CRT_Devise>EUR</CRT_Devise><Exp_Devise>EUR</Exp_Devise><COL_Rel_Pays>FR</COL_Rel_Pays><COL_Rel>AUTO</COL_Rel><Security>59CD51C5270D4A696BABF634E21F2B44</Security></WSI2_CreationEtiquette></soap-env:Body></soap-env:Envelope>'
+      Place des Vosges</Dest_Ad3><Dest_Ville>Paris</Dest_Ville><Dest_CP>75004</Dest_CP><Dest_Pays>FR</Dest_Pays><Dest_Tel1>+33600000000</Dest_Tel1><Dest_Mail>hugo.victor@example.com</Dest_Mail><Poids>1200</Poids><NbColis>1</NbColis><CRT_Valeur>0</CRT_Valeur><CRT_Devise>EUR</CRT_Devise><Exp_Devise>EUR</Exp_Devise><COL_Rel_Pays>FR</COL_Rel_Pays><COL_Rel>AUTO</COL_Rel><Security>635B5C88EFFFF7FCB5A0853001C63A2C</Security></WSI2_CreationEtiquette></soap-env:Body></soap-env:Envelope>'
     headers:
       Accept:
       - '*/*'
@@ -862,24 +862,22 @@ interactions:
       Content-Type:
       - text/xml; charset=utf-8
       Cookie:
-      - dtCookie=v_4_srv_1_sn_80DC1F4C5FAB1B1740269C6B5E801004_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
-        __cf_bm=GVANO.RFwteG9NypgugTmsMWPCuuImueOt4YxwYpYg4-1726482338-1.0.1.1-8CTsw7DmJVjoxGLotwxvQhCLGFOsDsM5WpD2vrFpwIcmCw.v9JDWIxf2nSmtlZDyX_fB_c5FZO16VHUHLOvPug
+      - dtCookie=v_4_srv_5_sn_AE8AB316D24B9637671AF9C0092F248A_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
+        __cf_bm=NZTsAXOCGy5W32Wa.bv8emLiWSjs1HDfe1RtgN7ZKfw-1742230899-1.0.1.1-lC9ROmLdxIaMWhBNao7wwxKB9bQNio2lgH8z9wdPhf6c8_dJZ8OyzvcB03Qcj4ItCTQYbt36AIw9IO7bc4jiQCBLa6yDckNcBOmlPlMMgIg
       SOAPAction:
       - '"http://www.mondialrelay.fr/webservice/WSI2_CreationEtiquette"'
       User-Agent:
-      - Zeep/4.2.1 (www.python-zeep.org)
+      - Zeep/4.3.1 (www.python-zeep.org)
     method: POST
     uri: https://api.mondialrelay.com/Web_Services.asmx
   response:
     body:
       string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><WSI2_CreationEtiquetteResponse
-        xmlns="http://www.mondialrelay.fr/webservice/"><WSI2_CreationEtiquetteResult><STAT>0</STAT><ExpeditionNum>50018892</ExpeditionNum><URL_Etiquette>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=50018892&amp;lg=FR&amp;format=A4&amp;crc=D4EF8A3151B9A4994BDC7944309463CD</URL_Etiquette></WSI2_CreationEtiquetteResult></WSI2_CreationEtiquetteResponse></soap:Body></soap:Envelope>
+        xmlns="http://www.mondialrelay.fr/webservice/"><WSI2_CreationEtiquetteResult><STAT>0</STAT><ExpeditionNum>50554859</ExpeditionNum><URL_Etiquette>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=50554859&amp;lg=FR&amp;format=A4&amp;crc=C4530F968E6E507C379C538C5E36EC76</URL_Etiquette></WSI2_CreationEtiquetteResult></WSI2_CreationEtiquetteResponse></soap:Body></soap:Envelope>
     headers:
-      CF-Cache-Status:
-      - DYNAMIC
       CF-RAY:
-      - 8c402758bbc5d57c-CDG
+      - 921e0daf8c366fb1-CDG
       Cache-Control:
       - private, max-age=0
       Connection:
@@ -889,19 +887,21 @@ interactions:
       Content-Type:
       - text/xml; charset=utf-8
       Date:
-      - Mon, 16 Sep 2024 10:25:38 GMT
+      - Mon, 17 Mar 2025 17:01:39 GMT
       Server:
       - cloudflare
-      Server-Timing:
-      - dtSInfo;desc="1"
       Transfer-Encoding:
       - chunked
-      X-AspNet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
       alt-svc:
       - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      server-timing:
+      - dtSInfo;desc="1"
+      x-aspnet-version:
+      - 4.0.30319
+      x-powered-by:
+      - ASP.NET
     status:
       code: 200
       message: OK

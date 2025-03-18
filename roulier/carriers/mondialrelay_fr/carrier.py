@@ -8,8 +8,10 @@ from ...exception import CarrierError
 from .schema import (
     MondialRelayLabelInput,
     MondialRelayLabelOutput,
-    MondialRelayPickupSiteInput,
-    MondialRelayPickupSiteOutput,
+    MondialRelayPickupSiteGetInput,
+    MondialRelayPickupSiteSearchInput,
+    MondialRelayPickupSiteGetOutput,
+    MondialRelayPickupSiteSearchOutput,
 )
 from .constants import STATUSES
 
@@ -18,7 +20,7 @@ class MondialRelay(Carrier):
     __key__ = "mondialrelay_fr"
 
     __url__ = "https://api.mondialrelay.com/Web_Services.asmx?WSDL"
-    __ref__ = "https://www.mondialrelay.fr/media/122867/solution-web-service-v57.pdf"
+    __ref__ = "https://storage.mondialrelay.fr/web-service-solution-v514-EN.pdf"
     __ns_prefix__ = "http://www.mondialrelay.fr/webservice/"
 
     @property
@@ -40,9 +42,17 @@ class MondialRelay(Carrier):
         return MondialRelayLabelOutput.from_soap(result)
 
     @action
-    def find_pickup_site(
-        self, input: MondialRelayPickupSiteInput
-    ) -> MondialRelayPickupSiteOutput:
+    def search_pickup_sites(
+        self, input: MondialRelayPickupSiteSearchInput
+    ) -> MondialRelayPickupSiteSearchOutput:
         result = self.client.WSI4_PointRelais_Recherche(**input.soap())
         self.raise_for_status(result)
-        return MondialRelayPickupSiteOutput.from_soap(result)
+        return MondialRelayPickupSiteSearchOutput.from_soap(result)
+
+    @action
+    def get_pickup_site(
+        self, input: MondialRelayPickupSiteGetInput
+    ) -> MondialRelayPickupSiteGetOutput:
+        result = self.client.WSI4_PointRelais_Recherche(**input.soap())
+        self.raise_for_status(result)
+        return MondialRelayPickupSiteGetOutput.from_soap(result)

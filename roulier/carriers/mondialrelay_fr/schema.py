@@ -11,13 +11,19 @@ from ...schema import (
     Parcel,
     ParcelLabel,
     PickupSite,
-    PickupSiteInput,
-    PickupSiteOutput,
+    PickupSiteSearchInput,
     PickupSiteSearch,
+    PickupSiteGetInput,
+    PickupSiteGet,
+    PickupSiteOpeningSlot,
+    PickupSiteOpeningHours,
+    PickupSiteSearchOutput,
+    PickupSiteGetOutput,
     Service,
 )
 from .constants import SORTED_KEYS
 from hashlib import md5
+from datetime import datetime
 
 
 class MondialRelayAuth(Auth):
@@ -163,10 +169,9 @@ class MondialRelayLabelInput(LabelInput):
 
 
 class MondialRelayPickupSiteSearch(PickupSiteSearch):
-    id: int | None = None
-    weight: float | None = None
+    lat: float | None = None
+    lng: float | None = None
     action: str | None = None
-    delay: int | None = None
     searchRadius: int | None = None
     actionType: str | None = None
     resultsCount: int | None = None
@@ -174,28 +179,61 @@ class MondialRelayPickupSiteSearch(PickupSiteSearch):
     def soap(self):
         return {
             "Pays": self.country,
-            "NumPointRelais": self.id,
             "CP": self.zip,
             "Latitude": self.lat,
             "Longitude": self.lng,
             "Poids": self.weight,
             "Action": self.action,
-            "DelaiEnvoi": self.delay,
             "RayonRecherche": self.searchRadius,
             "TypeActivite": self.actionType,
             "NombreResultats": self.resultsCount,
         }
 
 
-class MondialRelayPickupSiteInput(PickupSiteInput):
+class MondialRelayPickupSiteService(Service):
+    def soap(self):
+        delay = None
+        if self.shippingDate:
+            delay = (self.shippingDate - datetime.now()).days
+        return {
+            "DelaiEnvoi": delay,
+        }
+
+
+class MondialRelayPickupSiteSearchInput(PickupSiteSearchInput):
     auth: MondialRelayAuth
+    service: MondialRelayPickupSiteService | None = None
     search: MondialRelayPickupSiteSearch
 
     def soap(self):
         return self.auth.sign(
             {
                 **self.auth.soap(),
+                **(self.service.soap() if self.service else {}),
                 **self.search.soap(),
+            }
+        )
+
+
+class MondialRelayPickupSiteGet(PickupSiteGet):
+    def soap(self):
+        return {
+            "Pays": self.zone,
+            "NumPointRelais": self.id,
+        }
+
+
+class MondialRelayPickupSiteGetInput(PickupSiteGetInput):
+    auth: MondialRelayAuth
+    service: MondialRelayPickupSiteService | None = None
+    get: MondialRelayPickupSiteGet
+
+    def soap(self):
+        return self.auth.sign(
+            {
+                **self.auth.soap(),
+                **(self.service.soap() if self.service else {}),
+                **self.get.soap(),
             }
         )
 
@@ -229,9 +267,43 @@ class MondialRelayLabelOutput(LabelOutput):
         return cls.model_construct(parcels=[MondialRelayParcelLabel.from_soap(result)])
 
 
+class MondialRelayPickupSiteOpeningSlot(PickupSiteOpeningSlot):
+    @classmethod
+    def from_soap(cls, start, end):
+        return cls.model_construct(
+            start=datetime.strptime(start, "%H%M").time(),
+            end=datetime.strptime(end, "%H%M").time(),
+        )
+
+
+class MondialRelayPickupSiteOpeningHours(PickupSiteOpeningHours):
+    @classmethod
+    def from_soap(cls, result):
+        return cls.model_construct(
+            **{
+                day: [
+                    MondialRelayPickupSiteOpeningSlot.from_soap(slot_start, slot_end)
+                    for slot_start, slot_end in zip(
+                        result[f"Horaires_{day_label}"]["string"][::2],
+                        result[f"Horaires_{day_label}"]["string"][1::2],
+                    )
+                    if slot_start != "0000" and slot_end != "0000"
+                ]
+                for day, day_label in [
+                    ("monday", "Lundi"),
+                    ("tuesday", "Mardi"),
+                    ("wednesday", "Mercredi"),
+                    ("thursday", "Jeudi"),
+                    ("friday", "Vendredi"),
+                    ("saturday", "Samedi"),
+                    ("sunday", "Dimanche"),
+                ]
+            }
+        )
+
+
 class MondialRelayPickupSite(PickupSite):
     actionType: str
-    hours: dict
     url_pic: str
     url_map: str
 
@@ -240,32 +312,24 @@ class MondialRelayPickupSite(PickupSite):
         return cls.model_construct(
             id=result["Num"],
             name="\n".join(
-                [part for part in [result["LgAdr1"], result["LgAdr2"]] if part]
+                [part.strip() for part in [result["LgAdr1"], result["LgAdr2"]] if part]
             ),
             street="\n".join(
-                [part for part in [result["LgAdr3"], result["LgAdr4"]] if part]
+                [part.strip() for part in [result["LgAdr3"], result["LgAdr4"]] if part]
             ),
             zip=result["CP"],
-            city=result["Ville"],
+            city=result["Ville"].strip() if result["Ville"] else None,
             country=result["Pays"],
-            lat=result["Latitude"],
-            lng=result["Longitude"],
+            lat=result["Latitude"].replace(",", "."),
+            lng=result["Longitude"].replace(",", "."),
             actionType=result["TypeActivite"],
-            hours={
-                "monday": result["Horaires_Lundi"],
-                "tuesday": result["Horaires_Mardi"],
-                "wednesday": result["Horaires_Mercredi"],
-                "thursday": result["Horaires_Jeudi"],
-                "friday": result["Horaires_Vendredi"],
-                "saturday": result["Horaires_Samedi"],
-                "sunday": result["Horaires_Dimanche"],
-            },
+            hours=MondialRelayPickupSiteOpeningHours.from_soap(result),
             url_pic=result["URL_Photo"],
             url_map=result["URL_Plan"],
         )
 
 
-class MondialRelayPickupSiteOutput(PickupSiteOutput):
+class MondialRelayPickupSiteSearchOutput(PickupSiteSearchOutput):
     sites: list[MondialRelayPickupSite]
 
     @classmethod
@@ -275,4 +339,18 @@ class MondialRelayPickupSiteOutput(PickupSiteOutput):
                 MondialRelayPickupSite.from_soap(site)
                 for site in result["PointsRelais"]["PointRelais_Details"]
             ]
+        )
+
+
+class MondialRelayPickupSiteGetOutput(PickupSiteGetOutput):
+    site: MondialRelayPickupSite
+
+    @classmethod
+    def from_soap(cls, result):
+        return cls.model_construct(
+            site=MondialRelayPickupSite.from_soap(
+                result["PointsRelais"]["PointRelais_Details"][0]
+            )
+            if result["PointsRelais"]["PointRelais_Details"]
+            else None
         )
