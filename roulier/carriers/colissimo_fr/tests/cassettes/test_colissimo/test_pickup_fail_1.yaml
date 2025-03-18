@@ -2,7 +2,7 @@ interactions:
 - request:
     body: '{"outputFormat": {"x": 0, "y": 0, "outputPrintingType": "PDF_10x15_300dpi",
       "dematerialized": false, "returnType": null, "printCoDDocument": false}, "letter":
-      {"service": {"productCode": "BPR", "depositDate": "2025-01-01", "mailBoxPicking":
+      {"service": {"productCode": "BPR", "depositDate": "2025-04-01", "mailBoxPicking":
       false, "mailBoxPickingDate": null, "vatCode": null, "vatPercentage": null, "vatAmount":
       null, "transportationAmount": null, "totalAmount": null, "orderNumber": null,
       "commercialName": "Webu", "returnTypeChoice": null, "reseauPostal": null}, "parcel":
@@ -50,7 +50,7 @@ interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 17 Sep 2024 15:15:30 GMT
+      - Tue, 18 Mar 2025 11:10:50 GMT
       P3P:
       - policyref="/w3c/p3p.xml", CP="NOI DSP COR NID CUR ADM DEV OUR BUS"
       Server:
