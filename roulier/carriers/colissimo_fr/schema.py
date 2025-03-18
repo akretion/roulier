@@ -2,7 +2,7 @@
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from base64 import b64encode
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from enum import Enum
 from pathlib import Path
 from pydantic import BaseModel, model_validator
@@ -589,8 +589,10 @@ class ColissimoFrPickupSiteVacation(BaseModel):
     @classmethod
     def from_params(cls, result):
         return cls.model_construct(
-            start=datetime.fromtimestamp(result["calendarDeDebut"] / 1000),
-            end=datetime.fromtimestamp(result["calendarDeFin"] / 1000),
+            start=datetime.fromtimestamp(
+                result["calendarDeDebut"] / 1000, timezone.utc
+            ),
+            end=datetime.fromtimestamp(result["calendarDeFin"] / 1000, timezone.utc),
         )
 
 

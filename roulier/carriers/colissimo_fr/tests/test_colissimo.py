@@ -5,6 +5,7 @@ import json
 import pytest
 from time import sleep
 from datetime import date, datetime, time
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from roulier import roulier
 from ....helpers import merge
@@ -258,8 +259,12 @@ def test_search_pickup_sites_login_password_ok(search_pickup_sites_data):
     assert site["lng"] == "4.86314559"
     assert len(site["hours"]) == 7
     assert len(site["vacations"]) == 5
-    assert site["vacations"][0]["start"] == datetime(2025, 6, 9)
-    assert site["vacations"][0]["end"] == datetime(2025, 6, 9)
+    assert site["vacations"][0]["start"] == datetime(
+        2025, 6, 9, tzinfo=ZoneInfo("Europe/Paris")
+    )
+    assert site["vacations"][0]["end"] == datetime(
+        2025, 6, 9, tzinfo=ZoneInfo("Europe/Paris")
+    )
     site = rv["sites"][1]
     assert len(site["hours"]) == 7
     assert site["hours"]["monday"][0]["start"] == time(9, 0)
@@ -289,8 +294,12 @@ def test_search_pickup_sites_api_key_ok(search_pickup_sites_data_api_key):
     assert site["lng"] == "4.86314559"
     assert len(site["hours"]) == 7
     assert len(site["vacations"]) == 5
-    assert site["vacations"][0]["start"] == datetime(2025, 6, 9)
-    assert site["vacations"][0]["end"] == datetime(2025, 6, 9)
+    assert site["vacations"][0]["start"] == datetime(
+        2025, 6, 9, tzinfo=ZoneInfo("Europe/Paris")
+    )
+    assert site["vacations"][0]["end"] == datetime(
+        2025, 6, 9, tzinfo=ZoneInfo("Europe/Paris")
+    )
     site = rv["sites"][1]
     assert len(site["hours"]) == 7
     assert site["hours"]["monday"][0]["start"] == time(9, 0)
@@ -319,8 +328,12 @@ def test_get_pickup_site_ok(get_pickup_site_data):
     assert site["lng"] == "4.86314559"
     assert len(site["hours"]) == 7
     assert len(site["vacations"]) == 5
-    assert site["vacations"][0]["start"] == datetime(2025, 6, 9)
-    assert site["vacations"][0]["end"] == datetime(2025, 6, 9)
+    assert site["vacations"][0]["start"] == datetime(
+        2025, 6, 9, tzinfo=ZoneInfo("Europe/Paris")
+    )
+    assert site["vacations"][0]["end"] == datetime(
+        2025, 6, 9, tzinfo=ZoneInfo("Europe/Paris")
+    )
 
 
 @pytest.mark.block_network
