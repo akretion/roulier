@@ -3,13 +3,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import json
 import pytest
-import time
-from datetime import date
+from time import sleep
+from datetime import date, datetime, time
 from pathlib import Path
 from roulier import roulier
 from ....helpers import merge
 from ....tests.helpers import assert_data_type, assert_pdf
 from ....exception import CarrierError, InvalidApiInput
+
+shipping_date = date(2025, 4, 1)
 
 
 @pytest.fixture
@@ -17,12 +19,43 @@ def get_label_data(credentials, base_get_label_data):
     return merge(
         credentials["colissimo_fr"],
         base_get_label_data,
-        {
-            "service": {
-                "product": "COL",
-                "shippingDate": date(2025, 1, 1),
-            }
-        },
+        {"service": {"product": "COL", "shippingDate": shipping_date}},
+    )
+
+
+@pytest.fixture
+def get_label_data_api_key(credentials, base_get_label_data):
+    return merge(
+        credentials["colissimo_fr_api_key"],
+        base_get_label_data,
+        {"service": {"product": "COL", "shippingDate": shipping_date}},
+    )
+
+
+@pytest.fixture
+def search_pickup_sites_data(credentials, base_search_pickup_site_data):
+    return merge(
+        credentials["colissimo_fr"],
+        base_search_pickup_site_data,
+        {"service": {"shippingDate": shipping_date}},
+    )
+
+
+@pytest.fixture
+def search_pickup_sites_data_api_key(credentials, base_search_pickup_site_data):
+    return merge(
+        credentials["colissimo_fr_api_key"],
+        base_search_pickup_site_data,
+        {"service": {"shippingDate": shipping_date}},
+    )
+
+
+@pytest.fixture
+def get_pickup_site_data(credentials, base_get_pickup_site_data):
+    return merge(
+        credentials["colissimo_fr"],
+        base_get_pickup_site_data,
+        {"service": {"shippingDate": shipping_date}},
     )
 
 
@@ -38,11 +71,10 @@ def document_data(credentials):
     return merge(
         {
             "service": {
-                "account_number": "xxxxx",
+                "customerId": "xxxxx",
             },
         },
         credentials["colissimo_fr"],
-        {"service": {}},
     )
 
 
@@ -63,6 +95,8 @@ def before_record_request(request):
             body["accountNumber"] = "xxxx"
         if "password" in body:
             body["password"] = "xxxx"
+        if "apiKey" in body:
+            body["apiKey"] = "xxxx"
         request.body = json.dumps(body).encode("utf-8")
     return request
 
@@ -79,10 +113,10 @@ def assert_label(rv, label_type="PDF"):
 
 
 @pytest.mark.vcr(
-    filter_headers=["apiKey"],
+    filter_headers=["contractNumber", "password"],
     before_record_request=before_record_request,
 )
-def test_colissimo_label(get_label_data):
+def test_colissimo_label_login_password(get_label_data):
     rv = roulier.get("colissimo_fr", "get_label", get_label_data)
     assert_label(rv)
 
@@ -91,9 +125,18 @@ def test_colissimo_label(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_colissimo_label_zpl(get_label_data):
-    get_label_data["service"]["labelFormat"] = "ZPL"
-    rv = roulier.get("colissimo_fr", "get_label", get_label_data)
+def test_colissimo_label_api_key(get_label_data_api_key):
+    rv = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
+    assert_label(rv)
+
+
+@pytest.mark.vcr(
+    filter_headers=["apiKey"],
+    before_record_request=before_record_request,
+)
+def test_colissimo_label_zpl(get_label_data_api_key):
+    get_label_data_api_key["service"]["labelFormat"] = "ZPL"
+    rv = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
     assert_label(rv, "ZPL")
 
 
@@ -101,45 +144,43 @@ def test_colissimo_label_zpl(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_colissimo_bad_product(get_label_data):
-    get_label_data["service"]["product"] = "INVALID_PRODUCT"
+def test_colissimo_bad_product(get_label_data_api_key):
+    get_label_data_api_key["service"]["product"] = "INVALID_PRODUCT"
     with pytest.raises(CarrierError) as excinfo:
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
-    assert excinfo.value.args[0][0]["id"] == 30109
-    assert excinfo.value.args[0][0]["message"] == (
-        "Le pays ou code postal expéditeur ne permet pas d’effectuer un envoi"
-    )
+    assert excinfo.value.args[0][0]["id"] == 30015
+    assert excinfo.value.args[0][0]["message"] == ("Le code produit est incorrect")
 
 
 @pytest.mark.vcr(
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_common_failed_get_label_1(get_label_data):
-    get_label_data["parcels"][0]["weight"] = 35
+def test_common_failed_get_label_1(get_label_data_api_key):
+    get_label_data_api_key["parcels"][0]["weight"] = 35
     with pytest.raises(CarrierError, match="Le poids du colis est incorrect"):
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
 
 @pytest.mark.vcr(
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_common_failed_get_label_2(get_label_data):
-    get_label_data["parcels"][0]["weight"] = 0
+def test_common_failed_get_label_2(get_label_data_api_key):
+    get_label_data_api_key["parcels"][0]["weight"] = 0
     with pytest.raises(CarrierError, match="Le poids du colis n'a pas été transmis"):
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
 
 @pytest.mark.vcr(
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_common_failed_get_label_3(get_label_data):
-    del get_label_data["from_address"]["country"]
+def test_common_failed_get_label_3(get_label_data_api_key):
+    del get_label_data_api_key["from_address"]["country"]
     with pytest.raises(InvalidApiInput) as excinfo:
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
     assert "Invalid input data" in str(excinfo.value)
     assert "from_address.country\n  Field required" in str(excinfo.value)
@@ -149,10 +190,10 @@ def test_common_failed_get_label_3(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_common_failed_get_label_4(get_label_data):
-    del get_label_data["to_address"]["country"]
+def test_common_failed_get_label_4(get_label_data_api_key):
+    del get_label_data_api_key["to_address"]["country"]
     with pytest.raises(InvalidApiInput) as excinfo:
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
     assert "Invalid input data" in str(excinfo.value)
     assert "to_address.country\n  Field required" in str(excinfo.value)
@@ -162,40 +203,124 @@ def test_common_failed_get_label_4(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_pickup_fail_1(get_label_data):
-    get_label_data["service"]["product"] = "BPR"
-    get_label_data["to_address"]["email"] = "no-reply@webu.coop"
-    get_label_data["service"]["pickupLocationId"] = "929750"
-    get_label_data["service"]["commercialName"] = "Webu"
-    del get_label_data["to_address"]["phone"]
+def test_pickup_fail_1(get_label_data_api_key):
+    get_label_data_api_key["service"]["product"] = "BPR"
+    get_label_data_api_key["to_address"]["email"] = "no-reply@webu.coop"
+    get_label_data_api_key["service"]["pickupLocationId"] = "929750"
+    get_label_data_api_key["service"]["commercialName"] = "Webu"
+    del get_label_data_api_key["to_address"]["phone"]
 
     with pytest.raises(CarrierError, match="'id': 30220,"):
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
 
 @pytest.mark.vcr(
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_pickup_fail_2(get_label_data):
-    get_label_data["service"]["product"] = "BPR"
-    get_label_data["to_address"]["email"] = "no-reply@webu.coop"
-    get_label_data["service"]["pickupLocationId"] = "929750"
-    get_label_data["service"]["commercialName"] = "Webu"
-    del get_label_data["to_address"]["phone"]
-    get_label_data["to_address"]["landlinePhone"] = "0123456789"
+def test_pickup_fail_2(get_label_data_api_key):
+    get_label_data_api_key["service"]["product"] = "BPR"
+    get_label_data_api_key["to_address"]["email"] = "no-reply@webu.coop"
+    get_label_data_api_key["service"]["pickupLocationId"] = "929750"
+    get_label_data_api_key["service"]["commercialName"] = "Webu"
+    del get_label_data_api_key["to_address"]["phone"]
+    get_label_data_api_key["to_address"]["landlinePhone"] = "0123456789"
 
     with pytest.raises(CarrierError, match="'id': 30220,"):
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
 
 @pytest.mark.vcr(
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_pickup_ok(get_label_data):
-    rv = roulier.get("colissimo_fr", "get_label", get_label_data)
+def test_pickup_ok(get_label_data_api_key):
+    rv = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
     assert_label(rv)
+
+
+@pytest.mark.vcr(
+    before_record_request=before_record_request,
+)
+def test_search_pickup_sites_login_password_ok(search_pickup_sites_data):
+    rv = roulier.get("colissimo_fr", "search_pickup_sites", search_pickup_sites_data)
+    assert "sites" in rv
+    assert len(rv["sites"]) > 0
+    site = rv["sites"][0]
+    assert site["id"] == "060567"
+    assert site["zone"] == "R01"
+    assert site["name"] == "BUREAU DE POSTE VILLEURBANNE BELLECOMBE RP"
+    assert site["street"] == "13 RUE BELLECOMBE\nCARREFOUR CITY"
+    assert site["zip"] == "69100"
+    assert site["city"] == "VILLEURBANNE"
+    assert site["country"] == "FR"
+    assert site["lat"] == "45.7695505"
+    assert site["lng"] == "4.86314559"
+    assert len(site["hours"]) == 7
+    assert len(site["vacations"]) == 5
+    assert site["vacations"][0]["start"] == datetime(2025, 6, 9)
+    assert site["vacations"][0]["end"] == datetime(2025, 6, 9)
+    site = rv["sites"][1]
+    assert len(site["hours"]) == 7
+    assert site["hours"]["monday"][0]["start"] == time(9, 0)
+    assert site["hours"]["monday"][0]["end"] == time(12, 0)
+    assert site["hours"]["monday"][1]["start"] == time(14, 0)
+    assert site["hours"]["monday"][1]["end"] == time(18, 0)
+
+
+@pytest.mark.vcr(
+    before_record_request=before_record_request,
+)
+def test_search_pickup_sites_api_key_ok(search_pickup_sites_data_api_key):
+    rv = roulier.get(
+        "colissimo_fr", "search_pickup_sites", search_pickup_sites_data_api_key
+    )
+    assert "sites" in rv
+    assert len(rv["sites"]) > 0
+    site = rv["sites"][0]
+    assert site["id"] == "060567"
+    assert site["zone"] == "R01"
+    assert site["name"] == "BUREAU DE POSTE VILLEURBANNE BELLECOMBE RP"
+    assert site["street"] == "13 RUE BELLECOMBE\nCARREFOUR CITY"
+    assert site["zip"] == "69100"
+    assert site["city"] == "VILLEURBANNE"
+    assert site["country"] == "FR"
+    assert site["lat"] == "45.7695505"
+    assert site["lng"] == "4.86314559"
+    assert len(site["hours"]) == 7
+    assert len(site["vacations"]) == 5
+    assert site["vacations"][0]["start"] == datetime(2025, 6, 9)
+    assert site["vacations"][0]["end"] == datetime(2025, 6, 9)
+    site = rv["sites"][1]
+    assert len(site["hours"]) == 7
+    assert site["hours"]["monday"][0]["start"] == time(9, 0)
+    assert site["hours"]["monday"][0]["end"] == time(12, 0)
+    assert site["hours"]["monday"][1]["start"] == time(14, 0)
+    assert site["hours"]["monday"][1]["end"] == time(18, 0)
+
+
+@pytest.mark.vcr(
+    before_record_request=before_record_request,
+)
+def test_get_pickup_site_ok(get_pickup_site_data):
+    get_pickup_site_data["get"]["id"] = "060567"
+    get_pickup_site_data["get"]["zone"] = "R01"
+
+    rv = roulier.get("colissimo_fr", "get_pickup_site", get_pickup_site_data)
+    assert rv["site"]
+    site = rv["site"]
+    assert site["id"] == "060567"
+    assert site["name"] == "BUREAU DE POSTE VILLEURBANNE BELLECOMBE RP"
+    assert site["street"] == "13 RUE BELLECOMBE\nCARREFOUR CITY"
+    assert site["zip"] == "69100"
+    assert site["city"] == "VILLEURBANNE"
+    assert site["country"] == "FR"
+    assert site["lat"] == "45.7695505"
+    assert site["lng"] == "4.86314559"
+    assert len(site["hours"]) == 7
+    assert len(site["vacations"]) == 5
+    assert site["vacations"][0]["start"] == datetime(2025, 6, 9)
+    assert site["vacations"][0]["end"] == datetime(2025, 6, 9)
 
 
 @pytest.mark.block_network
@@ -227,10 +352,10 @@ def test_packing_slip_both_fields(packing_slip_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_packing_slip_unknown_parcel(get_label_data):
-    get_label_data["parcels_numbers"] = ["unknown", "missing"]
+def test_packing_slip_unknown_parcel(get_label_data_api_key):
+    get_label_data_api_key["parcels_numbers"] = ["unknown", "missing"]
     with pytest.raises(CarrierError) as excinfo:
-        roulier.get("colissimo_fr", "get_packing_slip", get_label_data)
+        roulier.get("colissimo_fr", "get_packing_slip", get_label_data_api_key)
 
     assert "50031" in str(excinfo.value)
     assert "Numéro de colis invalide" in str(excinfo.value)
@@ -240,9 +365,9 @@ def test_packing_slip_unknown_parcel(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_common_success_get_packing_slip(get_label_data, packing_slip_data):
-    get_label_data["parcels"][0]["nonMachinable"] = True
-    result = roulier.get("colissimo_fr", "get_label", get_label_data)
+def test_common_success_get_packing_slip(get_label_data_api_key, packing_slip_data):
+    get_label_data_api_key["parcels"][0]["nonMachinable"] = True
+    result = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
     # now we can get the packing slip for this parcel
     packing_slip_data["parcels_numbers"] = [
@@ -262,10 +387,10 @@ def test_common_success_get_packing_slip(get_label_data, packing_slip_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_DOM_product(get_label_data):
+def test_DOM_product(get_label_data_api_key):
     """France - Colissimo Domicile - sans signature"""
-    get_label_data["service"]["product"] = "DOM"
-    result = roulier.get("colissimo_fr", "get_label", get_label_data)
+    get_label_data_api_key["service"]["product"] = "DOM"
+    result = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
     assert_label(result)
 
 
@@ -273,10 +398,10 @@ def test_DOM_product(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_DOS_product(get_label_data):
+def test_DOS_product(get_label_data_api_key):
     """France - Colissimo Domicile - avec signature"""
-    get_label_data["service"]["product"] = "DOS"
-    result = roulier.get("colissimo_fr", "get_label", get_label_data)
+    get_label_data_api_key["service"]["product"] = "DOS"
+    result = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
     assert_label(result)
 
 
@@ -284,44 +409,44 @@ def test_DOS_product(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_DOM_product_raise_1(get_label_data):
+def test_DOM_product_raise_1(get_label_data_api_key):
     """Test for invalid zip code"""
-    get_label_data["service"]["product"] = "DOM"
-    get_label_data["to_address"]["zip"] = "99999"
+    get_label_data_api_key["service"]["product"] = "DOM"
+    get_label_data_api_key["to_address"]["zip"] = "99999"
     with pytest.raises(
         CarrierError,
         match="Le code pays ou le code postal du destinataire est incorrect "
         "pour le code produit fourni",
     ):
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
 
 @pytest.mark.vcr(
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_DOM_product_raise_2(get_label_data):
+def test_DOM_product_raise_2(get_label_data_api_key):
     """Test for invalid zip code"""
-    get_label_data["service"]["product"] = "DOM"
+    get_label_data_api_key["service"]["product"] = "DOM"
     # 30108 = Le code postal de l'expéditeur ne correspond pas au pays
-    get_label_data["to_address"]["zip"] = "21000"
-    get_label_data["from_address"]["zip"] = "9999"
+    get_label_data_api_key["to_address"]["zip"] = "21000"
+    get_label_data_api_key["from_address"]["zip"] = "9999"
     with pytest.raises(CarrierError, match="30108"):
-        roulier.get("colissimo_fr", "get_label", get_label_data)
+        roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
 
 
 @pytest.mark.vcr(
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_COM_product(get_label_data):
+def test_COM_product(get_label_data_api_key):
     """Outre-Mer - Colissimo Domicile - sans signature"""
-    get_label_data["service"]["product"] = "COM"
-    get_label_data["service"]["transportationAmount"] = 123
-    get_label_data["service"]["totalAmount"] = 123
-    get_label_data["to_address"]["country"] = "GP"  # Guadeloupe
-    get_label_data["to_address"]["zip"] = "97100"  # Basse-Terre
-    get_label_data["parcels"][0]["customs"] = {
+    get_label_data_api_key["service"]["product"] = "COM"
+    get_label_data_api_key["service"]["transportationAmount"] = 123
+    get_label_data_api_key["service"]["totalAmount"] = 123
+    get_label_data_api_key["to_address"]["country"] = "GP"  # Guadeloupe
+    get_label_data_api_key["to_address"]["zip"] = "97100"  # Basse-Terre
+    get_label_data_api_key["parcels"][0]["customs"] = {
         "articles": [
             {
                 "quantity": "2",
@@ -334,8 +459,8 @@ def test_COM_product(get_label_data):
         ],
         "category": 3,
     }
-    get_label_data["parcels"][0]["totalAmount"] = 123  # Frais de transport
-    rv = roulier.get("colissimo_fr", "get_label", get_label_data)
+    get_label_data_api_key["parcels"][0]["totalAmount"] = 123  # Frais de transport
+    rv = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
     assert_label(rv)
 
 
@@ -343,12 +468,12 @@ def test_COM_product(get_label_data):
     filter_headers=["apiKey"],
     before_record_request=before_record_request,
 )
-def test_full_customs_declarations(get_label_data):
+def test_full_customs_declarations(get_label_data_api_key):
     """Complete customsDeclarations"""
-    get_label_data["service"]["product"] = "COM"
-    get_label_data["to_address"]["country"] = "GP"  # Guadeloupe
-    get_label_data["to_address"]["zip"] = "97100"  # Basse-Terre
-    get_label_data["parcels"][0]["customs"] = {
+    get_label_data_api_key["service"]["product"] = "COM"
+    get_label_data_api_key["to_address"]["country"] = "GP"  # Guadeloupe
+    get_label_data_api_key["to_address"]["zip"] = "97100"  # Basse-Terre
+    get_label_data_api_key["parcels"][0]["customs"] = {
         "articles": [
             {
                 "description": "Printed circuits",
@@ -401,9 +526,9 @@ def test_full_customs_declarations(get_label_data):
             "language": "FR",
         },
     }
-    get_label_data["service"]["totalAmount"] = 123  # Frais de transport
+    get_label_data_api_key["service"]["totalAmount"] = 123  # Frais de transport
 
-    rv = roulier.get("colissimo_fr", "get_label", get_label_data)
+    rv = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
     assert_label(rv)
 
 
@@ -418,11 +543,11 @@ def test_documents_missing_parcel_number(document_data):
 
 @pytest.mark.vcr(
     before_record_request=before_record_request,
-    filter_headers=["apiKey"],
+    filter_headers=["apiKey", "login", "password"],
 )
-def test_documents_ok(vcr, get_label_data, document_data):
-    get_label_data = merge(
-        get_label_data,
+def test_documents_ok(vcr, get_label_data_api_key, document_data):
+    get_label_data_api_key = merge(
+        get_label_data_api_key,
         {
             "service": {
                 "product": "DOS",
@@ -440,8 +565,8 @@ def test_documents_ok(vcr, get_label_data, document_data):
             },
         },
     )
-    get_label_data["parcels"][0] = {
-        **get_label_data["parcels"][0],
+    get_label_data_api_key["parcels"][0] = {
+        **get_label_data_api_key["parcels"][0],
         "customs": {
             "articles": [
                 {
@@ -462,7 +587,7 @@ def test_documents_ok(vcr, get_label_data, document_data):
         "height": 4,
     }
 
-    rv = roulier.get("colissimo_fr", "get_label", get_label_data)
+    rv = roulier.get("colissimo_fr", "get_label", get_label_data_api_key)
     parcel = rv["parcels"][0]
 
     document_data["service"]["parcel_number"] = parcel["tracking"]["number"]
@@ -475,7 +600,7 @@ def test_documents_ok(vcr, get_label_data, document_data):
                 raise
             i += 30
             if not vcr.play_count:  # Don't wait if we are in a VCR test
-                time.sleep(30)
+                sleep(30)
         else:
             break
 
