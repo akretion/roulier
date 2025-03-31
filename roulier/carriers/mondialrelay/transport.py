@@ -24,7 +24,6 @@ class MondialRelayTransport(RequestsTransport):
         """Wrap body in a soap:Enveloppe."""
         env = Environment(
             loader=PackageLoader("roulier", "carriers/mondialrelay/templates"),
-            extensions=["jinja2.ext.with_"],
         )
 
         template = env.get_template("mondial_relay_soap.xml")

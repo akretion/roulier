@@ -12,7 +12,6 @@ class MondialRelayEncoderBase(Encoder):
     def _render_template(self, data):
         env = Environment(
             loader=PackageLoader("roulier", "carriers/mondialrelay/templates"),
-            extensions=["jinja2.ext.with_", "jinja2.ext.autoescape"],
             autoescape=True,
         )
         template = env.get_template("mondial_relay_action.xml")
