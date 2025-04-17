@@ -26,7 +26,7 @@ def get_label_data(credentials, base_get_label_data):
             "service": {
                 "product": "01002",
                 "shippingDate": date(
-                    2024, 12, 5
+                    2025, 4, 17
                 ),  # Update the date when launching the tests with the credentials
             }
         },
@@ -101,3 +101,42 @@ def test_ciblex_label_bad_street(get_label_data):
         match="to_address.street1\n  String should have at most 40 characters",
     ):
         roulier.get("ciblex", "get_label", data)
+
+
+@pytest.mark.vcr(
+    filter_post_data_parameters=["USER_COMPTE", "USER_PASSWORD"],
+    filter_query_parameters=["expediteur", "liste_cmd"],
+    filter_headers=["Cookie"],
+    before_record_response=before_record_response,
+    ignore_hosts=["localhost"],
+)
+def test_ciblex_multi_package_to_label_pdf(get_label_data):
+    data = get_label_data
+    data["parcels"].append(
+        {"weight": 2.5, "reference": "Parcel 2"},
+    )
+    rv = roulier.get("ciblex", "get_label", data)
+    assert "parcels" in rv
+    assert len(rv["parcels"]) == 2
+    assert rv["parcels"][0]["id"]
+    assert rv["parcels"][1]["id"]
+
+    assert rv["parcels"][0]["label"]
+    label = rv["parcels"][0]["label"]
+    assert label["name"] == "label"
+    assert label["type"] == "PDF"
+    assert_pdf(label["data"])
+
+    assert not rv["parcels"][1]["label"]
+
+    assert "tracking" in rv["parcels"][0]
+    tracking = rv["parcels"][0]["tracking"]
+    assert tracking["number"]
+    assert tracking["url"].startswith("https://secure.extranet.ciblex.fr")
+
+    assert "tracking" in rv["parcels"][1]
+    tracking = rv["parcels"][1]["tracking"]
+    assert tracking["number"]
+    assert tracking["url"].startswith("https://secure.extranet.ciblex.fr")
+
+    assert tracking["number"] != rv["parcels"][0]["tracking"]["number"]
