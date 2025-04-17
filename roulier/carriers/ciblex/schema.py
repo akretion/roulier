@@ -152,7 +152,7 @@ class CiblexParcelLabel(ParcelLabel):
         return cls.model_construct(
             id=result["id"],
             reference=result["reference"],
-            label=CiblexLabel.from_params(result),
+            label=CiblexLabel.from_params(result) if result["label"] else None,
             tracking=CiblexTracking.from_params(result),
         )
 
