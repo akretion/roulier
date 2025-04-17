@@ -135,7 +135,8 @@ class Ciblex(Carrier):
                 "id": f"{order_ref}_{i+1}",
                 "reference": input.parcels[i].reference,
                 "format": format,
-                "label": label,  # TODO: Label contain all parcels, split it?
+                "label": label if i == 0 else None,  # Only the first parcel has
+                # the label since the label contains all parcels
                 "tracking": trackings[i],
             }
             for i in range(count)
