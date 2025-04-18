@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from typing import ClassVar
 import unicodedata
+from .schema import LabelInput, LabelOutput
 
 REMOVED = ClassVar[None]  # Hack to remove a field from inherited class
 
@@ -57,3 +58,25 @@ def merge(*dicts):
                     continue
                 result[k] = v
     return result
+
+
+def expand_multi_parcels(request: LabelInput) -> list[LabelInput]:
+    """
+    Expand multi-parcel requests into individual parcel requests.
+    """
+    requests = []
+    for parcel in request.parcels:
+        request = request.model_copy()
+        request.parcels = [parcel]
+        requests.append(request)
+
+    return requests
+
+
+def factorize_multi_parcels(responses: list[LabelOutput]) -> LabelOutput:
+    """
+    Factorize multi-parcel responses into individual parcel responses.
+    """
+    for response in responses[1:]:
+        responses[0].parcels.extend(response.parcels)
+    return responses[0]
