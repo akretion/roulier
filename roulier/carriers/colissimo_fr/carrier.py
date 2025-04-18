@@ -24,6 +24,7 @@ from .schema import (
     ColissimoFrPickupSiteGetOutput,
     ColissimoFrPickupSiteSearchOutput,
 )
+from ...helpers import expand_multi_parcels, factorize_multi_parcels
 
 
 _logger = logging.getLogger(__name__)
@@ -160,12 +161,17 @@ class ColissimoFr(Carrier):
 
     @action
     def get_label(self, input: ColissimoFrLabelInput) -> ColissimoFrLabelOutput:
-        params = input.params()
-        self.validate(params)
-        response = self.request("generateLabel", params)
+        results = []
+        for input_mono_parcel in expand_multi_parcels(input):
+            params = input_mono_parcel.params()
+            self.validate(params)
+            response = self.request("generateLabel", params)
+            result = self._parse_response(response)
+            results.append(
+                ColissimoFrLabelOutput.from_params(result, input_mono_parcel)
+            )
 
-        result = self._parse_response(response)
-        return ColissimoFrLabelOutput.from_params(result, input)
+        return factorize_multi_parcels(results)
 
     @action
     def search_pickup_sites(
