@@ -6,6 +6,7 @@ import zeep
 from ...carrier import Carrier, action
 from ...exception import CarrierError
 from .schema import DpdFrLabelInput, DpdFrLabelOutput
+from ...helpers import expand_multi_parcels, factorize_multi_parcels
 
 
 class DpdFr(Carrier):
@@ -25,13 +26,26 @@ class DpdFr(Carrier):
     @action
     def get_label(self, input: DpdFrLabelInput) -> DpdFrLabelOutput:
         client = self._get_client(input.auth.isTest)
-        try:
-            result = client.service.CreateShipmentWithLabelsBc(**input.soap(client))
-        except zeep.exceptions.Fault as e:
-            error_id = e.detail.xpath("//ErrorId")
-            if len(error_id) > 0:
-                error_id = error_id[0].text
-            else:
-                error_id = "UnknownError"
-            raise CarrierError(None, msg=[{"id": error_id, "message": str(e)}]) from e
-        return DpdFrLabelOutput.from_soap(result, input.service.labelFormat)
+        results = []
+        for input_mono_parcel in expand_multi_parcels(input):
+            try:
+                results.append(
+                    DpdFrLabelOutput.from_soap(
+                        client.service.CreateShipmentWithLabelsBc(
+                            **input_mono_parcel.soap(client)
+                        ),
+                        input_mono_parcel,
+                    )
+                )
+
+            except zeep.exceptions.Fault as e:
+                error_id = e.detail.xpath("//ErrorId")
+                if len(error_id) > 0:
+                    error_id = error_id[0].text
+                else:
+                    error_id = "UnknownError"
+                raise CarrierError(
+                    None, msg=[{"id": error_id, "message": str(e)}]
+                ) from e
+
+        return factorize_multi_parcels(results)

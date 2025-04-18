@@ -49,18 +49,18 @@ def before_record_request(request):
     return request
 
 
-def assert_label(rv, label_type="PDF"):
+def assert_label(rv, label_type="PDF", i=0):
     assert "parcels" in rv
-    assert rv["parcels"][0]["id"]
+    assert rv["parcels"][i]["id"]
 
-    assert "label" in rv["parcels"][0]
-    label = rv["parcels"][0]["label"]
+    assert "label" in rv["parcels"][i]
+    label = rv["parcels"][i]["label"]
     assert label["name"] == f"{label_type} Label"
     assert label["type"] == f"{label_type}"
     assert_data_type(label["data"], label_type[:3])
 
-    assert "tracking" in rv["parcels"][0]
-    tracking = rv["parcels"][0]["tracking"]
+    assert "tracking" in rv["parcels"][i]
+    tracking = rv["parcels"][i]["tracking"]
     assert tracking["number"]
 
 
@@ -71,6 +71,23 @@ def assert_label(rv, label_type="PDF"):
 def test_dpd_label(get_label_data):
     rv = roulier.get("dpd_fr", "get_label", get_label_data)
     assert_label(rv)
+    assert rv["parcels"][0]["reference"] == get_label_data["parcels"][0]["reference"]
+
+
+@pytest.mark.vcr(
+    ignore_localhost=True,
+    before_record_request=before_record_request,
+)
+def test_dpd_multi_label(get_label_data):
+    data = get_label_data
+    data["parcels"].append(
+        {"weight": 2.5, "reference": "Parcel 2"},
+    )
+    rv = roulier.get("dpd_fr", "get_label", data)
+    assert_label(rv)
+    assert_label(rv, i=1)
+    assert rv["parcels"][0]["reference"] == "Parcel 1"
+    assert rv["parcels"][1]["reference"] == "Parcel 2"
 
 
 @pytest.mark.block_network

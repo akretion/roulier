@@ -265,13 +265,15 @@ class DpdFrTracking(Tracking):
 
 class DpdFrParcelLabel(ParcelLabel):
     label: DpdFrLabel | None = None
+    barcode: str | None = None
 
     @classmethod
-    def from_soap(cls, id, shipment, label, format):
+    def from_soap(cls, id, shipment, label, input):
         return cls.model_construct(
             id=id,
-            label=DpdFrLabel.from_soap(label, format),
-            reference=shipment["Shipment"]["BarCode"],
+            label=DpdFrLabel.from_soap(label, input.service.labelFormat),
+            reference=input.parcels[0].reference,
+            barcode=shipment["Shipment"]["BarCode"],
             tracking=DpdFrTracking.from_soap(shipment["Shipment"]),
         )
 
@@ -280,14 +282,14 @@ class DpdFrLabelOutput(LabelOutput):
     parcels: list[DpdFrParcelLabel]
 
     @classmethod
-    def from_soap(cls, result, format):
+    def from_soap(cls, result, input):
         shipments = result["shipments"]["ShipmentBc"]
         labels = result["labels"]["Label"]
         assert len(shipments) == len(labels), "Mismatched shipments and labels"
         parcels = zip(shipments, labels)
         return cls.model_construct(
             parcels=[
-                DpdFrParcelLabel.from_soap(i + 1, shipment, label, format)
+                DpdFrParcelLabel.from_soap(i + 1, shipment, label, input)
                 for i, (shipment, label) in enumerate(parcels)
             ]
         )
