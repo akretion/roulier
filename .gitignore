@@ -1,5 +1,6 @@
 # specific on the project
 *credential.py
+/roulier/tests/credentials.py
 *label*.pdf  # files downloaded when executed some tests
 
 # Byte-compiled / optimized / DLL files

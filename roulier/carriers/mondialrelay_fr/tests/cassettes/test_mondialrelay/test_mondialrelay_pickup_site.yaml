@@ -1,0 +1,1019 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Zeep/4.3.1 (www.python-zeep.org)
+    method: GET
+    uri: https://api.mondialrelay.com/Web_Services.asmx?WSDL
+  response:
+    body:
+      string: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<wsdl:definitions xmlns:s=\"http://www.w3.org/2001/XMLSchema\"
+        xmlns:soap12=\"http://schemas.xmlsoap.org/wsdl/soap12/\" xmlns:http=\"http://schemas.xmlsoap.org/wsdl/http/\"
+        xmlns:mime=\"http://schemas.xmlsoap.org/wsdl/mime/\" xmlns:tns=\"http://www.mondialrelay.fr/webservice/\"
+        xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\" xmlns:tm=\"http://microsoft.com/wsdl/mime/textMatching/\"
+        xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\" targetNamespace=\"http://www.mondialrelay.fr/webservice/\"
+        xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\">\r\n  <wsdl:types>\r\n    <s:schema
+        elementFormDefault=\"qualified\" targetNamespace=\"http://www.mondialrelay.fr/webservice/\">\r\n
+        \     <s:element name=\"WSI2_CreationExpedition\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Enseigne\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"ModeCol\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ModeLiv\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"NDossier\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"NClient\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Expe_Langage\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Expe_Ad1\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Ad2\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Ad3\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Ad4\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Expe_Ville\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Expe_CP\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Pays\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Tel1\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Expe_Tel2\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Expe_Mail\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Langage\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Ad1\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Ad2\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Dest_Ad3\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Dest_Ad4\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Ville\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_CP\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Pays\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Dest_Tel1\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Dest_Tel2\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Mail\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Poids\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Longueur\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Taille\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"NbColis\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CRT_Valeur\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"CRT_Devise\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Exp_Valeur\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Exp_Devise\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"COL_Rel_Pays\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"COL_Rel\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"LIV_Rel_Pays\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"LIV_Rel\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"TAvisage\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"TReprise\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Montage\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"TRDV\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Assurance\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Instructions\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_CreationExpeditionResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI2_CreationExpeditionResult\" type=\"tns:ret_WSI2_CreationExpedition\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI2_CreationExpedition\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ExpeditionNum\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"TRI_AgenceCode\" type=\"s:string\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"TRI_Groupe\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"TRI_Navette\" type=\"s:string\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"TRI_Agence\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"TRI_TourneeCode\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"TRI_LivraisonMode\" type=\"s:string\"
+        />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"CodesBarres\"
+        type=\"tns:ArrayOfString\" />\r\n            </s:sequence>\r\n          </s:extension>\r\n
+        \       </s:complexContent>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ret_\">\r\n        <s:sequence>\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"STAT\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfString\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"string\" nillable=\"true\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"WSI2_CreationEtiquette\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ModeCol\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ModeLiv\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"NDossier\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"NClient\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Langage\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Ad1\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Ad2\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Expe_Ad3\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Expe_Ad4\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Ville\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_CP\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Pays\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Expe_Tel1\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Expe_Tel2\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Expe_Mail\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Langage\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Dest_Ad1\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Dest_Ad2\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Ad3\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Ad4\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Ville\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Dest_CP\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Dest_Pays\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Tel1\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Dest_Tel2\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Dest_Mail\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Poids\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Longueur\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Taille\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"NbColis\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"CRT_Valeur\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"CRT_Devise\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Exp_Valeur\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Exp_Devise\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"COL_Rel_Pays\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"COL_Rel\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LIV_Rel_Pays\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"LIV_Rel\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"TAvisage\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"TReprise\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Montage\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"TRDV\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Assurance\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Instructions\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Security\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Texte\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"WSI2_CreationEtiquetteResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"WSI2_CreationEtiquetteResult\" type=\"tns:ret_WSI2_CreationEtiquette\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI2_CreationEtiquette\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ExpeditionNum\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"URL_Etiquette\" type=\"s:string\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"WSI3_GetEtiquettes\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Enseigne\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Expeditions\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Langue\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI3_GetEtiquettesResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI3_GetEtiquettesResult\" type=\"tns:ret_WSI3_GetEtiquettes\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI3_GetEtiquettes\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_WSI2_GetEtiquettes\">\r\n
+        \           <s:sequence>\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"URL_PDF_10x15\" type=\"s:string\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ret_WSI2_GetEtiquettes\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"URL_PDF_A4\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"URL_PDF_A5\" type=\"s:string\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"WSI2_GetEtiquettes\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Enseigne\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Expeditions\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Langue\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_GetEtiquettesResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI2_GetEtiquettesResult\" type=\"tns:ret_WSI2_GetEtiquettes\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_RechercheCP\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Enseigne\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"NbResult\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_RechercheCPResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI2_RechercheCPResult\" type=\"tns:ret_WSI2_RechercheCP\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"ret_WSI2_RechercheCP\">\r\n
+        \       <s:complexContent mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n
+        \           <s:sequence>\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Liste\" type=\"tns:ArrayOfCommune\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ArrayOfCommune\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"Commune\"
+        nillable=\"true\" type=\"tns:Commune\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"Commune\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"WSI3_PointRelais_Recherche\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"NumPointRelais\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Ville\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Latitude\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Longitude\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Taille\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Poids\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Action\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"DelaiEnvoi\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"RayonRecherche\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"TypeActivite\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"NACE\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI3_PointRelais_RechercheResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI3_PointRelais_RechercheResult\" type=\"tns:ret_WSI3_PointRelais_Recherche\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI3_PointRelais_Recherche\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PointsRelais\"
+        type=\"tns:ArrayOfPointRelais_Details\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ArrayOfPointRelais_Details\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"PointRelais_Details\"
+        nillable=\"true\" type=\"tns:PointRelais_Details\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"PointRelais_Details\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"STAT\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Num\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr1\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr2\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr3\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr4\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Localisation1\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Localisation2\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Latitude\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Longitude\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"TypeActivite\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"NACE\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Information\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Horaires_Lundi\" type=\"tns:ArrayOfString\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Mardi\" type=\"tns:ArrayOfString\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Mercredi\"
+        type=\"tns:ArrayOfString\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Horaires_Jeudi\" type=\"tns:ArrayOfString\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Vendredi\" type=\"tns:ArrayOfString\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Samedi\"
+        type=\"tns:ArrayOfString\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Horaires_Dimanche\" type=\"tns:ArrayOfString\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Informations_Dispo\" type=\"tns:ArrayOfPeriode\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"URL_Photo\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"URL_Plan\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Distance\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfPeriode\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"Periode\" nillable=\"true\" type=\"tns:Periode\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"Periode\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Debut\" nillable=\"true\"
+        type=\"s:dateTime\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Fin\" nillable=\"true\" type=\"s:dateTime\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"WSI4_PointRelais_Recherche\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"NumPointRelais\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Ville\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Latitude\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Longitude\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Taille\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Poids\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Action\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"DelaiEnvoi\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"RayonRecherche\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"TypeActivite\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"NACE\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"NombreResultats\" nillable=\"true\"
+        type=\"s:int\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Security\" type=\"s:string\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"WSI4_PointRelais_RechercheResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"WSI4_PointRelais_RechercheResult\"
+        type=\"tns:ret_WSI3_PointRelais_Recherche\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"WSI2_AdressePointRelais\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Num\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Security\" type=\"s:string\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"WSI2_AdressePointRelaisResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"WSI2_AdressePointRelaisResult\" type=\"tns:ret_WSI2_AdressePointRelais\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI2_AdressePointRelais\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr1\" type=\"s:string\"
+        />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr2\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"LgAdr3\" type=\"s:string\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"LgAdr4\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"WSI2_DetailPointRelais\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Enseigne\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Num\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_DetailPointRelaisResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI2_DetailPointRelaisResult\" type=\"tns:ret_WSI2_DetailPointRelais\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI2_DetailPointRelais\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Num\" type=\"s:string\"
+        />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr1\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"LgAdr2\" type=\"s:string\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"LgAdr3\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr4\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Localisation1\" type=\"s:string\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Localisation2\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Horaires_Lundi\" type=\"tns:ArrayOfString\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Mardi\" type=\"tns:ArrayOfString\"
+        />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Mercredi\"
+        type=\"tns:ArrayOfString\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Horaires_Jeudi\" type=\"tns:ArrayOfString\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Vendredi\"
+        type=\"tns:ArrayOfString\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Horaires_Samedi\" type=\"tns:ArrayOfString\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Dimanche\"
+        type=\"tns:ArrayOfString\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Information\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"URL_Photo\" type=\"s:string\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"URL_Plan\"
+        type=\"s:string\" />\r\n            </s:sequence>\r\n          </s:extension>\r\n
+        \       </s:complexContent>\r\n      </s:complexType>\r\n      <s:element
+        name=\"WSI2_RecherchePointRelais\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Ville\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Taille\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Poids\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Action\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_RecherchePointRelaisResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI2_RecherchePointRelaisResult\" type=\"tns:ret_WSI2_RecherchePointRelais\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI2_RecherchePointRelais\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PR01\" type=\"tns:ret_WSI2_sub_PointRelais\"
+        />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PR02\"
+        type=\"tns:ret_WSI2_sub_PointRelais\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"PR03\" type=\"tns:ret_WSI2_sub_PointRelais\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PR04\" type=\"tns:ret_WSI2_sub_PointRelais\"
+        />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PR05\"
+        type=\"tns:ret_WSI2_sub_PointRelais\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"PR06\" type=\"tns:ret_WSI2_sub_PointRelais\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PR07\" type=\"tns:ret_WSI2_sub_PointRelais\"
+        />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PR08\"
+        type=\"tns:ret_WSI2_sub_PointRelais\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"PR09\" type=\"tns:ret_WSI2_sub_PointRelais\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PR10\" type=\"tns:ret_WSI2_sub_PointRelais\"
+        />\r\n            </s:sequence>\r\n          </s:extension>\r\n        </s:complexContent>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ret_WSI2_sub_PointRelais\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Num\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"LgAdr1\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr2\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr3\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr4\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"WSI2_RecherchePointRelaisAvancee\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"CP\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Latitude\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Longitude\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Taille\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Poids\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Action\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"DelaiEnvoi\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"RayonRecherche\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"TypeActivite\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"NACE\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"WSI2_RecherchePointRelaisAvanceeResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"WSI2_RecherchePointRelaisAvanceeResult\"
+        type=\"tns:ret_WSI2_RecherchePointRelaisAvancee\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"ret_WSI2_RecherchePointRelaisAvancee\">\r\n
+        \       <s:complexContent mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n
+        \           <s:sequence>\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"ListePR\" type=\"tns:ArrayOfRet_WSI2_sub_PointRelaisAvancee\" />\r\n
+        \           </s:sequence>\r\n          </s:extension>\r\n        </s:complexContent>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfRet_WSI2_sub_PointRelaisAvancee\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ret_WSI2_sub_PointRelaisAvancee\" nillable=\"true\" type=\"tns:ret_WSI2_sub_PointRelaisAvancee\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ret_WSI2_sub_PointRelaisAvancee\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Num\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr1\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr2\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr3\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr4\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Latitude\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Longitude\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"TypeActivite\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"NACE\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Distance\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"WSI2_RecherchePointRelaisHoraires\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"CP\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Taille\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Poids\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Action\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_RecherchePointRelaisHorairesResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI2_RecherchePointRelaisHorairesResult\" type=\"tns:ret_WSI2_RecherchePointRelaisHoraires\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI2_RecherchePointRelaisHoraires\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ListePR\"
+        type=\"tns:ArrayOfRet_WSI2_sub_PointRelaisHoraires\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ArrayOfRet_WSI2_sub_PointRelaisHoraires\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ret_WSI2_sub_PointRelaisHoraires\" nillable=\"true\" type=\"tns:ret_WSI2_sub_PointRelaisHoraires\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ret_WSI2_sub_PointRelaisHoraires\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Num\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr1\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr2\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr3\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"LgAdr4\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"CP\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Ville\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Pays\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Lundi\" type=\"tns:ArrayOfString\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Mardi\"
+        type=\"tns:ArrayOfString\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Horaires_Mercredi\" type=\"tns:ArrayOfString\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Jeudi\" type=\"tns:ArrayOfString\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Vendredi\"
+        type=\"tns:ArrayOfString\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Horaires_Samedi\" type=\"tns:ArrayOfString\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Horaires_Dimanche\" type=\"tns:ArrayOfString\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"WSI2_TracingColisDetaille\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Expedition\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Langue\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"WSI2_TracingColisDetailleResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"WSI2_TracingColisDetailleResult\" type=\"tns:ret_WSI2_TracingColisDetaille\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ret_WSI2_TracingColisDetaille\">\r\n        <s:complexContent
+        mixed=\"false\">\r\n          <s:extension base=\"tns:ret_\">\r\n            <s:sequence>\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Libelle01\"
+        type=\"s:string\" />\r\n              <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Relais_Libelle\" type=\"s:string\" />\r\n              <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Relais_Num\" type=\"s:string\" />\r\n              <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Libelle02\" type=\"s:string\" />\r\n
+        \             <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Tracing\"
+        type=\"tns:ArrayOfRet_WSI2_sub_TracingColisDetaille\" />\r\n            </s:sequence>\r\n
+        \         </s:extension>\r\n        </s:complexContent>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ArrayOfRet_WSI2_sub_TracingColisDetaille\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ret_WSI2_sub_TracingColisDetaille\" nillable=\"true\" type=\"tns:ret_WSI2_sub_TracingColisDetaille\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ret_WSI2_sub_TracingColisDetaille\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Libelle\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Date\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Heure\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Emplacement\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Relais_Num\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Relais_Pays\" type=\"s:string\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:element name=\"WSI2_STAT_Label\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Enseigne\" type=\"s:string\" />\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"STAT_ID\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Langue\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Security\" type=\"s:string\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"WSI2_STAT_LabelResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"WSI2_STAT_LabelResult\" type=\"s:string\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_STAT_Labels\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Enseigne\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Langue\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Security\" type=\"s:string\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"WSI2_STAT_LabelsResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WSI2_STAT_LabelsResult\" type=\"tns:ArrayOfArrayOfString\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"ArrayOfArrayOfString\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ArrayOfString\" nillable=\"true\" type=\"tns:ArrayOfString\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n    </s:schema>\r\n  </wsdl:types>\r\n
+        \ <wsdl:message name=\"WSI2_CreationExpeditionSoapIn\">\r\n    <wsdl:part
+        name=\"parameters\" element=\"tns:WSI2_CreationExpedition\" />\r\n  </wsdl:message>\r\n
+        \ <wsdl:message name=\"WSI2_CreationExpeditionSoapOut\">\r\n    <wsdl:part
+        name=\"parameters\" element=\"tns:WSI2_CreationExpeditionResponse\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"WSI2_CreationEtiquetteSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_CreationEtiquette\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_CreationEtiquetteSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_CreationEtiquetteResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI3_GetEtiquettesSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI3_GetEtiquettes\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"WSI3_GetEtiquettesSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI3_GetEtiquettesResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_GetEtiquettesSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_GetEtiquettes\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"WSI2_GetEtiquettesSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_GetEtiquettesResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RechercheCPSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RechercheCP\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RechercheCPSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RechercheCPResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI3_PointRelais_RechercheSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI3_PointRelais_Recherche\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI3_PointRelais_RechercheSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI3_PointRelais_RechercheResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI4_PointRelais_RechercheSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI4_PointRelais_Recherche\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI4_PointRelais_RechercheSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI4_PointRelais_RechercheResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_AdressePointRelaisSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_AdressePointRelais\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_AdressePointRelaisSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_AdressePointRelaisResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_DetailPointRelaisSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_DetailPointRelais\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_DetailPointRelaisSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_DetailPointRelaisResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RecherchePointRelaisSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RecherchePointRelais\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RecherchePointRelaisSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RecherchePointRelaisResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RecherchePointRelaisAvanceeSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RecherchePointRelaisAvancee\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RecherchePointRelaisAvanceeSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RecherchePointRelaisAvanceeResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RecherchePointRelaisHorairesSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RecherchePointRelaisHoraires\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_RecherchePointRelaisHorairesSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_RecherchePointRelaisHorairesResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_TracingColisDetailleSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_TracingColisDetaille\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_TracingColisDetailleSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_TracingColisDetailleResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_STAT_LabelSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_STAT_Label\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"WSI2_STAT_LabelSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_STAT_LabelResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"WSI2_STAT_LabelsSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_STAT_Labels\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"WSI2_STAT_LabelsSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:WSI2_STAT_LabelsResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:portType name=\"Web_ServicesSoap\">\r\n
+        \   <wsdl:operation name=\"WSI2_CreationExpedition\">\r\n      <wsdl:input
+        message=\"tns:WSI2_CreationExpeditionSoapIn\" />\r\n      <wsdl:output message=\"tns:WSI2_CreationExpeditionSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"WSI2_CreationEtiquette\">\r\n
+        \     <wsdl:input message=\"tns:WSI2_CreationEtiquetteSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:WSI2_CreationEtiquetteSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI3_GetEtiquettes\">\r\n      <wsdl:input message=\"tns:WSI3_GetEtiquettesSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:WSI3_GetEtiquettesSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"WSI2_GetEtiquettes\">\r\n
+        \     <wsdl:input message=\"tns:WSI2_GetEtiquettesSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:WSI2_GetEtiquettesSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI2_RechercheCP\">\r\n      <wsdl:input message=\"tns:WSI2_RechercheCPSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:WSI2_RechercheCPSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI3_PointRelais_Recherche\">\r\n      <wsdl:input
+        message=\"tns:WSI3_PointRelais_RechercheSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:WSI3_PointRelais_RechercheSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI4_PointRelais_Recherche\">\r\n      <wsdl:input
+        message=\"tns:WSI4_PointRelais_RechercheSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:WSI4_PointRelais_RechercheSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI2_AdressePointRelais\">\r\n      <wsdl:input
+        message=\"tns:WSI2_AdressePointRelaisSoapIn\" />\r\n      <wsdl:output message=\"tns:WSI2_AdressePointRelaisSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"WSI2_DetailPointRelais\">\r\n
+        \     <wsdl:input message=\"tns:WSI2_DetailPointRelaisSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:WSI2_DetailPointRelaisSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI2_RecherchePointRelais\">\r\n      <wsdl:input
+        message=\"tns:WSI2_RecherchePointRelaisSoapIn\" />\r\n      <wsdl:output message=\"tns:WSI2_RecherchePointRelaisSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"WSI2_RecherchePointRelaisAvancee\">\r\n
+        \     <wsdl:input message=\"tns:WSI2_RecherchePointRelaisAvanceeSoapIn\" />\r\n
+        \     <wsdl:output message=\"tns:WSI2_RecherchePointRelaisAvanceeSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"WSI2_RecherchePointRelaisHoraires\">\r\n
+        \     <wsdl:input message=\"tns:WSI2_RecherchePointRelaisHorairesSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:WSI2_RecherchePointRelaisHorairesSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"WSI2_TracingColisDetaille\">\r\n
+        \     <wsdl:input message=\"tns:WSI2_TracingColisDetailleSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:WSI2_TracingColisDetailleSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI2_STAT_Label\">\r\n      <wsdl:input message=\"tns:WSI2_STAT_LabelSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:WSI2_STAT_LabelSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"WSI2_STAT_Labels\">\r\n      <wsdl:input message=\"tns:WSI2_STAT_LabelsSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:WSI2_STAT_LabelsSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \ </wsdl:portType>\r\n  <wsdl:binding name=\"Web_ServicesSoap\" type=\"tns:Web_ServicesSoap\">\r\n
+        \   <soap:binding transport=\"http://schemas.xmlsoap.org/soap/http\" />\r\n
+        \   <wsdl:operation name=\"WSI2_CreationExpedition\">\r\n      <soap:operation
+        soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_CreationExpedition\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_CreationEtiquette\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_CreationEtiquette\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI3_GetEtiquettes\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI3_GetEtiquettes\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_GetEtiquettes\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_GetEtiquettes\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RechercheCP\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RechercheCP\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI3_PointRelais_Recherche\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI3_PointRelais_Recherche\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI4_PointRelais_Recherche\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI4_PointRelais_Recherche\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_AdressePointRelais\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_AdressePointRelais\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_DetailPointRelais\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_DetailPointRelais\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RecherchePointRelais\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RecherchePointRelais\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RecherchePointRelaisAvancee\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RecherchePointRelaisAvancee\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RecherchePointRelaisHoraires\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RecherchePointRelaisHoraires\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_TracingColisDetaille\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_TracingColisDetaille\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_STAT_Label\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_STAT_Label\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_STAT_Labels\">\r\n      <soap:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_STAT_Labels\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n  </wsdl:binding>\r\n
+        \ <wsdl:binding name=\"Web_ServicesSoap12\" type=\"tns:Web_ServicesSoap\">\r\n
+        \   <soap12:binding transport=\"http://schemas.xmlsoap.org/soap/http\" />\r\n
+        \   <wsdl:operation name=\"WSI2_CreationExpedition\">\r\n      <soap12:operation
+        soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_CreationExpedition\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_CreationEtiquette\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_CreationEtiquette\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI3_GetEtiquettes\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI3_GetEtiquettes\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_GetEtiquettes\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_GetEtiquettes\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RechercheCP\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RechercheCP\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI3_PointRelais_Recherche\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI3_PointRelais_Recherche\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI4_PointRelais_Recherche\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI4_PointRelais_Recherche\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_AdressePointRelais\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_AdressePointRelais\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_DetailPointRelais\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_DetailPointRelais\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RecherchePointRelais\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RecherchePointRelais\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RecherchePointRelaisAvancee\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RecherchePointRelaisAvancee\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_RecherchePointRelaisHoraires\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_RecherchePointRelaisHoraires\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_TracingColisDetaille\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_TracingColisDetaille\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_STAT_Label\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_STAT_Label\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"WSI2_STAT_Labels\">\r\n      <soap12:operation soapAction=\"http://www.mondialrelay.fr/webservice/WSI2_STAT_Labels\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"
+        />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n  </wsdl:binding>\r\n
+        \ <wsdl:service name=\"Web_Services\">\r\n    <wsdl:port name=\"Web_ServicesSoap\"
+        binding=\"tns:Web_ServicesSoap\">\r\n      <soap:address location=\"http://api.mondialrelay.com/Web_Services.asmx\"
+        />\r\n    </wsdl:port>\r\n    <wsdl:port name=\"Web_ServicesSoap12\" binding=\"tns:Web_ServicesSoap12\">\r\n
+        \     <soap12:address location=\"http://api.mondialrelay.com/Web_Services.asmx\"
+        />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
+    headers:
+      CF-RAY:
+      - 921dec0dac8c02b3-CDG
+      Cache-Control:
+      - private, max-age=0
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/xml; charset=utf-8
+      Date:
+      - Mon, 17 Mar 2025 16:38:41 GMT
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - dtCookie=v_4_srv_6_sn_5935D4C229E1A5F483E26BFE46E2DA57_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
+        Path=/; Domain=.mondialrelay.com
+      - __cf_bm=5XpQ.6aF2LBhSS6mCEI7g2Jw5BG4fORswIJ6ZKFpyWk-1742229521-1.0.1.1-yWDZ_ZqMQkAKyr48XTffwyMTSM.y_64rFfXdIDaxWgf9kZBz3zjnw5IfXpPOENiEkIGFJZXK4xfVcKpB3ZvUTMIp9nraTgVoKzddYiLnxzA;
+        path=/; expires=Mon, 17-Mar-25 17:08:41 GMT; domain=.mondialrelay.com; HttpOnly;
+        Secure; SameSite=None
+      Transfer-Encoding:
+      - chunked
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      server-timing:
+      - dtSInfo;desc="1"
+      x-aspnet-version:
+      - 4.0.30319
+      x-powered-by:
+      - ASP.NET
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '<?xml version=''1.0'' encoding=''utf-8''?>
+
+      <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"
+      xmlns="http://www.mondialrelay.fr/webservice/"><soap-env:Body><WSI4_PointRelais_Recherche><Enseigne>BDTEST13</Enseigne><Pays>FR</Pays><CP>69100</CP><NombreResultats
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><Security>B92B23556C301E4A5D56F79566107A48</Security></WSI4_PointRelais_Recherche></soap-env:Body></soap-env:Envelope>'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '470'
+      Content-Type:
+      - text/xml; charset=utf-8
+      Cookie:
+      - dtCookie=v_4_srv_6_sn_5935D4C229E1A5F483E26BFE46E2DA57_perc_100000_ol_0_mul_1_app-3A8e610a2cbb08d829_1;
+        __cf_bm=5XpQ.6aF2LBhSS6mCEI7g2Jw5BG4fORswIJ6ZKFpyWk-1742229521-1.0.1.1-yWDZ_ZqMQkAKyr48XTffwyMTSM.y_64rFfXdIDaxWgf9kZBz3zjnw5IfXpPOENiEkIGFJZXK4xfVcKpB3ZvUTMIp9nraTgVoKzddYiLnxzA
+      SOAPAction:
+      - '"http://www.mondialrelay.fr/webservice/WSI4_PointRelais_Recherche"'
+      User-Agent:
+      - Zeep/4.3.1 (www.python-zeep.org)
+    method: POST
+    uri: https://api.mondialrelay.com/Web_Services.asmx
+  response:
+    body:
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><WSI4_PointRelais_RechercheResponse
+        xmlns="http://www.mondialrelay.fr/webservice/"><WSI4_PointRelais_RechercheResult><STAT>0</STAT><PointsRelais><PointRelais_Details><STAT
+        /><Num>005680</Num><LgAdr1>BUREAU COPY                    </LgAdr1><LgAdr2
+        /><LgAdr3>31 COURS ANDRE PHILIP          </LgAdr3><LgAdr4 /><CP>69100</CP><Ville>VILLEURBANNE              </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7728450</Latitude><Longitude>04,8630410</Longitude><TypeActivite>000</TypeActivite><Information
+        /><Horaires_Lundi><string>0900</string><string>1230</string><string>1400</string><string>1830</string></Horaires_Lundi><Horaires_Mardi><string>0900</string><string>1230</string><string>1400</string><string>1830</string></Horaires_Mardi><Horaires_Mercredi><string>0900</string><string>1230</string><string>1400</string><string>1830</string></Horaires_Mercredi><Horaires_Jeudi><string>0900</string><string>1230</string><string>1400</string><string>1830</string></Horaires_Jeudi><Horaires_Vendredi><string>0900</string><string>1230</string><string>1400</string><string>1830</string></Horaires_Vendredi><Horaires_Samedi><string>0930</string><string>1300</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0000</string><string>0000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=005680&amp;pays=FR&amp;crc=6E33CF14B9167BD8C11824D7E6692593</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=005680&amp;pays=FR&amp;crc=EEC2483BB8957499130C57B7FD62388F</URL_Plan><Distance>1739</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>030613</Num><LgAdr1>ENI 69100 VILLEURBANNE         </LgAdr1><LgAdr2
+        /><LgAdr3>112 B RUE LEON BLUM            </LgAdr3><LgAdr4 /><CP>69100</CP><Ville>VILLEURBANNE              </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7602030</Latitude><Longitude>04,9015492</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=030613&amp;pays=FR&amp;crc=907EBED5DC53A2523A7BAD38BFE35651</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=030613&amp;pays=FR&amp;crc=8C9772014BD9FFBFA69F9404C6548A53</URL_Plan><Distance>2337</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>024313</Num><LgAdr1>SMILE PICKUP                   </LgAdr1><LgAdr2
+        /><LgAdr3>CENTRE COMMERCIAL PART DIEU NIV</LgAdr3><LgAdr4 /><CP>69003</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7615628</Latitude><Longitude>04,8559895</Longitude><TypeActivite>000</TypeActivite><Information
+        /><Horaires_Lundi><string>0930</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0930</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0930</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0930</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0930</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0930</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0000</string><string>0000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=024313&amp;pays=FR&amp;crc=D7C6F4EEE1D4F23B0F1793E2141D2C4C</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=024313&amp;pays=FR&amp;crc=C05630DD65EE4E890AC979971B5385F1</URL_Plan><Distance>3275</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>022566</Num><LgAdr1>LOCKER LACASSAGNE MARKET LYON  </LgAdr1><LgAdr2
+        /><LgAdr3>4 RUE MONTAIGNE                </LgAdr3><LgAdr4 /><CP>69003</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7446790</Latitude><Longitude>04,8910670</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>1100</string><string>2230</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>1100</string><string>2230</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>1100</string><string>2230</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>1100</string><string>2230</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>1100</string><string>2230</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>1100</string><string>2230</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>1100</string><string>2230</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=022566&amp;pays=FR&amp;crc=41CEB62A02DC498E9DF0878640D5E12A</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=022566&amp;pays=FR&amp;crc=5527389E4462960BDF4E6B814CD76CCE</URL_Plan><Distance>3445</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>026485</Num><LgAdr1>LOCKER VAULX MEDIAS VAULX EN VE</LgAdr1><LgAdr2
+        /><LgAdr3>16 PLACE GUY MOQUET            </LgAdr3><LgAdr4 /><CP>69120</CP><Ville>VAULX
+        EN VELIN            </Ville><Pays>FR</Pays><Localisation1 /><Localisation2
+        /><Latitude>45,7854207</Latitude><Longitude>04,9111756</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0830</string><string>1215</string><string>1430</string><string>2100</string></Horaires_Vendredi><Horaires_Samedi><string>0830</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0000</string><string>0000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo><Periode><Debut>2025-03-13T00:00:00</Debut><Fin>2025-03-18T00:00:00</Fin></Periode></Informations_Dispo><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=026485&amp;pays=FR&amp;crc=5F8B1DBBE5AC5BE1BB6999A38201B275</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=026485&amp;pays=FR&amp;crc=05A0547FCE2029469F494DFA202A3384</URL_Plan><Distance>3615</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>029723</Num><LgAdr1>SUPERETTE ANI                  </LgAdr1><LgAdr2
+        /><LgAdr3>27, BIS COURS D HERBOUVILLE    </LgAdr3><LgAdr4 /><CP>69004</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7775030</Latitude><Longitude>04,8400770</Longitude><TypeActivite>000</TypeActivite><Information
+        /><Horaires_Lundi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>1100</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>1230</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>1400</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=029723&amp;pays=FR&amp;crc=2D9093BED539DDA7AF64E13EEDA0230D</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=029723&amp;pays=FR&amp;crc=DB688BCC72F68CD60BA4AB215137696E</URL_Plan><Distance>3997</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>021487</Num><LgAdr1>LOCKER 24/7 HOPITAL PRIVE NATEC</LgAdr1><LgAdr2
+        /><LgAdr3>20 AVENUE ROCKEFELLER          </LgAdr3><LgAdr4 /><CP>69008</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7414105</Latitude><Longitude>04,8833917</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=021487&amp;pays=FR&amp;crc=DEDB33C42489F02D532C778D54E2F4D4</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=021487&amp;pays=FR&amp;crc=5B7E243C80FD51B3D64AE88D60D3CDB0</URL_Plan><Distance>4256</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>031384</Num><LgAdr1>LOCKER RELAX WASH              </LgAdr1><LgAdr2
+        /><LgAdr3>112 RUE PAUL BERT              </LgAdr3><LgAdr4 /><CP>69003</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7571377</Latitude><Longitude>04,8540522</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0700</string><string>2300</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0700</string><string>2300</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0700</string><string>2300</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0700</string><string>2300</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0700</string><string>2300</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0700</string><string>2300</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0700</string><string>2300</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=031384&amp;pays=FR&amp;crc=8C10D4611AE43190192E94CCFE25525B</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=031384&amp;pays=FR&amp;crc=B5FB19FE08A3B9682B097C1AC99E4E71</URL_Plan><Distance>4258</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>020811</Num><LgAdr1>LOCKER ECOLAVERIE MERCIERE LYON</LgAdr1><LgAdr2
+        /><LgAdr3>7 RUE MERCIERE                 </LgAdr3><LgAdr4 /><CP>69002</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7646780</Latitude><Longitude>04,8326026</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0600</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0600</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0600</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0600</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0600</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0600</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0600</string><string>2100</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=020811&amp;pays=FR&amp;crc=2D7599C39A136CBDEA1EE6FE92DE2F16</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=020811&amp;pays=FR&amp;crc=865B493A89D30DFA485AA3146DA06565</URL_Plan><Distance>4722</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>016205</Num><LgAdr1>LOCKER 24/7 INTERMARCHE EXPRESS</LgAdr1><LgAdr2
+        /><LgAdr3>322 AVENUE BERTHELOT           </LgAdr3><LgAdr4 /><CP>69008</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7372331</Latitude><Longitude>04,8664459</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=016205&amp;pays=FR&amp;crc=7CA61EE997682B096905EB1771E13523</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=016205&amp;pays=FR&amp;crc=E474309D757740AB48CBDBD2FBFC50B3</URL_Plan><Distance>4733</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>020975</Num><LgAdr1>LOCKER HELLO LAVERIE RUE CAZENE</LgAdr1><LgAdr2
+        /><LgAdr3>28 RUE PAUL CAZENEUVE          </LgAdr3><LgAdr4 /><CP>69008</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7361700</Latitude><Longitude>04,8642790</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0630</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0630</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0630</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0630</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0630</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0630</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0630</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=020975&amp;pays=FR&amp;crc=D6A89563B1C517D7EFC1D0BDB22A57D7</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=020975&amp;pays=FR&amp;crc=0555A2AE4D7335F4E044D457DA394DEB</URL_Plan><Distance>4837</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>027660</Num><LgAdr1>NEWTOP BY VYBES                </LgAdr1><LgAdr2
+        /><LgAdr3>6 COURS GAMBETTA               </LgAdr3><LgAdr4 /><CP>69007</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7556450</Latitude><Longitude>04,8413670</Longitude><TypeActivite>000</TypeActivite><Information
+        /><Horaires_Lundi><string>0930</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0930</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0930</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0930</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0930</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0930</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>1100</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=027660&amp;pays=FR&amp;crc=2CDD763721A94BA4055B5B1711172EB6</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=027660&amp;pays=FR&amp;crc=F5A1691BAA39B30B7DE0A0078B26E886</URL_Plan><Distance>5001</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>070424</Num><LgAdr1>PAPETERIE REPUBLIQUE           </LgAdr1><LgAdr2
+        /><LgAdr3>29 RUE TUPIN                   </LgAdr3><LgAdr4 /><CP>69002</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7629800</Latitude><Longitude>04,8350370</Longitude><TypeActivite>000</TypeActivite><Information
+        /><Horaires_Lundi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0000</string><string>0000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=070424&amp;pays=FR&amp;crc=EE97A0280B6C53A9A2A61739648F6A30</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=070424&amp;pays=FR&amp;crc=AE8DFE48036602DAFBF7E58ED1F8CB7E</URL_Plan><Distance>5061</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>031874</Num><LgAdr1>VAPE ELITE                     </LgAdr1><LgAdr2
+        /><LgAdr3>34 COURS GAMBETTA              </LgAdr3><LgAdr4 /><CP>69007</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7545070</Latitude><Longitude>04,8448050</Longitude><TypeActivite>000</TypeActivite><Information
+        /><Horaires_Lundi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>1000</string><string>1900</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=031874&amp;pays=FR&amp;crc=67A96312229EB56985389C83D555604B</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=031874&amp;pays=FR&amp;crc=DD74569BB10AF59C89F668A44DA95CEE</URL_Plan><Distance>5113</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>021357</Num><LgAdr1>LOCKER EASY MOBILES 69 LYON 7  </LgAdr1><LgAdr2
+        /><LgAdr3>9 RUE DE MARSEILLE             </LgAdr3><LgAdr4 /><CP>69007</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7536210</Latitude><Longitude>04,8417600</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>1000</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>1000</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>1000</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>1000</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>1000</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>1000</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>1000</string><string>2000</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=021357&amp;pays=FR&amp;crc=EECCA0CEC9F831AB6451E657A7088D9B</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=021357&amp;pays=FR&amp;crc=7E41073C04B7939C19B0694B95F46B9C</URL_Plan><Distance>5309</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>021026</Num><LgAdr1>LOCKER CITY LAVERIE LA GUILLOTI</LgAdr1><LgAdr2
+        /><LgAdr3>123 GRANDE RUE DE LA GUILLOTIER</LgAdr3><LgAdr4 /><CP>69007</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7509070</Latitude><Longitude>04,8491570</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0700</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0700</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0700</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0700</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0700</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0700</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0700</string><string>2030</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=021026&amp;pays=FR&amp;crc=4B60C2D1E4F6D764286BCFFA4F237A49</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=021026&amp;pays=FR&amp;crc=0B1C2221242567BBBBB286162E081D7E</URL_Plan><Distance>5341</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>014522</Num><LgAdr1>LOCKER 24/7 CIEL               </LgAdr1><LgAdr2
+        /><LgAdr3>374 ROUTE DE GENAS             </LgAdr3><LgAdr4 /><CP>69500</CP><Ville>BRON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7459190</Latitude><Longitude>04,9266230</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0001</string><string>2359</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo><Periode><Debut>2025-03-13T00:00:00</Debut><Fin>2025-03-18T00:00:00</Fin></Periode></Informations_Dispo><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=014522&amp;pays=FR&amp;crc=E1F5C7B06CA199707EF660BFD86D16A4</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=014522&amp;pays=FR&amp;crc=63C0C79FF60718408B77831069790847</URL_Plan><Distance>5388</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>031392</Num><LgAdr1>LOCKER LAVERIE ECOLOGIQUE MARSE</LgAdr1><LgAdr2
+        /><LgAdr3>27 RUE DE MARSEILLE            </LgAdr3><LgAdr4 /><CP>69007</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7520480</Latitude><Longitude>04,8406010</Longitude><TypeActivite>000</TypeActivite><Information>LOCKER</Information><Horaires_Lundi><string>0600</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>0600</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>0600</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>0600</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>0600</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>0600</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>0600</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=031392&amp;pays=FR&amp;crc=9D46B4E44DB4FDED6813AFDE7B3A627E</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=031392&amp;pays=FR&amp;crc=E17FC65EE7F8DBE33EE1C2B4027088A5</URL_Plan><Distance>5514</Distance></PointRelais_Details><PointRelais_Details><STAT
+        /><Num>021101</Num><LgAdr1>RELAIS COLETTE LYON 7          </LgAdr1><LgAdr2
+        /><LgAdr3>57 AVENUE JEAN JAURES          </LgAdr3><LgAdr4 /><CP>69007</CP><Ville>LYON                      </Ville><Pays>FR</Pays><Localisation1
+        /><Localisation2 /><Latitude>45,7492550</Latitude><Longitude>04,8449190</Longitude><TypeActivite>000</TypeActivite><Information
+        /><Horaires_Lundi><string>1100</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Lundi><Horaires_Mardi><string>1100</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Mardi><Horaires_Mercredi><string>1100</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Mercredi><Horaires_Jeudi><string>1100</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Jeudi><Horaires_Vendredi><string>1100</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Vendredi><Horaires_Samedi><string>1100</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Samedi><Horaires_Dimanche><string>1100</string><string>2200</string><string>0000</string><string>0000</string></Horaires_Dimanche><Informations_Dispo
+        /><URL_Photo>https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&amp;num=021101&amp;pays=FR&amp;crc=4431C7E4F22959859E8D8BD9DA2B36A2</URL_Photo><URL_Plan>https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&amp;num=021101&amp;pays=FR&amp;crc=FC0B3C05E62D434D71772D0E5255FE84</URL_Plan><Distance>5525</Distance></PointRelais_Details></PointsRelais></WSI4_PointRelais_RechercheResult></WSI4_PointRelais_RechercheResponse></soap:Body></soap:Envelope>
+    headers:
+      CF-RAY:
+      - 921dec0e2b12d0a7-CDG
+      Cache-Control:
+      - private, max-age=0
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/xml; charset=utf-8
+      Date:
+      - Mon, 17 Mar 2025 16:38:41 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      server-timing:
+      - dtSInfo;desc="1"
+      x-aspnet-version:
+      - 4.0.30319
+      x-powered-by:
+      - ASP.NET
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Connection:
+      - Upgrade
+      Sec-WebSocket-Key:
+      - 7YsvEH+ogiaxwmq+sc7BWA==
+      Sec-WebSocket-Version:
+      - '13'
+      Upgrade:
+      - websocket
+    method: GET
+    uri: http://localhost:59999/back/arkt14s__39581--140239800653632
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - upgrade
+      Date:
+      - Mon, 17 Mar 2025 16:38:42 GMT
+      Sec-WebSocket-Accept:
+      - WmPHmtOHxWZiucxniglwOnkYvsI=
+      Server:
+      - Python/3.12 aiohttp/3.11.12
+      Upgrade:
+      - websocket
+    status:
+      code: 101
+      message: Switching Protocols
+version: 1
