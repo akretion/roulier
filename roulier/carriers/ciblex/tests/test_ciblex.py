@@ -26,7 +26,7 @@ def get_label_data(credentials, base_get_label_data):
             "service": {
                 "product": "01002",
                 "shippingDate": date(
-                    2025, 4, 17
+                    2025, 5, 16
                 ),  # Update the date when launching the tests with the credentials
             }
         },
@@ -140,3 +140,48 @@ def test_ciblex_multi_package_to_label_pdf(get_label_data):
     assert tracking["url"].startswith("https://secure.extranet.ciblex.fr")
 
     assert tracking["number"] != rv["parcels"][0]["tracking"]["number"]
+
+
+@pytest.mark.vcr(
+    filter_post_data_parameters=["USER_COMPTE", "USER_PASSWORD"],
+    filter_query_parameters=["expediteur", "liste_cmd"],
+    filter_headers=["Cookie"],
+    before_record_response=before_record_response,
+)
+def test_ciblex_bad_city_match(get_label_data):
+    data = get_label_data
+    data["to_address"]["zip"] = "42100"
+    data["to_address"]["city"] = "Saint Étienne"  # instead of Saint-Etienne
+    rv = roulier.get("ciblex", "get_label", data)
+    assert "parcels" in rv
+    assert rv["parcels"][0]["id"]
+
+
+@pytest.mark.vcr(
+    filter_post_data_parameters=["USER_COMPTE", "USER_PASSWORD"],
+    filter_query_parameters=["expediteur", "liste_cmd"],
+    filter_headers=["Cookie"],
+    before_record_response=before_record_response,
+)
+def test_ciblex_bad_city_inclusion_match(get_label_data):
+    data = get_label_data
+    data["to_address"]["zip"] = "43120"
+    data["to_address"]["city"] = "Monistrol"  # instead of Monistrol-sur-Loire
+    rv = roulier.get("ciblex", "get_label", data)
+    assert "parcels" in rv
+    assert rv["parcels"][0]["id"]
+
+
+@pytest.mark.vcr(
+    filter_post_data_parameters=["USER_COMPTE", "USER_PASSWORD"],
+    filter_query_parameters=["expediteur", "liste_cmd"],
+    filter_headers=["Cookie"],
+    before_record_response=before_record_response,
+)
+def test_ciblex_bad_city_fuzzy_matching(get_label_data):
+    data = get_label_data
+    data["to_address"]["zip"] = "43200"
+    data["to_address"]["city"] = "Ysingeaux"  # instead of Yssingeaux
+    rv = roulier.get("ciblex", "get_label", data)
+    assert "parcels" in rv
+    assert rv["parcels"][0]["id"]
