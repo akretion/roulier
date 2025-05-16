@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import base64
 import logging
+import re
 import requests
 from lxml.html import fromstring
 from ...carrier import Carrier, action
@@ -25,6 +26,59 @@ class Ciblex(Carrier):
         if nodes:
             return "\n".join([e.text_content() for e in nodes])
 
+    def _match_city(self, city, suggestions):
+        """
+        Match the city with the suggestions.
+        """
+
+        def _normalize(s):
+            return re.sub(r"[-_ ']", "", s.lower())
+
+        city = _normalize(city)
+
+        # Check for exact normalized match
+        for suggestion in suggestions:
+            if _normalize(suggestion) == city:
+                return suggestion
+
+        # Check for inclusive match
+        if len(city) > 3:
+            for suggestion in suggestions:
+                if city in _normalize(suggestion):
+                    return suggestion
+
+        # Check for partial match with a levenshtein distance
+        # of 2 or less
+        def _levenshtein(s1, s2):
+            m = len(s1)
+            n = len(s2)
+            dp = [[0] * (n + 1) for _ in range(m + 1)]
+            for i in range(m + 1):
+                dp[i][0] = i
+            for j in range(n + 1):
+                dp[0][j] = j
+            for i in range(1, m + 1):
+                for j in range(1, n + 1):
+                    if s1[i - 1] == s2[j - 1]:
+                        dp[i][j] = dp[i - 1][j - 1]
+                    else:
+                        dp[i][j] = min(
+                            dp[i - 1][j] + 1,
+                            dp[i][j - 1] + 1,
+                            dp[i - 1][j - 1] + 1,
+                        )
+            return dp[m][n]
+
+        distances = [
+            _levenshtein(city, _normalize(suggestion)) for suggestion in suggestions
+        ]
+        min_distance = min(distances)
+        min_index = distances.index(min_distance)
+        if min_distance <= 2:
+            return suggestions[min_index]
+
+        return None
+
     def _auth(self, auth):
         response = requests.post(f"{self.__url__}/index.php", data=auth.params())
         error = self._xpath_to_text(response, '//td[@class="f_erreur_small"]')
@@ -33,7 +87,7 @@ class Ciblex(Carrier):
 
         return response.cookies
 
-    def _validate(self, auth, params):
+    def _validate(self, auth, params, initial_city=None):
         # 1) Validate
         response = requests.get(
             f"{self.__url__}/corps.php",
@@ -44,15 +98,36 @@ class Ciblex(Carrier):
         # Handle approximative city
         cp_dest = self._xpath(response, '//select[@name="cp_dest"]')
         if cp_dest:
-            good_city = cp_dest[0].getchildren()[0].text.split(" ", 1)[1]
-            if params["dest_ville"] == good_city:
-                raise CarrierError(response, "City not found")
-            _logger.warning(f"Replacing {params['dest_ville']} by {good_city}")
-            params["dest_ville"] = good_city.encode("latin-1")
-            return self._validate(auth, params)
+            cp_dest = cp_dest[0]
+            suggestions = [city.text.split(" ", 1)[1] for city in cp_dest.getchildren()]
+            initial_city = params["dest_ville"] or initial_city
+            city = self._match_city(initial_city, suggestions)
+            if not city:
+                raise CarrierError(
+                    response,
+                    f"City {initial_city} not found, "
+                    f"available cities are {', '.join(suggestions)}",
+                )
+
+            _logger.warning(f"Replacing {initial_city} by {city}")
+            params["dest_ville"] = city.encode("latin-1")
+            return self._validate(auth, params, initial_city)
 
         error = self._xpath_to_text(response, '//p[@class="f_erreur"]')
         if error:
+            if (
+                error == "AUCUNE COMMUNE NE CORRESPOND AUX CRITERES SAISIS"
+                and params["dest_ville"]
+            ):
+                # Try with only the postal code
+                _logger.warning(
+                    f"City {params['dest_ville']} not found, "
+                    f"trying with only the postal code {params['dest_cp']}"
+                )
+                initial_city = params["dest_ville"]
+                params["dest_ville"] = ""
+                return self._validate(auth, params, initial_city)
+
             raise CarrierError(response, error)
 
     def _print(self, auth, params, format="PDF"):
@@ -132,7 +207,7 @@ class Ciblex(Carrier):
         trackings = [a.text for a in order.getchildren()[4].findall("a")]
         return [
             {
-                "id": f"{order_ref}_{i+1}",
+                "id": f"{order_ref}_{i + 1}",
                 "reference": input.parcels[i].reference,
                 "format": format,
                 "label": label if i == 0 else None,  # Only the first parcel has
