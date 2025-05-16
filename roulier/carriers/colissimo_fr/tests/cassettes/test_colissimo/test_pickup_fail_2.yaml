@@ -1,0 +1,67 @@
+interactions:
+- request:
+    body: '{"outputFormat": {"x": 0, "y": 0, "outputPrintingType": "PDF_10x15_300dpi",
+      "dematerialized": false, "returnType": null, "printCoDDocument": false}, "letter":
+      {"service": {"productCode": "BPR", "depositDate": "2025-04-01", "mailBoxPicking":
+      false, "mailBoxPickingDate": null, "vatCode": null, "vatPercentage": null, "vatAmount":
+      null, "transportationAmount": null, "totalAmount": null, "orderNumber": null,
+      "commercialName": "Webu", "returnTypeChoice": null, "reseauPostal": null}, "parcel":
+      {"pickupLocationId": "929750", "parcelNumber": null, "insuranceAmount": null,
+      "insuranceValue": null, "recommendationLevel": null, "weight": 1.2, "nonMachinable":
+      false, "returnReceipt": false, "instructions": null, "ftd": false, "ddp": false,
+      "disabledDeliveryBlockingCode": null, "cod": false, "codamount": null, "codcurrency":
+      null}, "sender": {"senderParcelRef": null, "address": {"companyName": null,
+      "lastName": "Akretion", "firstName": null, "line0": "Batiment B", "line1": null,
+      "line2": "27 rue Henri Rolland", "line3": null, "countryCode": "FR", "city":
+      "Villeurbanne", "zipCode": "69100", "phoneNumber": null, "mobileNumber": "+33482538457",
+      "doorCode1": null, "doorCode2": null, "intercom": null, "email": null, "language":
+      "FR", "stateOrProvinceCode": null}}, "addressee": {"addresseeParcelRef": null,
+      "codeBarForReference": null, "serviceInfo": null, "promotionCode": null, "address":
+      {"companyName": null, "lastName": "Hugo", "firstName": "Victor", "line0": null,
+      "line1": null, "line2": "6 Place des Vosges", "line3": null, "countryCode":
+      "FR", "city": "Paris", "zipCode": "75004", "phoneNumber": "0123456789", "mobileNumber":
+      null, "doorCode1": null, "doorCode2": null, "intercom": null, "email": "no-reply@webu.coop",
+      "language": "FR", "stateOrProvinceCode": null}}, "codSenderAddress": null, "customsDeclarations":
+      null}, "fields": null}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1848'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://ws.colissimo.fr/sls-ws/SlsServiceWSRest/2.0/checkGenerateLabel
+  response:
+    body:
+      string: "{\"messages\":[{\"id\":\"30220\",\"type\":\"ERROR\",\"messageContent\":\"Le
+        num\xE9ro de portable du destinataire n'a pas \xE9t\xE9 transmis\",\"replacementValues\":[]}]}"
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - close
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Tue, 18 Mar 2025 11:10:50 GMT
+      P3P:
+      - policyref="/w3c/p3p.xml", CP="NOI DSP COR NID CUR ADM DEV OUR BUS"
+      Server:
+      - Apache
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - User-Agent
+      X-Robots-Tag:
+      - noindex
+    status:
+      code: 400
+      message: ''
+version: 1

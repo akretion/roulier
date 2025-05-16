@@ -1,0 +1,75 @@
+interactions:
+- request:
+    body: '{"apiKey": "xxxx", "address": "27 rue Henri Rolland", "zipCode": "69100",
+      "city": "Villeurbanne", "countryCode": "FR", "weight": null, "filterRelay":
+      "0", "lang": "FR", "optionInter": "0", "shippingDate": "01/04/2025", "accountNumber":
+      "xxxx"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '273'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://ws.colissimo.fr/pointretrait-ws-cxf/rest/v2/pointretrait/findRDVPointRetraitAcheminement
+  response:
+    body:
+      string: '{"errorCode":0,"errorMessage":"Code retour OK","qualiteReponse":2,"wsRequestId":"4b7b9a535c04a4e35eaafc5bba3765009414ec9b03a52035774cba51d8d31b13","listePointRetraitAcheminement":[{"identifiant":"060567","nom":"BUREAU
+        DE POSTE VILLEURBANNE BELLECOMBE RP","adresse1":"13 RUE BELLECOMBE","adresse2":"CARREFOUR
+        CITY","adresse3":"","codePostal":"69100","localite":"VILLEURBANNE","indiceDeLocalisation":"","coordGeolocalisationLatitude":"45.7695505","coordGeolocalisationLongitude":"4.86314559","accesPersonneMobiliteReduite":false,"horairesOuvertureLundi":"07:00-21:00
+        00:00-00:00","horairesOuvertureMardi":"07:00-21:00 00:00-00:00","horairesOuvertureMercredi":"07:00-21:00
+        00:00-00:00","horairesOuvertureJeudi":"07:00-21:00 00:00-00:00","horairesOuvertureVendredi":"07:00-21:00
+        00:00-00:00","horairesOuvertureSamedi":"07:00-21:00 00:00-00:00","horairesOuvertureDimanche":"00:00-00:00
+        00:00-00:00","periodeActiviteHoraireDeb":"10/03","periodeActiviteHoraireFin":"13/06","listeConges":[{"numero":5,"calendarDeDebut":1749420000000,"calendarDeFin":1749420000000},{"numero":4,"calendarDeDebut":1748469600000,"calendarDeFin":1748469600000},{"numero":3,"calendarDeDebut":1746655200000,"calendarDeFin":1746655200000},{"numero":2,"calendarDeDebut":1746050400000,"calendarDeFin":1746050400000},{"numero":1,"calendarDeDebut":1745186400000,"calendarDeFin":1745186400000}],"typeDePoint":"BPR","poidsMaxi":30000,"distanceEnMetre":172,"congesPartiel":false,"congesTotal":false,"reseau":"R01","codePays":"FR","libellePays":"FRANCE","langue":"FR","parking":false,"loanOfHandlingTool":false,"distributionSort":"","lotAcheminement":"","versionPlanTri":""},{"identifiant":"699370","nom":"BUREAU
+        DE POSTE VILLEURBANNE LES CHARPENNES","adresse1":"38 COURS EMILE ZOLA","adresse2":"","adresse3":"","codePostal":"69100","localite":"VILLEURBANNE","indiceDeLocalisation":"","coordGeolocalisationLatitude":"45.770698","coordGeolocalisationLongitude":"4.866231","accesPersonneMobiliteReduite":true,"horairesOuvertureLundi":"09:00-12:00
+        14:00-18:00","horairesOuvertureMardi":"09:00-12:00 14:00-18:00","horairesOuvertureMercredi":"09:00-12:00
+        14:00-18:00","horairesOuvertureJeudi":"09:00-12:00 14:00-18:00","horairesOuvertureVendredi":"09:00-12:00
+        14:00-18:00","horairesOuvertureSamedi":"09:00-12:00 00:00-00:00","horairesOuvertureDimanche":"00:00-00:00
+        00:00-00:00","periodeActiviteHoraireDeb":"10/03","periodeActiviteHoraireFin":"13/06","listeConges":[{"numero":5,"calendarDeDebut":1749420000000,"calendarDeFin":1749420000000},{"numero":4,"calendarDeDebut":1748469600000,"calendarDeFin":1748469600000},{"numero":3,"calendarDeDebut":1746655200000,"calendarDeFin":1746655200000},{"numero":2,"calendarDeDebut":1746050400000,"calendarDeFin":1746050400000},{"numero":1,"calendarDeDebut":1745186400000,"calendarDeFin":1745186400000}],"typeDePoint":"BPR","poidsMaxi":30000,"distanceEnMetre":241,"congesPartiel":false,"congesTotal":false,"reseau":"R01","codePays":"FR","libellePays":"FRANCE","langue":"FR","parking":false,"loanOfHandlingTool":false,"distributionSort":"","lotAcheminement":"","versionPlanTri":""},{"identifiant":"693330","nom":"BUREAU
+        DE POSTE LYON LAFAYETTE","adresse1":"168 COURS LAFAYETTE","adresse2":"","adresse3":"","codePostal":"69003","localite":"LYON","indiceDeLocalisation":"","coordGeolocalisationLatitude":"45.763599","coordGeolocalisationLongitude":"4.856477","accesPersonneMobiliteReduite":true,"horairesOuvertureLundi":"09:00-18:00
+        00:00-00:00","horairesOuvertureMardi":"09:00-18:00 00:00-00:00","horairesOuvertureMercredi":"09:00-18:00
+        00:00-00:00","horairesOuvertureJeudi":"09:00-18:00 00:00-00:00","horairesOuvertureVendredi":"09:00-18:00
+        00:00-00:00","horairesOuvertureSamedi":"09:00-12:00 00:00-00:00","horairesOuvertureDimanche":"00:00-00:00
+        00:00-00:00","periodeActiviteHoraireDeb":"10/03","periodeActiviteHoraireFin":"13/06","listeConges":[{"numero":5,"calendarDeDebut":1749420000000,"calendarDeFin":1749420000000},{"numero":4,"calendarDeDebut":1748469600000,"calendarDeFin":1748469600000},{"numero":3,"calendarDeDebut":1746655200000,"calendarDeFin":1746655200000},{"numero":2,"calendarDeDebut":1746050400000,"calendarDeFin":1746050400000},{"numero":1,"calendarDeDebut":1745186400000,"calendarDeFin":1745186400000}],"typeDePoint":"BPR","poidsMaxi":30000,"distanceEnMetre":983,"congesPartiel":false,"congesTotal":false,"reseau":"R01","codePays":"FR","libellePays":"FRANCE","langue":"FR","parking":false,"loanOfHandlingTool":false,"distributionSort":"","lotAcheminement":"","versionPlanTri":""},{"identifiant":"699380","nom":"BUREAU
+        DE POSTE VILLEURBANNE TOTEM BP","adresse1":"13 B COURS TOLSTOI","adresse2":"","adresse3":"","codePostal":"69100","localite":"VILLEURBANNE","indiceDeLocalisation":"","coordGeolocalisationLatitude":"45.763796","coordGeolocalisationLongitude":"4.871894","accesPersonneMobiliteReduite":true,"horairesOuvertureLundi":"09:00-12:00
+        00:00-00:00","horairesOuvertureMardi":"09:00-12:00 00:00-00:00","horairesOuvertureMercredi":"09:00-12:00
+        00:00-00:00","horairesOuvertureJeudi":"09:00-12:00 00:00-00:00","horairesOuvertureVendredi":"09:00-12:00
+        00:00-00:00","horairesOuvertureSamedi":"09:00-12:00 00:00-00:00","horairesOuvertureDimanche":"00:00-00:00
+        00:00-00:00","periodeActiviteHoraireDeb":"10/03","periodeActiviteHoraireFin":"13/06","listeConges":[{"numero":5,"calendarDeDebut":1749420000000,"calendarDeFin":1749420000000},{"numero":4,"calendarDeDebut":1748469600000,"calendarDeFin":1748469600000},{"numero":3,"calendarDeDebut":1746655200000,"calendarDeFin":1746655200000},{"numero":2,"calendarDeDebut":1746050400000,"calendarDeFin":1746050400000},{"numero":1,"calendarDeDebut":1745186400000,"calendarDeFin":1745186400000}],"typeDePoint":"BPR","poidsMaxi":30000,"distanceEnMetre":1057,"congesPartiel":false,"congesTotal":false,"reseau":"R01","codePays":"FR","libellePays":"FRANCE","langue":"FR","parking":false,"loanOfHandlingTool":false,"distributionSort":"","lotAcheminement":"","versionPlanTri":""},{"identifiant":"699200","nom":"BUREAU
+        DE POSTE LYON SULLY","adresse1":"69 RUE SULLY","adresse2":"","adresse3":"","codePostal":"69006","localite":"LYON","indiceDeLocalisation":"","coordGeolocalisationLatitude":"45.771097","coordGeolocalisationLongitude":"4.848447","accesPersonneMobiliteReduite":true,"horairesOuvertureLundi":"09:00-12:30
+        14:00-18:00","horairesOuvertureMardi":"09:00-12:30 14:00-18:00","horairesOuvertureMercredi":"09:00-12:30
+        14:00-18:00","horairesOuvertureJeudi":"09:00-12:30 14:00-18:00","horairesOuvertureVendredi":"09:00-12:30
+        14:00-18:00","horairesOuvertureSamedi":"09:00-12:00 00:00-00:00","horairesOuvertureDimanche":"00:00-00:00
+        00:00-00:00","periodeActiviteHoraireDeb":"10/03","periodeActiviteHoraireFin":"13/06","listeConges":[{"numero":5,"calendarDeDebut":1749420000000,"calendarDeFin":1749420000000},{"numero":4,"calendarDeDebut":1748469600000,"calendarDeFin":1748469600000},{"numero":3,"calendarDeDebut":1746655200000,"calendarDeFin":1746655200000},{"numero":2,"calendarDeDebut":1746050400000,"calendarDeFin":1746050400000},{"numero":1,"calendarDeDebut":1745186400000,"calendarDeFin":1745186400000}],"typeDePoint":"BPR","poidsMaxi":30000,"distanceEnMetre":1143,"congesPartiel":false,"congesTotal":false,"reseau":"R01","codePays":"FR","libellePays":"FRANCE","langue":"FR","parking":false,"loanOfHandlingTool":false,"distributionSort":"","lotAcheminement":"","versionPlanTri":""}],"rdv":false}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 18 Mar 2025 11:10:51 GMT
+      Keep-Alive:
+      - timeout=15, max=200
+      P3P:
+      - policyref="/w3c/p3p.xml", CP="NOI DSP COR NID CUR ADM DEV OUR BUS"
+      Server:
+      - Apache
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - User-Agent
+      X-Robots-Tag:
+      - noindex
+    status:
+      code: 200
+      message: OK
+version: 1
