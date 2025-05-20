@@ -62,6 +62,17 @@ class DpdFr(Carrier):
         return DpdFrLabelOutput.from_soap(result, input.service.labelFormat)
 
     @action
+    def get_tracking_url(self, input: str) -> str:
+        """
+        Get the tracking URL for a given shipment reference.
+        The tracking URL is generated based on the shipment reference
+        and the DPD France tracking page.
+        """
+        return (
+            f"https://www.dpdgroup.com/fr/mydpd/my-parcels/search?parcelNumber={input}"
+        )
+
+    @action
     def get_metadata(self) -> Metadata:
         return Metadata(
             documentation=self.__doc__,

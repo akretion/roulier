@@ -288,6 +288,15 @@ class ColissimoFr(Carrier):
         return ColissimoFrCreateUpdateDocumentOutput.from_params(result)
 
     @action
+    def get_tracking_url(self, input: str) -> str:
+        """
+        Get the tracking URL for a given shipment reference.
+        The tracking URL is generated based on the shipment reference
+        and the Colissimo France tracking page.
+        """
+        return f"https://www.laposte.fr/outils/suivre-vos-envois?code={input}"
+
+    @action
     def get_metadata(self) -> Metadata:
         return Metadata(
             documentation=self.__doc__,

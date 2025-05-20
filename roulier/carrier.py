@@ -5,6 +5,7 @@
 from functools import wraps
 import logging
 import typing
+from pydantic import BaseModel
 from .roulier import factory
 from .exception import CarrierError, InvalidApiInput
 
@@ -69,7 +70,7 @@ def action(f):
         hints = typing.get_type_hints(f)
 
         if "input" in hints:
-            if callable(hints["input"]):
+            if issubclass(hints["input"], BaseModel):
                 try:
                     input = hints["input"](**data)
                 except Exception as e:
@@ -91,7 +92,7 @@ def action(f):
         except Exception as e:
             raise CarrierError(None, f"Action failed {data!r}\n\n{e!s}") from e
 
-        if "return" in hints and isinstance(rv, hints["return"]):
+        if "return" in hints and isinstance(rv, BaseModel):
             return rv.model_dump()
 
         return rv
