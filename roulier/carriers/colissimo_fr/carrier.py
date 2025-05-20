@@ -8,7 +8,10 @@ import requests
 from requests_toolbelt import MultipartDecoder
 from ...carrier import Carrier, action
 from ...exception import CarrierError
+from ...schema import Metadata, MetaAddressFormat, MetaOption, MetaOptionType
+
 from .schema import (
+    Format,
     ColissimoFrLabelInput,
     ColissimoFrLabelOutput,
     ColissimoFrPackingSlipInput,
@@ -38,6 +41,23 @@ def int_maybe(value):
 
 
 class ColissimoFr(Carrier):
+    """
+    Colissimo France carrier implementation.
+    This class handles the Colissimo France API for generating labels,
+    searching pickup sites, and managing documents.
+    It provides methods to validate shipments, generate labels,
+    and retrieve packing slips and documents.
+
+    The class requires the following parameters to be set:
+    - `login`: The login ID for the Colissimo France web service.
+    - `password`: The password for the Colissimo France web service.
+    - `customerId`: The customer ID for the Colissimo France web service.
+    - `product`: The product to be used for the shipment (DOM, etc.)
+    - `labelFormat`: The format of the label to be generated (PDF, PNG, ZPL, etc.)
+    - `shippingDate`: The date of the shipment.
+
+    """
+
     __key__ = "colissimo_fr"
     __url__ = "https://ws.colissimo.fr/sls-ws/SlsServiceWSRest/2.0"
     __doc_url__ = "https://ws.colissimo.fr/api-document/rest"
@@ -266,3 +286,49 @@ class ColissimoFr(Carrier):
         response = self.doc_request("updatedocument", params, files)
         result = response.json()
         return ColissimoFrCreateUpdateDocumentOutput.from_params(result)
+
+    @action
+    def get_metadata(self) -> Metadata:
+        return Metadata(
+            documentation=self.__doc__,
+            address_format=MetaAddressFormat(
+                count=4,
+                max_length=35,
+            ),
+            options=[
+                MetaOption(
+                    name="labelFormat",
+                    label="Label Format",
+                    description="Format of the label to be generated",
+                    type=MetaOptionType.select,
+                    default="PDF",
+                    values=Format.__members__.values(),
+                ),
+                MetaOption(
+                    name="product",
+                    label="Product",
+                    description="Product to be used for the shipment",
+                    type=MetaOptionType.select,
+                    default="DOM",
+                    values={
+                        "DOM": "Home delivery without signature",
+                        "DOS": "Home delivery with signature",
+                        "CORE": "France Return",
+                        "COLR": "Flash delivery without signature",
+                        "J+1": "Flash delivery with signature",
+                        "CECO": "Eco",
+                        "COPLAT": "Plat",
+                        "COPLAT_J1": "Plat J+1",
+                        "COM": "Outre-Mer",
+                        "CDS": "Outre-Mer with signature",
+                        "CORI": "International Return to France",
+                        "CORF": "International Return from France",
+                    },
+                ),
+                MetaOption(
+                    name="customerId",
+                    label="Customer ID",
+                    description="ID of the customer to be used for the shipment",
+                ),
+            ],
+        )

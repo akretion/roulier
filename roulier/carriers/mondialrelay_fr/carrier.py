@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import zeep
 
+from ...schema import Metadata, MetaAddressFormat, MetaOption, MetaOptionType
 from ...carrier import Carrier, action
 from ...exception import CarrierError
 from .schema import (
@@ -17,8 +18,11 @@ from .constants import STATUSES
 
 
 class MondialRelay(Carrier):
-    __key__ = "mondialrelay_fr"
+    """
+    Mondial Relay carrier implementation.
+    """
 
+    __key__ = "mondialrelay_fr"
     __url__ = "https://api.mondialrelay.com/Web_Services.asmx?WSDL"
     __ref__ = "https://storage.mondialrelay.fr/web-service-solution-v514-EN.pdf"
     __ns_prefix__ = "http://www.mondialrelay.fr/webservice/"
@@ -56,3 +60,42 @@ class MondialRelay(Carrier):
         result = self.client.WSI4_PointRelais_Recherche(**input.soap())
         self.raise_for_status(result)
         return MondialRelayPickupSiteGetOutput.from_soap(result)
+
+    @action
+    def get_metadata(self) -> Metadata:
+        return Metadata(
+            documentation=self.__doc__,
+            address_format=MetaAddressFormat(
+                count=4,
+                max_length=35,
+            ),
+            options=[
+                MetaOption(
+                    name="product",
+                    label="Product",
+                    description="Product to be used for the shipment",
+                    type=MetaOptionType.select,
+                    default="HOM",
+                    values={
+                        "HOM": "Home delivery",
+                        "HOC": "Home delivery with signature",
+                        "LCC": "Merchant delivery",
+                        "24R": "Point Relais delivery",
+                        "24L": "Point Relais XL delivery",
+                    },
+                ),
+                MetaOption(
+                    name="pickupMode",
+                    label="Pickup Mode",
+                    description="Pickup mode to be used for the shipment",
+                    type=MetaOptionType.select,
+                    default="REL",
+                    values={
+                        "REL": "Point Relais Collection",
+                        "CCC": "Merchant Collection",
+                        "CDR": "Home Collection for the standard shipments",
+                        "CDS": "Home Collection for heavy or bulky shipments",
+                    },
+                ),
+            ],
+        )

@@ -42,7 +42,7 @@ from ...schema import (
 )
 
 
-class Format(Enum):
+class Format(str, Enum):
     # Shortcuts
     PDF = "PDF"
     ZPL = "ZPL"

@@ -67,29 +67,31 @@ def action(f):
     @wraps(f)
     def wrapper(self, carrier_type, action, data):
         hints = typing.get_type_hints(f)
-        if "input" not in hints:
-            raise ValueError(f"Missing input argument or type hint for {f}")
-        if "return" not in hints:
-            raise ValueError(f"Missing return type hint for {f}")
+
+        if "input" in hints:
+            if callable(hints["input"]):
+                try:
+                    input = hints["input"](**data)
+                except Exception as e:
+                    if "auth" in data:
+                        if "login" in data["auth"]:
+                            data["auth"]["login"] = "xxx"
+                        if "password" in data["auth"]:
+                            data["auth"]["password"] = "xxx"
+                    raise InvalidApiInput(
+                        f"Invalid input data {data!r}\n\n{e!s}"
+                    ) from e
+            else:
+                input = data
 
         try:
-            input = hints["input"](**data)
-        except Exception as e:
-            if "auth" in data:
-                if "login" in data["auth"]:
-                    data["auth"]["login"] = "xxx"
-                if "password" in data["auth"]:
-                    data["auth"]["password"] = "xxx"
-            raise InvalidApiInput(f"Invalid input data {data!r}\n\n{e!s}") from e
-
-        try:
-            rv = f(self, input)
+            rv = f(self, input) if "input" in hints else f(self)
         except CarrierError as e:
             raise e
         except Exception as e:
             raise CarrierError(None, f"Action failed {data!r}\n\n{e!s}") from e
 
-        if isinstance(rv, hints["return"]):
+        if "return" in hints and isinstance(rv, hints["return"]):
             return rv.model_dump()
 
         return rv

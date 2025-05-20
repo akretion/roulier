@@ -2,7 +2,39 @@
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from datetime import date, datetime, time
+from enum import Enum
 from pydantic import BaseModel, model_validator
+
+
+class MetaAddressFormat(BaseModel):
+    count: int
+    max_length: int
+
+
+class MetaOptionType(str, Enum):
+    select = "select"
+    string = "string"
+    text = "text"
+    integer = "integer"
+    float = "float"
+    boolean = "boolean"
+    date = "date"
+    datetime = "datetime"
+
+
+class MetaOption(BaseModel):
+    name: str
+    label: str
+    description: str | None = None
+    type: MetaOptionType = MetaOptionType.string
+    default: object | None = None
+    values: list | dict | None = None
+
+
+class Metadata(BaseModel):
+    documentation: str | None = None
+    address_format: MetaAddressFormat | None = None
+    options: list[MetaOption] = []
 
 
 class Auth(BaseModel):
