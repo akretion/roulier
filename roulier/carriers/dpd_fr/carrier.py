@@ -104,6 +104,7 @@ class DpdFr(Carrier):
                     type=MetaOptionType.select,
                     default=Notifications.No,
                     values=Notifications.__members__.values(),
+                    product_option=True,
                 ),
                 MetaOption(
                     name="agencyId",

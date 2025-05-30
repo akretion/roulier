@@ -29,6 +29,11 @@ class MetaOption(BaseModel):
     type: MetaOptionType = MetaOptionType.string
     default: object | None = None
     values: list | dict | None = None
+    # If product_option is True, this option is available for all products.
+    # If product_option is a list of strings, this option is available only for
+    # the products in the list.
+    # If product_option is False or None, this option is global.
+    product_option: bool | list[str] | None = None
 
 
 class Metadata(BaseModel):
