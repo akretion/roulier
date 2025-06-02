@@ -75,6 +75,7 @@ class DpdFr(Carrier):
     @action
     def get_metadata(self) -> Metadata:
         return Metadata(
+            name="DPD France",
             documentation=self.__doc__,
             address_format=MetaAddressFormat(
                 count=2,

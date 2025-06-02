@@ -64,6 +64,7 @@ class MondialRelay(Carrier):
     @action
     def get_metadata(self) -> Metadata:
         return Metadata(
+            name="Mondial Relay France",
             documentation=self.__doc__,
             address_format=MetaAddressFormat(
                 count=4,

@@ -37,6 +37,7 @@ class MetaOption(BaseModel):
 
 
 class Metadata(BaseModel):
+    name: str
     documentation: str | None = None
     address_format: MetaAddressFormat | None = None
     options: list[MetaOption] = []
