@@ -18,7 +18,6 @@ setup(
         "cerberus",
         "zplgrf",
         "unidecode",
-        "pycountry",
         # v2
         "pydantic",
         "zeep",
