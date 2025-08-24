@@ -35,15 +35,15 @@ ACCOUNT_MAPPING = {
 }
 ADDRESS_MAPPING = {
     "T860": "company",
-    "T8906": "name",
+    "T860": "name",
     "T863": "street1",
     "T861": "street2",
     "T862": "street3",
     "T330": "zip",
     "T864": "city",
     "T100": "country",
-    "T871": "phone",
-    "T1230": "mobile",
+    "T758": "phone",
+    "T759": "mobile",
     "T1229": "email",
 }
 
@@ -51,6 +51,7 @@ PARCEL_MAPPING = {
     "T530": "weight",
     "T8973": "parcel_number_barcode",
     "T8904": "parcel_number_label",
+    "T400": "parcel_sequence",
 }
 
 
