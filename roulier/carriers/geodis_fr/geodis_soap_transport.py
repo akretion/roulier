@@ -13,6 +13,11 @@ log = logging.getLogger(__name__)
 class GeodisFrSoapTransport(RequestsTransport):
     """Implement Geodis WS communication."""
 
+    def before_ws_call_prepare_request_kwargs(self, payload):
+        res = super().before_ws_call_prepare_request_kwargs(payload)
+        res["verify"] = False
+        return res
+
     def before_ws_call_transform_payload(self, payload):
         soap_message = self.soap_wrap(payload)
         return soap_message
