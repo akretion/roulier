@@ -15,7 +15,8 @@ _logger = logging.getLogger(__name__)
 
 class Ciblex(Carrier):
     __key__ = "ciblex"
-    __url__ = "https://secure.extranet.ciblex.fr/extranet/client"
+    __url__ = "https://secure.extranet.ciblex.fr/extranet/client/label.php"
+    __url_test__ = "https://secure.extranet.ciblex.fr/extranet/test/label.php"
 
     def _xpath(self, response, xpath):
         root = fromstring(response.text)
@@ -80,7 +81,8 @@ class Ciblex(Carrier):
         return None
 
     def _auth(self, auth):
-        response = requests.post(f"{self.__url__}/index.php", data=auth.params())
+        url = self.__url_test__ if auth.isTest else self.__url__
+        response = requests.post(f"{url}/index.php", data=auth.params())
         error = self._xpath_to_text(response, '//td[@class="f_erreur_small"]')
         if error:
             raise CarrierError(response, error)
@@ -88,9 +90,10 @@ class Ciblex(Carrier):
         return response.cookies
 
     def _validate(self, auth, params, initial_city=None):
+        url = self.__url_test__ if auth.isTest else self.__url__
         # 1) Validate
         response = requests.get(
-            f"{self.__url__}/corps.php",
+            f"{url}/corps.php",
             params={"action": "Valider", **params},
             cookies=auth,
         )
@@ -131,9 +134,10 @@ class Ciblex(Carrier):
             raise CarrierError(response, error)
 
     def _print(self, auth, params, format="PDF"):
+        url = self.__url_test__ if auth.isTest else self.__url__
         # 2) Print
         response = requests.get(
-            f"{self.__url__}/corps.php",
+            f"{url}/corps.php",
             params={
                 "action": "Imprimer(PDF)",  # This is only to get the liste_cmd
                 **params,
@@ -154,13 +158,14 @@ class Ciblex(Carrier):
         }
 
     def _download(self, auth, order, format="PDF"):
+        url = self.__url_test__ if auth.isTest else self.__url__
         # 3) Get label
         response = requests.get(
-            f"{self.__url__}/label_ool.php",
+            f"{url}/label_ool.php",
             params={
                 "origine": "OOL",
                 "output": order["format"] if format == "PDF" else "PRINTER",
-                "url_retour": f"{self.__url__}/corps.php?module=cmdjou",
+                "url_retour": f"{url}/corps.php?module=cmdjou",
                 "liste_cmd": order["order"],
             },
             cookies=auth,
@@ -171,14 +176,15 @@ class Ciblex(Carrier):
             if not button:
                 raise CarrierError(response, "No generated EPL found")
             epl_fn = button[0].attrib["onclick"].split("'")[3]
-            response = requests.get(f"{self.__url__}/tmp/{epl_fn}", cookies=auth)
+            response = requests.get(f"{url}/tmp/{epl_fn}", cookies=auth)
 
         return base64.b64encode(response.content)
 
     def _get_tracking(self, auth, order, label, input, format="PDF"):
+        url = self.__url_test__ if auth.isTest else self.__url__
         # 4) Get tracking
         response = requests.get(
-            f"{self.__url__}/corps.php",
+            f"{url}/corps.php",
             params={
                 "codecli": "tous",
                 "date1": input.service.shippingDate.strftime("%d/%m/%Y"),
