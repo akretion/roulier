@@ -4,8 +4,11 @@
 import base64
 import logging
 import re
+import time
+
 import requests
 from lxml.html import fromstring
+
 from ...carrier import Carrier, action
 from ...exception import CarrierError
 from .schema import CiblexLabelInput, CiblexLabelOutput
@@ -230,6 +233,17 @@ class Ciblex(Carrier):
         self._validate(auth, params)
         order = self._print(auth, params, format)
         label = self._download(auth, order, format)
-        results = self._get_tracking(auth, order, label, input, format)
 
+        for i in (0.5, 1, 2, 5):
+            try:
+                results = self._get_tracking(auth, order, label, input, format)
+                return CiblexLabelOutput.from_params(results)
+            except CarrierError:
+                _logger.warning(
+                    f"Ciblex order {order} not found, waiting {i} seconds",
+                    exc_info=True,
+                )
+                time.sleep(i)
+
+        results = self._get_tracking(auth, order, label, input, format)
         return CiblexLabelOutput.from_params(results)
