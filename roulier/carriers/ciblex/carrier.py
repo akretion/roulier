@@ -199,7 +199,7 @@ class Ciblex(Carrier):
         count = int(count)
         assert count == len(input.parcels), "Parcel count mismatch"
 
-        order_ref = f"{customer_id}-{order_id.zfill(6)}"
+        order_ref = f"{customer_id}-{order_id.zfill(7)}"
         orders = self._xpath(response, '//tr[@class="t_liste_ligne"]')
         order = next(
             filter(lambda o: o.getchildren()[0].text == order_ref, orders), None
