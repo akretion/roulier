@@ -1,0 +1,73 @@
+interactions:
+- request:
+    body: '{"productCode": "N", "plannedShippingDateAndTime": "2026-02-13T00:00:00
+      GMT+00:00", "pickup": {"isRequested": true, "location": "On the floor"}, "content":
+      {"description": "N/A", "incoterm": "DAP", "unitOfMeasurement": "metric", "packages":
+      [{"weight": 1.2, "dimensions": {"length": 10, "width": 10, "height": 10}, "customerReferences":
+      [{"value": "Parcel 1", "typeCode": "CU"}]}], "isCustomsDeclarable": false},
+      "outputImageProperties": {"encodingFormat": "pdf", "imageOptions": [{"typeCode":
+      "label", "templateName": "ECOM26_64_002"}], "allDocumentsInOneImage": false,
+      "splitTransportAndWaybillDocLabels": true, "receiptAndLabelsInOneImage": false},
+      "accounts": [{"number": "xxxx", "typeCode": "shipper"}], "customerReferences":
+      [{"value": "Ref1", "typeCode": "CU"}], "customerDetails": {"shipperDetails":
+      {"postalAddress": {"postalCode": "69100", "cityName": "Villeurbanne", "countryCode":
+      "FR", "addressLine1": "27 rue Henri Rolland", "addressLine2": "Batiment B"},
+      "contactInformation": {"phone": "+33482538457", "mobilePhone": "+33482538457",
+      "companyName": "Akretion", "fullName": "Akretion"}}, "receiverDetails": {"postalAddress":
+      {"postalCode": "75004", "cityName": "Paris", "countryCode": "FR", "addressLine1":
+      "6 Place des Vosges"}, "contactInformation": {"phone": "+33600000000", "mobilePhone":
+      "+33600000000", "companyName": "Hugo", "fullName": "Hugo", "email": "hugo.victor@example.com"}}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1409'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+      x-version:
+      - 3.1.0
+    method: POST
+    uri: https://express.api.dhl.com/mydhlapi/test/shipments
+  response:
+    body:
+      string: '{"shipmentTrackingNumber":"3663796625","cancelPickupUrl":"https://express.api.dhl.com/mydhlapi/test/pickups/PRG260213001724","trackingUrl":"https://express.api.dhl.com/mydhlapi/test/shipments/3663796625/tracking","dispatchConfirmationNumber":"PRG260213001724","packages":[{"referenceNumber":1,"trackingNumber":"JD014600005255753118","trackingUrl":"https://express.api.dhl.com/mydhlapi/test/shipments/3663796625/tracking?pieceTrackingNumber=JD014600005255753118"}],"documents":[{"imageFormat":"PDF","content":"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","typeCode":"label"}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Language:
+      - eng
+      Content-Length:
+      - '7688'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 13 Feb 2026 16:09:39 GMT
+      Invocation-Id:
+      - 20260213160937_2f1b_e0b8480e-dc08-4b82-a883-2fa13cc13797
+      Max-Forwards:
+      - '20'
+      Message-Reference:
+      - 698f4cc1e9f6ca1664e270a29c18a7ba
+      Set-Cookie:
+      - BIGipServer~WSB~pl_wsb-express-chd.dhl.com_443=1181239461.21308.0000; path=/;
+        Httponly; Secure
+      - TS019fcce8=012d4839b32fa0a8cc217058caef51f444da3376d3a9ace4e06c27039b30cb910cd5d35f1836eb944ec0dbd4b30cff6234368772f6b2b7c030beb4e150cb488615095709fd;
+        Path=/; Secure; HttpOnly
+      Via:
+      - 1.1 czchols5949.prg-dc.dhl.com ()
+      X-Content-Type-Options:
+      - nosniff
+      X-CorrelationID:
+      - Id-c14c8f69f984a03a7fd568c4 0
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 201
+      message: ''
+version: 1
