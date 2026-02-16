@@ -1,0 +1,73 @@
+interactions:
+- request:
+    body: '{"productCode": "N", "plannedShippingDateAndTime": "2026-02-13T00:00:00
+      GMT+00:00", "pickup": {"isRequested": false}, "content": {"description": "N/A",
+      "incoterm": "DAP", "unitOfMeasurement": "metric", "packages": [{"weight": 1.2,
+      "dimensions": {"length": 10, "width": 10, "height": 10}, "customerReferences":
+      [{"value": "Parcel 1", "typeCode": "CU"}]}], "isCustomsDeclarable": false},
+      "outputImageProperties": {"encodingFormat": "zpl", "imageOptions": [{"typeCode":
+      "label", "templateName": "ECOM26_64_002"}], "allDocumentsInOneImage": false,
+      "splitTransportAndWaybillDocLabels": true, "receiptAndLabelsInOneImage": false},
+      "accounts": [{"number": "xxxx", "typeCode": "shipper"}], "customerReferences":
+      [{"value": "Ref1", "typeCode": "CU"}], "customerDetails": {"shipperDetails":
+      {"postalAddress": {"postalCode": "69100", "cityName": "Villeurbanne", "countryCode":
+      "FR", "addressLine1": "27 rue Henri Rolland", "addressLine2": "Batiment B"},
+      "contactInformation": {"phone": "+33482538457", "mobilePhone": "+33482538457",
+      "companyName": "Akretion", "fullName": "Akretion"}}, "receiverDetails": {"postalAddress":
+      {"postalCode": "75004", "cityName": "Paris", "countryCode": "FR", "addressLine1":
+      "6 Place des Vosges"}, "contactInformation": {"phone": "+33600000000", "mobilePhone":
+      "+33600000000", "companyName": "Hugo", "fullName": "Hugo", "email": "hugo.victor@example.com"}}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1382'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+      x-version:
+      - 3.1.0
+    method: POST
+    uri: https://express.api.dhl.com/mydhlapi/test/shipments
+  response:
+    body:
+      string: '{"shipmentTrackingNumber":"3663796614","trackingUrl":"https://express.api.dhl.com/mydhlapi/test/shipments/3663796614/tracking","packages":[{"referenceNumber":1,"trackingNumber":"JD014600005255753117","trackingUrl":"https://express.api.dhl.com/mydhlapi/test/shipments/3663796614/tracking?pieceTrackingNumber=JD014600005255753117"}],"documents":[{"imageFormat":"ZPL","content":"XlhBCl5GVDgsMzAKXkEwTiwsMjgKXkZERVhQUkVTUyBET01FU1RJQ15GUwpeRlQ4LDMwCl5BME4sLDI4Cl5GREVYUFJFU1MgRE9NRVNUSUNeRlMKXkZUOTEsNDkKXkEwTiwsMTEKXkZEMjAyNi0wMi0xMyBNeURITCBBUEkgMS4wIC8gKkdMUyBjZXJ0aWZpZWQgbGFiZWwqXkZTCl5GTzM4NiwtMQpeR0IxNTAsMCwyLEJeRlMKXkZPNTM1LDAKXkdCMCw1NSwyLEJeRlMKXkZPMzg2LDU0Cl5HQjE1MCwwLDIsQl5GUwpeRk8zODUsMApeR0IwLDU1LDIsQl5GUwpeRlQ0MDUsNDIKXkEwTiwsNDkKXkZERE9NXkZTCl5GVDQwNCw0MgpeQTBOLCw0OQpeRkRET01eRlMKXkZPNTc3LDExCl5HRkEsMTY4LDE2OCw4LDAwZmZmZmZmZmZmZmYwMDAwMWZmZmZmZmZmZmZmZjgwMDFmZmZmZmZmZmZmZmZlMDAzZmZmZmZmZmZmZmZmZjgwN2ZmZmZmZmZmZmZmZmZjMGZmZmZmZmZmZmZmZmZmYzBmZmZmZmZmZmZmZmZmZmUxZmZmZmZmZmZmZmZmZmZlM2ZmZmZmZmZmZmZmZmZmZTdmZmZmZmZmZmZmZmZmZmU3ZmZmZmZmZmZmZmZmZmZlMDAwMDAwMDAwMDFmZmZmZTAwMDAwMDAwMDAxZmZmZmUwMDAwMDAwMDAwM2ZmZmZjMDAwMDAwMDAwMDNmZmZmYzAwMDAwMDAwMDA3ZmZmZjgwMDAwMDAwMDAwZmZmZmYwMDAwMDAwMDAwMWZmZmZlMDAwMDAwMDAwMDFmZmZmZTAwMDAwMDAwMDAzZmZmZmMwMDAwMDAwMDAwMDAwMDAwMF5GUwpeRk81NzQsMjQKXkdGQSwxNzYsMTc2LDgsMDAwMGZmZmZjMDAwMDAwMDAwMDFmZmZmZjAwMDAwMDAwMDAzZmZmZmYwMDAwMDAwMDAwN2ZmZmZlMDAwMDAwMDAwMDdmZmZmYzAwMDAwMDAwMDBmZmZmZjgwMDAwMDAwMDAxZmZmZmY4MDAwMDAwMDAwMWZmZmZmMDAwMDAwMDAwMDNmZmZmZTAwMDAwMDAwMDA3ZmZmZmUwMDAwMDAwMDAwZmZmZmZmZmZmZmZmYzAwMGZmZmZmZmZmZmZmZjgwMDFmZmZmZmZmZmZmZmYwMDAzZmZmZmZmZmZmZmZlMDAwN2ZmZmZmZmZmZmZmYzAwMDdmZmZmZmZmZmZmZjgwMDBmZmZmZmZmZmZmZmYwMDAxZmZmZmZmZmZmZmZjMDAwM2ZmZmZmZmZmZmZmODAwMDNmZmZmZmZmZmZmYzAwMDA3ZmZmZmZmZmZmZTAwMDAwMDAwMDAwMDAwMDAwMDAwMF5GUwpeRk82MzEsMzMKXkdGQSw0OCw0OCw0LDAwN2ZmZmZjMDBmZmZmZmMwMWZmZmZmODAxZmZmZmYwMDNmZmZmZTAwN2ZmZmZlMDBmZmZmZmMwMGZmZmZmODAxZmZmZmY4MDNmZmZmZjAwN2ZmZmZlMDA3ZmZmZmMwMF5GUwpeRk82NDEsMTEKXkdGQSwxODksMTg5LDksMDAwMWZmZmZmODAzZmZmZmYwMDAwM2ZmZmZmMDAzZmZmZmUwMDAwM2ZmZmZlMDA3ZmZmZmUwMDAwN2ZmZmZjMDBmZmZmZmMwMDAwZmZmZmZjMDFmZmZmZjgwMDAxZmZmZmY4MDFmZmZmZjAwMDAxZmZmZmYwMDNmZmZmZjAwMDAzZmZmZmYwMDdmZmZmZTAwMDA3ZmZmZmUwMGZmZmZmYzAwMDBmZmZmZmMwMGZmZmZmODAwMDBmZmZmZjgwMWZmZmZmODAwMDFmZmZmZjgwM2ZmZmZmMDAwMDNmZmZmZmZmZmZmZmZlMDAwMDdmZmZmZmZmZmZmZmZjMDAwMDdmZmZmZmZmZmZmZmZjMDAwMGZmZmZmZmZmZmZmZmY4MDAwMWZmZmZmZmZmZmZmZmYwMDAwMWZmZmZmZmZmZmZmZmYwMDAwM2ZmZmZmZmZmZmZmZmUwMDAwN2ZmZmZmZmZmZmZmZmMwMDAwMDAwMDAwMDAwMDAwMDAwMDAwXkZTCl5GTzY2MywzMwpeR0ZBLDQ4LDQ4LDQsMDA3ZmZmZmMwMGZmZmZmYzAxZmZmZmY4MDFmZmZmZjAwM2ZmZmZlMDA3ZmZmZmUwMGZmZmZmYzAwZmZmZmY4MDFmZmZmZjgwM2ZmZmZmMDA3ZmZmZmUwMDdmZmZmYzAwXkZTCl5GTzU0MywzNwpeR0ZBLDE1LDE1LDUsZmZmZmZmZmYwMGZmZmZmZmZmMDBmZmZmZmZmZTAwXkZTCl5GTzU0MywzMwpeR0ZBLDE1LDE1LDUsZmZmZmZmZmZmMGZmZmZmZmZmZTBmZmZmZmZmZmMwXkZTCl5GTzU0Myw0MgpeR0ZBLDEyLDEyLDQsZmZmZmZmZjhmZmZmZmZmMGZmZmZmZmYwXkZTCl5GTzc0OCwzNwpeR0ZBLDE1LDE1LDUsM2ZmZmZmZmYwMDNmZmZmZmZmMDA3ZmZmZmZmZjAwXkZTCl5GTzc0NCw0MgpeR0ZBLDE1LDE1LDUsM2ZmZmZmZmZmMDNmZmZmZmZmZjA3ZmZmZmZmZmYwXkZTCl5GTzc1MSwzMwpeR0ZBLDEyLDEyLDQsM2ZmZmZmZjgzZmZmZmZmODdmZmZmZmY4XkZTCl5GTzcwMSwxMQpeR0ZBLDEwNSwxMDUsNSwwMDAxZmZmZmZjMDAwM2ZmZmZmODAwMDNmZmZmZjAwMDA3ZmZmZmYwMDAwZmZmZmZlMDAwMWZmZmZmYzAwMDFmZmZmZmMwMDAzZmZmZmY4MDAwN2ZmZmZmMDAwMGZmZmZmZTAwMDBmZmZmZmUwMDAxZmZmZmZjMDAwM2ZmZmZmODAwMDdmZmZmZjAwMDA3ZmZmZmYwMDAwZmZmZmZlMDAwMWZmZmZmYzAwMDNmZmZmZjgwMDAzZmZmZmY4MDAwN2ZmZmZmMDAwMDAwMDAwMDAwMDBeRlMKXkZPNjk3LDMzCl5HRkEsODQsODQsNywxZmZmZmZmZmZmZmZmMDNmZmZmZmZmZmZmZmUwN2ZmZmZmZmZmZmZmZTA3ZmZmZmZmZmZmZmZjMGZmZmZmZmZmZmZmZjgwZmZmZmZmZmZmZmZmMDBmZmZmZmZmZmZmZmYwMGZmZmZmZmZmZmZmZTAwZmZmZmZmZmZmZmZjMDA3ZmZmZmZmZmZmZmMwMDFmZmZmZmZmZmZmODAwMDNmZmZmZmZmZmYwMDBeRlMKXkZPMCw1NApeR0I3ODAsMCwyLEJeRlMKXkZUMjIsNzkKXkEwTiwsMTUKXkZERnJvbSA6XkZTCl5GVDIyLDc5Cl5BME4sLDE1Cl5GREZyb20gOl5GUwpeRlQ4Nyw2NwpeQTBOLCwxMwpeRkRBa3JldGlvbl5GUwpeRlQ4Nyw4MgpeQTBOLCwxMwpeRkRBa3JldGlvbl5GUwpeRlQ4Nyw5NgpeQTBOLCwxMwpeRkQyNyBydWUgSGVucmkgUm9sbGFuZF5GUwpeRlQ4NywxMTEKXkEwTiwsMTMKXkZEQmF0aW1lbnQgQl5GUwpeRlQ4NywxMjUKXkEwTiwsMTMKXkZENjkxMDAgVmlsbGV1cmJhbm5lXkZTCl5GVDg3LDE0MApeQTBOLCwxMwpeRkRGUkFOQ0VeRlMKXkZUNjk3LDE0MwpeQTBOLCwyMApeRkRDb250YWN0Ol5GUwpeRlQ2OTMsNzkKXkEwTiwsMjIKXkZET3JpZ2luOl5GUwpeRlQ2OTQsMTE2Cl5BME4sLDQxCl5GRExZU15GUwpeRlQ2OTMsMTE2Cl5BME4sLDQxCl5GRExZU15GUwpeRk8wLDE0OQpeR0I3ODAsMCwyLEJeRlMKXkZUMjIsMTczCl5BME4sLDE1Cl5GRFRvIDpeRlMKXkZUMjIsMTczCl5BME4sLDE1Cl5GRFRvIDpeRlMKXkZPOSwxNTYKXkdCMCwzMSw1LEJeRlMKXkZPMTIsMTUzCl5HQjMxLDAsNSxCXkZTCl5GTzc2NSwxNTYKXkdCMCwzMSw1LEJeRlMKXkZPNzM2LDE1MwpeR0IzMSwwLDUsQl5GUwpeRk85LDI3NgpeR0IwLDMxLDUsQl5GUwpeRk8xMiwzMDUKXkdCMzEsMCw1LEJeRlMKXkZPNzY1LDI3NgpeR0IwLDMxLDUsQl5GUwpeRk83MzYsMzA1Cl5HQjMxLDAsNSxCXkZTCl5GVDg3LDE3MwpeQTBOLCwyNApeRkRIdWdvXkZTCl5GVDg3LDIwMQpeQTBOLCwyNApeRkRIdWdvXkZTCl5GVDg3LDIyOQpeQTBOLCwyNApeRkQ2IFBsYWNlIGRlcyBWb3NnZXNeRlMKXkZUODcsMjY1Cl5BME4sLDMzCl5GRDc1MDA0IFBhcmlzXkZTCl5GVDg3LDI2NQpeQTBOLCwzMwpeRkQ3NTAwNCBQYXJpc15GUwpeRlQ4NywzMDIKXkEwTiwsMzMKXkZERlJBTkNFXkZTCl5GVDg3LDMwMgpeQTBOLCwzMwpeRkRGUkFOQ0VeRlMKXkZUNjE0LDE2OQpeQTBOLCwxNwpeRkRDb250YWN0Ol5GUwpeRk8wLDMxNApeR0I3ODAsMCwyLEJeRlMKXkZUOCwzNjQKXkEwTiwsNjAKXkZERk9SWV5GUwpeRlQxOTYsMzY3Cl5BME4sLDY1Cl5GREZSLU9SWS1QU1ZeRlMKXkZUMTk1LDM2NwpeQTBOLCw2NQpeRkRGUi1PUlktUFNWXkZTCl5GVDY1MiwzNjcKXkEwTiwsNjcKXkZEUkVDXkZTCl5GTzAsMzc3Cl5HQjc4MCwwLDIsQl5GUwpeRk8wLDM3OApeR0ZBLDE3NCwxNzQsMyxmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDBmZmZmMDAwMDAwMDBeRlMKXkZPMTYsMzc4Cl5HQjU1MSw1Nyw1NyxCXkZTCl5GVDE3LDQyMApeQTBOLCw1MApeRlJeRkRBREleRlMKXkZUNzA5LDM5MgpeQTBOLCwxNwpeRkRUaW1lXkZTCl5GVDYzMCwzOTIKXkEwTiwsMTcKXkZERGF5XkZTCl5GTzAsNDM0Cl5HQjc4MCwwLDIsQl5GUwpeRlQxMiw0NTMKXkEwTiwsMjEKXkZEUmVmIE5vOiBSZWYxXkZTCl5GVDEyLDUwMgpeQTBOLCwyMQpeRkRDb250ZW50IDogTi9BXkZTCl5GVDUzNSw0NTMKXkEwTiwsMTcKXkZEUGNlL1NocHQgV2VpZ2h0XkZTCl5GVDU0Myw0ODYKXkEwTiwsMzkKXkZEMS4yIGtnXkZTCl5GVDU0Miw0ODYKXkEwTiwsMzkKXkZEMS4yIGtnXkZTCl5GVDcxMyw0NTMKXkEwTiwsMTcKXkZEUGllY2VeRlMKXkZUNzAzLDQ4OQpeQTBOLCw0MQpeRkQxLzFeRlMKXkZUNzAyLDQ4OQpeQTBOLCw0MQpeRkQxLzFeRlMKXkZPMCw1MDkKXkdCNzgwLDAsMixCXkZTCl5GTzM5LDU4NApeQlkzLDIuMyw5NApeQjNOLE4sOTQsTixOCl5GRDM2NjM3OTY2MTReRlMKXkZUMTY1LDcwNApeQTBOLCwyNgpeRkRXQVlCSUxMIDM2IDYzNzkgNjYxNF5GUwpeRk85OCw3MTMKXkJZMywyLjcsMTk5Cl5CQ04sMTk5LE4sTixOLEEKXkZEMkxGUjc1MDA0KzQ2MDAwMDAwXkZTCl5GVDI0MCw5MzQKXkEwTiwsMjYKXkZEKDJMKUZSNzUwMDQrNDYwMDAwMDBeRlMKXkZPMTMxLDk0MwpeQlkzLDMuMCwxOTkKXkJDTiwxOTksTixOLE4sQQpeRkRKSkQwMTQ2MDAwMDUyNTU3NTMxMTdeRlMKXkZUMjAyLDExNjIKXkEwTiwsMjYKXkZEKEopIEpEMDEgNDYwMCAwMDUyIDU1NzUgMzExN15GUwpeRk83OSwzOTkKXkdCNjE0LDE1NywxNTcsQl5GUwpeRlQxMTAsNTAwCl5BME4sLDgxCl5GUl5GRFNBTVBMRV5GUwpeWFoK","typeCode":"label"}]}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Language:
+      - eng
+      Content-Length:
+      - '6923'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 13 Feb 2026 16:09:37 GMT
+      Invocation-Id:
+      - 20260213160937_2f1b_2c47e8e9-aea6-449a-a51c-162742eb3b60
+      Max-Forwards:
+      - '20'
+      Message-Reference:
+      - 698f4cc10c3958ccc11a769667d6bc42
+      Set-Cookie:
+      - BIGipServer~WSB~pl_wsb-express-chd.dhl.com_443=227362981.21308.0000; path=/;
+        Httponly; Secure
+      - TS019fcce8=012d4839b33e00ca870acdba1bee2a788a1466c241bbe22a4e1cd7376d119f8b55720089832842e4a6b70a1cd2dab999ea5397dd583b405ae42ed3b3be5da5bfce0527abd2;
+        Path=/; Secure; HttpOnly
+      Via:
+      - 1.1 czstlls0994.prg-dc.dhl.com ()
+      X-Content-Type-Options:
+      - nosniff
+      X-CorrelationID:
+      - Id-c14c8f69dd87b118ba2c6341 0
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 201
+      message: ''
+version: 1
