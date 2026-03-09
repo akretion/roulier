@@ -4,10 +4,13 @@
 import base64
 import logging
 import re
+
 import requests
-from lxml.html import fromstring
+from lxml.etree import fromstring
+
 from ...carrier import Carrier, action
 from ...exception import CarrierError
+from ...helpers import expand_multi_parcels, factorize_multi_parcels
 from .schema import CiblexLabelInput, CiblexLabelOutput
 
 _logger = logging.getLogger(__name__)
@@ -15,221 +18,87 @@ _logger = logging.getLogger(__name__)
 
 class Ciblex(Carrier):
     __key__ = "ciblex"
-    __url__ = "https://secure.extranet.ciblex.fr/extranet/client"
+    __url__ = "https://secure.extranet.ciblex.fr/extranet/client/label.php"
+    __url_test__ = "https://secure.extranet.ciblex.fr/extranet/test/label.php"
 
-    def _xpath(self, response, xpath):
-        root = fromstring(response.text)
-        return root.xpath(xpath)
+    def _get_url(self, is_test):
+        return self.__url_test__ if is_test else self.__url__
 
-    def _xpath_to_text(self, response, xpath):
-        nodes = self._xpath(response, xpath)
-        if nodes:
-            return "\n".join([e.text_content() for e in nodes])
+    def _raise_for_status(self, response, type):
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                self._parse_response(response, type)
+                raise
+            except Exception:
+                msg = response.text
 
-    def _match_city(self, city, suggestions):
-        """
-        Match the city with the suggestions.
-        """
+            raise CarrierError(response, msg) from e
 
-        def _normalize(s):
-            return re.sub(r"[-_ ']", "", s.lower())
+        return response
 
-        city = _normalize(city)
-
-        # Check for exact normalized match
-        for suggestion in suggestions:
-            if _normalize(suggestion) == city:
-                return suggestion
-
-        # Check for inclusive match
-        if len(city) > 3:
-            for suggestion in suggestions:
-                if city in _normalize(suggestion):
-                    return suggestion
-
-        # Check for partial match with a levenshtein distance
-        # of 2 or less
-        def _levenshtein(s1, s2):
-            m = len(s1)
-            n = len(s2)
-            dp = [[0] * (n + 1) for _ in range(m + 1)]
-            for i in range(m + 1):
-                dp[i][0] = i
-            for j in range(n + 1):
-                dp[0][j] = j
-            for i in range(1, m + 1):
-                for j in range(1, n + 1):
-                    if s1[i - 1] == s2[j - 1]:
-                        dp[i][j] = dp[i - 1][j - 1]
-                    else:
-                        dp[i][j] = min(
-                            dp[i - 1][j] + 1,
-                            dp[i][j - 1] + 1,
-                            dp[i - 1][j - 1] + 1,
-                        )
-            return dp[m][n]
-
-        distances = [
-            _levenshtein(city, _normalize(suggestion)) for suggestion in suggestions
-        ]
-        min_distance = min(distances)
-        min_index = distances.index(min_distance)
-        if min_distance <= 2:
-            return suggestions[min_index]
-
-        return None
-
-    def _auth(self, auth):
-        response = requests.post(f"{self.__url__}/index.php", data=auth.params())
-        error = self._xpath_to_text(response, '//td[@class="f_erreur_small"]')
-        if error:
-            raise CarrierError(response, error)
-
-        return response.cookies
-
-    def _validate(self, auth, params, initial_city=None):
-        # 1) Validate
+    def request(self, url, params, type):
         response = requests.get(
-            f"{self.__url__}/corps.php",
-            params={"action": "Valider", **params},
-            cookies=auth,
+            url,
+            params=params,
+            headers={"Accept": "application/xml"},
+            timeout=10,
         )
+        self._raise_for_status(response, type)
+        return response
 
-        # Handle approximative city
-        cp_dest = self._xpath(response, '//select[@name="cp_dest"]')
-        if cp_dest:
-            cp_dest = cp_dest[0]
-            suggestions = [city.text.split(" ", 1)[1] for city in cp_dest.getchildren()]
-            initial_city = params["dest_ville"] or initial_city
-            city = self._match_city(initial_city, suggestions)
-            if not city:
-                raise CarrierError(
-                    response,
-                    f"City {initial_city} not found, "
-                    f"available cities are {', '.join(suggestions)}",
-                )
+    def _parse_response(self, response, format):
+        if response.headers.get("Content-Type", "").startswith("application/pdf"):
+            label = base64.b64encode(response.content).decode("utf-8")
+            tracking = (
+                response.headers.get("Content-Disposition", "")
+                .split("filename=")[-1]
+                .strip('"')
+                .split("_")[0]
+            )
+        elif "/xml" in response.headers.get("Content-Type", ""):
+            labels = fromstring(response.content)
+            if len(labels) == 0:
+                raise CarrierError(response, "No label in response")
+            if labels.find("errors") is not None:
+                errors = [
+                    {"id": error.find("id").text, "message": error.find("message").text}
+                    for error in labels.find("errors")
+                ]
+                raise CarrierError(response, errors)
+            label_ = labels.find("label")
+            label = label_.find(format.lower())
+            tracking = label_.find("cb")
+            label = (
+                base64.b64encode(label.text.encode("utf-8")).decode("utf-8")
+                if label is not None
+                else None
+            )
+            tracking = tracking.text if tracking is not None else None
+        else:
+            raise CarrierError(
+                response,
+                "Unsupported content type: %s" % response.headers.get("Content-Type"),
+            )
 
-            _logger.warning(f"Replacing {initial_city} by {city}")
-            params["dest_ville"] = city.encode("latin-1")
-            return self._validate(auth, params, initial_city)
-
-        error = self._xpath_to_text(response, '//p[@class="f_erreur"]')
-        if error:
-            if (
-                error == "AUCUNE COMMUNE NE CORRESPOND AUX CRITERES SAISIS"
-                and params["dest_ville"]
-            ):
-                # Try with only the postal code
-                _logger.warning(
-                    f"City {params['dest_ville']} not found, "
-                    f"trying with only the postal code {params['dest_cp']}"
-                )
-                initial_city = params["dest_ville"]
-                params["dest_ville"] = ""
-                return self._validate(auth, params, initial_city)
-
-            raise CarrierError(response, error)
-
-    def _print(self, auth, params, format="PDF"):
-        # 2) Print
-        response = requests.get(
-            f"{self.__url__}/corps.php",
-            params={
-                "action": "Imprimer(PDF)",  # This is only to get the liste_cmd
-                **params,
-            },
-            cookies=auth,
-        )
-
-        labels = self._xpath(response, '//input[@name="liste_cmd"]')
-        if not labels:
-            raise CarrierError(response, "No label found")
-        if len(labels) > 1:
-            raise CarrierError(response, "Multiple labels found")
-        label = labels[0]
-        order = label.attrib["value"]
-        return {
-            "order": order,
-            "format": format,
-        }
-
-    def _download(self, auth, order, format="PDF"):
-        # 3) Get label
-        response = requests.get(
-            f"{self.__url__}/label_ool.php",
-            params={
-                "origine": "OOL",
-                "output": order["format"] if format == "PDF" else "PRINTER",
-                "url_retour": f"{self.__url__}/corps.php?module=cmdjou",
-                "liste_cmd": order["order"],
-            },
-            cookies=auth,
-        )
-        if format == "EPL":
-            # We need to get the file name
-            button = self._xpath(response, '//input[@id="btn_imp"]')
-            if not button:
-                raise CarrierError(response, "No generated EPL found")
-            epl_fn = button[0].attrib["onclick"].split("'")[3]
-            response = requests.get(f"{self.__url__}/tmp/{epl_fn}", cookies=auth)
-
-        return base64.b64encode(response.content)
-
-    def _get_tracking(self, auth, order, label, input, format="PDF"):
-        # 4) Get tracking
-        response = requests.get(
-            f"{self.__url__}/corps.php",
-            params={
-                "codecli": "tous",
-                "date1": input.service.shippingDate.strftime("%d/%m/%Y"),
-                "date2": input.service.shippingDate.strftime("%d/%m/%Y"),
-                "etat": 0,
-                "cmdsui": "Rechercher",
-                "module": "cmdsui",
-                "action": "rechercher",
-            },
-            cookies=auth,
-        )
-        # Order format is like "04282,17,1,1" : customerId, order, parcel count, ?
-        customer_id, order_id, count, _ = order["order"].split(",")
-
-        count = int(count)
-        assert count == len(input.parcels), "Parcel count mismatch"
-
-        order_ref = f"{customer_id}-{order_id.zfill(6)}"
-        orders = self._xpath(response, '//tr[@class="t_liste_ligne"]')
-        order = next(
-            filter(lambda o: o.getchildren()[0].text == order_ref, orders), None
-        )
-        if order is None or not len(order):
-            raise CarrierError(response, f"Order {order_ref} not found")
-
-        trackings = [a.text for a in order.getchildren()[4].findall("a")]
         return [
             {
-                "id": f"{order_ref}_{i + 1}",
-                "reference": input.parcels[i].reference,
-                "format": format,
-                "label": label if i == 0 else None,  # Only the first parcel has
-                # the label since the label contains all parcels
-                "tracking": trackings[i],
+                "label": label,
+                "tracking": tracking,
             }
-            for i in range(count)
         ]
 
     @action
     def get_label(self, input: CiblexLabelInput) -> CiblexLabelOutput:
-        auth = self._auth(input.auth)
-        format = input.service.labelFormat or "PDF"
-        if format not in ["PDF", "EPL"]:
-            # Website also use "PRINTER" but this can't work here
-            raise CarrierError(None, "Only PDF and EPL format are supported")
+        url = self._get_url(input.auth.isTest)
+        results = []
+        for input_mono_parcel in expand_multi_parcels(input):
+            params = input.params()
+            type = input_mono_parcel.service.labelFormat.value
+            response = self.request(url, params, type)
 
-        # requests send all params as utf-8, but Ciblex expect latin-1
-        params = input.params()
-        self._validate(auth, params)
-        order = self._print(auth, params, format)
-        label = self._download(auth, order, format)
-        results = self._get_tracking(auth, order, label, input, format)
+            result = self._parse_response(response, type)
+            results.append(CiblexLabelOutput.from_params(result, input_mono_parcel))
 
-        return CiblexLabelOutput.from_params(results)
+        return factorize_multi_parcels(results)

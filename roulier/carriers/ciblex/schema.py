@@ -1,19 +1,34 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from enum import Enum
+
 from pydantic import Field
-from ...helpers import prefix, suffix, none_as_empty, unaccent
+
+from ...helpers import none_as_empty, prefix, suffix, unaccent
 from ...schema import (
-    LabelInput,
     Address,
-    LabelOutput,
     Auth,
-    Service,
+    Label,
+    LabelInput,
+    LabelOutput,
     Parcel,
     ParcelLabel,
-    Label,
+    Service,
     Tracking,
 )
+
+
+class Format(Enum):
+    PDF = "PDF"
+    ZPL = "ZPL"
+    EPL = "EPL"
+
+
+class LabelType(Enum):
+    STD = "STD"
+    CUST = "CUST"
 
 
 class CiblexAuth(Auth):
@@ -22,26 +37,37 @@ class CiblexAuth(Auth):
 
     def params(self):
         return {
-            "USER_COMPTE": self.login,
-            "USER_PASSWORD": self.password,
-            "lang": "fr",
-            "LOGIN": "Connexion sécurisée",
+            "i": self.login,
+            "k": self.password,
         }
 
 
 class CiblexService(Service):
+    labelType: LabelType = LabelType.STD
+    labelFormat: Format = Format.PDF
+    thermicPrint: bool = True
     customerId: str
     product: str
-    imperative_time: str | None = None  # 08:00, 09:00
-    opt_ssm: bool | None = None
+    ssm: bool | None = None  # Saturday delivery
+    logo: bool = False
+
+    def french_boolean(self, value):
+        if value is None:
+            return None
+        return "O" if value else "N"
 
     def params(self):
         return {
-            "expediteur": self.customerId,
-            "prestation": self.product,
-            "date_cmd": self.shippingDate.strftime("%d/%m/%Y"),
-            "imperatif": self.imperative_time,
-            "opt_ssm": self.opt_ssm,
+            "label_type": self.labelType.value,
+            "output": self.labelFormat.value,
+            "exp_code": self.customerId,
+            "contrat": self.product,
+            "date_ramasse": self.shippingDate.strftime("%d/%m/%Y")
+            if self.shippingDate
+            else None,
+            "ssm": self.french_boolean(self.ssm),
+            "logo": self.french_boolean(self.logo),
+            "imp_therm_init": self.french_boolean(self.thermicPrint),
         }
 
 
@@ -49,11 +75,6 @@ class CiblexParcel(Parcel):
     reference2: str | None = None
     reference3: str | None = None
     delivery_versus: float | None = None
-    check_payable_to: str | None = None
-    # ad_valorem_types: 1 : standand, 2 : sensible, 4 : international
-    ad_valorem_type: int | None = None
-    ad_valorem: float | None = None
-    ad_valorem_agreed: bool | None = None
 
     def params(self):
         return {
@@ -62,25 +83,21 @@ class CiblexParcel(Parcel):
             "ref2": self.reference2,
             "ref3": self.reference3,
             "cpa": self.delivery_versus,
-            "ordre_chq": self.check_payable_to,
-            "opt_adv": self.ad_valorem_type,
-            "adv": self.ad_valorem,
-            "adv_cond": self.ad_valorem_agreed,
         }
 
 
 class CiblexAddress(Address):
     zip: str
     city: str
-    country: str  # FR ou MC, enum?
-    street1: str | None = Field(max_length=40, default=None)
-    street2: str | None = Field(max_length=40, default=None)
-    street3: str | None = Field(max_length=40, default=None)
-    street4: str | None = Field(max_length=40, default=None)
+    country: str | None
+    street1: str = Field(max_length=35)
+    street2: str | None = Field(max_length=35, default=None)
+    street3: str | None = Field(max_length=35, default=None)
+    street4: str | None = Field(max_length=35, default=None)
 
     def params(self):
         return {
-            "raison": ", ".join([part for part in (self.name, self.company) if part]),
+            "nom": ", ".join([part for part in (self.name, self.company) if part]),
             "adr1": self.street1,
             "adr2": self.street2,
             "adr3": self.street3,
@@ -99,22 +116,22 @@ class CiblexLabelInput(LabelInput):
     parcels: list[CiblexParcel]
     to_address: CiblexAddress
     from_address: CiblexAddress
+    ret_address: CiblexAddress | None = None
 
     def params(self):
         return unaccent(
             none_as_empty(
                 {
-                    "module": "cmdsai",
-                    "commande": None,
+                    **self.auth.params(),
                     **self.service.params(),
                     **prefix(self.from_address.params(), "exp_"),
                     **prefix(self.to_address.params(), "dest_"),
-                    "nb_colis": len(self.parcels),
-                    **{
-                        k: v
-                        for i, parcel in enumerate(self.parcels)
-                        for k, v in suffix(parcel.params(), f"_{i+1}").items()
-                    },
+                    **(
+                        prefix(self.ret_address.params(), "ret_")
+                        if self.ret_address
+                        else {}
+                    ),
+                    **self.parcels[0].params(),
                 }
             )
         )
@@ -124,36 +141,41 @@ class CiblexTracking(Tracking):
     @classmethod
     def from_params(cls, result):
         return cls.model_construct(
-            number=result["tracking"],
+            number=result,
             url=(
                 "https://secure.extranet.ciblex.fr/extranet/client/"
-                "corps.php?module=colis&colis=%s" % result["tracking"]
+                "corps.php?module=colis&colis=%s" % result
             ),
         )
 
 
 class CiblexLabel(Label):
     @classmethod
-    def from_params(cls, result):
+    def from_params(cls, result, type):
         return cls.model_construct(
-            data=result["label"].decode("utf-8"),
+            data=result,
             name="label",
-            type=result["format"],
+            type=type,
         )
 
 
 class CiblexParcelLabel(ParcelLabel):
-    id: str
     label: CiblexLabel | None = None
     tracking: CiblexTracking | None = None
 
     @classmethod
-    def from_params(cls, result):
+    def from_params(cls, result, input):
+
         return cls.model_construct(
-            id=result["id"],
-            reference=result["reference"],
-            label=CiblexLabel.from_params(result) if result["label"] else None,
-            tracking=CiblexTracking.from_params(result),
+            reference=input.parcels[0].reference,
+            label=CiblexLabel.from_params(
+                result["label"], input.service.labelFormat.value
+            )
+            if result.get("label") is not None
+            else None,
+            tracking=CiblexTracking.from_params(result["tracking"])
+            if result.get("tracking") is not None
+            else None,
         )
 
 
@@ -161,7 +183,9 @@ class CiblexLabelOutput(LabelOutput):
     parcels: list[CiblexParcelLabel]
 
     @classmethod
-    def from_params(cls, results):
+    def from_params(cls, results, input):
         return cls.model_construct(
-            parcels=[CiblexParcelLabel.from_params(result) for result in results],
+            parcels=[
+                CiblexParcelLabel.from_params(result, input) for result in results
+            ],
         )
