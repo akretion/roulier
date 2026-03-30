@@ -93,8 +93,9 @@ class Ciblex(Carrier):
     def get_label(self, input: CiblexLabelInput) -> CiblexLabelOutput:
         url = self._get_url(input.auth.isTest)
         results = []
+
         for input_mono_parcel in expand_multi_parcels(input):
-            params = input.params()
+            params = input_mono_parcel.params()
             type = input_mono_parcel.service.labelFormat.value
             response = self.request(url, params, type)
 

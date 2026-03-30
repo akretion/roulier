@@ -11,7 +11,7 @@ from roulier import roulier
 from roulier.exception import InvalidApiInput
 
 from ....helpers import merge
-from ....tests.helpers import assert_pdf
+from ....tests.helpers import assert_in_pdf, assert_pdf
 
 
 @pytest.fixture
@@ -45,6 +45,7 @@ def test_ciblex_label_pdf(get_label_data):
     assert label["name"] == "label"
     assert label["type"] == "PDF"
     assert_pdf(label["data"])
+    assert_in_pdf(label["data"], "Parcel 1", "1.2 Kg")
 
     assert "tracking" in rv["parcels"][0]
     tracking = rv["parcels"][0]["tracking"]
@@ -107,6 +108,14 @@ def test_ciblex_multi_package_to_label_pdf(get_label_data):
     assert label["name"] == "label"
     assert label["type"] == "PDF"
     assert_pdf(label["data"])
+    assert_in_pdf(label["data"], "Parcel 1", "1.2 Kg")
+
+    assert rv["parcels"][1]["label"]
+    label = rv["parcels"][1]["label"]
+    assert label["name"] == "label"
+    assert label["type"] == "PDF"
+    assert_pdf(label["data"])
+    assert_in_pdf(label["data"], "Parcel 2", "2.5 Kg")
 
     assert "tracking" in rv["parcels"][0]
     tracking = rv["parcels"][0]["tracking"]
