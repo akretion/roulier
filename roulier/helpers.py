@@ -1,8 +1,9 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from typing import ClassVar
 import unicodedata
+from typing import ClassVar
+
 from .schema import LabelInput, LabelOutput
 
 REMOVED = ClassVar[None]  # Hack to remove a field from inherited class
@@ -52,6 +53,8 @@ def merge(*dicts):
         for k, v in d.items():
             if isinstance(v, dict):
                 result[k] = merge(result.get(k, {}), v)
+            elif isinstance(v, list):
+                result[k] = result.get(k, []) + v
             else:
                 if not v and result.get(k):
                     # Do not override value with empty value
