@@ -1,8 +1,9 @@
 # Copyright 2024 Akretion (http://www.akretion.com).
 # @author Florian Mounier <florian.mounier@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import pytest
 from collections import defaultdict
+
+import pytest
 
 try:
     from .credentials import CREDENTIALS
@@ -44,8 +45,7 @@ def base_get_label_data():
             "phone": "+33482538457",
         },
         "to_address": {
-            "name": "Hügǒ",
-            "firstName": "Victor",
+            "name": "Hügo Vïctor",
             "street1": "6 Place des Vôsges",
             "city": "Paris",
             "zip": "75004",

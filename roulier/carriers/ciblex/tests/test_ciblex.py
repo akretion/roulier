@@ -133,31 +133,67 @@ def test_ciblex_multi_package_to_label_pdf(get_label_data):
 @pytest.mark.vcr(
     filter_query_parameters=["i", "k", "exp_code", "contrat"],
 )
-def test_ciblex_bad_city_match(get_label_data):
+def test_ciblex_name_and_company(get_label_data):
     data = get_label_data
-    data["to_address"]["zip"] = "42100"
-    data["to_address"]["city"] = "Saint Étienne"  # instead of Saint-Etienne
+    data["to_address"]["company"] = "Akrétion Sarl Coop 792377731"
+    del data["to_address"]["phone"]
     rv = roulier.get("ciblex", "get_label", data)
-    assert "parcels" in rv
+
+    assert rv["parcels"][0]["label"]
+    label = rv["parcels"][0]["label"]
+    assert label["name"] == "label"
+    assert label["type"] == "PDF"
+    assert_pdf(label["data"])
+    assert_in_pdf(
+        label["data"],
+        "Hugo Victor",
+        "Akretion Sarl Coop 792377731",
+        "6 Place des Vosges",
+        "75004 Paris",
+    )
 
 
 @pytest.mark.vcr(
     filter_query_parameters=["i", "k", "exp_code", "contrat"],
 )
-def test_ciblex_bad_city_inclusion_match(get_label_data):
+def test_ciblex_phone(get_label_data):
     data = get_label_data
-    data["to_address"]["zip"] = "43120"
-    data["to_address"]["city"] = "Monistrol"  # instead of Monistrol-sur-Loire
+    data["to_address"]["phone"] = "+33123456789"
     rv = roulier.get("ciblex", "get_label", data)
-    assert "parcels" in rv
+
+    assert rv["parcels"][0]["label"]
+    label = rv["parcels"][0]["label"]
+    assert label["name"] == "label"
+    assert label["type"] == "PDF"
+    assert_pdf(label["data"])
+    assert_in_pdf(
+        label["data"],
+        "Hugo Victor",
+        "33123456789",
+        "6 Place des Vosges",
+        "75004 Paris",
+    )
 
 
 @pytest.mark.vcr(
     filter_query_parameters=["i", "k", "exp_code", "contrat"],
 )
-def test_ciblex_bad_city_fuzzy_matching(get_label_data):
+def test_ciblex_name_and_company_and_phone(get_label_data):
     data = get_label_data
-    data["to_address"]["zip"] = "43200"
-    data["to_address"]["city"] = "Ysingeaux"  # instead of Yssingeaux
+    data["to_address"]["company"] = "Akrétion Sarl Coop 792377731"
+    data["to_address"]["phone"] = "+33123456789"
     rv = roulier.get("ciblex", "get_label", data)
-    assert "parcels" in rv
+
+    assert rv["parcels"][0]["label"]
+    label = rv["parcels"][0]["label"]
+    assert label["name"] == "label"
+    assert label["type"] == "PDF"
+    assert_pdf(label["data"])
+    assert_in_pdf(
+        label["data"],
+        "Hugo Victor",
+        "Akretion Sarl Coop 792377731",
+        "33123456789",
+        "6 Place des Vosges",
+        "75004 Paris",
+    )

@@ -96,12 +96,22 @@ class CiblexAddress(Address):
     street4: str | None = Field(max_length=35, default=None)
 
     def params(self):
+        adrs = [self.name, self.street1, self.street2, self.street3, self.street4]
+        shift = 0
+        if self.company and not adrs[-1]:
+            adrs = adrs[:4]
+            adrs.insert(1, self.company)
+            shift += 1
+        if self.phone and not adrs[-1]:
+            adrs = adrs[:4]
+            adrs.insert(1 + shift, self.phone)
+
         return {
-            "nom": ", ".join([part for part in (self.name, self.company) if part]),
-            "adr1": self.street1,
-            "adr2": self.street2,
-            "adr3": self.street3,
-            "adr4": self.street4,
+            "nom": adrs[0],
+            "adr1": adrs[1],
+            "adr2": adrs[2],
+            "adr3": adrs[3],
+            "adr4": adrs[4],
             "cp": self.zip,
             "ville": self.city,
             "pays": self.country,

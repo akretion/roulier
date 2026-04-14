@@ -5,6 +5,7 @@ from base64 import b64decode
 from io import BytesIO
 
 import pymupdf
+import pytest
 
 
 def assert_data_type(b64_data, expected_type):
@@ -42,7 +43,7 @@ def assert_in_pdf(b64_data, *texts):
     try:
         pymupdf.get_tessdata()
     except Exception as e:
-        print("Tesseract OCR data not found. Skipping OCR tests." + str(e))
+        pytest.skip("Tesseract OCR not available. Skipping OCR tests." + str(e))
         return
 
     data = b64decode(b64_data)
@@ -52,11 +53,14 @@ def assert_in_pdf(b64_data, *texts):
 
     doc = pymupdf.Document(stream=BytesIO(data))
     for page in doc:
-        page_text = page.get_textpage_ocr(dpi=450).extractText()
-        found_texts.append(page_text)
-        for text in missing_texts[:]:
-            if text in page_text:
-                missing_texts.remove(text)
+        for dpi in [100, 300, 450, 650]:
+            if not missing_texts:
+                break
+            page_text = page.get_textpage_ocr(dpi=650).extractText()
+            found_texts.append(page_text)
+            for text in missing_texts[:]:
+                if text in page_text:
+                    missing_texts.remove(text)
 
     if missing_texts:
         raise AssertionError(
