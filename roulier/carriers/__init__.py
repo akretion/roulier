@@ -7,3 +7,4 @@ from . import dpd_fr
 from . import geodis_fr
 from . import mondialrelay
 from . import mondialrelay_fr
+from . import ciblex
