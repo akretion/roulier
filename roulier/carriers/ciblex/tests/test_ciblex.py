@@ -108,14 +108,14 @@ def test_ciblex_multi_package_to_label_pdf(get_label_data):
     assert label["name"] == "label"
     assert label["type"] == "PDF"
     assert_pdf(label["data"])
-    assert_in_pdf(label["data"], "Parcel 1", "1.2 Kg")
+    assert_in_pdf(label["data"], "Parcel 1", "1.2 Kg", "1 / 2")
 
     assert rv["parcels"][1]["label"]
     label = rv["parcels"][1]["label"]
     assert label["name"] == "label"
     assert label["type"] == "PDF"
     assert_pdf(label["data"])
-    assert_in_pdf(label["data"], "Parcel 2", "2.5 Kg")
+    assert_in_pdf(label["data"], "Parcel 2", "2.5 Kg", "2 / 2")
 
     assert "tracking" in rv["parcels"][0]
     tracking = rv["parcels"][0]["tracking"]
