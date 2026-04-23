@@ -48,16 +48,18 @@ def assert_in_pdf(b64_data, *texts):
 
     data = b64decode(b64_data)
 
-    missing_texts = list(texts)
+    # Remove spaces and newlines from texts to avoid OCR issues
+    missing_texts = [text.replace(" ", "").replace("\n", "") for text in texts]
     found_texts = []
 
     doc = pymupdf.Document(stream=BytesIO(data))
-    for page in doc:
-        for dpi in [100, 300, 450, 650]:
+    for dpi in [100, 300, 450, 650]:
+        for page in doc:
             if not missing_texts:
                 break
-            page_text = page.get_textpage_ocr(dpi=650).extractText()
+            page_text = page.get_textpage_ocr(dpi=dpi).extractText()
             found_texts.append(page_text)
+            page_text = page_text.replace(" ", "").replace("\n", "")
             for text in missing_texts[:]:
                 if text in page_text:
                     missing_texts.remove(text)
