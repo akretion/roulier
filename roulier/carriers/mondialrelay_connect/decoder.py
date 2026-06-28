@@ -41,7 +41,15 @@ class MondialRelayConnectDecoder(DecoderGetLabel):
     ):
         label = None
         if label_output:
-            label = {"data": label_output, "name": "label_1", "type": output_type}
+            # Match the roulier convention (e.g. laposte): label data is bytes.
+            # For ZplCode / IplCode the Connect API already returns base64 content,
+            # so the consumer base64-decodes it to get the raw ZPL/IPL; for PdfUrl
+            # it is a URL. The carrier output is exposed as bytes either way.
+            label = {
+                "data": label_output.encode("utf-8"),
+                "name": "label_1",
+                "type": output_type,
+            }
 
         if not barcodes:
             parcel = {

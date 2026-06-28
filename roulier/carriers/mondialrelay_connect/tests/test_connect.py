@@ -103,7 +103,8 @@ def test_decode_success():
     assert parcels[0]["tracking"]["number"] == "29A00012345"
     assert parcels[0]["reference"] == "PARCEL-1"
     assert parcels[0]["label"]["type"] == "ZplCode"
-    assert "^XA" in parcels[0]["label"]["data"]
+    # Label data is bytes (roulier convention); the fixture Output is raw ZPL.
+    assert parcels[0]["label"]["data"] == b"^XA^FO50,50^FDMR^FS^XZ"
 
 
 def test_decode_business_error():

@@ -7,7 +7,6 @@ from .constants import (
     COLLECTION_MODES,
     DELIVERY_HOME,
     DELIVERY_MODES,
-    OUTPUT_FORMATS,
     OUTPUT_PDF_URL,
     OUTPUT_TYPES,
 )
@@ -52,13 +51,10 @@ class MondialRelayConnectApi(ApiParcel):
             "default": OUTPUT_PDF_URL,
             "allowed": OUTPUT_TYPES,
         }
-        schema["labelFormat"].update(
-            {
-                "type": "string",
-                "default": "10x15",
-                "allowed": OUTPUT_FORMATS,
-            }
-        )
+        # Free string: the Connect API exposes many format codes depending on the
+        # output type (e.g. "10x15", "A4", "Generic_ZPL_10x15_200dpi"); see
+        # OUTPUT_FORMATS for common values. An allow-list would be too brittle.
+        schema["labelFormat"].update({"type": "string", "default": "10x15"})
         return schema
 
     def _address(self):
