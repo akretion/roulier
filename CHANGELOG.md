@@ -10,6 +10,9 @@ Roadmap / TODO:
 	- Write more tests
 	- generate api documentation
 
+# unreleased
+    - Add Mondial Relay Connect REST api (mondialrelay_connect, get_label)
+
 # 1.1.0 2021-04-02
     - Add GLS rest api
     - Fix GLS glsbox api and manage expedition outside France
