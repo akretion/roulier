@@ -31,7 +31,7 @@ DATA = {
         }
     ],
     "from_address": {
-        "name": "Domadoo",
+        "name": "Example Logistics",
         "street1": "12 avenue du Stade",
         "city": "Perpignan",
         "country": "FR",
