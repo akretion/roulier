@@ -100,7 +100,9 @@ def test_decode_success():
     )
     parcels = decoder.result["parcels"]
     assert len(parcels) == 1
-    assert parcels[0]["tracking"]["number"] == "29A00012345"
+    # Tracking = shipment (expedition) number, NOT the routing barcode.
+    assert parcels[0]["tracking"]["number"] == "71723325"
+    assert parcels[0]["id"] == "62717233250101207693148140"
     assert parcels[0]["reference"] == "PARCEL-1"
     assert parcels[0]["label"]["type"] == "ZplCode"
     # Label data is bytes (roulier convention); the fixture Output is raw ZPL.

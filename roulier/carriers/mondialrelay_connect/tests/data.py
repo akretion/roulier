@@ -58,7 +58,7 @@ RESPONSE_OK = b"""<?xml version="1.0" encoding="utf-8"?>
     <Status Level="Success" Code="0" Message="Operation successful"/>
   </StatusList>
   <ShipmentsList>
-    <Shipment ShipmentNumber="29A00012345">
+    <Shipment ShipmentNumber="71723325">
       <LabelList>
         <Label>
           <Output>^XA^FO50,50^FDMR^FS^XZ</Output>
@@ -66,7 +66,7 @@ RESPONSE_OK = b"""<?xml version="1.0" encoding="utf-8"?>
       </LabelList>
       <ParcelList>
         <Parcel>
-          <Barcode Value="29A00012345"/>
+          <Barcode Value="62717233250101207693148140"/>
         </Parcel>
       </ParcelList>
     </Shipment>

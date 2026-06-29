@@ -68,9 +68,15 @@ class MondialRelayConnectDecoder(DecoderGetLabel):
         parcels = []
         for index, barcode in enumerate(barcodes):
             parcel = {
+                # The linear Barcode value is the routing barcode printed on the
+                # label; the tracking reference is the shipment (expedition) number.
                 "id": barcode,
                 "reference": reference,
-                "tracking": {"number": barcode, "url": "", "partner": ""},
+                "tracking": {
+                    "number": shipment_number or barcode,
+                    "url": "",
+                    "partner": "",
+                },
             }
             # The Connect API returns a single label stream for the shipment:
             # attach it to the first parcel.
