@@ -289,7 +289,7 @@ class DHLExpressArticle(BaseModel):
         return {
             "number": self.number or i + 1,
             "description": self.description,
-            "price": self.value,
+            "price": round(self.value, 3),
             "quantity": {
                 "value": self.quantity,
                 "unitOfMeasurement": self.uom.value
