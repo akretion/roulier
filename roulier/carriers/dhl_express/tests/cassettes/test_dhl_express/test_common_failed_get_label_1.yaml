@@ -1,9 +1,9 @@
 interactions:
 - request:
-    body: '{"productCode": "N", "plannedShippingDateAndTime": "2026-02-13T00:00:00
+    body: '{"productCode": "N", "plannedShippingDateAndTime": "2026-10-13T00:00:00
       GMT+00:00", "pickup": {"isRequested": false}, "content": {"description": "N/A",
       "incoterm": "DAP", "unitOfMeasurement": "metric", "packages": [{"weight": 0.0,
-      "dimensions": {"length": 10, "width": 10, "height": 10}, "customerReferences":
+      "dimensions": {"length": 10.0, "width": 10.0, "height": 10.0}, "customerReferences":
       [{"value": "Parcel 1", "typeCode": "CU"}]}], "isCustomsDeclarable": false},
       "outputImageProperties": {"encodingFormat": "pdf", "imageOptions": [{"typeCode":
       "label", "templateName": "ECOM26_64_002"}], "allDocumentsInOneImage": false,
@@ -16,16 +16,17 @@ interactions:
       "companyName": "Akretion", "fullName": "Akretion"}}, "receiverDetails": {"postalAddress":
       {"postalCode": "75004", "cityName": "Paris", "countryCode": "FR", "addressLine1":
       "6 Place des Vosges"}, "contactInformation": {"phone": "+33600000000", "mobilePhone":
-      "+33600000000", "companyName": "Hugo", "fullName": "Hugo", "email": "hugo.victor@example.com"}}}}'
+      "+33600000000", "companyName": "Hugo Victor", "fullName": "Hugo Victor", "email":
+      "hugo.victor@example.com"}}}}'
     headers:
       Accept:
       - application/json
       Accept-Encoding:
-      - gzip, deflate
+      - gzip, deflate, zstd
       Connection:
       - keep-alive
       Content-Length:
-      - '1382'
+      - '1402'
       Content-Type:
       - application/json
       User-Agent:
@@ -49,27 +50,25 @@ interactions:
       Content-Type:
       - application/problem+json
       Date:
-      - Fri, 13 Feb 2026 16:09:37 GMT
+      - Fri, 09 Oct 2026 13:27:25 GMT
       Invocation-Id:
-      - 20260213160937_2f1b_2dd3116e-90e7-4431-bf20-6d0d127167b8
+      - 20261009132725_2f1b_7fb5767a-c658-4c06-b7e9-99067629fb7e
       Max-Forwards:
       - '20'
       Message-Reference:
-      - e9fcc342-cdfa-466c-8622-65ecb094fe76
+      - 5e82bfec-dbe8-4ac7-9ee1-7770da124875
       Set-Cookie:
-      - BIGipServer~WSB~pl_wsb-express-chd.dhl.com_443=227362981.21308.0000; path=/;
+      - BIGipServer~WSB~pl_wsb-express-chd.dhl.com_443=1181239461.21308.0000; path=/;
         Httponly; Secure
-      - TS019fcce8=012d4839b34c83204e2c848a58cb566db10a9a179076a0d8b5435f2a5c27232963a53191c63c0113e27db99fb2a1ca58f2c88f2f11c36b6ac22b774acd80e87068d0baebf6;
+      - TS019fcce8=012d4839b3f34521aa499adea87047ad7636dda0a4323a3cd273b5948df44a13344d8b2f0bf0b3a223441fb28f84736af57f4b2031697d7198b097e705a583a1a474af6b3c;
         Path=/; Secure; HttpOnly
       Via:
-      - 1.1 czstlls0994.prg-dc.dhl.com ()
+      - 1.1 google
       X-Content-Type-Options:
       - nosniff
       X-CorrelationID:
-      - Id-c14c8f692388310b7a5c886b 0
-      X-XSS-Protection:
-      - 1; mode=block
+      - 75ddf1b4-adb0-48bb-a1bd-e88130147850
     status:
       code: 422
-      message: ''
+      message: Unprocessable Entity
 version: 1
