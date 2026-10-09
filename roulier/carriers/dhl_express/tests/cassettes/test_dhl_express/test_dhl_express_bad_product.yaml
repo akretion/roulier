@@ -1,0 +1,75 @@
+interactions:
+- request:
+    body: '{"productCode": "?", "plannedShippingDateAndTime": "2026-10-13T00:00:00
+      GMT+00:00", "pickup": {"isRequested": false}, "content": {"description": "N/A",
+      "incoterm": "DAP", "unitOfMeasurement": "metric", "packages": [{"weight": 1.2,
+      "dimensions": {"length": 10.0, "width": 10.0, "height": 10.0}, "customerReferences":
+      [{"value": "Parcel 1", "typeCode": "CU"}]}], "isCustomsDeclarable": false},
+      "outputImageProperties": {"encodingFormat": "pdf", "imageOptions": [{"typeCode":
+      "label", "templateName": "ECOM26_64_002"}], "allDocumentsInOneImage": false,
+      "splitTransportAndWaybillDocLabels": true, "receiptAndLabelsInOneImage": false},
+      "accounts": [{"number": "xxxx", "typeCode": "shipper"}], "customerReferences":
+      [{"value": "Ref1", "typeCode": "CU"}], "customerDetails": {"shipperDetails":
+      {"postalAddress": {"postalCode": "69100", "cityName": "Villeurbanne", "countryCode":
+      "FR", "addressLine1": "27 rue Henri Rolland", "addressLine2": "Batiment B"},
+      "contactInformation": {"phone": "+33482538457", "mobilePhone": "+33482538457",
+      "companyName": "Akretion", "fullName": "Akretion"}}, "receiverDetails": {"postalAddress":
+      {"postalCode": "75004", "cityName": "Paris", "countryCode": "FR", "addressLine1":
+      "6 Place des Vosges"}, "contactInformation": {"phone": "+33600000000", "mobilePhone":
+      "+33600000000", "companyName": "Hugo Victor", "fullName": "Hugo Victor", "email":
+      "hugo.victor@example.com"}}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1402'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+      x-version:
+      - 3.1.0
+    method: POST
+    uri: https://express.api.dhl.com/mydhlapi/test/shipments
+  response:
+    body:
+      string: '{"instance":"\/expressapi\/shipments","detail":"8007: Error getting
+        Product details from GREF","title":"Bad request","message":"Bad request","status":"400"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Language:
+      - eng
+      Content-Length:
+      - '156'
+      Content-Type:
+      - application/problem+json
+      Date:
+      - Fri, 09 Oct 2026 13:27:25 GMT
+      Invocation-Id:
+      - 20261009132725_2f1b_cc1f7eb9-280a-4910-a878-c0eed8d00480
+      Max-Forwards:
+      - '20'
+      Message-Reference:
+      - 75a902d5-39bd-4f67-80cf-561a409acc5f
+      Set-Cookie:
+      - BIGipServer~WSB~pl_wsb-express-chd.dhl.com_443=963135653.21308.0000; path=/;
+        Httponly; Secure
+      - TS019fcce8=012d4839b3dafdb6acb83ae72c84ebccbe9a7b86b4c45e970de06b13418359d687c27d5564019fd4ab87ee087723d2d1446c323782a2b267eccf3cac4d1726762b7decb715;
+        Path=/; Secure; HttpOnly
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      Via:
+      - 1.1 google
+      X-Content-Type-Options:
+      - nosniff
+      X-CorrelationID:
+      - 4f5609bc-e539-47b3-be62-dcdebb347972
+    status:
+      code: 400
+      message: Bad Request
+version: 1
