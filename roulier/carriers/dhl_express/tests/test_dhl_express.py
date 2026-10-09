@@ -12,7 +12,7 @@ from ....exception import CarrierError, InvalidApiInput
 from ....helpers import merge
 from ....tests.helpers import assert_data_type
 
-shipping_date = datetime(2026, 2, 13)
+shipping_date = datetime(2026, 10, 13)
 
 
 @pytest.fixture
@@ -166,7 +166,7 @@ def test_pickup_ok(get_label_data):
     filter_headers=["Authorization"],
     before_record_request=before_record_request,
 )
-def test_full_customs_declarations(get_label_data):
+def test_full_customs_declarations_no_invoice(get_label_data):
     """Complete customsDeclarations"""
     get_label_data["service"]["product"] = "P"
     get_label_data["to_address"]["country"] = "GP"  # Guadeloupe
@@ -176,7 +176,40 @@ def test_full_customs_declarations(get_label_data):
         "invoice": {
             "number": "INV-123",
             "date": shipping_date.date(),
-            "type": "gif",
+        },
+        "articles": [
+            {
+                "description": "Printed circuits",
+                "quantity": 2,
+                "weight": 0.5,
+                "value": 1.0,
+                "hsCode": "853400",
+                "originCountry": "FR",
+            }
+        ],
+        "vat": 0,
+        "delivery": 123,
+    }
+
+    rv = roulier.get("dhl_express", "get_label", get_label_data)
+    assert_label(rv)
+
+
+@pytest.mark.vcr(
+    filter_headers=["Authorization"],
+    before_record_request=before_record_request,
+)
+def test_full_customs_declarations_invoice(get_label_data):
+    """Complete customsDeclarations"""
+    get_label_data["service"]["product"] = "P"
+    get_label_data["to_address"]["country"] = "GP"  # Guadeloupe
+    get_label_data["to_address"]["zip"] = "97100"  # Basse-Terre
+
+    get_label_data["customs"] = {
+        "invoice": {
+            "number": "INV-123",
+            "date": shipping_date.date(),
+            "format": "GIF",
             "content": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
         },
         "articles": [

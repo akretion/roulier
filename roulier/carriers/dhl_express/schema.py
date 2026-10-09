@@ -313,30 +313,36 @@ class DHLExpressArticle(BaseModel):
 
 class DHLExpressInvoice(BaseModel):
     number: str
-    content: str
+    content: str | None = None
     date: date
     format: DocumentFormat | None = DocumentFormat.PDF
 
     def params(self):
-        return {
-            "content": {
-                "exportDeclaration": {
-                    "invoice": {
-                        "number": self.number,
-                        "date": self.date.strftime("%Y-%m-%d"),
-                    },
-                }
+        return merge(
+            {
+                "content": {
+                    "exportDeclaration": {
+                        "invoice": {
+                            "number": self.number,
+                            "date": self.date.strftime("%Y-%m-%d"),
+                        },
+                    }
+                },
             },
-            "documentImages": [
-                {
-                    "imageFormat": DocumentFormat.PDF.value
-                    if self.format
-                    else DocumentFormat.PDF.value,
-                    "content": self.content,
-                    "typeCode": "INV",
-                }
-            ],
-        }
+            {
+                "documentImages": [
+                    {
+                        "imageFormat": DocumentFormat.PDF.value
+                        if self.format
+                        else DocumentFormat.PDF.value,
+                        "content": self.content,
+                        "typeCode": "INV",
+                    }
+                ],
+            }
+            if self.content
+            else {},
+        )
 
 
 class DHLExpressCustoms(BaseModel):
