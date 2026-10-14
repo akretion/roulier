@@ -21,14 +21,14 @@ class GlsShipItEncoderBase(Encoder):
             "PrintingOptions": {
                 "ReturnLabels": {
                     "LabelFormat": data["service"]["labelFormat"],
-                    "TemplateSet": "NONE"
+                    "TemplateSet": "NONE",
                 },
             },
             "Shipment": {
                 "Consignee": {},
                 "Product": "PARCEL",
                 "Shipper": {
-                    "ContactID":  data["service"]["contact_id"],
+                    "ContactID": data["service"]["contact_id"],
                 },
                 "ShippingDate": "%s" % data["service"]["shippingDate"],
             },
@@ -46,19 +46,29 @@ class GlsShipItEncoderBase(Encoder):
             pickup_date = data["service"].get("pickupDate")
             if pickup_date:
                 service["PickupDate"] = str(pickup_date)
-            body["Shipment"]["Service"] = [
-                {service_key: service}
-            ]
+            body["Shipment"]["Service"] = [{service_key: service}]
         if data.get("to_address"):
-            body["Shipment"]["Consignee"]["Address"] = self._transforms_addr(data["to_address"])
+            body["Shipment"]["Consignee"]["Address"] = self._transforms_addr(
+                data["to_address"]
+            )
         elif data.get("pickup_address") and service["ServiceName"] == SERVICE_PandR:
-            body["Shipment"]["Consignee"]["Address"] = self._transforms_addr(data["pickup_address"])
-        if data.get("shipping_address") and service and service["ServiceName"] == SERVICE_PandS:
-            body["Shipment"]["Shipper"]["AlternativeShipperAddress"] = self._transforms_addr(data["shipping_address"])
-        
+            body["Shipment"]["Consignee"]["Address"] = self._transforms_addr(
+                data["pickup_address"]
+            )
+        if (
+            data.get("shipping_address")
+            and service
+            and service["ServiceName"] == SERVICE_PandS
+        ):
+            body["Shipment"]["Shipper"]["AlternativeShipperAddress"] = (
+                self._transforms_addr(data["shipping_address"])
+            )
+
         parcels = self._transforms_parcels(data, body)
-        body["Shipment"]["ShipmentUnit"] =  parcels
-        body["Shipment"]["ShipmentReference"] =  [p["ShipmentUnitReference"] for p in parcels if "ShipmentUnitReference" in p]
+        body["Shipment"]["ShipmentUnit"] = parcels
+        body["Shipment"]["ShipmentReference"] = [
+            p["ShipmentUnitReference"] for p in parcels if "ShipmentUnitReference" in p
+        ]
         if data["service"].get("incoterm"):
             body["Shipment"]["IncotermCode"] = data["service"]["incoterm"]
         return {
@@ -84,12 +94,12 @@ class GlsShipItEncoderBase(Encoder):
         # if data.get("contact_id"):
         #     formated_addr["contact"] = data["contact_id"]
         formated_addr["CountryCode"] = data["country"].upper()
-        
+
         if data.get("province"):
             formated_addr["Province"] = data.get("province")
-        
+
         if data["street1"]:
-            groups = re.match(r'^((\d*)(\s(bis)|(ter))?)\s.*', data["street1"])
+            groups = re.match(r"^((\d*)(\s(bis)|(ter))?)\s.*", data["street1"])
             if groups:
                 number = groups.group(1)
                 formated_addr["StreetNumber"] = number
@@ -124,7 +134,7 @@ class GlsShipItEncoderBase(Encoder):
             parcel = {
                 "Weight": "%.2f" % p["weight"],
             }
-            
+
             refs = []
             if p.get("reference"):
                 parcel["ShipmentUnitReference"] = p["reference"]
@@ -134,7 +144,6 @@ class GlsShipItEncoderBase(Encoder):
                 parcel["Note1"] = p["comment"]
             parcels.append(parcel)
         return parcels
-
 
 
 class GlsShipItEncoder(GlsShipItEncoderBase):

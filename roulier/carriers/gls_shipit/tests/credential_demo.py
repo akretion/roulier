@@ -1,5 +1,5 @@
-""" fake credentials
-    duplicate as credential.py with real values for real tests
+"""fake credentials
+duplicate as credential.py with real values for real tests
 """
 
 credentials = {

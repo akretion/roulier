@@ -1,4 +1,5 @@
-""" Implement GLS WS transport via REST solution"""
+"""Implement GLS WS transport via REST solution"""
+
 from datetime import datetime, timedelta
 
 from jinja2 import Environment, PackageLoader
@@ -31,7 +32,7 @@ class GlsShipItTransport(RequestsTransport):
 
     def _get_requests_url(self, payload=None) -> str:
         if self.config.is_test and self.config.ws_test_url:
-            base_url =self.config.ws_test_url
+            base_url = self.config.ws_test_url
         else:
             base_url = self.config.ws_url
         return base_url + "/shipit-farm/v1/backend/rs/shipments"
@@ -44,7 +45,7 @@ class GlsShipItTransport(RequestsTransport):
                 auth_token = None
         if not auth_token:
             if self.config.is_test and self.config.ws_test_url:
-                base_url =self.config.ws_test_url
+                base_url = self.config.ws_test_url
             else:
                 base_url = self.config.ws_url
             url = base_url + "/oauth2/v2/token"
@@ -58,7 +59,9 @@ class GlsShipItTransport(RequestsTransport):
                 "Accept": "application/json",
                 "Accept-Encoding": "gzip,deflate",
             }
-            response = self.send_request(body, url, method="post", headers=headers, timeout=10)
+            response = self.send_request(
+                body, url, method="post", headers=headers, timeout=10
+            )
             if not response.ok:
                 self._handle_errors(response)
             auth_token = response.json()
@@ -82,8 +85,7 @@ class GlsShipItTransport(RequestsTransport):
             else:
                 raise CarrierError(response, errors)
         raise CarrierError(
-            response, 
-            response.text or f"{response.status_code}: {response.reason}"
+            response, response.text or f"{response.status_code}: {response.reason}"
         )
 
     def _handle_success(self, response):

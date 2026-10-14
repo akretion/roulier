@@ -22,16 +22,20 @@ class GlsShipItDecoderGetLabel(DecoderGetLabel):
         for gls_parcel in body["CreatedShipment"]["ParcelData"]:
             parcel = {
                 "id": gls_parcel.get("ParcelNumber"),
-                "reference": gls_parcel.get("PartnerParcelNumber") or gls_parcel["ParcelNumber"],
+                "reference": gls_parcel.get("PartnerParcelNumber")
+                or gls_parcel["ParcelNumber"],
                 "tracking": {
                     "number": gls_parcel["TrackID"],
-                    "url": "https://gls-group.eu/GROUP/en/parcel-tracking?match=" + gls_parcel["TrackID"],
+                    "url": "https://gls-group.eu/GROUP/en/parcel-tracking?match="
+                    + gls_parcel["TrackID"],
                     "partner": "",
                 },
             }
             parcels.append(parcel)
         nb_parcels = len(parcels)
-        for offset, gls_print in enumerate(body["CreatedShipment"].get("PrintData", [])):
+        for offset, gls_print in enumerate(
+            body["CreatedShipment"].get("PrintData", [])
+        ):
             label = {
                 "data": gls_print["Data"],
                 "name": f"label_{offset+1}",

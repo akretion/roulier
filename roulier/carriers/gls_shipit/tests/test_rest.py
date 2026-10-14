@@ -38,6 +38,7 @@ def test_label_basic_checks():
     result = roulier.get("gls_shipit", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
+
 # no more i18n errors with new API...
 # def test_language_get_label():
 #     vals = copy.deepcopy(DATA)
@@ -70,12 +71,16 @@ def test_common_failed_get_label():
         roulier.get("gls_shipit", "get_label", vals)
 
     vals["to_address"]["country"] = "42"
-    with pytest.raises(CarrierError, match="Shipment.Consignee.Address.CountryCode is not set"):
+    with pytest.raises(
+        CarrierError, match="Shipment.Consignee.Address.CountryCode is not set"
+    ):
         roulier.get("gls_shipit", "get_label", vals)
 
     # no address
     del vals["to_address"]
-    with pytest.raises(CarrierError, match="ShipmentRequestData.Shipment.Consignee.Address is not set"):
+    with pytest.raises(
+        CarrierError, match="ShipmentRequestData.Shipment.Consignee.Address is not set"
+    ):
         roulier.get("gls_shipit", "get_label", vals)
 
 
@@ -85,11 +90,15 @@ def test_auth():
     with pytest.raises(CarrierError, match="invalid credentials"):
         roulier.get("gls_shipit", "get_label", vals)
 
+
 def test_invalid_zip():
     vals = copy.deepcopy(DATA)
     vals["to_address"]["zip"] = "11111"
-    with pytest.raises(CarrierError, match="EXACT match for zip code '11111' not found!"):
+    with pytest.raises(
+        CarrierError, match="EXACT match for zip code '11111' not found!"
+    ):
         roulier.get("gls_shipit", "get_label", vals)
+
 
 def test_eu_country():
     vals = copy.deepcopy(DATA)
@@ -197,12 +206,16 @@ def test_SHD():
     result = roulier.get("gls_shipit", "get_label", vals)
     assert_result(vals, result, 1, 0)
 
+
 def test_SHD_without_shop_id():
     vals = copy.deepcopy(DATA)
     vals["to_address"]["contact"] = "Dylann"
     vals["service"]["product"] = SERVICE_SHD
-    with pytest.raises(CarrierError, match="Shipment.Service.ShopDelivery.parcelShopID is not set"):
+    with pytest.raises(
+        CarrierError, match="Shipment.Service.ShopDelivery.parcelShopID is not set"
+    ):
         result = roulier.get("gls_shipit", "get_label", vals)
+
 
 def test_SRS():
     vals = copy.deepcopy(DATA)
@@ -211,7 +224,7 @@ def test_SRS():
         roulier.get("gls_shipit", "get_label", vals)
     vals["returns"] = [{"weight": 1}]
     result = roulier.get("gls_shipit", "get_label", vals)
-    
+
     vals["return_address"] = copy.deepcopy(vals["to_address"])
     result = roulier.get("gls_shipit", "get_label", vals)
     assert_result(vals, result, 1, 1)
@@ -229,16 +242,20 @@ def test_PandR():
         vals, result, 1, 0, False
     )  # no label: GLS will generate it inside the agency
 
-def  test_PandR_no_date():
+
+def test_PandR_no_date():
     vals = copy.deepcopy(DATA)
     vals["service"]["product"] = SERVICE_PandR
     vals["pickup_address"] = vals.pop("to_address")
     vals["pickup_address"]["company"] = "Webu"
     vals["pickup_address"]["phone"] = "0987654321"
-    with pytest.raises(CarrierError, match="Shipment.Service.PickAndReturn.pickupDate is not set"):
+    with pytest.raises(
+        CarrierError, match="Shipment.Service.PickAndReturn.pickupDate is not set"
+    ):
         roulier.get("gls_shipit", "get_label", vals)
 
-def  test_PandR_no_phone():
+
+def test_PandR_no_phone():
     vals = copy.deepcopy(DATA)
     vals["service"]["product"] = SERVICE_PandR
     vals["service"]["pickupDate"] = date.today()
@@ -260,14 +277,18 @@ def test_PandS():
         vals, result, 1, 0, False
     )  # no label: GLS will generate it inside the agency
 
+
 def test_PandS_no_date():
     vals = copy.deepcopy(DATA)
     vals["service"]["product"] = SERVICE_PandS
     vals["to_address"]["company"] = "Webu"
     vals["to_address"]["phone"] = "0987654321"
     vals["shipping_address"] = copy.deepcopy(vals["to_address"])
-    with pytest.raises(CarrierError, match="Shipment.Service.PickAndShip.pickupDate is not set"):
+    with pytest.raises(
+        CarrierError, match="Shipment.Service.PickAndShip.pickupDate is not set"
+    ):
         roulier.get("gls_shipit", "get_label", vals)
+
 
 def assert_result(vals, result, parcels, annexes, label_type="PDF"):
     assert sorted(result.keys()) == ["annexes", "parcels"], EXCEPTION_MESSAGE % vals
