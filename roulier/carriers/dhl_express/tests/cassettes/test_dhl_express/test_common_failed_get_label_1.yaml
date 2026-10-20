@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: '{"productCode": "N", "plannedShippingDateAndTime": "2026-10-13T00:00:00
+    body: '{"productCode": "N", "plannedShippingDateAndTime": "2026-10-23T00:00:00
       GMT+00:00", "pickup": {"isRequested": false}, "content": {"description": "N/A",
       "incoterm": "DAP", "unitOfMeasurement": "metric", "packages": [{"weight": 0.0,
       "dimensions": {"length": 10.0, "width": 10.0, "height": 10.0}, "customerReferences":
@@ -16,8 +16,7 @@ interactions:
       "companyName": "Akretion", "fullName": "Akretion"}}, "receiverDetails": {"postalAddress":
       {"postalCode": "75004", "cityName": "Paris", "countryCode": "FR", "addressLine1":
       "6 Place des Vosges"}, "contactInformation": {"phone": "+33600000000", "mobilePhone":
-      "+33600000000", "companyName": "Hugo Victor", "fullName": "Hugo Victor", "email":
-      "hugo.victor@example.com"}}}}'
+      "+33600000000", "companyName": "Hugo", "fullName": "Hugo", "email": "hugo.victor@example.com"}}}}'
     headers:
       Accept:
       - application/json
@@ -26,7 +25,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1402'
+      - '1388'
       Content-Type:
       - application/json
       User-Agent:
@@ -50,24 +49,24 @@ interactions:
       Content-Type:
       - application/problem+json
       Date:
-      - Fri, 09 Oct 2026 13:27:25 GMT
+      - Tue, 20 Oct 2026 13:05:41 GMT
       Invocation-Id:
-      - 20261009132725_2f1b_7fb5767a-c658-4c06-b7e9-99067629fb7e
+      - 20261020130541_2f1b_51dec4b6-de4a-4eef-8f38-c21bbe795b1f
       Max-Forwards:
       - '20'
       Message-Reference:
-      - 5e82bfec-dbe8-4ac7-9ee1-7770da124875
+      - ad5b43cf-a4d4-4f36-9600-1388c8e973f3
       Set-Cookie:
       - BIGipServer~WSB~pl_wsb-express-chd.dhl.com_443=1181239461.21308.0000; path=/;
         Httponly; Secure
-      - TS019fcce8=012d4839b3f34521aa499adea87047ad7636dda0a4323a3cd273b5948df44a13344d8b2f0bf0b3a223441fb28f84736af57f4b2031697d7198b097e705a583a1a474af6b3c;
+      - TS019fcce8=012d4839b3a0913e3c671215d4e4420790abf23e0b4cd5b7beb30a3f5c3de784e510b26a5509c58ebadafcdb3093bd745991be1927a9b3aa48812fc2b8d886e57ab275d7a5;
         Path=/; Secure; HttpOnly
       Via:
       - 1.1 google
       X-Content-Type-Options:
       - nosniff
       X-CorrelationID:
-      - 75ddf1b4-adb0-48bb-a1bd-e88130147850
+      - 5b87d5d7-d26d-4647-a55d-e157d0b33645
     status:
       code: 422
       message: Unprocessable Entity

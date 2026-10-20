@@ -4,10 +4,10 @@
 
 from base64 import b64encode
 from datetime import date, datetime, timezone
-from enum import Enum
 
 from pydantic import BaseModel
 
+from ...enums import Incoterm, UoM
 from ...helpers import filter_empty, merge, unaccent
 from ...schema import (
     Address,
@@ -20,147 +20,15 @@ from ...schema import (
     Service,
     Tracking,
 )
-
-
-class Format(Enum):
-    PDF = "PDF"
-    ZPL = "ZPL"
-    DPL = "LP2"
-    EPL = "EPL"
-
-
-class DocumentFormat(Enum):
-    PDF = "PDF"
-    PNG = "PNG"
-    GIF = "GIF"
-    TIFF = "TIFF"
-    JPEG = "JPEG"
-
-
-class Incoterm(Enum):
-    EXW = "EXW"
-    FCA = "FCA"
-    CPT = "CPT"
-    CIP = "CIP"
-    DPU = "DPU"
-    DAP = "DAP"
-    DDP = "DDP"
-    FAS = "FAS"
-    FOB = "FOB"
-    CFR = "CFR"
-    CIF = "CIF"
-    DAF = "DAF"
-    DAT = "DAT"
-    DDU = "DDU"
-    DEQ = "DEQ"
-    DES = "DES"
-
-
-class AccountType(Enum):
-    SHIPPER = "shipper"
-    PAYER = "payer"
-    DUTIES_AND_TAXES = "duties-taxes"
-
-
-class ReferenceType(Enum):
-    AAO = "AAO"
-    CU = "CU"
-    FF = "FF"
-    FN = "FN"
-    IBC = "IBC"
-    LLR = "LLR"
-    OBC = "OBC"
-    PRN = "PRN"
-    ACP = "ACP"
-    ACS = "ACS"
-    ACR = "ACR"
-    CDN = "CDN"
-    STD = "STD"
-    CO = "CO"
-    AFM = "AFM"
-
-
-class UoM(Enum):
-    METRIC = "metric"
-    IMPERIAL = "imperial"
-
-
-class ProductUoM(Enum):
-    BOX = "BOX"
-    _2GM = "2GM"
-    M3 = "M3"
-    DPR = "DPR"
-    DOZ = "DOZ"
-    PCS = "PCS"
-    GM = "GM"
-    GRS = "GRS"
-    KG = "KG"
-    M = "M"
-    _3GM = "3GM"
-    X = "X"
-    NO = "NO"
-    PRS = "PRS"
-    CM2 = "CM2"
-    _2M2 = "2M2"
-    _3M2 = "3M2"
-    M2 = "M2"
-    _4M2 = "4M2"
-    CM = "CM"
-    CONE = "CONE"
-    CT = "CT"
-    EA = "EA"
-    LBS = "LBS"
-    RILL = "RILL"
-    ROLL = "ROLL"
-    SET = "SET"
-    TU = "TU"
-    KM = "KM"
-    IN = "IN"
-    FT = "FT"
-    YD = "YD"
-    MI = "MI"
-    LTR = "LTR"
-    MMQ = "MMQ"
-    CM3 = "CM3"
-    DMQ = "DMQ"
-    MLT = "MLT"
-    CLT = "CLT"
-    DLT = "DLT"
-    INQ = "INQ"
-    FT3 = "FT3"
-    YD3 = "YD3"
-    GLI = "GLI"
-    GLL = "GLL"
-    PT = "PT"
-    PTI = "PTI"
-    QTI = "QTI"
-    PTL = "PTL"
-    QTL = "QTL"
-    PTD = "PTD"
-    OZI = "OZI"
-    J57 = "J57"
-    NM3 = "NM3"
-    SM3 = "SM3"
-    TNE = "TNE"
-    LB = "LB"
-    ONZ = "ONZ"
-    CEL = "CEL"
-
-
-class ExportType(Enum):
-    PERMANENT = "permanent"
-    TEMPORARY = "temporary"
-    RETURN = "return"
-    USED_EXHIBITION_GOODS_TO_ORIGIN = "used_exhibition_goods_to_origin"
-    INTERCOMPANY_USE = "intercompany_use"
-    COMMERCIAL_PURPOSE_OR_SALE = "commercial_purpose_or_sale"
-    PERSONAL_BELONGINGS_OR_PERSONAL_USE = "personal_belongings_or_personal_use"
-    SAMPLE = "sample"
-    GIFT = "gift"
-    RETURN_TO_ORIGIN = "return_to_origin"
-    WARRANTY_REPLACEMENT = "warranty_replacement"
-    DIPLOMATIC_GOODS = "diplomatic_goods"
-    DEFENCE_MATERIAL = "defence_material"
+from .enums import (
+    AccountType,
+    DocumentFormat,
+    ExportType,
+    Format,
+    ProductUoM,
+    ReferenceType,
+    UoMType,
+)
 
 
 class DHLExpressAuth(Auth):
@@ -211,7 +79,7 @@ class DHLExpressService(Service):
     labelFormat: Format | None = Format.PDF
     shipmentDescription: str | None = None
     incoterm: Incoterm = Incoterm.DAP
-    unitOfMeasurement: UoM | None = UoM.METRIC
+    unitOfMeasurement: UoMType | None = UoMType.METRIC
     accountType: AccountType | None = AccountType.SHIPPER
     referenceType: ReferenceType | None = ReferenceType.CU
     product: str
@@ -236,7 +104,7 @@ class DHLExpressService(Service):
                 "incoterm": self.incoterm.value,
                 "unitOfMeasurement": self.unitOfMeasurement.value
                 if self.unitOfMeasurement
-                else UoM.METRIC.value,
+                else UoMType.METRIC.value,
             },
             "outputImageProperties": {
                 "encodingFormat": (
@@ -276,7 +144,7 @@ class DHLExpressArticle(BaseModel):
     description: str
     value: float
     quantity: int
-    uom: ProductUoM | None = ProductUoM.PCS
+    uom: UoM | None = None
     weight: float | None = None
     weightGross: float | None = None
     originCountry: str
@@ -292,9 +160,11 @@ class DHLExpressArticle(BaseModel):
             "price": round(self.value, 3),
             "quantity": {
                 "value": self.quantity,
-                "unitOfMeasurement": self.uom.value
-                if self.uom
-                else ProductUoM.PCS.value,
+                "unitOfMeasurement": (
+                    ProductUoM.from_uom(self.uom).value
+                    if self.uom
+                    else ProductUoM.BOX.value
+                ),
             },
             "commodityCodes": [
                 {"typeCode": "outbound", "value": self.hsCode},

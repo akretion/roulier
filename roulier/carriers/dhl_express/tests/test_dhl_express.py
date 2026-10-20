@@ -8,11 +8,12 @@ import pytest
 
 from roulier import roulier
 
+from ....enums import Incoterm, UoM
 from ....exception import CarrierError, InvalidApiInput
 from ....helpers import merge
 from ....tests.helpers import assert_data_type
 
-shipping_date = datetime(2026, 10, 13)
+shipping_date = datetime(2026, 10, 23)
 
 
 @pytest.fixture
@@ -202,6 +203,7 @@ def test_full_customs_declarations_no_invoice(get_label_data):
 def test_full_customs_declarations_invoice(get_label_data):
     """Complete customsDeclarations"""
     get_label_data["service"]["product"] = "P"
+    get_label_data["service"]["incoterm"] = Incoterm.FAS
     get_label_data["to_address"]["country"] = "GP"  # Guadeloupe
     get_label_data["to_address"]["zip"] = "97100"  # Basse-Terre
 
@@ -220,7 +222,16 @@ def test_full_customs_declarations_invoice(get_label_data):
                 "value": 1.0,
                 "hsCode": "853400",
                 "originCountry": "FR",
-            }
+            },
+            {
+                "description": "Transistors",
+                "quantity": 4,
+                "weight": 20.5,
+                "value": 1201.0,
+                "hsCode": "85419000",
+                "originCountry": "CA",
+                "uom": UoM.MTQ,
+            },
         ],
         "vat": 0,
         "delivery": 123,
